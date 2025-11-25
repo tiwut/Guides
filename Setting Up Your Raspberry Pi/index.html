@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Raspberry Pi Setup Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #c51a4a; 
+            border-bottom: 2px solid #c51a4a;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #7b1130; 
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #c51a4a;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e; 
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#prerequisites">Prerequisites & Downloads</a></li>
+            <li><a href="#imager">1. Raspberry Pi Imager & OS</a></li>
+            <li><a href="#sd-card-prep">2. Prepare SD Card (Write OS)</a></li>
+            <li><a href="#first-boot">3. First Boot & Initial Setup</a></li>
+            <li><a href="#raspi-config">4. Using raspi-config</a></li>
+            <li><a href="#network">5. Network Configuration</a></li>
+            <li><a href="#updating">6. System Updates</a></li>
+            <li><a href="#ssh">7. Enabling SSH (Headless Access)</a></li>
+            <li><a href="#next-steps">Next Steps & Resources</a></li>
+            <li><a href="#disclaimer">Disclaimer</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>Universal Guide: Setting Up Your Raspberry Pi (Any Model)</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>Welcome to the world of Raspberry Pi! This guide provides step-by-step instructions to help you set up any Raspberry Pi model, from the tiny Pi Zero to the powerful Raspberry Pi 4 or 5. We'll focus on using the official Raspberry Pi Imager tool for a straightforward experience.</p>
+            <p class="important">This guide aims to be as universal as possible. Specific models might have slight variations (e.g., port types, Wi-Fi capabilities), but the core setup process is consistent.</p>
+        </section>
+
+        <section id="prerequisites">
+            <h2>Prerequisites & Downloads</h2>
+            <p>Before you begin, gather the following:</p>
+            <ul>
+                <li><strong>A Raspberry Pi Board:</strong> Any model (Pi 5, 4B, 3B+, Zero 2 W, Zero W, Pico*, etc.).
+                    <p class="warning">*Note: Raspberry Pi Pico is a microcontroller and has a different setup process (MicroPython/C++ SDK), though the Imager can still be used for some Pico OS images. This guide primarily focuses on Pi models running a full Linux OS.</p>
+                </li>
+                <li><strong>MicroSD Card:</strong>
+                    <ul>
+                        <li>Minimum 8GB (16GB+ recommended for desktop environments).</li>
+                        <li>Class 10 / UHS-1 speed rating is advised.</li>
+                    </ul>
+                </li>
+                <li><strong>Power Supply:</strong>
+                    <ul>
+                        <li>Use the official power supply or a high-quality one with the correct voltage (5V) and sufficient amperage for your Pi model (e.g., Pi 4/5 needs 3A-5A USB-C, older models might use 2.5A Micro USB).</li>
+                    </ul>
+                </li>
+                <li><strong>Monitor & HDMI Cable:</strong>
+                    <ul>
+                        <li>Any HDMI-compatible monitor/TV.</li>
+                        <li>Appropriate cable (e.g., Micro-HDMI to HDMI for Pi 4/5, Mini-HDMI for Pi Zero, standard HDMI for Pi 3).</li>
+                    </ul>
+                </li>
+                <li><strong>USB Keyboard & Mouse:</strong> Standard USB peripherals.</li>
+                <li><strong>Host Computer:</strong> A Windows, macOS, or Linux PC to prepare the microSD card.</li>
+                <li><strong>(Optional) Ethernet Cable:</strong> For wired internet connection (if your Pi has an Ethernet port and you prefer it over Wi-Fi).</li>
+                <li><strong>(Optional) Case:</strong> To protect your Pi.</li>
+                <li><strong>(Optional) Wi-Fi Dongle:</strong> For older Pi models without built-in Wi-Fi (e.g., original Pi Model B, Pi Zero v1.3).</li>
+            </ul>
+            <h3>Downloads:</h3>
+            <ul>
+                <li><strong>Raspberry Pi Imager:</strong>
+                    <a href="https://www.raspberrypi.com/software/" target="_blank">Download Raspberry Pi Imager for your OS</a>
+                </li>
+                <li><strong>(Optional) OS Image:</strong> While the Imager can download it for you, you can also pre-download an OS image (e.g., Raspberry Pi OS) from the same link if preferred.</li>
+            </ul>
+        </section>
+
+        <section id="imager">
+            <h2>1. Raspberry Pi Imager & OS Selection</h2>
+            <p>The Raspberry Pi Imager is the easiest way to install an operating system onto your microSD card.</p>
+            <ol>
+                <li>Install and launch the Raspberry Pi Imager on your host computer.</li>
+                <li>
+                    Click <strong>"CHOOSE DEVICE"</strong> and select your Raspberry Pi model. This helps the imager suggest compatible OS versions.
+                </li>
+                <li>
+                    Click <strong>"CHOOSE OS"</strong>.
+                    <ul>
+                        <li><strong>Recommended:</strong> Select "Raspberry Pi OS (32-bit)" or "(64-bit)" for most users. The 64-bit version is suitable for Pi 3, 4, 5, Zero 2 W, and CM3/4.
+                        </li>
+                        <li>You can also choose "Raspberry Pi OS Lite" for a command-line only interface, or explore other OS options like Ubuntu, LibreELEC (Kodi), etc.</li>
+                        <li>If you downloaded an image manually, select "Use custom" and browse to your <code>.img</code> file.</li>
+                    </ul>
+                </li>
+                <li>Click <strong>"CHOOSE STORAGE"</strong> and select your microSD card reader with the card inserted.
+                    <p class="warning"><strong>Triple-check you've selected the correct drive!</strong> All data on the selected drive will be erased.</p>
+                </li>
+            </ol>
+        </section>
+
+        <section id="sd-card-prep">
+            <h2>2. Prepare SD Card (Write OS & Pre-configure)</h2>
+            <p>The Imager will format the SD card and write the chosen OS. It also offers powerful pre-configuration options.</p>
+            <ol>
+                <li>After selecting Device, OS, and Storage, click the <strong>"NEXT"</strong> button.</li>
+                <li>You'll be asked if you want to use OS customisation. Click <strong>"EDIT SETTINGS"</strong>. This is highly recommended.
+                </li>
+                <li>
+                    In the "OS customisation" window:
+                    <ul>
+                        <li><strong>General Tab:</strong>
+                            <ul>
+                                <li>Set hostname (e.g., <code>raspberrypi</code>).</li>
+                                <li>Set username and password. (Default is <code>pi</code> / <code>raspberry</code> if not changed, but setting your own is more secure).</li>
+                                <li>Configure wireless LAN: Check "Configure wireless LAN", enter your Wi-Fi SSID and Password. Select your Wi-Fi country. (Essential for headless setup on Wi-Fi only Pis like Zero W).</li>
+                                <li>Set locale settings (Time zone, Keyboard layout).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Services Tab:</strong>
+                            <ul>
+                                <li>Enable SSH: Choose "Use password authentication". (Essential for headless setup).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Options Tab:</strong>
+                            <ul>
+                                <li>You can choose to play a sound when finished or eject media.</li>
+                            </ul>
+                        </li>
+                        <li>Click <strong>"SAVE"</strong>.</li>
+                    </ul>
+                </li>
+                <li>You'll be back at the main confirmation. Click <strong>"YES"</strong> to proceed with writing.</li>
+                <li>The Imager will now download (if needed), write, and verify the OS image. This can take some time.</li>
+                <li>Once complete, you can safely eject the microSD card.</li>
+            </ol>
+        </section>
+
+        <section id="first-boot">
+            <h2>3. First Boot & Initial Setup</h2>
+            <ol>
+                <li>Insert the prepared microSD card into your Raspberry Pi.</li>
+                <li>Connect your USB keyboard, mouse, and HDMI monitor.</li>
+                <li>If using wired internet, connect the Ethernet cable.</li>
+                <li>Connect the power supply to turn on your Pi.</li>
+                <li>
+                    The Pi will boot up.
+                    <ul>
+                        <li><strong>Raspberry Pi OS with Desktop:</strong> You should see the desktop environment. If you didn't pre-configure everything via the Imager, a "Welcome to Raspberry Pi" wizard may appear to guide you through setting the country, language, password, Wi-Fi, and software updates.
+                        </li>
+                        <li><strong>Raspberry Pi OS Lite:</strong> You will see a command-line login prompt. Enter the username and password you set in the Imager (or default <code>pi</code> / <code>raspberry</code> if unchanged).
+                        </li>
+                    </ul>
+                </li>
+                <li class="important">On the very first boot, especially with desktop versions, the system might automatically resize the filesystem to use the full SD card capacity and then reboot. This is normal.</li>
+            </ol>
+        </section>
+
+        <section id="raspi-config">
+            <h2>4. Using raspi-config</h2>
+            <p><code>raspi-config</code> is a powerful command-line tool for configuring various aspects of your Raspberry Pi. Even if you used the Imager's pre-configuration, it's good to know.</p>
+            <ol>
+                <li>Open a terminal window (on Desktop) or if using Lite, you are already in the command line.</li>
+                <li>Type <code>sudo raspi-config</code> and press Enter.
+                </li>
+                <li>
+                    Navigate using arrow keys, Enter to select, and Esc to go back. Common options:
+                    <ul>
+                        <li><strong>System Options:</strong> Change Password, Hostname, Boot/Auto Login, Network at Boot, Audio.</li>
+                        <li><strong>Display Options:</strong> Resolution, Underscan (if your display has black borders). (Note: On Pi 4/5, display options are managed differently, often via GUI or editing <code class="path">/boot/config.txt</code>).</li>
+                        <li><strong>Interface Options:</strong> Enable/disable Camera, SSH, VNC, SPI, I2C, Serial Port, 1-Wire, Remote GPIO.</li>
+                        <li><strong>Performance Options:</strong> Overclock (use with caution!), GPU Memory. (Note: Overclocking options vary by Pi model and may void warranty or lead to instability).</li>
+                        <li><strong>Localisation Options:</strong> Set Locale, Timezone, Keyboard Layout, WLAN Country. (These should be set if you didn't use the Imager's pre-configuration).</li>
+                        <li><strong>Advanced Options:</strong> Expand Filesystem (usually automatic now), Network Interface Names, Boot Order (on compatible Pis like Pi 4/5).</li>
+                    </ul>
+                </li>
+                <li>When done, navigate to <code>Finish</code> and press Enter. It may ask to reboot if changes require it.</li>
+            </ol>
+        </section>
+
+        <section id="network">
+            <h2>5. Network Configuration</h2>
+            <p>If you didn't configure Wi-Fi via the Imager or <code>raspi-config</code>:</p>
+            <h3>Ethernet:</h3>
+            <p>Simply plug in an Ethernet cable from your Pi to your router/switch. It should automatically connect.</p>
+            <h3>Wi-Fi (Desktop Environment):</h3>
+            <ol>
+                <li>Click the network icon in the top-right corner of the screen.</li>
+                <li>Select your Wi-Fi network from the list.</li>
+                <li>Enter the password and click "Connect".</li>
+            </ol>
+            <h3>Wi-Fi (Command Line / Lite):</h3>
+            <ol>
+                <li>Use <code>sudo raspi-config</code>:
+                    <ul>
+                        <li>Navigate to <code>System Options</code> > <code>Wireless LAN</code>.</li>
+                        <li>Enter your SSID (network name) and passphrase.</li>
+                    </ul>
+                </li>
+                <li>Alternatively, you can manually edit the <code>wpa_supplicant.conf</code> file (more advanced):
+                    <code>sudo nano /etc/wpa_supplicant/wpa_supplicant.conf</code>
+                    <br>Add the following (replacing with your details):
+                    <pre><code style="display:block; white-space: pre-wrap;">country=GB # Your 2-letter ISO country code
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="Your_WiFi_SSID"
+    psk="Your_WiFi_Password"
+}</code></pre>
+                    Save (Ctrl+X, then Y, then Enter) and reboot <code>sudo reboot</code> or reconfigure the interface: <code>sudo wpa_cli -i wlan0 reconfigure</code>.
+                </li>
+            </ol>
+            <p>To check your IP address: <code>ip addr show</code> or <code>hostname -I</code></p>
+        </section>
+
+        <section id="updating">
+            <h2>6. System Updates</h2>
+            <p>It's crucial to keep your Raspberry Pi's software up to date for security and new features.</p>
+            <ol>
+                <li>Open a terminal.</li>
+                <li>Update the package list: <code>sudo apt update</code></li>
+                <li>Upgrade installed packages: <code>sudo apt full-upgrade -y</code></li>
+                <li class="important">This process can take some time, especially if there are many updates. It's good practice to do this regularly.</li>
+                <li>Occasionally, firmware updates are also beneficial: <code>sudo rpi-update</code> (Use with caution, generally <code>apt full-upgrade</code> handles kernel/firmware updates for most users. <code>rpi-update</code> gets bleeding-edge firmware which might be less stable). For most users, sticking to <code>apt</code> updates is sufficient.</li>
+            </ol>
+        </section>
+
+        <section id="ssh">
+            <h2>7. Enabling SSH (Headless Access)</h2>
+            <p>SSH (Secure Shell) allows you to access your Pi's command line remotely from another computer on the same network. This is essential for "headless" operation (without a monitor/keyboard/mouse connected to the Pi).</p>
+            <ol>
+                <li><strong>Enable SSH:</strong>
+                    <ul>
+                        <li><strong>Via Raspberry Pi Imager:</strong> This is the easiest way, done during SD card preparation (Step 2, OS Customisation > Services tab).</li>
+                        <li><strong>Via <code>raspi-config</code>:</strong> Run <code>sudo raspi-config</code>, go to <code>Interface Options</code> > <code>SSH</code>, and select <code>Enable</code>.</li>
+                        <li><strong>Headless (before first boot, if forgotten in Imager):</strong> After writing the OS to the SD card, mount the 'boot' partition on your computer. Create an empty file named <code>ssh</code> (no extension) in the root of this 'boot' partition.</li>
+                    </ul>
+                </li>
+                <li><strong>Find your Pi's IP Address:</strong>
+                    <ul>
+                        <li>On the Pi (if you have a monitor): <code>hostname -I</code> or <code>ip addr show</code></li>
+                        <li>From your router's admin page (look for connected devices).</li>
+                        <li>Using a network scanner tool on another computer.</li>
+                    </ul>
+                </li>
+                <li><strong>Connect via SSH from another computer:</strong>
+                    <ul>
+                        <li><strong>Windows:</strong> Use PowerShell or Command Prompt: <code>ssh your_username@your_pi_ip_address</code> (e.g., <code>ssh pi@192.168.1.105</code>). You can also use PuTTY.</li>
+                        <li><strong>macOS/Linux:</strong> Open Terminal and use: <code>ssh your_username@your_pi_ip_address</code></li>
+                    </ul>
+                </li>
+                <li>The first time you connect, you'll be asked to confirm the host's authenticity. Type <code>yes</code>. Then enter your Pi's password.</li>
+            </ol>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps & Resources</h2>
+            <p>Congratulations! Your Raspberry Pi is set up. Here are some ideas for what to do next:</p>
+            <ul>
+                <li><strong>Explore the Desktop:</strong> If you installed Raspberry Pi OS with Desktop, look around, try the pre-installed applications (Chromium browser, LibreOffice, programming tools).</li>
+                <li><strong>Learn Linux Commands:</strong> The command line is powerful. Search for "basic Linux commands" tutorials.</li>
+                <li><strong>Programming:</strong> Try Python (pre-installed), Scratch, or other languages.</li>
+                <li><strong>Projects:</strong>
+                    <ul>
+                        <li>Build a retro gaming console (RetroPie).</li>
+                        <li>Create a network ad-blocker (Pi-hole).</li>
+                        <li>Set up a home media server (Kodi, Plex).</li>
+                        <li>Control LEDs, motors, and sensors using GPIO pins.</li>
+                    </ul>
+                </li>
+                <li><strong>Official Resources:</strong>
+                    <ul>
+                        <li><a href="https://www.raspberrypi.com/documentation/" target="_blank">Official Raspberry Pi Documentation</a></li>
+                        <li><a href="https://projects.raspberrypi.org/en" target="_blank">Raspberry Pi Projects Site</a></li>
+                        <li><a href="https://forums.raspberrypi.com/" target="_blank">Raspberry Pi Forums</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="disclaimer">
+            <h2>Disclaimer</h2>
+            <p>This guide is provided for informational purposes only. While every effort has been made to ensure accuracy, technology changes rapidly. Proceed at your own risk. The author of this webpage is not responsible for any damage to your hardware, data loss, or other issues that may arise from following this guide.</p>
+            <p>Always ensure you are using appropriate power supplies and handling electronic components with care. Refer to official Raspberry Pi documentation for definitive information.</p>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 70) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+             
+            if (!current && navLinks.length > 0 && sections.length > 0 && pageYOffset < sections[0].offsetTop - 70) {
+                navLinks[0].classList.add('active');
+            } else if (!current && navLinks.length > 0 && sections.length === 0) { 
+                 navLinks[0].classList.add('active');
+            }
+        };
+        
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apps Script Guide</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --text-color: #2c3e50;
+            --primary-color: #3498db;
+            --card-bg-color: #ffffff;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+            --nav-bg-color: rgba(255, 255, 255, 0.85);
+            --border-color: #e0e0e0;
+            --code-bg: #ecf0f1;
+            --code-text: #2c3e50;
+            --svg-stroke: #2c3e50;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a2e;
+                --text-color: #e0e0e0;
+                --primary-color: #4a90e2;
+                --card-bg-color: #1e1e3f;
+                --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                --nav-bg-color: rgba(30, 30, 63, 0.85);
+                --border-color: #2a2a4a;
+                --code-bg: #2a2a4a;
+                --code-text: #d0d0d0;
+                --svg-stroke: #e0e0e0;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 30px;
+            background-color: var(--nav-bg-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 20px;
+        }
+
+        .lang-switcher {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--text-color);
+            transition: all 0.3s ease-in-out;
+        }
+
+        main {
+            padding-top: 100px;
+        }
+
+        .guide-section {
+            background-color: var(--card-bg-color);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+            transition: background-color 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+
+        .guide-section h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .guide-section p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .sketch-container {
+            width: 100%;
+            padding: 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-color);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            min-height: 250px;
+            transition: background-color 0.3s;
+        }
+
+        .sketch-svg {
+            max-width: 80%;
+            height: auto;
+            stroke: var(--svg-stroke);
+            transition: stroke 0.3s;
+        }
+        
+        .code-block {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'SF Mono', 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre;
+            margin-top: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: var(--nav-bg-color);
+                width: 100%;
+                height: calc(100vh - 70px);
+                text-align: center;
+                transition: 0.3s;
+                padding-top: 50px;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: 20px 0;
+            }
+            
+            .lang-switcher {
+                flex-direction: column;
+                border: none;
+                border-radius: 0;
+            }
+            
+            .lang-btn {
+                padding: 15px;
+                width: 100vw;
+            }
+            
+            .lang-btn.active {
+                background-color: var(--primary-color);
+            }
+
+            .hamburger {
+                display: block;
+            }
+            
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            
+            .guide-section {
+                padding: 25px;
+            }
+            
+            .guide-section h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">AutoSheets</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <div class="lang-switcher">
+                        <button class="lang-btn" data-lang="de">DE</button>
+                        <button class="lang-btn" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="es">ES</button>
+                    </div>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="guide-section">
+            <h2 data-key="title_intro">Was ist Apps Script?</h2>
+            <p data-key="p_intro">Apps Script ist eine cloudbasierte Skriptsprache von Google, mit der Sie leichte Anwendungen erstellen und Aufgaben in der Google Workspace-Plattform, einschließlich Google Sheets, automatisieren können.</p>
+            <div class="sketch-container">
+                <svg class="sketch-svg" viewBox="0 0 300 150">
+                    <style>
+                        .s1_icon { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+                        .s1_text { font-size: 12px; font-family: sans-serif; fill: var(--text-color); }
+                        .s1_arrow { fill: none; stroke-width: 1.5; stroke: var(--primary-color); marker-end: url(#s1_arrowhead); animation: s1_flow 3s infinite; }
+                        @keyframes s1_flow { 0% { stroke-dashoffset: 20; } 100% { stroke-dashoffset: 0; } }
+                    </style>
+                    <defs>
+                        <marker id="s1_arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary-color)" /></marker>
+                    </defs>
+                    <g id="s1_sheet">
+                        <rect x="20" y="40" width="80" height="70" rx="5" class="s1_icon" />
+                        <path d="M 30 55 h 60 M 30 70 h 60 M 30 85 h 30" class="s1_icon" />
+                    </g>
+                    <text x="38" y="130" class="s1_text">Google Sheet</text>
+                    
+                    <path class="s1_arrow" stroke-dasharray="5,5" d="M 110 75 h 30" />
+
+                    <g id="s1_script">
+                        <path d="M 160 55 l 15 -15 l 15 15 M 175 40 v 50 M 190 85 l -15 15 l -15 -15" class="s1_icon" />
+                    </g>
+                    <text x="155" y="130" class="s1_text">Apps Script</text>
+
+                    <path class="s1_arrow" stroke-dasharray="5,5" d="M 200 75 h 30" />
+                    
+                    <g id="s1_magic">
+                        <path d="M 240 75 a 25 25 0 1 1 50 0 a 25 25 0 1 1 -50 0 M 265 50 v -10 M 265 100 v 10 M 240 75 h -10 M 290 75 h 10" class="s1_icon" />
+                        <path d="m 258 68 l 7 7 l 12 -12" class="s1_icon" style="stroke-width: 3; stroke: var(--primary-color);" />
+                    </g>
+                    <text x="238" y="130" class="s1_text" data-key="sketch_automation">Automatisierung</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <h2 data-key="title_editor">Den Skript-Editor öffnen</h2>
+            <p data-key="p_editor">Um mit dem Codieren zu beginnen, müssen Sie den Apps Script-Editor öffnen. Sie finden ihn direkt in Ihrem Google Sheet unter "Erweiterungen".</p>
+            <div class="sketch-container">
+                <svg class="sketch-svg" viewBox="0 0 300 180">
+                    <style>
+                        .s2_ui { fill: var(--card-bg-color); stroke: var(--border-color); stroke-width:1; }
+                        .s2_text { font-size: 11px; font-family: sans-serif; fill: var(--text-color); }
+                        .s2_highlight { fill: var(--primary-color); opacity: 0.2; }
+                        .s2_highlight_border { fill: none; stroke: var(--primary-color); stroke-width: 1.5; }
+                        .s2_pointer { animation: s2_pulse 2s infinite; transform-origin: center; }
+                        @keyframes s2_pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+                    </style>
+                    <rect x="10" y="10" width="280" height="40" rx="4" class="s2_ui" />
+                    <text x="20" y="32" class="s2_text" data-key="sketch_file">Datei</text>
+                    <text x="60" y="32" class="s2_text" data-key="sketch_edit">Bearbeiten</text>
+                    <text x="115" y="32" class="s2_text" data-key="sketch_view">Ansicht</text>
+                    
+                    <g class="s2_pointer">
+                        <rect x="170" y="18" width="80" height="24" class="s2_highlight" rx="2" />
+                        <text x="178" y="32" class="s2_text" style="font-weight:bold; fill:var(--primary-color)" data-key="sketch_extensions">Erweiterungen</text>
+                    </g>
+                    
+                    <path d="M 210 50 v 15" style="stroke:var(--border-color)"/>
+                    
+                    <g transform="translate(0, 20)">
+                        <rect x="150" y="50" width="120" height="80" rx="4" class="s2_ui" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" />
+                        <text x="160" y="70" class="s2_text" data-key="sketch_addons">Add-ons</text>
+                        
+                        <rect x="155" y="85" width="110" height="24" class="s2_highlight" rx="2" />
+                        <rect x="155" y="85" width="110" height="24" class="s2_highlight_border" rx="2" />
+                        <text x="160" y="100" class="s2_text" style="font-weight:bold; fill:var(--primary-color)">Apps Script</text>
+                    </g>
+                </svg>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <h2 data-key="title_function">Eine einfache Funktion schreiben</h2>
+            <p data-key="p_function">Ihr Skript besteht aus Funktionen. Eine Funktion ist ein Block von Code, der eine bestimmte Aufgabe ausführt. Beginnen wir mit einem "Hallo Welt"-Beispiel, das eine Nachricht in das Protokoll schreibt.</p>
+            <div class="sketch-container">
+                <svg class="sketch-svg" viewBox="0 0 300 150">
+                    <style>
+                        .s3_icon { fill: none; stroke: var(--svg-stroke); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+                        .s3_arrow { fill: none; stroke-width: 1.5; stroke: var(--primary-color); marker-end: url(#s3_arrowhead); animation: s3_flow 2s 1s forwards; opacity: 0; }
+                        @keyframes s3_flow { to { opacity: 1; } }
+                    </style>
+                     <defs>
+                        <marker id="s3_arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary-color)" /></marker>
+                    </defs>
+
+                    <rect x="10" y="20" width="140" height="110" rx="5" fill="var(--code-bg)" />
+                    <text x="20" y="40" font-family="monospace" font-size="10px" fill="var(--code-text)">
+                        <tspan x="20" dy="1.2em">function myFunction() {</tspan>
+                        <tspan x="35" dy="1.2em">Logger.log("Hallo Welt!");</tspan>
+                        <tspan x="20" dy="1.2em">}</tspan>
+                    </text>
+                     <rect x="70" y="100" width="40" height="20" rx="3" fill="var(--primary-color)"/>
+                    <path d="M 82 107 l 5 5 l -5 5 m 88 -5 l -5 -5 l 5 -5" fill="none" stroke="#fff" stroke-width="1.5"/>
+
+                    <path class="s3_arrow" d="M 160 80 h 30" />
+                    
+                    <rect x="200" y="50" width="90" height="50" rx="5" class="s3_icon" fill="var(--card-bg-color)"/>
+                    <line x1="200" y1="65" x2="290" y2="65" class="s3_icon"/>
+                    <text x="208" y="60" font-size="9px" font-family="sans-serif" fill="var(--text-color)" data-key="sketch_log">Protokoll</text>
+                    <text x="208" y="85" font-size="10px" font-family="monospace" fill="var(--text-color)">Hallo Welt!</text>
+
+                </svg>
+            </div>
+            <p data-key="p_run">Klicken Sie auf das "Ausführen"-Symbol (▶), um Ihre Funktion zu starten. Sie müssen eventuell Berechtigungen erteilen, wenn Sie das Skript zum ersten Mal ausführen.</p>
+        </section>
+
+        <section class="guide-section">
+            <h2 data-key="title_trigger">Automatisierung mit einem Trigger</h2>
+            <p data-key="p_trigger">Die wahre Stärke liegt in Triggern. Ein Trigger ist eine Regel, die Ihre Funktion automatisch ausführt, wenn ein bestimmtes Ereignis eintritt, z.B. wenn eine Zelle bearbeitet wird.</p>
+            <div class="sketch-container">
+                <svg class="sketch-svg" viewBox="0 0 300 200">
+                     <style>
+                        .s4_sheet_bg { fill: var(--card-bg-color); }
+                        .s4_cell { stroke: var(--border-color); stroke-width: 1; }
+                        .s4_text { font-size: 12px; font-family: sans-serif; fill: var(--text-color); }
+                        .s4_highlight { fill: var(--primary-color); opacity: 0.3; }
+                        .s4_action { animation: s4_pop 1s ease-out; }
+                        .s4_arrow { fill: none; stroke-width: 1.5; stroke-dasharray: 4; stroke: var(--primary-color); animation: s4_dash 2s linear infinite; }
+                        @keyframes s4_dash { to { stroke-dashoffset: -16; } }
+                        @keyframes s4_pop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+                    </style>
+                    <rect x="10" y="30" width="280" height="140" rx="5" class="s4_sheet_bg" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" />
+                    <g class="s4_cell">
+                        <path d="M 10 60 h 280 M 50 30 v 140 M 170 30 v 140" />
+                    </g>
+                    <text x="25" y="50" class="s4_text">A</text>
+                    <text x="95" y="50" class="s4_text">B</text>
+
+                    <text x="20" y="85" class="s4_text">Aufgabe erledigt</text>
+                    <path d="M 15 70 l 10 10 l 20 -20" stroke="green" stroke-width="3" fill="none" />
+                    
+                    <g transform="translate(105, 0)">
+                        <path d="M 70 85 q 30 0 30 30 t 30 -30 q -30 0 -30 -30 t -30 30" style="stroke-width:1.5; stroke: var(--primary-color); fill:none;" />
+                        <text x="93" y="90" style="fill:var(--primary-color); font-size: 10px;">onEdit()</text>
+                    </g>
+                    
+                    <g class="s4_action" transform="translate(180, 75)">
+                       <rect x="0" y="0" width="100" height="25" rx="2" class="s4_highlight" />
+                       <text x="5" y="17" class="s4_text" id="timestamp_text">2023-10-27 10:30</text>
+                    </g>
+
+                </svg>
+            </div>
+            <p data-key="p_code_trigger">Diese spezielle Funktion `onEdit(e)` wird jedes Mal ausgeführt, wenn eine Zelle bearbeitet wird. Der Code prüft, ob Spalte A bearbeitet wurde, und fügt dann einen Zeitstempel in Spalte B derselben Zeile ein.</p>
+            <pre class="code-block" data-key="code_onedit"><code>function onEdit(e) {
+  var sheet = e.source.getActiveSheet();
+  var range = e.range;
+  
+  // Prüfen, ob die Änderung in Spalte A (1) war
+  if (range.getColumn() == 1 &amp;&amp; sheet.getName() === 'Aufgaben') {
+    // Zeitstempel in Spalte B (2) setzen
+    sheet.getRange(range.getRow(), 2).setValue(new Date());
+  }
+}</code></pre>
+        </section>
+
+    </main>
+    
+    <footer data-key="footer_text">
+        Ein visueller Guide zur Automatisierung mit Google Apps Script.
+    </footer>
+
+    <script>
+        const translations = {
+            en: {
+                title_intro: "What is Apps Script?",
+                p_intro: "Apps Script is a cloud-based scripting language by Google for creating light-weight applications and automating tasks across the Google Workspace platform, including Google Sheets.",
+                sketch_automation: "Automation",
+                title_editor: "Opening the Script Editor",
+                p_editor: "To start coding, you need to open the Apps Script editor. You can find it directly within your Google Sheet under 'Extensions'.",
+                sketch_file: "File",
+                sketch_edit: "Edit",
+                sketch_view: "View",
+                sketch_extensions: "Extensions",
+                sketch_addons: "Add-ons",
+                title_function: "Writing a Simple Function",
+                p_function: "Your script is made of functions. A function is a block of code that performs a specific task. Let's start with a 'Hello, World!' example that writes a message to the log.",
+                sketch_log: "Log",
+                p_run: "Click the 'Run' icon (▶) to execute your function. You may need to grant permissions the first time you run the script.",
+                title_trigger: "Automating with a Trigger",
+                p_trigger: "The real power lies in triggers. A trigger is a rule that runs your function automatically when a specific event occurs, like when a cell is edited.",
+                p_code_trigger: "This special function `onEdit(e)` runs every time a cell is edited. The code checks if column A was edited, and then inserts a timestamp into column B of the same row.",
+                code_onedit: `function onEdit(e) {
+  var sheet = e.source.getActiveSheet();
+  var range = e.range;
+  
+  // Check if the edit was in column A (1)
+  if (range.getColumn() == 1 && sheet.getName() === 'Tasks') {
+    // Set timestamp in column B (2)
+    sheet.getRange(range.getRow(), 2).setValue(new Date());
+  }
+}`,
+                footer_text: "A visual guide to automation with Google Apps Script."
+            },
+            de: {
+                title_intro: "Was ist Apps Script?",
+                p_intro: "Apps Script ist eine cloudbasierte Skriptsprache von Google, mit der Sie leichte Anwendungen erstellen und Aufgaben in der Google Workspace-Plattform, einschließlich Google Sheets, automatisieren können.",
+                sketch_automation: "Automatisierung",
+                title_editor: "Den Skript-Editor öffnen",
+                p_editor: "Um mit dem Codieren zu beginnen, müssen Sie den Apps Script-Editor öffnen. Sie finden ihn direkt in Ihrem Google Sheet unter 'Erweiterungen'.",
+                sketch_file: "Datei",
+                sketch_edit: "Bearbeiten",
+                sketch_view: "Ansicht",
+                sketch_extensions: "Erweiterungen",
+                sketch_addons: "Add-ons",
+                title_function: "Eine einfache Funktion schreiben",
+                p_function: "Ihr Skript besteht aus Funktionen. Eine Funktion ist ein Block von Code, der eine bestimmte Aufgabe ausführt. Beginnen wir mit einem 'Hallo Welt'-Beispiel, das eine Nachricht in das Protokoll schreibt.",
+                sketch_log: "Protokoll",
+                p_run: "Klicken Sie auf das 'Ausführen'-Symbol (▶), um Ihre Funktion zu starten. Sie müssen eventuell Berechtigungen erteilen, wenn Sie das Skript zum ersten Mal ausführen.",
+                title_trigger: "Automatisierung mit einem Trigger",
+                p_trigger: "Die wahre Stärke liegt in Triggern. Ein Trigger ist eine Regel, die Ihre Funktion automatisch ausführt, wenn ein bestimmtes Ereignis eintritt, z.B. wenn eine Zelle bearbeitet wird.",
+                p_code_trigger: "Diese spezielle Funktion `onEdit(e)` wird jedes Mal ausgeführt, wenn eine Zelle bearbeitet wird. Der Code prüft, ob Spalte A bearbeitet wurde, und fügt dann einen Zeitstempel in Spalte B derselben Zeile ein.",
+                code_onedit: `function onEdit(e) {
+  var sheet = e.source.getActiveSheet();
+  var range = e.range;
+  
+  // Prüfen, ob die Änderung in Spalte A (1) war
+  if (range.getColumn() == 1 && sheet.getName() === 'Aufgaben') {
+    // Zeitstempel in Spalte B (2) setzen
+    sheet.getRange(range.getRow(), 2).setValue(new Date());
+  }
+}`,
+                footer_text: "Ein visueller Guide zur Automatisierung mit Google Apps Script."
+            },
+            es: {
+                title_intro: "¿Qué es Apps Script?",
+                p_intro: "Apps Script es un lenguaje de scripting basado en la nube de Google para crear aplicaciones ligeras y automatizar tareas en la plataforma Google Workspace, incluido Google Sheets.",
+                sketch_automation: "Automatización",
+                title_editor: "Abrir el Editor de Secuencias de Comandos",
+                p_editor: "Para empezar a programar, necesitas abrir el editor de Apps Script. Lo puedes encontrar directamente en tu Google Sheet en 'Extensiones'.",
+                sketch_file: "Archivo",
+                sketch_edit: "Editar",
+                sketch_view: "Ver",
+                sketch_extensions: "Extensiones",
+                sketch_addons: "Complementos",
+                title_function: "Escribir una Función Simple",
+                p_function: "Tu script está hecho de funciones. Una función es un bloque de código que realiza una tarea específica. Empecemos con un ejemplo de '¡Hola, Mundo!' que escribe un mensaje en el registro.",
+                sketch_log: "Registro",
+                p_run: "Haz clic en el icono 'Ejecutar' (▶) para ejecutar tu función. Puede que necesites conceder permisos la primera vez que ejecutes el script.",
+                title_trigger: "Automatizar con un Activador",
+                p_trigger: "El verdadero poder reside en los activadores. Un activador es una regla que ejecuta tu función automáticamente cuando ocurre un evento específico, como cuando se edita una celda.",
+                p_code_trigger: "Esta función especial `onEdit(e)` se ejecuta cada vez que se edita una celda. El código comprueba si se editó la columna A y luego inserta una marca de tiempo en la columna B de la misma fila.",
+                code_onedit: `function onEdit(e) {
+  var sheet = e.source.getActiveSheet();
+  var range = e.range;
+  
+  // Comprobar si la edición fue en la columna A (1)
+  if (range.getColumn() == 1 && sheet.getName() === 'Tareas') {
+    // Establecer marca de tiempo en la columna B (2)
+    sheet.getRange(range.getRow(), 2).setValue(new Date());
+  }
+}`,
+                footer_text: "Una guía visual para la automatización con Google Apps Script."
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const allTranslatableElements = document.querySelectorAll('[data-key]');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            const setLanguage = (lang) => {
+                if (!translations[lang]) return;
+
+                allTranslatableElements.forEach(element => {
+                    const key = element.getAttribute('data-key');
+                    const translation = translations[lang][key];
+                    if (translation) {
+                        if (element.tagName === 'CODE') {
+                           element.textContent = translation;
+                        } else {
+                           element.innerHTML = translation;
+                        }
+                    }
+                });
+                
+                document.documentElement.lang = lang;
+                localStorage.setItem('language', lang);
+
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+            };
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    setLanguage(button.dataset.lang);
+                    if (navMenu.classList.contains('active')) {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                });
+            });
+
+            const detectLanguage = () => {
+                const savedLang = localStorage.getItem('language');
+                if (savedLang && translations[savedLang]) {
+                    return savedLang;
+                }
+                
+                const browserLang = navigator.language.split('-')[0];
+                if (translations[browserLang]) {
+                    return browserLang;
+                }
+                
+                return 'en';
+            };
+
+            setLanguage(detectLanguage());
+        });
+    </script>
+
+</body>
+</html>

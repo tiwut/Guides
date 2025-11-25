@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReviOS (Custom Windows) Installation Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #2c2c3e; 
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #7B68EE; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #6A5ACD; 
+            border-bottom: 2px solid #6A5ACD;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #483D8B; 
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #7B68EE;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+        }
+       
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to ReviOS</a></li>
+            <li><a href="#prerequisites">Prerequisites & Backup</a></li>
+            <li><a href="#download-iso">1. Download & Verify ISO</a></li>
+            <li><a href="#installation-media">2. Create Installation Media</a></li>
+            <li><a href="#bios-uefi">3. BIOS/UEFI Configuration</a></li>
+            <li><a href="#boot-installer">4. Booting the Installer</a></li>
+            <li><a href="#windows-setup">5. Windows Setup Process</a></li>
+            <li><a href="#oobe">6. Initial Configuration (OOBE)</a></li>
+            <li><a href="#post-install">7. Post-Installation Steps</a></li>
+            <li><a href="#important-considerations">Important Considerations</a></li>
+            <li><a href="#troubleshooting">Troubleshooting Tips</a></li>
+            <li><a href="#disclaimer">Disclaimer</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>ReviOS (Custom Windows) Installation Guide</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to ReviOS</h2>
+            <p>ReviOS (Revision OS) is a community-developed, modified version of Microsoft Windows. It aims to provide an optimized Windows experience by focusing on performance, stability, lower latency, and enhanced privacy through debloating and specific tweaks. It's often favored by gamers and users seeking a more streamlined Windows environment.</p>
+            <p class="important">ReviOS is <strong>not</strong> an official Microsoft product. It is a customization built upon an existing Windows image. Users install it at their own risk and should understand the implications of using a modified operating system.</p>
+            <p class="warning"><strong>Warning:</strong> Always download ReviOS exclusively from its <strong>official website (revision.gg)</strong>. Obtaining it from unofficial sources significantly increases the risk of malware or unintended modifications.</p>
+        </section>
+
+        <section id="prerequisites">
+            <h2>Prerequisites & Crucial: Backup Your Data!</h2>
+            <p class="warning"><strong>CRITICAL: BACKUP YOUR DATA!</strong> A clean installation of ReviOS (or any OS) will erase all data on the target drive. Back up everything important to an external storage device or cloud service before proceeding.</p>
+            <p>You will need:</p>
+            <ul>
+                <li><strong>Computer Meeting Windows System Requirements:</strong> ReviOS is based on Windows, so your PC must meet the base requirements for the Windows version ReviOS is built upon (e.g., Windows 10 or 11). Generally:
+                    <ul>
+                        <li>64-bit processor.</li>
+                        <li>4GB RAM (8GB+ recommended).</li>
+                        <li>Sufficient storage space (e.g., 64GB+ for the OS drive, SSD highly recommended).</li>
+                    </ul>
+                </li>
+                <li><strong>ReviOS ISO File:</strong> Downloaded <strong>ONLY</strong> from the official <a href="https://www.revision.gg/" target="_blank">revision.gg</a> website.</li>
+                <li><strong>USB Flash Drive:</strong> Minimum 8GB capacity. This drive will be erased.</li>
+                <li><strong>Valid Windows Product Key:</strong>
+                    <p class="important">ReviOS does not provide a Windows license or bypass Windows activation. You need a legitimate Windows 10/11 product key corresponding to the edition of Windows ReviOS is based on (e.g., Home, Pro). If your PC came with a digital license embedded in the firmware, ReviOS might activate automatically.</p>
+                </li>
+                <li><strong>(Optional) Another Working Computer:</strong> To download the ISO and create the USB installation media.</li>
+                <li><strong>Internet Connection:</strong> May be required during setup for some steps, and essential for updates and driver downloads later.</li>
+            </ul>
+        </section>
+
+        <section id="download-iso">
+            <h2>1. Download ReviOS ISO & Verify</h2>
+            <ol>
+                <li>Go to the <strong>official ReviOS website: <a href="https://www.revision.gg/" target="_blank">https://www.revision.gg/</a></strong>.</li>
+                <li>Navigate to their downloads section. Choose the version of ReviOS you want to install (e.g., based on Windows 10 or Windows 11, and specific ReviOS build versions).</li>
+                <li>Download the official ISO file.</li>
+                <li>
+                    <p class="important"><strong>Verify the ISO Download (Crucial!):</strong></p>
+                    <ul>
+                        <li>The ReviOS website should provide a checksum (usually SHA256) for the downloaded ISO.</li>
+                        <li>Calculate the SHA256 checksum of your downloaded ISO file using tools like:
+                            <ul>
+                                <li><strong>Windows PowerShell:</strong> <code>Get-FileHash -Algorithm SHA256 /path/to/ReviOS.iso</code></li>
+                                <li><strong>Windows CMD (CertUtil):</strong> <code>CertUtil -hashfile /path/to/ReviOS.iso SHA256</code></li>
+                                <li><strong>Linux/macOS Terminal:</strong> <code>sha256sum /path/to/ReviOS.iso</code></li>
+                            </ul>
+                        </li>
+                        <li>Compare the calculated hash with the official one. They <strong>must match exactly</strong>. If not, your download is corrupted or not genuine; re-download from the official source.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="installation-media">
+            <h2>2. Create Bootable Installation Media (USB Drive)</h2>
+            <p class="warning">The USB flash drive will be completely erased. Back up any data on it.</p>
+            <p>Recommended tool for Windows ISOs:</p>
+            <ul>
+                <li>
+                    <strong><a href="https://rufus.ie/" target="_blank">Rufus</a> (Windows):</strong>
+                    <ol>
+                        <li>Download and run Rufus.</li>
+                        <li>Select your USB drive under "Device".</li>
+                        <li>Click "SELECT" next to "Boot selection" and choose your ReviOS ISO file.</li>
+                        <li><strong>Partition scheme:</strong> Choose "GPT" for modern UEFI systems.</li>
+                        <li><strong>Target system:</strong> Usually auto-selects "UEFI (non CSM)".</li>
+                        <li><strong>File system:</strong> NTFS (default for Windows).</li>
+                        <li>Under "Image option", ensure "Standard Windows installation" is selected.</li>
+                        <li>Rufus might offer options to customize the Windows installation (e.g., remove requirement for online account, disable data collection). ReviOS itself is already heavily tweaked, so you might not need these Rufus options, but you can explore them.</li>
+                        <li>Click "START". Confirm any warnings about data erasure.</li>
+                    </ol>
+                </li>
+                <li>
+                    <strong><a href="https://www.balena.io/etcher/" target="_blank">BalenaEtcher</a> (Windows, macOS, Linux):</strong> Can also be used, though Rufus is often preferred for Windows ISOs due to its specific options.
+                </li>
+            </ul>
+        </section>
+
+        <section id="bios-uefi">
+            <h2>3. BIOS/UEFI Configuration</h2>
+            <ol>
+                <li>Insert the bootable ReviOS USB drive into the target computer.</li>
+                <li><strong>Access BIOS/UEFI Setup:</strong> Turn on or restart. Immediately press the key to enter BIOS/UEFI setup (Common: <code>Delete</code>, <code>F2</code>, <code>F10</code>, <code>F12</code>, <code>Esc</code>).</li>
+                <li><strong>Set Boot Order:</strong> Make the USB drive the first boot device.</li>
+                <li><strong>UEFI vs. Legacy/CSM Mode:</strong>
+                    <ul>
+                        <li>Set to <strong>UEFI Mode</strong>.</li>
+                        <li>Disable "CSM" (Compatibility Support Module) or "Legacy Boot".</li>
+                    </ul>
+                </li>
+                <li>
+                    <p class="important"><strong>Secure Boot:</strong></p>
+                    <ul>
+                        <li>For modified Windows ISOs like ReviOS, Secure Boot usually needs to be <strong>DISABLED</strong>. If enabled, the system may refuse to boot from the custom media.</li>
+                    </ul>
+                </li>
+                <li><strong>SATA Mode:</strong> Set to <strong>AHCI</strong>.</li>
+                <li><strong>Disable Fast Boot/Quick Boot.</strong></li>
+                <li><strong>Save and Exit.</strong></li>
+            </ol>
+        </section>
+
+        <section id="boot-installer">
+            <h2>4. Booting the ReviOS Installer</h2>
+            <ol>
+                <li>The computer will restart and attempt to boot from the USB drive.</li>
+                <li>If successful, you will see the standard Windows Setup loading screen, eventually leading to the Windows Setup interface. It will look very similar to a standard Microsoft Windows installer.</li>
+            </ol>
+        </section>
+
+        <section id="windows-setup">
+            <h2>5. Windows Setup Process (ReviOS)</h2>
+            <p>Follow the on-screen prompts. This process is largely the same as a standard Windows installation:</p>
+            <ol>
+                <li><strong>Language and Preferences:</strong> Select language, time/currency format, keyboard input. Click Next.</li>
+                <li>Click <strong>"Install now"</strong>.</li>
+                <li><strong>Enter Product Key:</strong>
+                    <ul>
+                        <li>Enter your valid Windows product key if you have one for the edition ReviOS is based on.</li>
+                        <li>If you have a digital license tied to your hardware, or want to activate later, you can click "I don't have a product key".</li>
+                    </ul>
+                </li>
+                <li><strong>Select Operating System Edition:</strong> ReviOS ISOs might offer one or more editions (e.g., Pro). Choose the edition that matches your license. Click Next.</li>
+                <li><strong>Accept License Terms:</strong> Check the box to accept Microsoft's Software License Terms.
+                    <p class="note">Note: Using a modified OS like ReviOS may have implications regarding these terms. Proceed with this understanding.</p>
+                    Click Next.
+                </li>
+                <li><strong>Installation Type:</strong>
+                    <ul>
+                        <li>Choose <strong>"Custom: Install Windows only (advanced)"</strong> for a clean install.</li>
+                    </ul>
+                </li>
+                <li><strong>Where do you want to install Windows? (Partitioning):</strong>
+                    <p class="warning"><strong>CRITICAL STEP. Data on selected partitions will be erased.</strong></p>
+                    <ul>
+                        <li>For a clean install: Select each existing partition on the target drive (e.g., "Drive 0 Partition 1") and click "Delete". Repeat until only "Unallocated Space" remains on that drive.</li>
+                        <li>Select the "Unallocated Space" on your target OS drive.</li>
+                        <li>Click <strong>"Next"</strong>. Windows Setup will automatically create necessary partitions.</li>
+                    </ul>
+                </li>
+                <li><strong>Installing Windows:</strong> Setup will copy files and install ReviOS. The computer will restart several times.</li>
+            </ol>
+        </section>
+
+        <section id="oobe">
+            <h2>6. Initial Windows Configuration (OOBE - Out of Box Experience)</h2>
+            <p>After restarts, you'll go through the OOBE. ReviOS aims to streamline this:</p>
+            <ol>
+                <li><strong>Region & Keyboard Layout:</strong> Select as appropriate.</li>
+                <li><strong>Network Connection:</strong> You may be prompted to connect to a network.
+                    <p class="important">To facilitate creating a local account (often preferred with ReviOS), you might choose "I don't have internet" if the option is available, or temporarily disconnect your Ethernet cable / don't connect to Wi-Fi at this stage.</p>
+                </li>
+                <li><strong>Account Setup:</strong>
+                    <ul>
+                        <li>ReviOS often makes it easier or defaults to creating a <strong>Local Account</strong>.</li>
+                        <li>If prompted for a Microsoft Account and you prefer a local one: Try clicking "Offline account," "Limited experience," or if forced into MSA login, try entering a non-existent email (e.g., <code>a@a.com</code>) and a random password multiple times; this sometimes reveals the local account option.</li>
+                        <li>Enter your desired username for the local account and set a password.</li>
+                    </ul>
+                </li>
+                <li><strong>Privacy Settings:</strong> ReviOS may have pre-configured many privacy settings to be more restrictive. Review any options presented.</li>
+                <li><strong>ReviOS Specific Tweaks/Setup:</strong> After the main OOBE, ReviOS might run its own post-install scripts or prompt you to use its "Revision Tool" to apply further customizations, debloating, or enable/disable features. Follow any on-screen prompts from ReviOS itself. This is a key part of its setup.</li>
+            </ol>
+        </section>
+
+        <section id="post-install">
+            <h2>7. Post-Installation Steps</h2>
+            <ol>
+                <li><strong>Install Drivers:</strong>
+                    <ul>
+                        <li>Check Device Manager (right-click Start > Device Manager) for any devices with yellow exclamation marks.</li>
+                        <li>Windows Update might find some drivers.</li>
+                        <li>Download and install drivers from your motherboard and GPU manufacturer's websites (Chipset, LAN, Audio, Graphics).</li>
+                    </ul>
+                </li>
+                <li><strong>Windows Updates:</strong>
+                    <p class="important">Consult ReviOS documentation or community on how it handles Windows Updates. Some modified versions might block certain updates or require specific methods. The "Revision Tool" might have options for update management. Be cautious, as blocking security updates can be risky.</p>
+                    Go to <code>Settings > Update & Security > Windows Update</code> and check for updates if recommended by ReviOS.
+                </li>
+                <li><strong>Activate Windows:</strong>
+                    <ul>
+                        <li>Go to <code>Settings > Update & Security > Activation</code>.</li>
+                        <li>If not automatically activated (e.g., via digital license), click "Change product key" and enter your valid Windows key.</li>
+                    </ul>
+                </li>
+                <li><strong>ReviOS Tools & Customization:</strong>
+                    <ul>
+                        <li>Explore the "Revision Tool" or any other utilities provided by ReviOS to further customize your system, enable/disable components, or apply performance tweaks according to their recommendations.</li>
+                    </ul>
+                </li>
+                <li><strong>Install Your Applications:</strong> Install your preferred web browser, office suite, games, and other software.</li>
+                <li><strong>Create a System Restore Point / Backup:</strong> Once set up, consider creating a system restore point or a full system image backup.</li>
+            </ol>
+        </section>
+
+        <section id="important-considerations">
+            <h2>Important Considerations When Using ReviOS</h2>
+            <ul>
+                <li><strong>Official Source Only:</strong> Again, <strong>ONLY</strong> download from <a href="https://www.revision.gg/" target="_blank">revision.gg</a>.</li>
+                <li><strong>Security Risks:</strong> While ReviOS aims for privacy and performance, any OS modification carries inherent risks if not done perfectly or if the source is compromised.</li>
+                <li><strong>Stability & Compatibility:</strong> Debloating or tweaking system components can sometimes lead to unexpected behavior or compatibility issues with certain software or hardware.</li>
+                <li><strong>Windows Updates:</strong> Understand how ReviOS manages Windows updates. Disabling them entirely or selectively can pose security risks over time. Follow ReviOS community guidance.</li>
+                <li><strong>Microsoft EULA:</strong> Be aware that using modified versions of Windows may be against Microsoft's terms of service.</li>
+                <li><strong>Support:</strong> Support is community-driven (e.g., ReviOS Discord, forums). Microsoft will not support a modified OS.</li>
+                <li><strong>Purpose:</strong> ReviOS is best suited for users who understand the potential trade-offs and are looking for specific optimizations (e.g., gamers, advanced users wanting a leaner system). It may not be ideal for users needing maximum stability for critical work or those unfamiliar with troubleshooting.</li>
+            </ul>
+        </section>
+
+        <section id="troubleshooting">
+            <h2>Troubleshooting Tips</h2>
+            <ul>
+                <li><strong>Installation Fails/Freezes:</strong>
+                    <ul>
+                        <li>Ensure Secure Boot is disabled.</li>
+                        <li>Verify ISO integrity. Re-create USB media, possibly with a different USB drive or tool (Rufus in DD mode can be robust).</li>
+                        <li>Check hardware compatibility (though if standard Windows installs, ReviOS should too).</li>
+                        <li>Basic hardware checks (RAM, disk health).</li>
+                    </ul>
+                </li>
+                <li><strong>Driver Issues:</strong> Common Windows troubleshooting. Download latest drivers from component manufacturers.</li>
+                <li><strong>Application Compatibility:</strong> Some heavily debloated components might cause issues with specific apps. Consult ReviOS community.</li>
+                <li><strong>For ReviOS-Specific Issues:</strong> The primary support channels are the official ReviOS Discord server and their community forums.</li>
+            </ul>
+        </section>
+
+        <section id="disclaimer">
+            <h2>Disclaimer</h2>
+            <p>This guide is provided for informational purposes only. Installing any operating system, especially a modified one like ReviOS, involves risks, including data loss and potential system instability. Proceed entirely at your own risk. Always back up important data.</p>
+            <p>The author of this webpage is not responsible for any damage to your hardware, data loss, software incompatibilities, EULA violations, or other issues that may arise from following this guide or using ReviOS. This is not an official Microsoft product. Refer to the official ReviOS community and documentation for support and the most current information.</p>
+        </section>
+
+    </div>
+
+    <script>
+       
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 70) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+            
+            if (!current && navLinks.length > 0 && sections.length > 0 && pageYOffset < sections[0].offsetTop - 70) {
+                navLinks[0].classList.add('active');
+            } else if (!current && navLinks.length > 0 && sections.length === 0) { 
+                 navLinks[0].classList.add('active');
+            }
+        };
+        
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Beginner's Guide to Java</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code.inline-code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        pre {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9em;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Java Guide</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to Java</a></li>
+            <li><a href="#setting-up">Setting Up Environment</a></li>
+            <li><a href="#first-program">Your First Java Program</a></li>
+            <li><a href="#variables-datatypes">Variables & Data Types</a></li>
+            <li><a href="#operators">Operators</a></li>
+            <li><a href="#input-output">Input and Output</a></li>
+            <li><a href="#control-flow">Control Flow</a></li>
+            <li><a href="#methods">Methods</a></li>
+            <li><a href="#arrays">Arrays</a></li>
+            <li><a href="#oop-core">Object-Oriented Programming</a></li>
+            <li><a href="#exception-handling">Exception Handling</a></li>
+            <li><a href="#collections-intro">Intro to Collections</a></li>
+            <li><a href="#file-io-intro">Intro to File I/O</a></li>
+            <li><a href="#next-steps">Next Steps</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>A Comprehensive Beginner's Guide to Java Programming</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to Java</h2>
+            <p>Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible. It is a general-purpose programming language intended to let application developers "write once, run anywhere" (WORA), meaning that compiled Java code can run on all platforms that support Java without the need for recompilation.</p>
+            <p><strong>Key Features of Java:</strong></p>
+            <ul>
+                <li><strong>Object-Oriented:</strong> In Java, everything is an Object (or can be treated as one).</li>
+                <li><strong>Platform Independent:</strong> Java code is compiled into bytecode, which can be run on any machine that has a Java Virtual Machine (JVM) installed.</li>
+                <li><strong>Statically-Typed:</strong> Variable types are checked at compile-time, leading to more robust code.</li>
+                <li><strong>Robust and Secure:</strong> Java has features like automatic memory management (garbage collection) and exception handling.</li>
+                <li><strong>Multithreaded:</strong> Java supports multithreaded programming, which allows concurrent execution of two or more parts of a program.</li>
+                <li><strong>Rich API:</strong> Java provides a large standard library with a wide range of functionalities.</li>
+            </ul>
+            <p>Java is widely used for developing enterprise-level applications, Android mobile apps, web applications, big data technologies, scientific applications, and more.</p>
+        </section>
+
+        <section id="setting-up">
+            <h2>Setting Up Your Environment</h2>
+            <p>To start programming in Java, you need to install the Java Development Kit (JDK).</p>
+            <h3>1. Installing the JDK</h3>
+            <ol>
+                <li><strong>Download the JDK:</strong> You can download the JDK from Oracle (official, may require an account for older versions or specific licenses) or opt for an OpenJDK distribution like Adoptium (Temurin), Amazon Corretto, or Azul Zulu. For beginners, Adoptium's Temurin is a good choice.
+                    <ul>
+                        <li>Oracle JDK: <a href="https://www.oracle.com/java/technologies/downloads/" target="_blank">oracle.com/java/technologies/downloads/</a></li>
+                        <li>Adoptium (Temurin): <a href="https://adoptium.net/" target="_blank">adoptium.net</a></li>
+                    </ul>
+                </li>
+                <li><strong>Choose a Version:</strong> LTS (Long-Term Support) versions like Java 11, 17, or 21 are generally recommended for stability. The latest non-LTS version is also fine for learning.</li>
+                <li><strong>Install the JDK:</strong> Run the installer and follow the on-screen instructions.
+                    <p class="important">During installation, or afterwards, ensure that the JDK's <code class="path">bin</code> directory is added to your system's PATH environment variable. This allows you to run Java commands from any directory in your terminal. Many installers offer an option to do this automatically.</p>
+                </li>
+                <li><strong>Verify Installation:</strong> Open your terminal or command prompt and type:
+<pre><code class="path">java -version</code></pre>
+                    And also:
+<pre><code class="path">javac -version</code></pre>
+                    You should see the installed Java version printed for both commands. <code class="inline-code">java</code> is the command to run Java applications, and <code class="inline-code">javac</code> is the Java compiler.
+                </li>
+            </ol>
+
+            <h3>2. Choosing an Integrated Development Environment (IDE)</h3>
+            <p>An IDE provides tools like a code editor, debugger, and build automation tools, which greatly simplify Java development.</p>
+            Popular choices for Java:
+            <ul>
+                <li><strong>IntelliJ IDEA:</strong> Very popular and powerful. Has a free Community Edition and a paid Ultimate Edition. <a href="https://www.jetbrains.com/idea/" target="_blank">Download IntelliJ IDEA</a></li>
+                <li><strong>Eclipse IDE for Java Developers:</strong> A long-standing, free, and open-source IDE. <a href="https://www.eclipse.org/downloads/packages/" target="_blank">Download Eclipse</a></li>
+                <li><strong>Visual Studio Code (VS Code) with Java Extensions:</strong> Lightweight editor with excellent Java support through extensions like "Extension Pack for Java" from Microsoft. <a href="https://code.visualstudio.com/" target="_blank">Download VS Code</a></li>
+            </ul>
+            <p>For this guide, examples will be simple enough to compile and run from the terminal, but using an IDE is highly recommended for any real development.</p>
+        </section>
+
+        <section id="first-program">
+            <h2>Your First Java Program: "Hello, World!"</h2>
+            <p>Let's create a simple program that prints "Hello, World!" to the console.</p>
+            <ol>
+                <li><strong>Create a file:</strong> Open your text editor or IDE and create a new file named <code class="inline-code">HelloWorld.java</code>.
+                    <p class="important">In Java, the file name <strong>must</strong> match the public class name defined within the file (case-sensitive).</p>
+                </li>
+                <li><strong>Write the code:</strong>
+<pre><code class="language-java">public class HelloWorld {
+    // The main method is the entry point of any Java application
+    public static void main(String[] args) {
+        // Print "Hello, World!" to the console
+        System.out.println("Hello, World!");
+    }
+}
+</code></pre>
+                </li>
+                <li><strong>Save the file.</strong></li>
+                <li><strong>Compile the code:</strong> Open your terminal or command prompt, navigate to the directory where you saved <code class="inline-code">HelloWorld.java</code>, and type:
+<pre><code class="path">javac HelloWorld.java</code></pre>
+                    If there are no errors, this command will create a new file named <code class="inline-code">HelloWorld.class</code>. This file contains the Java bytecode.
+                </li>
+                <li><strong>Run the program:</strong> In the same terminal, type:
+<pre><code class="path">java HelloWorld</code></pre>
+                    (Note: you do not include the <code class="inline-code">.class</code> extension when running).
+                </li>
+            </ol>
+            <p>You should see the output:</p>
+<pre><code>Hello, World!</code></pre>
+            <p><strong>Explanation:</strong></p>
+            <ul>
+                <li><code class="inline-code">public class HelloWorld</code>: Declares a public class named <code class="inline-code">HelloWorld</code>. All Java code resides within classes.</li>
+                <li><code class="inline-code">public static void main(String[] args)</code>: This is the main method.
+                    <ul>
+                        <li><code class="inline-code">public</code>: It's an access modifier, meaning the method is accessible from any other class.</li>
+                        <li><code class="inline-code">static</code>: Allows the main method to be called without creating an object of the class.</li>
+                        <li><code class="inline-code">void</code>: Indicates that the main method does not return any value.</li>
+                        <li><code class="inline-code">main</code>: This is the default signature recognized by the JVM as the starting point of the program.</li>
+                        <li><code class="inline-code">String[] args</code>: An array of strings that can be used to pass command-line arguments to the program.</li>
+                    </ul>
+                </li>
+                <li><code class="inline-code">System.out.println("Hello, World!");</code>: This line prints the string "Hello, World!" followed by a newline to the console.
+                    <ul>
+                        <li><code class="inline-code">System</code>: A built-in class that provides access to system resources.</li>
+                        <li><code class="inline-code">out</code>: A static member of the <code class="inline-code">System</code> class; it's an instance of <code class="inline-code">PrintStream</code>.</li>
+                        <li><code class="inline-code">println()</code>: A method of <code class="inline-code">PrintStream</code> that prints the argument passed to it.</li>
+                    </ul>
+                </li>
+                <li>Curly braces <code class="inline-code">{}</code> define blocks of code (e.g., class body, method body).</li>
+                <li>Semicolons <code class="inline-code">;</code> terminate statements in Java.</li>
+            </ul>
+        </section>
+
+        <section id="variables-datatypes">
+            <h2>Variables and Data Types</h2>
+            <p>Variables are named memory locations that store data. In Java, you must declare the type of a variable before you can use it (statically-typed).</p>
+
+            <h3>Declaring and Initializing Variables</h3>
+<pre><code class="language-java">// Declaration: type variableName;
+// Initialization: variableName = value;
+// Declaration and Initialization: type variableName = value;
+
+int age = 30;             // Integer type
+double salary = 50000.75;  // Double-precision floating-point type
+char grade = 'A';          // Character type (single quotes)
+boolean isEmployed = true; // Boolean type (true or false)
+String name = "John Doe";  // String type (a sequence of characters, a class, not a primitive)
+
+System.out.println("Name: " + name);
+System.out.println("Age: " + age);
+System.out.println("Is Employed: " + isEmployed);
+</code></pre>
+
+            <h3>Primitive Data Types</h3>
+            <p>Java has eight primitive data types:</p>
+            <ul>
+                <li><strong>byte:</strong> 8-bit signed integer. Range: -128 to 127.
+                    <pre><code class="language-java">byte smallNumber = 100;</code></pre>
+                </li>
+                <li><strong>short:</strong> 16-bit signed integer. Range: -32,768 to 32,767.
+                    <pre><code class="language-java">short mediumNumber = 20000;</code></pre>
+                </li>
+                <li><strong>int:</strong> 32-bit signed integer. Range: -2<sup>31</sup> to 2<sup>31</sup>-1. (Most commonly used integer type).
+                    <pre><code class="language-java">int population = 1000000;</code></pre>
+                </li>
+                <li><strong>long:</strong> 64-bit signed integer. Range: -2<sup>63</sup> to 2<sup>63</sup>-1. Use when <code class="inline-code">int</code> is not large enough. Suffix <code class="inline-code">L</code> or <code class="inline-code">l</code>.
+                    <pre><code class="language-java">long veryLargeNumber = 123456789012L;</code></pre>
+                </li>
+                <li><strong>float:</strong> 32-bit single-precision floating-point number. Suffix <code class="inline-code">F</code> or <code class="inline-code">f</code>.
+                    <pre><code class="language-java">float price = 19.99F;</code></pre>
+                </li>
+                <li><strong>double:</strong> 64-bit double-precision floating-point number. (Default type for decimal numbers).
+                    <pre><code class="language-java">double piValue = 3.1415926535;</code></pre>
+                </li>
+                <li><strong>boolean:</strong> Represents two values: <code class="inline-code">true</code> or <code class="inline-code">false</code>.
+                    <pre><code class="language-java">boolean isActive = false;</code></pre>
+                </li>
+                <li><strong>char:</strong> 16-bit Unicode character. Enclosed in single quotes.
+                    <pre><code class="language-java">char initial = 'J';</code></pre>
+                </li>
+            </ul>
+
+            <h3>Reference Data Types (Non-Primitive)</h3>
+            <p>Reference types refer to objects. They store the memory address of an object.</p>
+            <ul>
+                <li><strong>String:</strong> A sequence of characters. Strings are objects in Java, not primitive types.
+                    <pre><code class="language-java">String greeting = "Hello, Java!";</code></pre>
+                </li>
+                <li><strong>Arrays:</strong> Collections of elements of the same type.</li>
+                <li><strong>Classes, Interfaces, Enums:</strong> User-defined types.</li>
+            </ul>
+            <p>The default value for uninitialized primitive numeric types is 0 (or 0.0), for <code class="inline-code">boolean</code> is <code class="inline-code">false</code>, for <code class="inline-code">char</code> is <code class="inline-code">'\u0000'</code>, and for reference types is <code class="inline-code">null</code>.</p>
+
+            <h3>Type Casting</h3>
+            <p>Converting a value from one data type to another.</p>
+            <ul>
+                <li><strong>Widening Casting (Implicit):</strong> Smaller type to a larger type size. Done automatically.
+                    <pre><code class="language-java">int myInt = 9;
+double myDouble = myInt; // Automatic casting: int to double
+System.out.println(myDouble); // Output: 9.0</code></pre>
+                </li>
+                <li><strong>Narrowing Casting (Explicit):</strong> Larger type to a smaller size type. Must be done manually by placing the type in parentheses. Risk of data loss.
+                    <pre><code class="language-java">double preciseDouble = 9.78;
+int castedInt = (int) preciseDouble; // Manual casting: double to int
+System.out.println(castedInt); // Output: 9 (fractional part lost)</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="operators">
+            <h2>Operators</h2>
+            <p>Operators perform operations on variables and values.</p>
+            <h3>1. Arithmetic Operators</h3>
+            <ul>
+                <li><code class="inline-code">+</code> (Addition), <code class="inline-code">-</code> (Subtraction), <code class="inline-code">*</code> (Multiplication), <code class="inline-code">/</code> (Division), <code class="inline-code">%</code> (Modulus - remainder)</li>
+                <li><code class="inline-code">++</code> (Increment: increases value by 1), <code class="inline-code">--</code> (Decrement: decreases value by 1)</li>
+            </ul>
+<pre><code class="language-java">int a = 10, b = 3;
+System.out.println("a + b = " + (a + b)); // 13
+System.out.println("a / b = " + (a / b)); // 3 (integer division)
+System.out.println("a % b = " + (a % b)); // 1
+
+int c = 5;
+c++; // c becomes 6
+System.out.println("c = " + c);
+</code></pre>
+            <h3>2. Relational (Comparison) Operators</h3>
+            <p>Return <code class="inline-code">true</code> or <code class="inline-code">false</code>.</p>
+            <ul>
+                <li><code class="inline-code">==</code> (Equal to), <code class="inline-code">!=</code> (Not equal to), <code class="inline-code">></code> (Greater than), <code class="inline-code"><</code> (Less than), <code class="inline-code">>=</code> (Greater than or equal to), <code class="inline-code"><=</code> (Less than or equal to)</li>
+            </ul>
+<pre><code class="language-java">int x = 5, y = 10;
+System.out.println("x == y: " + (x == y)); // false
+System.out.println("x < y: " + (x < y));   // true
+</code></pre>
+            <h3>3. Logical Operators</h3>
+            <ul>
+                <li><code class="inline-code">&&</code> (Logical AND), <code class="inline-code">||</code> (Logical OR), <code class="inline-code">!</code> (Logical NOT)</li>
+            </ul>
+<pre><code class="language-java">boolean condition1 = true;
+boolean condition2 = false;
+System.out.println("condition1 && condition2: " + (condition1 && condition2)); // false
+System.out.println("!condition2: " + (!condition2)); // true
+</code></pre>
+            <h3>4. Assignment Operators</h3>
+            <ul>
+                <li><code class="inline-code">=</code>, <code class="inline-code">+=</code>, <code class="inline-code">-=</code>, <code class="inline-code">*=</code>, <code class="inline-code">/=</code>, <code class="inline-code">%=</code></li>
+            </ul>
+<pre><code class="language-java">int score = 0;
+score += 10; // score is now 10 (same as score = score + 10)
+System.out.println("Score: " + score);
+</code></pre>
+            <h3>5. Ternary Operator</h3>
+            <p>A shorthand for an <code class="inline-code">if-else</code> statement.</p>
+            <p><code class="inline-code">variable = (condition) ? expressionTrue : expressionFalse;</code></p>
+<pre><code class="language-java">int time = 20;
+String result = (time < 18) ? "Good day." : "Good evening.";
+System.out.println(result); // Output: Good evening.
+</code></pre>
+        </section>
+
+        <section id="input-output">
+            <h2>Input and Output</h2>
+            <h3>Output</h3>
+            <p>We've already seen <code class="inline-code">System.out.println()</code> for printing output followed by a newline.</p>
+            <ul>
+                <li><code class="inline-code">System.out.print()</code>: Prints output without a newline.</li>
+                <li><code class="inline-code">System.out.printf()</code>: Prints formatted output (similar to C's printf).</li>
+            </ul>
+<pre><code class="language-java">System.out.print("Hello, ");
+System.out.print("Java!\n"); // \n for newline
+
+String name = "Alice";
+int age = 25;
+System.out.printf("Name: %s, Age: %d\n", name, age); // %s for string, %d for integer
+</code></pre>
+
+            <h3>Input using <code class="inline-code">Scanner</code></h3>
+            <p>The <code class="inline-code">Scanner</code> class (from <code class="inline-code">java.util</code> package) is used to get user input.</p>
+<pre><code class="language-java">import java.util.Scanner; // Import the Scanner class
+
+public class UserInput {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in); // Create a Scanner object
+
+        System.out.print("Enter your name: ");
+        String userName = scanner.nextLine();  // Read a full line of text
+
+        System.out.print("Enter your age: ");
+        int userAge = scanner.nextInt();    // Read an integer
+
+        System.out.print("Enter your salary: ");
+        double userSalary = scanner.nextDouble(); // Read a double
+
+        System.out.println("\nUser Details:");
+        System.out.println("Name: " + userName);
+        System.out.println("Age: " + userAge);
+        System.out.println("Salary: " + userSalary);
+
+        scanner.close(); // Close the scanner to release resources
+    }
+}
+</code></pre>
+            <p class="warning">After reading a number with <code class="inline-code">nextInt()</code>, <code class="inline-code">nextDouble()</code>, etc., if you then try to read a line with <code class="inline-code">nextLine()</code>, the <code class="inline-code">nextLine()</code> might consume the leftover newline character from the previous input. A common fix is to add an extra <code class="inline-code">scanner.nextLine();</code> call after reading a number and before reading a line.</p>
+        </section>
+
+        <section id="control-flow">
+            <h2>Control Flow</h2>
+            <p>Control flow statements dictate the order in which statements are executed.</p>
+
+            <h3>1. Conditional Statements</h3>
+            <h4>a) <code class="inline-code">if-else if-else</code></h4>
+<pre><code class="language-java">int score = 85;
+char grade;
+
+if (score >= 90) {
+    grade = 'A';
+} else if (score >= 80) {
+    grade = 'B';
+} else if (score >= 70) {
+    grade = 'C';
+} else {
+    grade = 'D';
+}
+System.out.println("Grade: " + grade); // Output: Grade: B
+</code></pre>
+            <h4>b) <code class="inline-code">switch</code> statement</h4>
+            <p>Used for selecting one of many code blocks to be executed. Works with <code class="inline-code">byte</code>, <code class="inline-code">short</code>, <code class="inline-code">char</code>, <code class="inline-code">int</code>, <code class="inline-code">String</code> (since Java 7), and enums.</p>
+<pre><code class="language-java">int day = 4;
+String dayName;
+
+switch (day) {
+    case 1:
+        dayName = "Monday";
+        break;
+    case 2:
+        dayName = "Tuesday";
+        break;
+    case 3:
+        dayName = "Wednesday";
+        break;
+    case 4:
+        dayName = "Thursday";
+        break;
+    // ... other cases
+    default:
+        dayName = "Invalid day";
+        break; // break in default is optional if it's the last statement
+}
+System.out.println(dayName); // Output: Thursday
+</code></pre>
+            <p class="important">Don't forget the <code class="inline-code">break</code> statement in each <code class="inline-code">case</code>. Without it, execution "falls through" to the next case.</p>
+
+            <h3>2. Looping Statements</h3>
+            <h4>a) <code class="inline-code">for</code> loop</h4>
+<pre><code class="language-java">// Traditional for loop
+for (int i = 0; i < 5; i++) { // (initialization; condition; update)
+    System.out.println("Iteration: " + i);
+}
+// Output: Iteration: 0 to Iteration: 4
+</code></pre>
+            <h4>b) Enhanced <code class="inline-code">for</code> loop (for-each loop)</h4>
+            <p>Used for iterating over arrays or collections.</p>
+<pre><code class="language-java">String[] fruits = {"Apple", "Banana", "Cherry"};
+for (String fruit : fruits) {
+    System.out.println(fruit);
+}
+// Output: Apple, Banana, Cherry
+</code></pre>
+            <h4>c) <code class="inline-code">while</code> loop</h4>
+<pre><code class="language-java">int count = 0;
+while (count < 3) {
+    System.out.println("Count is: " + count);
+    count++;
+}
+// Output: Count is: 0 to Count is: 2
+</code></pre>
+            <h4>d) <code class="inline-code">do-while</code> loop</h4>
+            <p>Executes the code block at least once, then checks the condition.</p>
+<pre><code class="language-java">int num = 5;
+do {
+    System.out.println("Number (do-while): " + num);
+    num++;
+} while (num < 5); // Condition is false initially, but loop runs once
+// Output: Number (do-while): 5
+</code></pre>
+
+            <h3>3. Loop Control Statements</h3>
+            <ul>
+                <li><code class="inline-code">break</code>: Exits the loop.</li>
+                <li><code class="inline-code">continue</code>: Skips the current iteration and proceeds to the next.</li>
+            </ul>
+<pre><code class="language-java">for (int i = 0; i < 10; i++) {
+    if (i == 4) {
+        continue; // Skip iteration when i is 4
+    }
+    if (i == 7) {
+        break;    // Exit loop when i is 7
+    }
+    System.out.print(i + " "); // Output: 0 1 2 3 5 6
+}
+System.out.println();
+</code></pre>
+        </section>
+
+        <section id="methods">
+            <h2>Methods</h2>
+            <p>A method is a block of code that performs a specific task. It runs only when it is called. You can pass data, known as parameters, into a method.</p>
+            <h3>Defining and Calling Methods</h3>
+<pre><code class="language-java">public class MethodExample {
+
+    // Method without parameters and no return value
+    public static void greet() {
+        System.out.println("Hello from the greet method!");
+    }
+
+    // Method with parameters and a return value
+    public static int add(int num1, int num2) {
+        int sum = num1 + num2;
+        return sum; // Returns the sum
+    }
+
+    // Method with parameters and no return value
+    public static void printInfo(String name, int age) {
+        System.out.println("Name: " + name + ", Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        greet(); // Calling the greet method
+
+        int result = add(5, 3); // Calling add and storing the returned value
+        System.out.println("Sum: " + result); // Output: Sum: 8
+
+        printInfo("Alice", 30); // Calling printInfo
+    }
+}
+</code></pre>
+            <p><strong>Method Signature:</strong> Consists of the method name and the parameter list (number, type, and order of parameters).</p>
+            <p><strong>Return Type:</strong> The data type of the value returned by the method. Use <code class="inline-code">void</code> if the method does not return a value.</p>
+            <p><strong>Access Modifiers:</strong> (e.g., <code class="inline-code">public</code>, <code class="inline-code">private</code>) control visibility. <code class="inline-code">static</code> means the method belongs to the class, not an object instance.</p>
+
+            <h3>Method Overloading</h3>
+            <p>Allows multiple methods to have the same name but different parameter lists (different number of parameters, or different types of parameters, or different order).</p>
+<pre><code class="language-java">public class OverloadingExample {
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    public static double add(double a, double b) {
+        return a + b;
+    }
+
+    public static int add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(add(5, 10));        // Calls first add method
+        System.out.println(add(3.5, 2.5));     // Calls second add method
+        System.out.println(add(1, 2, 3));      // Calls third add method
+    }
+}
+</code></pre>
+        </section>
+
+        <section id="arrays">
+            <h2>Arrays</h2>
+            <p>Arrays are used to store multiple values of the same type in a single variable. The size of an array is fixed once it's created.</p>
+            <h3>Declaring and Initializing Arrays</h3>
+<pre><code class="language-java">// Declaration
+int[] numbers;
+String[] names;
+
+// Instantiation (allocating memory)
+numbers = new int[5]; // An array of 5 integers (indices 0-4)
+names = new String[3]; // An array of 3 Strings
+
+// Initialization
+numbers[0] = 10;
+numbers[1] = 20;
+// ... numbers[4] = 50;
+
+// Declaration, Instantiation, and Initialization (Array Literal)
+int[] scores = {85, 90, 77, 92, 80};
+String[] days = {"Monday", "Tuesday", "Wednesday"};
+
+// Accessing elements (zero-indexed)
+System.out.println("First score: " + scores[0]); // Output: First score: 85
+System.out.println("Second day: " + days[1]);  // Output: Second day: Tuesday
+
+// Modifying elements
+scores[0] = 88;
+System.out.println("New first score: " + scores[0]); // Output: New first score: 88
+
+// Array length
+System.out.println("Number of scores: " + scores.length); // Output: Number of scores: 5
+</code></pre>
+
+            <h3>Looping Through Arrays</h3>
+<pre><code class="language-java">int[] data = {2, 4, 6, 8, 10};
+
+// Using traditional for loop
+System.out.print("Data (traditional for): ");
+for (int i = 0; i < data.length; i++) {
+    System.out.print(data[i] + " ");
+}
+System.out.println();
+
+// Using enhanced for loop (for-each)
+System.out.print("Data (enhanced for): ");
+for (int element : data) {
+    System.out.print(element + " ");
+}
+System.out.println();
+</code></pre>
+
+            <h3>Multi-dimensional Arrays</h3>
+            <p>Arrays of arrays.</p>
+<pre><code class="language-java">int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+System.out.println("Element at row 1, col 2: " + matrix[1][2]); // Output: 6 (0-indexed)
+
+// Looping through a 2D array
+for (int i = 0; i < matrix.length; i++) {         // Iterate through rows
+    for (int j = 0; j < matrix[i].length; j++) {  // Iterate through columns in current row
+        System.out.print(matrix[i][j] + "\t");
+    }
+    System.out.println();
+}
+</code></pre>
+        </section>
+
+        <section id="oop-core">
+            <h2>Object-Oriented Programming (OOP) in Java</h2>
+            <p>Java is fundamentally an object-oriented language. OOP concepts help in building modular, reusable, and maintainable software.</p>
+
+            <h3>1. Classes and Objects</h3>
+            <ul>
+                <li><strong>Class:</strong> A blueprint or template for creating objects. It defines attributes (data/fields) and methods (behavior).</li>
+                <li><strong>Object:</strong> An instance of a class. It has its own state (values of attributes) and behavior (defined by methods).</li>
+            </ul>
+<pre><code class="language-java">// Define a class 'Dog'
+class Dog {
+    // Attributes (instance variables / fields)
+    String name;
+    String breed;
+    int age;
+
+    // Constructor: Special method to initialize objects
+    public Dog(String name, String breed, int age) {
+        this.name = name; // 'this' refers to the current object
+        this.breed = breed;
+        this.age = age;
+        System.out.println(this.name + " the " + this.breed + " is created!");
+    }
+
+    // Method (behavior)
+    public void bark() {
+        System.out.println(name + " says: Woof woof!");
+    }
+
+    public void displayDetails() {
+        System.out.println("Name: " + name + ", Breed: " + breed + ", Age: " + age);
+    }
+}
+
+// Main class to run the example
+public class DogDemo {
+    public static void main(String[] args) {
+        // Create Dog objects (instances of the Dog class)
+        Dog dog1 = new Dog("Buddy", "Golden Retriever", 3); // 'new' keyword creates an object
+        Dog dog2 = new Dog("Lucy", "Poodle", 5);
+
+        // Access attributes (generally not recommended directly, use getters/setters)
+        // System.out.println(dog1.name + " is " + dog1.age + " years old.");
+
+        // Call methods
+        dog1.bark();
+        dog2.bark();
+
+        dog1.displayDetails();
+        dog2.displayDetails();
+    }
+}
+</code></pre>
+            <p class="important">Save the above code in two files: <code class="inline-code">Dog.java</code> and <code class="inline-code">DogDemo.java</code>, or combine them in one file named <code class="inline-code">DogDemo.java</code> if `Dog` is not public (or is an inner class). For simplicity, if `Dog` is a top-level class, it should be in its own `Dog.java` file if it's public. If combined, only one top-level class can be `public` and must match the filename.</p>
+
+            <h3>2. Encapsulation</h3>
+            <p>Bundling data (attributes) and methods that operate on the data within a single unit (class). It also involves restricting direct access to some of an object's components (data hiding).</p>
+            <p>Achieved using <strong>access modifiers</strong> and <strong>getter/setter methods</strong>.</p>
+            <ul>
+                <li><code class="inline-code">public</code>: Accessible from any other class.</li>
+                <li><code class="inline-code">private</code>: Accessible only within the declared class.</li>
+                <li><code class="inline-code">protected</code>: Accessible within the same package and by subclasses.</li>
+                <li>Default (no modifier): Accessible only within the same package.</li>
+            </ul>
+<pre><code class="language-java">class Person {
+    private String name; // Private attribute
+    private int age;     // Private attribute
+
+    // Constructor
+    public Person(String name, int age) {
+        this.name = name;
+        setAge(age); // Use setter for validation
+    }
+
+    // Getter for name
+    public String getName() {
+        return name;
+    }
+
+    // Setter for name
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Getter for age
+    public int getAge() {
+        return age;
+    }
+
+    // Setter for age (with validation)
+    public void setAge(int age) {
+        if (age > 0) {
+            this.age = age;
+        } else {
+            System.out.println("Age must be positive.");
+            this.age = 0; // Default or handle error
+        }
+    }
+}
+
+public class EncapsulationDemo {
+    public static void main(String[] args) {
+        Person person1 = new Person("Alice", 30);
+        System.out.println("Name: " + person1.getName()); // Access via getter
+        // person1.age = -5; // Error: age has private access
+
+        person1.setAge(-5); // Tries to set invalid age
+        System.out.println("Age: " + person1.getAge()); // Will be 0 or show error msg
+        person1.setAge(31);
+        System.out.println("New Age: " + person1.getAge());
+    }
+}
+</code></pre>
+
+            <h3>3. Inheritance</h3>
+            <p>Allows a new class (subclass or child class) to inherit attributes and methods from an existing class (superclass or parent class). Promotes code reuse.</p>
+            <p>Uses the <code class="inline-code">extends</code> keyword.</p>
+<pre><code class="language-java">// Superclass
+class Animal {
+    String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    public void eat() {
+        System.out.println(name + " is eating.");
+    }
+
+    public void makeSound() {
+        System.out.println(name + " makes a sound.");
+    }
+}
+
+// Subclass inheriting from Animal
+class Cat extends Animal {
+    public Cat(String name) {
+        super(name); // Calls the constructor of the superclass (Animal)
+    }
+
+    // Overriding the makeSound method from Animal
+    @Override // Good practice annotation
+    public void makeSound() {
+        System.out.println(name + " says: Meow!");
+    }
+
+    public void purr() {
+        System.out.println(name + " is purring.");
+    }
+}
+
+public class InheritanceDemo {
+    public static void main(String[] args) {
+        Animal myAnimal = new Animal("Generic Animal");
+        myAnimal.eat();
+        myAnimal.makeSound();
+
+        Cat myCat = new Cat("Whiskers");
+        myCat.eat();         // Inherited from Animal
+        myCat.makeSound();   // Overridden in Cat
+        myCat.purr();        // Specific to Cat
+    }
+}
+</code></pre>
+            <p><code class="inline-code">super</code> keyword is used to call superclass constructors or methods.</p>
+            <p><code class="inline-code">@Override</code> annotation indicates that a method is intended to override a method in a superclass. Helps catch errors if the signature doesn't match.</p>
+
+            <h3>4. Polymorphism ("Many Forms")</h3>
+            <p>The ability of an object to take on many forms. In Java, it often refers to a superclass reference variable holding a subclass object.</p>
+            <p>Allows you to perform a single action in different ways.</p>
+            <ul>
+                <li><strong>Compile-time Polymorphism (Method Overloading):</strong> Already covered in the Methods section.</li>
+                <li><strong>Run-time Polymorphism (Method Overriding):</strong> When a subclass provides a specific implementation for a method already defined in its superclass. The actual method executed is determined at runtime based on the object's type.</li>
+            </ul>
+<pre><code class="language-java">// Using Animal and Cat classes from Inheritance example
+
+public class PolymorphismDemo {
+    public static void main(String[] args) {
+        Animal animal1 = new Animal("Creature");
+        Animal animal2 = new Cat("Tom"); // Superclass reference, Subclass object
+
+        animal1.makeSound(); // Calls Animal's makeSound
+        animal2.makeSound(); // Calls Cat's makeSound (Runtime Polymorphism)
+
+        // animal2.purr(); // Error: purr() is not in Animal class.
+        // To call purr(), you need to cast animal2 to Cat type
+        if (animal2 instanceof Cat) {
+            Cat tomCat = (Cat) animal2; // Downcasting
+            tomCat.purr();
+        }
+    }
+}
+</code></pre>
+
+            <h3>5. Abstraction (Brief)</h3>
+            <p>Hiding complex implementation details and showing only essential features of the object.</p>
+            <p>Achieved using <strong>abstract classes</strong> and <strong>interfaces</strong>.</p>
+            <ul>
+                <li><strong>Abstract Class:</strong> Cannot be instantiated. Can have abstract methods (methods without a body) and concrete methods. Subclasses must implement abstract methods.
+<pre><code class="language-java">abstract class Shape {
+    public abstract double area(); // Abstract method
+    public void display() { System.out.println("This is a shape."); }
+}
+
+class Circle extends Shape {
+    double radius;
+    public Circle(double r) { this.radius = r; }
+    @Override
+    public double area() { return Math.PI * radius * radius; }
+}
+</code></pre>
+                </li>
+                <li><strong>Interface:</strong> A completely abstract "class" that can only contain abstract methods (by default, pre-Java 8) and static final constants. A class can <code class="inline-code">implement</code> multiple interfaces. (Java 8+ allows default and static methods in interfaces).
+<pre><code class="language-java">interface Drawable {
+    void draw(); // Abstract method (public abstract by default)
+}
+
+class Rectangle implements Drawable {
+    @Override
+    public void draw() { System.out.println("Drawing a rectangle."); }
+}
+</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="exception-handling">
+            <h2>Exception Handling</h2>
+            <p>An exception is an event that occurs during the execution of a program that disrupts the normal flow of instructions. Java provides a robust mechanism to handle exceptions using <code class="inline-code">try-catch-finally</code> blocks.</p>
+<pre><code class="language-java">public class ExceptionExample {
+    public static void main(String[] args) {
+        try {
+            // Code that might throw an exception
+            int[] numbers = {1, 2, 3};
+            System.out.println(numbers[5]); // ArrayIndexOutOfBoundsException
+            
+            // int result = 10 / 0; // ArithmeticException
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("Error: Array index is out of bounds.");
+            // e.printStackTrace(); // Prints stack trace for debugging
+        } catch (ArithmeticException e) {
+            System.err.println("Error: Cannot divide by zero.");
+        } catch (Exception e) { // Generic catch block (catches any other exception)
+            System.err.println("An unexpected error occurred: " + e.getMessage());
+        } finally {
+            // This block is always executed, whether an exception occurred or not.
+            // Useful for cleanup (e.g., closing files, database connections).
+            System.out.println("The 'finally' block is executed.");
+        }
+        System.out.println("Program continues after exception handling.");
+    }
+}
+</code></pre>
+            <p><strong>Keywords:</strong></p>
+            <ul>
+                <li><code class="inline-code">try</code>: The block of code to be monitored for exceptions.</li>
+                <li><code class="inline-code">catch</code>: Catches and handles a specific type of exception. Multiple <code class="inline-code">catch</code> blocks can be used.</li>
+                <li><code class="inline-code">finally</code>: Always executed. Optional.</li>
+                <li><code class="inline-code">throw</code>: Used to manually throw an exception.</li>
+                <li><code class="inline-code">throws</code>: Used in a method signature to declare exceptions that the method might throw (and doesn't handle itself).</li>
+            </ul>
+        </section>
+
+        <section id="collections-intro">
+            <h2>Brief Introduction to Java Collections Framework</h2>
+            <p>The Java Collections Framework (JCF) provides a set of interfaces and classes to represent and manipulate collections of objects, like lists, sets, and maps. It offers more flexibility and functionality than basic arrays.</p>
+            <p class="important">This is a large topic. Here's a very brief overview of common interfaces:</p>
+            <ul>
+                <li><strong>List:</strong> An ordered collection (sequence) that allows duplicate elements.
+                    <ul>
+                        <li>Common implementation: <code class="inline-code">ArrayList</code> (dynamic array), <code class="inline-code">LinkedList</code>.</li>
+                    </ul>
+<pre><code class="language-java">import java.util.ArrayList;
+import java.util.List;
+
+public class ListExample {
+    public static void main(String[] args) {
+        List&lt;String&gt; names = new ArrayList&lt;&gt;(); // Using Generics for type safety
+        names.add("Alice");
+        names.add("Bob");
+        names.add("Charlie");
+        names.add("Alice"); // Duplicates allowed
+
+        System.out.println(names); // Output: [Alice, Bob, Charlie, Alice]
+        System.out.println("Element at index 1: " + names.get(1)); // Bob
+
+        for (String name : names) {
+            System.out.println(name);
+        }
+    }
+}
+</code></pre>
+                </li>
+                <li><strong>Set:</strong> A collection that does not allow duplicate elements.
+                    <ul>
+                        <li>Common implementations: <code class="inline-code">HashSet</code> (unordered), <code class="inline-code">TreeSet</code> (sorted).</li>
+                    </ul>
+<pre><code class="language-java">import java.util.HashSet;
+import java.util.Set;
+
+public class SetExample {
+    public static void main(String[] args) {
+        Set&lt;Integer&gt; numbers = new HashSet&lt;&gt;();
+        numbers.add(10);
+        numbers.add(20);
+        numbers.add(10); // Duplicate, will not be added
+        numbers.add(30);
+
+        System.out.println(numbers); // Output: e.g., [20, 10, 30] (order not guaranteed for HashSet)
+    }
+}
+</code></pre>
+                </li>
+                <li><strong>Map:</strong> A collection that stores key-value pairs. Keys must be unique.
+                    <ul>
+                        <li>Common implementations: <code class="inline-code">HashMap</code> (unordered), <code class="inline-code">TreeMap</code> (sorted by key).</li>
+                    </ul>
+<pre><code class="language-java">import java.util.HashMap;
+import java.util.Map;
+
+public class MapExample {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; studentScores = new HashMap&lt;&gt;();
+        studentScores.put("Alice", 95);
+        studentScores.put("Bob", 88);
+        studentScores.put("Charlie", 92);
+        studentScores.put("Alice", 98); // Updates Alice's score
+
+        System.out.println(studentScores); // Output: e.g., {Bob=88, Alice=98, Charlie=92}
+        System.out.println("Bob's score: " + studentScores.get("Bob"));
+
+        for (Map.Entry&lt;String, Integer&gt; entry : studentScores.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+}
+</code></pre>
+                </li>
+            </ul>
+            <p>Using <strong>Generics</strong> (e.g., <code class="inline-code">List&lt;String&gt;</code>) provides type safety at compile time.</p>
+        </section>
+
+         <section id="file-io-intro">
+            <h2>Brief Introduction to File I/O</h2>
+            <p>Java provides classes in the <code class="inline-code">java.io</code> package for file input and output operations.</p>
+            <p class="important">Always handle <code class="inline-code">IOException</code> when working with files.</p>
+            <h3>Writing to a File</h3>
+<pre><code class="language-java">import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
+public class WriteToFile {
+    public static void main(String[] args) {
+        String fileName = "output.txt";
+        // Try-with-resources statement ensures the writer is closed automatically
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write("Hello from Java File I/O!");
+            writer.newLine(); // Writes a platform-dependent line separator
+            writer.write("This is the second line.");
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+            // e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+            <h3>Reading from a File</h3>
+<pre><code class="language-java">import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+
+public class ReadFromFile {
+    public static void main(String[] args) {
+        String fileName = "output.txt"; // Assuming this file was created by WriteToFile
+        // Try-with-resources
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            System.out.println("Content of the file:");
+            while ((line = reader.readLine()) != null) { // Read line by line
+                System.out.println(line);
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: File not found - " + fileName);
+        } catch (IOException e) {
+            System.err.println("An error occurred while reading the file: " + e.getMessage());
+        }
+    }
+}
+</code></pre>
+            <p>The <strong>try-with-resources</strong> statement (introduced in Java 7) is highly recommended as it automatically closes resources (like file streams) when the block is exited, even if exceptions occur.</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>Congratulations on working through this beginner's guide to Java! You've covered the foundational concepts.</p>
+            <p>To continue your Java journey:</p>
+            <ul>
+                <li><strong>Practice Vigorously:</strong> Solve coding problems on platforms like HackerRank, LeetCode, Codewars, or CodingBat (specifically for Java).</li>
+                <li><strong>Build Small Projects:</strong>
+                    <ul>
+                        <li>Command-line calculator.</li>
+                        <li>Simple To-Do list application.</li>
+                        <li>Basic inventory management system.</li>
+                        <li>Text-based adventure game.</li>
+                    </ul>
+                </li>
+                <li><strong>Deepen OOP Understanding:</strong> Explore design patterns, advanced inheritance concepts (e.g., abstract classes vs. interfaces in depth), polymorphism in various scenarios.</li>
+                <li><strong>Master the Java Collections Framework:</strong> Learn about different collection types, their performance characteristics, and utility classes like <code class="inline-code">Collections</code> and <code class="inline-code">Arrays</code>.</li>
+                <li><strong>Explore Java's Standard Library (API):</strong> Familiarize yourself with packages like <code class="inline-code">java.time</code> (for dates and times), <code class="inline-code">java.net</code> (for networking), <code class="inline-code">java.math</code> (for <code class="inline-code">BigDecimal</code>, <code class="inline-code">BigInteger</code>).</li>
+                <li><strong>Learn about Java Build Tools:</strong> Maven or Gradle are essential for managing dependencies and building larger projects.</li>
+                <li><strong>Explore Java Frameworks and Technologies:</strong>
+                    <ul>
+                        <li><strong>Spring Framework / Spring Boot:</strong> For building robust enterprise and web applications.</li>
+                        <li><strong>Java EE / Jakarta EE:</strong> For enterprise applications.</li>
+                        <li><strong>Android Development:</strong> Java (or Kotlin) is a primary language for Android apps.</li>
+                        <li><strong>GUI Development:</strong> JavaFX or Swing (Swing is older).</li>
+                    </ul>
+                </li>
+                <li><strong>Concurrency and Multithreading:</strong> Understand how Java handles multiple threads of execution.</li>
+                <li><strong>Lambda Expressions and Streams API (Java 8+):</strong> For more modern, functional-style programming.</li>
+                <li><strong>Read Books and Follow Advanced Courses:</strong> "Effective Java" by Joshua Bloch is a classic for more experienced developers. Many online platforms offer intermediate and advanced Java courses.</li>
+            </ul>
+            <p class="important">The Java ecosystem is vast. Focus on building a strong foundation and then specialize based on your interests.</p>
+            <p>Happy coding in Java!</p>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        function activateInitialLink() {
+            const hash = window.location.hash;
+            let activeLinkFound = false;
+            if (hash) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                        activeLinkFound = true;
+                    }
+                });
+            }
+            if (!activeLinkFound && navLinks.length > 0) {
+                navLinks[0].classList.add('active'); 
+            }
+        }
+        activateInitialLink();
+        window.addEventListener('hashchange', activateInitialLink); 
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

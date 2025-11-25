@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Beginner's Guide to HTML</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code.inline-code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e; 
+        }
+        pre {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9em;
+            border: 1px solid #ccc;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+            color: #333; 
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>HTML Guide</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to HTML</a></li>
+            <li><a href="#setting-up">Setting Up</a></li>
+            <li><a href="#doc-structure">Document Structure</a></li>
+            <li><a href="#elements-tags">Elements & Tags</a></li>
+            <li><a href="#attributes">Attributes</a></li>
+            <li><a href="#headings-paragraphs">Headings & Paragraphs</a></li>
+            <li><a href="#text-formatting">Text Formatting</a></li>
+            <li><a href="#links">Links (Hyperlinks)</a></li>
+            <li><a href="#images">Images</a></li>
+            <li><a href="#lists">Lists</a></li>
+            <li><a href="#tables">Tables</a></li>
+            <li><a href="#forms-intro">Forms (Introduction)</a></li>
+            <li><a href="#semantic-html">Semantic HTML</a></li>
+            <li><a href="#comments">Comments</a></li>
+            <li><a href="#entities">HTML Entities</a></li>
+            <li><a href="#next-steps">Next Steps</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>A Comprehensive Beginner's Guide to HTML</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to HTML</h2>
+            <p>HTML stands for <strong>HyperText Markup Language</strong>. It is the standard markup language used to create and design web pages and web applications. HTML describes the structure of a web page semantically and originally included cues for the appearance of the document.</p>
+            <p><strong>Key characteristics of HTML:</strong></p>
+            <ul>
+                <li><strong>Markup Language:</strong> It uses "tags" to mark up or annotate text, images, and other content for display in a web browser.</li>
+                <li><strong>Structure of Web Pages:</strong> HTML forms the backbone or skeleton of a web page, defining elements like headings, paragraphs, links, images, etc.</li>
+                <li><strong>Not a Programming Language:</strong> HTML is a markup language, not a programming language. It doesn't have logic like conditional statements or loops. For dynamic content and interactivity, it's used with CSS and JavaScript.</li>
+                <li><strong>Interpreted by Browsers:</strong> Web browsers (like Chrome, Firefox, Safari) read HTML documents and render them into visible or audible web pages.</li>
+            </ul>
+            <p>Learning HTML is the first essential step for anyone aspiring to be a web developer or to understand how websites are built.</p>
+        </section>
+
+        <section id="setting-up">
+            <h2>Setting Up Your Environment</h2>
+            <p>The good news is you don't need much to start writing HTML!</p>
+            <h3>1. Text Editor</h3>
+            <p>You can write HTML in any plain text editor. However, using a code editor will provide features like syntax highlighting, code completion, and better file management, making your life easier.</p>
+            Popular choices:
+            <ul>
+                <li><strong>Visual Studio Code (VS Code):</strong> Free, powerful, and highly popular. <a href="https://code.visualstudio.com/" target="_blank">Download VS Code</a></li>
+                <li><strong>Sublime Text:</strong> Lightweight and fast. <a href="https://www.sublimetext.com/" target="_blank">Download Sublime Text</a></li>
+                <li><strong>Atom:</strong> Free and open-source, developed by GitHub. <a href="https://atom.io/" target="_blank">Download Atom</a></li>
+                <li><strong>Notepad++ (Windows):</strong> A free, lightweight code editor for Windows. <a href="https://notepad-plus-plus.org/" target="_blank">Download Notepad++</a></li>
+                <li>Basic text editors like Notepad (Windows) or TextEdit (Mac - ensure it's in plain text mode) can also be used.</li>
+            </ul>
+            <h3>2. Web Browser</h3>
+            <p>You'll need a web browser to view your HTML pages. Any modern browser will work:</p>
+            <ul>
+                <li>Google Chrome</li>
+                <li>Mozilla Firefox</li>
+                <li>Microsoft Edge</li>
+                <li>Safari (macOS)</li>
+            </ul>
+            <p>That's it! No compilers or complex installations are required for HTML itself.</p>
+        </section>
+
+        <section id="doc-structure">
+            <h2>Basic HTML Document Structure</h2>
+            <p>Every HTML document follows a basic structure. Here's a minimal example:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My First Web Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- Content visible to users goes here --&gt;
+    &lt;h1&gt;Hello, World!&lt;/h1&gt;
+    &lt;p&gt;This is my first paragraph.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+            <p><strong>Explanation of the structure:</strong></p>
+            <ul>
+                <li><code class="inline-code">&lt;!DOCTYPE html&gt;</code>: This declaration defines that the document is an HTML5 document. It must be the very first thing in your HTML document, before any HTML tags. It is not an HTML tag itself but an instruction to the web browser about what version of HTML the page is written in.</li>
+                <li><code class="inline-code">&lt;html&gt;</code>: This is the root element of an HTML page. The <code class="inline-code">lang="en"</code> attribute specifies the language of the document (English in this case), which is good for accessibility and search engines.</li>
+                <li><code class="inline-code">&lt;head&gt;</code>: This element contains meta-information about the HTML document, which is not displayed on the page itself. This includes:
+                    <ul>
+                        <li><code class="inline-code">&lt;meta charset="UTF-8"&gt;</code>: Specifies the character encoding for the document. UTF-8 is recommended as it covers almost all characters and symbols.</li>
+                        <li><code class="inline-code">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code>: Configures the viewport for responsive web design, ensuring the page looks good on all devices.</li>
+                        <li><code class="inline-code">&lt;title&gt;My First Web Page&lt;/title&gt;</code>: Sets the title of the HTML document, which is displayed in the browser's title bar or tab.</li>
+                        <li>It can also contain links to CSS files, JavaScript files, and other metadata.</li>
+                    </ul>
+                </li>
+                <li><code class="inline-code">&lt;body&gt;</code>: This element contains all the visible content of the HTML document, such as headings, paragraphs, images, hyperlinks, tables, lists, etc.</li>
+            </ul>
+            <p class="important">To create your first HTML page, copy the code above, save it in a file named <code class="path">index.html</code> (or any name ending with <code class="path">.html</code> or <code class="path">.htm</code>), and then open that file in your web browser.</p>
+        </section>
+
+        <section id="elements-tags">
+            <h2>HTML Elements and Tags</h2>
+            <p>An HTML document is made up of HTML <strong>elements</strong>.</p>
+            <p>HTML elements are typically represented by <strong>tags</strong>. Tags are keywords surrounded by angle brackets <code class="inline-code">&lt; &gt;</code>.</p>
+            <ul>
+                <li>Most HTML elements have an opening tag (e.g., <code class="inline-code">&lt;p&gt;</code>) and a closing tag (e.g., <code class="inline-code">&lt;/p&gt;</code>).</li>
+                <li>The content goes between the opening and closing tags.</li>
+                <li>The element consists of the opening tag, the content, and the closing tag. For example: <code class="inline-code">&lt;p&gt;This is a paragraph.&lt;/p&gt;</code> is an HTML element.</li>
+            </ul>
+            <h3>Void Elements (Empty Elements)</h3>
+            <p>Some HTML elements do not have content or a closing tag. These are called void elements or empty elements. They are typically self-closing or written with just the opening tag.</p>
+            Examples:
+            <ul>
+                <li><code class="inline-code">&lt;br&gt;</code> (line break)</li>
+                <li><code class="inline-code">&lt;hr&gt;</code> (horizontal rule)</li>
+                <li><code class="inline-code">&lt;img src="image.jpg" alt="My Image"&gt;</code> (image)</li>
+                <li><code class="inline-code">&lt;input type="text"&gt;</code> (input field)</li>
+            </ul>
+            <p>In XHTML (an older, stricter version of HTML), these were written with a trailing slash (e.g., <code class="inline-code">&lt;br /&gt;</code>). In HTML5, the trailing slash is optional but often still used for clarity.</p>
+
+            <h3>Nesting Elements</h3>
+            <p>HTML elements can be nested inside other elements. This means an element can contain other elements as its content.</p>
+<pre><code class="language-html">&lt;body&gt;
+    &lt;h1&gt;This is a &lt;em&gt;Main&lt;/em&gt; Heading&lt;/h1&gt; &lt;!-- &lt;em&gt; is nested inside &lt;h1&gt; --&gt;
+    &lt;p&gt;This paragraph contains &lt;strong&gt;important&lt;/strong&gt; text.&lt;/p&gt;
+&lt;/body&gt;
+</code></pre>
+            <p class="warning">Nesting must be done correctly: an inner element must be completely closed before its outer element is closed.
+            Incorrect: <code class="inline-code">&lt;p&gt;This is &lt;strong&gt;bold and &lt;em&gt;italic&lt;/strong&gt;.&lt;/em&gt;&lt;/p&gt;</code>
+            <br>
+            Correct: <code class="inline-code">&lt;p&gt;This is &lt;strong&gt;bold and &lt;em&gt;italic&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;</code>
+            </p>
+        </section>
+
+        <section id="attributes">
+            <h2>HTML Attributes</h2>
+            <p>HTML elements can have <strong>attributes</strong>. Attributes provide additional information about an element and are always specified in the <strong>opening tag</strong>.</p>
+            <p>Attributes usually come in name/value pairs like: <code class="inline-code">name="value"</code>.</p>
+            Examples:
+            <ul>
+                <li>The <code class="inline-code">&lt;a&gt;</code> (anchor) tag, used for links, has an <code class="inline-code">href</code> attribute that specifies the URL:
+<pre><code class="language-html">&lt;a href="https://www.example.com"&gt;Visit Example.com&lt;/a&gt;</code></pre>
+                </li>
+                <li>The <code class="inline-code">&lt;img&gt;</code> tag has <code class="inline-code">src</code> (source) and <code class="inline-code">alt</code> (alternative text) attributes:
+<pre><code class="language-html">&lt;img src="image.png" alt="A descriptive text for the image"&gt;</code></pre>
+                </li>
+                <li>The <code class="inline-code">id</code> attribute provides a unique identifier for an element:
+<pre><code class="language-html">&lt;p id="intro-paragraph"&gt;This is an introduction.&lt;/p&gt;</code></pre>
+                </li>
+                <li>The <code class="inline-code">class</code> attribute specifies one or more class names for an element (used for styling with CSS or selecting with JavaScript):
+<pre><code class="language-html">&lt;p class="highlight important"&gt;This paragraph is highlighted and important.&lt;/p&gt;</code></pre>
+                </li>
+                <li>The <code class="inline-code">style</code> attribute is used for inline CSS styling (though external stylesheets are generally preferred):
+<pre><code class="language-html">&lt;p style="color: blue; font-size: 16px;"&gt;This text is blue and 16px.&lt;/p&gt;</code></pre>
+                </li>
+            </ul>
+            <p class="important">Attribute values should generally be enclosed in double quotes (<code class="inline-code">""</code>). Single quotes (<code class="inline-code">''</code>) are also allowed. If the value itself contains double quotes, you can use single quotes, or vice-versa.</p>
+        </section>
+
+        <section id="headings-paragraphs">
+            <h2>Headings and Paragraphs</h2>
+            <h3>Headings</h3>
+            <p>HTML provides six levels of headings, from <code class="inline-code">&lt;h1&gt;</code> to <code class="inline-code">&lt;h6&gt;</code>. <code class="inline-code">&lt;h1&gt;</code> defines the most important heading, and <code class="inline-code">&lt;h6&gt;</code> defines the least important.</p>
+<pre><code class="language-html">&lt;h1&gt;This is Heading 1&lt;/h1&gt;
+&lt;h2&gt;This is Heading 2&lt;/h2&gt;
+&lt;h3&gt;This is Heading 3&lt;/h3&gt;
+&lt;h4&gt;This is Heading 4&lt;/h4&gt;
+&lt;h5&gt;This is Heading 5&lt;/h5&gt;
+&lt;h6&gt;This is Heading 6&lt;/h6&gt;
+</code></pre>
+            <p>Browsers automatically add some white space (a margin) before and after a heading. Headings are block-level elements, meaning they start on a new line and take up the full width available.</p>
+            <p class="important">Use headings for their semantic meaning (to structure your content logically) rather than just to make text big or bold. Typically, a page should have only one <code class="inline-code">&lt;h1&gt;</code> element for the main title of the page.</p>
+
+            <h3>Paragraphs</h3>
+            <p>The <code class="inline-code">&lt;p&gt;</code> element defines a paragraph.</p>
+<pre><code class="language-html">&lt;p&gt;This is the first paragraph of text. Browsers automatically add some white space (a margin) before and after a paragraph.&lt;/p&gt;
+&lt;p&gt;This is another paragraph. Paragraphs are also block-level elements.&lt;/p&gt;
+</code></pre>
+            <p>Browsers will automatically remove extra spaces and extra lines in your HTML code. Any number of spaces or newlines in the HTML source will be rendered as a single space in the browser.</p>
+        </section>
+
+        <section id="text-formatting">
+            <h2>Text Formatting Elements</h2>
+            <p>HTML has several elements for defining text with a special meaning or appearance.</p>
+            <ul>
+                <li><code class="inline-code">&lt;strong&gt;</code>: Defines text with strong importance. Browsers typically render this as <strong>bold</strong>.
+                    <pre><code class="language-html">&lt;p&gt;This text is &lt;strong&gt;important&lt;/strong&gt;.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;em&gt;</code>: Defines emphasized text. Browsers typically render this as <em>italic</em>.
+                    <pre><code class="language-html">&lt;p&gt;This text is &lt;em&gt;emphasized&lt;/em&gt;.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;b&gt;</code>: Defines bold text without any extra importance (presentational).
+                    <pre><code class="language-html">&lt;p&gt;This text is &lt;b&gt;bold&lt;/b&gt;.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;i&gt;</code>: Defines italic text, often used for technical terms, thoughts, etc. (presentational).
+                    <pre><code class="language-html">&lt;p&gt;This text is in &lt;i&gt;italics&lt;/i&gt;.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;u&gt;</code>: Defines underlined text. Use with caution as users might mistake it for a hyperlink.
+                    <pre><code class="language-html">&lt;p&gt;This text is &lt;u&gt;underlined&lt;/u&gt;.&lt;/p&gt;</code></pre>
+                </li>
+                 <li><code class="inline-code">&lt;mark&gt;</code>: Defines marked or highlighted text.
+                    <pre><code class="language-html">&lt;p&gt;Do not forget to buy &lt;mark&gt;milk&lt;/mark&gt; today.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;small&gt;</code>: Defines smaller text.
+                    <pre><code class="language-html">&lt;p&gt;This is some &lt;small&gt;smaller text&lt;/small&gt;.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;del&gt;</code>: Defines deleted text (often rendered with a strikethrough).
+                    <pre><code class="language-html">&lt;p&gt;My favorite color is &lt;del&gt;blue&lt;/del&gt; red.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;ins&gt;</code>: Defines inserted text (often rendered as underlined).
+                    <pre><code class="language-html">&lt;p&gt;My favorite color is &lt;del&gt;blue&lt;/del&gt; &lt;ins&gt;red&lt;/ins&gt;.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;sub&gt;</code>: Defines subscripted text.
+                    <pre><code class="language-html">&lt;p&gt;H&lt;sub&gt;2&lt;/sub&gt;O is water.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;sup&gt;</code>: Defines superscripted text.
+                    <pre><code class="language-html">&lt;p&gt;E = mc&lt;sup&gt;2&lt;/sup&gt;.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;br&gt;</code>: Inserts a single line break (a void element).
+<pre><code class="language-html">&lt;p&gt;This is some text.&lt;br&gt;This text is on a new line.&lt;/p&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;hr&gt;</code>: Defines a thematic break or horizontal rule (a void element). Often used to separate content.
+<pre><code class="language-html">&lt;p&gt;First section of content.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Second section of content.&lt;/p&gt;</code></pre>
+                </li>
+            </ul>
+            <p class="important">It's generally recommended to use semantic elements like <code class="inline-code">&lt;strong&gt;</code> and <code class="inline-code">&lt;em&gt;</code> over purely presentational ones like <code class="inline-code">&lt;b&gt;</code> and <code class="inline-code">&lt;i&gt;</code> when the meaning implies importance or emphasis. Styling should primarily be handled by CSS.</p>
+        </section>
+
+        <section id="links">
+            <h2>Links (Hyperlinks)</h2>
+            <p>The HTML <code class="inline-code">&lt;a&gt;</code> (anchor) tag defines a hyperlink, which is used to link from one page to another, or to a specific part of a page.</p>
+            <p>The most important attribute of the <code class="inline-code">&lt;a&gt;</code> element is the <code class="inline-code">href</code> attribute, which indicates the link's destination.</p>
+            <h3>Absolute URLs vs. Relative URLs</h3>
+            <ul>
+                <li><strong>Absolute URL:</strong> Links to an external website (e.g., <code class="inline-code">https://www.google.com</code>).
+<pre><code class="language-html">&lt;a href="https://www.wikipedia.org"&gt;Visit Wikipedia&lt;/a&gt;</code></pre>
+                </li>
+                <li><strong>Relative URL:</strong> Links to a file within your own website.
+                    <ul>
+                        <li>Link to a page in the same directory:
+<pre><code class="language-html">&lt;a href="about.html"&gt;About Us&lt;/a&gt;</code></pre>
+                        </li>
+                        <li>Link to a page in a subdirectory:
+<pre><code class="language-html">&lt;a href="products/product1.html"&gt;View Product 1&lt;/a&gt;</code></pre>
+                        </li>
+                         <li>Link to a page in a parent directory:
+<pre><code class="language-html">&lt;a href="../services.html"&gt;Our Services&lt;/a&gt;</code></pre>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>The <code class="inline-code">target</code> Attribute</h3>
+            <p>The <code class="inline-code">target</code> attribute specifies where to open the linked document.</p>
+            <ul>
+                <li><code class="inline-code">_self</code>: Default. Opens the document in the same window/tab as it was clicked.</li>
+                <li><code class="inline-code">_blank</code>: Opens the document in a new window or tab.
+<pre><code class="language-html">&lt;a href="https://www.example.com" target="_blank"&gt;Open Example in New Tab&lt;/a&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">_parent</code>: Opens the document in the parent frame.</li>
+                <li><code class="inline-code">_top</code>: Opens the document in the full body of the window.</li>
+            </ul>
+             <p class="warning">When using <code class="inline-code">target="_blank"</code>, it's good practice to also add <code class="inline-code">rel="noopener noreferrer"</code> for security and privacy reasons to prevent the new page from accessing your page's <code class="inline-code">window.opener</code> object.</p>
+<pre><code class="language-html">&lt;a href="https://www.example.com" target="_blank" rel="noopener noreferrer"&gt;Secure Link in New Tab&lt;/a&gt;</code></pre>
+
+            <h3>Linking to an Email Address</h3>
+            <p>Use <code class="inline-code">mailto:</code> within the <code class="inline-code">href</code> attribute.</p>
+<pre><code class="language-html">&lt;a href="mailto:someone@example.com"&gt;Send Email&lt;/a&gt;</code></pre>
+
+            <h3>Linking to a Specific Part of a Page (Bookmarks/Anchors)</h3>
+            <p>First, create an <code class="inline-code">id</code> attribute on the element you want to link to:</p>
+<pre><code class="language-html">&lt;h2 id="section2"&gt;Section 2&lt;/h2&gt;
+&lt;p&gt;Content of section 2...&lt;/p&gt;</code></pre>
+            <p>Then, create a link to that <code class="inline-code">id</code> using a hash (<code class="inline-code">#</code>) symbol:</p>
+<pre><code class="language-html">&lt;a href="#section2"&gt;Go to Section 2&lt;/a&gt;</code></pre>
+            <p>You can also link to an ID on another page: <code class="inline-code">&lt;a href="anotherpage.html#section2"&gt;...&lt;/a&gt;</code></p>
+        </section>
+
+        <section id="images">
+            <h2>Images</h2>
+            <p>The HTML <code class="inline-code">&lt;img&gt;</code> tag is used to embed an image in an HTML page. It is a void element (it has no closing tag).</p>
+            <p>Key attributes for <code class="inline-code">&lt;img&gt;</code>:</p>
+            <ul>
+                <li><code class="inline-code">src</code>: (Source) Specifies the path to the image. This is mandatory.</li>
+                <li><code class="inline-code">alt</code>: (Alternative text) Provides a textual description of the image. This is crucial for accessibility (e.g., for screen readers) and will be displayed if the image cannot be loaded. This is also mandatory for valid HTML.</li>
+            </ul>
+<pre><code class="language-html">&lt;img src="images/my_puppy.jpg" alt="A cute golden retriever puppy playing in the grass"&gt;
+</code></pre>
+            <h3>Image Path</h3>
+            <p>Similar to links, image paths can be absolute or relative:</p>
+            <ul>
+                <li>Absolute URL: <code class="inline-code">&lt;img src="https://www.example.com/images/logo.png" alt="Example Logo"&gt;</code></li>
+                <li>Relative URL (image in a subdirectory named "images"): <code class="inline-code">&lt;img src="images/photo.jpg" alt="A photo"&gt;</code></li>
+                <li>Relative URL (image in the same directory): <code class="inline-code">&lt;img src="icon.gif" alt="An icon"&gt;</code></li>
+            </ul>
+            <h3>Width and Height Attributes</h3>
+            <p>You can use the <code class="inline-code">width</code> and <code class="inline-code">height</code> attributes to specify the size of the image in pixels.</p>
+<pre><code class="language-html">&lt;img src="landscape.jpg" alt="Beautiful landscape" width="500" height="300"&gt;
+</code></pre>
+            <p class="important">While you can set width and height using HTML attributes, it's generally better practice to style image dimensions using CSS for more flexibility and maintainability, especially for responsive design. However, specifying width and height in HTML can help the browser reserve space for the image while it loads, preventing page layout shifts.</p>
+            <h3>Image Formats</h3>
+            Common web image formats include:
+            <ul>
+                <li><strong>JPEG (.jpg, .jpeg):</strong> Good for photographs, supports lossy compression.</li>
+                <li><strong>PNG (.png):</strong> Good for graphics with transparency or sharp lines, supports lossless compression.</li>
+                <li><strong>GIF (.gif):</strong> Good for simple animations and graphics with limited colors.</li>
+                <li><strong>SVG (.svg):</strong> Scalable Vector Graphics, resolution-independent, good for logos and icons.</li>
+                <li><strong>WebP (.webp):</strong> A modern format with excellent compression and quality, supports both lossy/lossless and transparency/animation. Browser support is now widespread.</li>
+            </ul>
+        </section>
+
+        <section id="lists">
+            <h2>Lists</h2>
+            <p>HTML offers several ways to create lists of items.</p>
+            <h3>Unordered Lists</h3>
+            <p>An unordered list starts with the <code class="inline-code">&lt;ul&gt;</code> tag. Each list item starts with the <code class="inline-code">&lt;li&gt;</code> tag. List items are typically marked with bullets (small black circles by default).</p>
+<pre><code class="language-html">&lt;h3&gt;My Favorite Fruits&lt;/h3&gt;
+&lt;ul&gt;
+    &lt;li&gt;Apple&lt;/li&gt;
+    &lt;li&gt;Banana&lt;/li&gt;
+    &lt;li&gt;Orange&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+            <h3>Ordered Lists</h3>
+            <p>An ordered list starts with the <code class="inline-code">&lt;ol&gt;</code> tag. Each list item starts with the <code class="inline-code">&lt;li&gt;</code> tag. List items are typically marked with numbers by default.</p>
+<pre><code class="language-html">&lt;h3&gt;Steps to Make Tea&lt;/h3&gt;
+&lt;ol&gt;
+    &lt;li&gt;Boil water.&lt;/li&gt;
+    &lt;li&gt;Put tea bag in cup.&lt;/li&gt;
+    &lt;li&gt;Pour boiling water into cup.&lt;/li&gt;
+    &lt;li&gt;Steep for 3-5 minutes.&lt;/li&gt;
+    &lt;li&gt;Remove tea bag and enjoy.&lt;/li&gt;
+&lt;/ol&gt;
+</code></pre>
+            <p>The <code class="inline-code">type</code> attribute can be used on <code class="inline-code">&lt;ol&gt;</code> to change the numbering style (e.g., <code class="inline-code">type="A"</code> for uppercase letters, <code class="inline-code">type="i"</code> for lowercase Roman numerals). However, styling list markers is often better done with CSS.</p>
+
+            <h3>Description Lists (Definition Lists)</h3>
+            <p>A description list is a list of terms, with a description of each term. It starts with the <code class="inline-code">&lt;dl&gt;</code> tag.</p>
+            <ul>
+                <li><code class="inline-code">&lt;dt&gt;</code>: Defines the term (name).</li>
+                <li><code class="inline-code">&lt;dd&gt;</code>: Describes each term.</li>
+            </ul>
+<pre><code class="language-html">&lt;h3&gt;Web Technologies&lt;/h3&gt;
+&lt;dl&gt;
+    &lt;dt&gt;HTML&lt;/dt&gt;
+    &lt;dd&gt;HyperText Markup Language, used for structuring web content.&lt;/dd&gt;
+    &lt;dt&gt;CSS&lt;/dt&gt;
+    &lt;dd&gt;Cascading Style Sheets, used for styling web content.&lt;/dd&gt;
+    &lt;dt&gt;JavaScript&lt;/dt&gt;
+    &lt;dd&gt;A programming language used for adding interactivity to web pages.&lt;/dd&gt;
+&lt;/dl&gt;
+</code></pre>
+
+            <h3>Nesting Lists</h3>
+            <p>You can nest lists within other lists.</p>
+<pre><code class="language-html">&lt;ul&gt;
+    &lt;li&gt;Fruit
+        &lt;ul&gt;
+            &lt;li&gt;Apple&lt;/li&gt;
+            &lt;li&gt;Banana&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Vegetable
+        &lt;ol&gt;
+            &lt;li&gt;Carrot&lt;/li&gt;
+            &lt;li&gt;Broccoli&lt;/li&gt;
+        &lt;/ol&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+        </section>
+
+        <section id="tables">
+            <h2>Tables</h2>
+            <p>HTML tables are used to display data in a tabular format (rows and columns).</p>
+            <p>Key table elements:</p>
+            <ul>
+                <li><code class="inline-code">&lt;table&gt;</code>: Defines the table.</li>
+                <li><code class="inline-code">&lt;tr&gt;</code>: Defines a table row.</li>
+                <li><code class="inline-code">&lt;th&gt;</code>: Defines a table header cell. Text within <code class="inline-code">&lt;th&gt;</code> is typically bold and centered by default.</li>
+                <li><code class="inline-code">&lt;td&gt;</code>: Defines a table data cell.</li>
+            </ul>
+<pre><code class="language-html">&lt;table border="1"&gt; &lt;!-- 'border' attribute is for basic styling, CSS is preferred --&gt;
+    &lt;tr&gt;
+        &lt;th&gt;First Name&lt;/th&gt;
+        &lt;th&gt;Last Name&lt;/th&gt;
+        &lt;th&gt;Age&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Jill&lt;/td&gt;
+        &lt;td&gt;Smith&lt;/td&gt;
+        &lt;td&gt;50&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Eve&lt;/td&gt;
+        &lt;td&gt;Jackson&lt;/td&gt;
+        &lt;td&gt;94&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+</code></pre>
+            <p class="warning">Historically, tables were sometimes used for page layout. This is now considered bad practice. Use CSS for layout. Tables should be used for displaying tabular data.</p>
+
+            <h3>More Table Elements</h3>
+            <ul>
+                <li><code class="inline-code">&lt;caption&gt;</code>: Defines a table caption.
+<pre><code class="language-html">&lt;table border="1"&gt;
+    &lt;caption&gt;Monthly Savings&lt;/caption&gt;
+    &lt;!-- ... rest of table ... --&gt;
+&lt;/table&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;thead&gt;</code>: Groups header content in a table.</li>
+                <li><code class="inline-code">&lt;tbody&gt;</code>: Groups body content in a table.</li>
+                <li><code class="inline-code">&lt;tfoot&gt;</code>: Groups footer content in a table.</li>
+            </ul>
+<pre><code class="language-html">&lt;table border="1"&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Item&lt;/th&gt;
+            &lt;th&gt;Price&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Apples&lt;/td&gt;
+            &lt;td&gt;$2.00&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Bananas&lt;/td&gt;
+            &lt;td&gt;$1.50&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Total&lt;/td&gt;
+            &lt;td&gt;$3.50&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</code></pre>
+            <h3>Spanning Columns and Rows</h3>
+            <ul>
+                <li><code class="inline-code">colspan</code> attribute (on <code class="inline-code">&lt;th&gt;</code> or <code class="inline-code">&lt;td&gt;</code>): Makes a cell span multiple columns.</li>
+                <li><code class="inline-code">rowspan</code> attribute (on <code class="inline-code">&lt;th&gt;</code> or <code class="inline-code">&lt;td&gt;</code>): Makes a cell span multiple rows.</li>
+            </ul>
+<pre><code class="language-html">&lt;table border="1"&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Name&lt;/th&gt;
+        &lt;th colspan="2"&gt;Contact&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;John Doe&lt;/td&gt;
+        &lt;td&gt;555-1234&lt;/td&gt;
+        &lt;td&gt;john@example.com&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th rowspan="2"&gt;Address&lt;/th&gt;
+        &lt;td colspan="2"&gt;123 Main St&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td colspan="2"&gt;Anytown, USA&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+</code></pre>
+        </section>
+
+        <section id="forms-intro">
+            <h2>Forms (Introduction)</h2>
+            <p>HTML forms are used to collect user input. Forms are essential for user interaction, such as login pages, contact forms, search boxes, etc.</p>
+            <p>The <code class="inline-code">&lt;form&gt;</code> element is a container for different types of input elements.</p>
+            <h3>Key Form Elements</h3>
+            <ul>
+                <li><code class="inline-code">&lt;form&gt;</code>: The container for the form.
+                    <ul>
+                        <li><code class="inline-code">action</code> attribute: Specifies where to send the form-data when a form is submitted (usually a server-side script URL).</li>
+                        <li><code class="inline-code">method</code> attribute: Specifies the HTTP method to use when submitting the form-data (commonly <code class="inline-code">GET</code> or <code class="inline-code">POST</code>).</li>
+                    </ul>
+                </li>
+                <li><code class="inline-code">&lt;label&gt;</code>: Defines a label for an <code class="inline-code">&lt;input&gt;</code> element. Improves accessibility. The <code class="inline-code">for</code> attribute of the label should match the <code class="inline-code">id</code> attribute of the input element.</li>
+                <li><code class="inline-code">&lt;input&gt;</code>: The most versatile form element. The <code class="inline-code">type</code> attribute determines how it looks and behaves. Common types:
+                    <ul>
+                        <li><code class="inline-code">text</code>: Single-line text input.</li>
+                        <li><code class="inline-code">password</code>: Password field (characters are masked).</li>
+                        <li><code class="inline-code">email</code>: For email addresses (provides some client-side validation).</li>
+                        <li><code class="inline-code">number</code>: For numerical input.</li>
+                        <li><code class="inline-code">date</code>: For selecting a date.</li>
+                        <li><code class="inline-code">checkbox</code>: Allows users to select zero or more options from a set.</li>
+                        <li><code class="inline-code">radio</code>: Allows users to select only one option from a set. Radio buttons with the same <code class="inline-code">name</code> attribute are grouped.</li>
+                        <li><code class="inline-code">submit</code>: A button for submitting the form.</li>
+                        <li><code class="inline-code">reset</code>: A button to reset form fields to their initial values.</li>
+                        <li><code class="inline-code">file</code>: For uploading files.</li>
+                    </ul>
+                    Other common attributes: <code class="inline-code">name</code> (essential for server-side processing), <code class="inline-code">id</code> (for labels and JavaScript), <code class="inline-code">value</code>, <code class="inline-code">placeholder</code>, <code class="inline-code">required</code>.
+                </li>
+                <li><code class="inline-code">&lt;textarea&gt;</code>: Defines a multi-line text input area.
+                    <pre><code class="language-html">&lt;textarea name="message" rows="4" cols="50"&gt;Enter your message here...&lt;/textarea&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;select&gt;</code> (Dropdown List): Creates a dropdown list.
+                    <ul>
+                        <li><code class="inline-code">&lt;option&gt;</code>: Defines an option within the <code class="inline-code">&lt;select&gt;</code> list. The <code class="inline-code">value</code> attribute of the option is what gets sent to the server.</li>
+                    </ul>
+<pre><code class="language-html">&lt;label for="cars"&gt;Choose a car:&lt;/label&gt;
+&lt;select id="cars" name="cars"&gt;
+  &lt;option value="volvo"&gt;Volvo&lt;/option&gt;
+  &lt;option value="saab"&gt;Saab&lt;/option&gt;
+  &lt;option value="mercedes" selected&gt;Mercedes&lt;/option&gt; &lt;!-- 'selected' makes it default --&gt;
+  &lt;option value="audi"&gt;Audi&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;button&gt;</code>: Defines a clickable button. Can be of <code class="inline-code">type="submit"</code>, <code class="inline-code">type="reset"</code>, or <code class="inline-code">type="button"</code> (generic button, often used with JavaScript).
+<pre><code class="language-html">&lt;button type="submit"&gt;Send&lt;/button&gt;</code></pre>
+                </li>
+            </ul>
+            <h3>Basic Form Example</h3>
+<pre><code class="language-html">&lt;form action="/submit-form.php" method="post"&gt;
+    &lt;div&gt;
+        &lt;label for="username"&gt;Username:&lt;/label&gt;
+        &lt;input type="text" id="username" name="username" required&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;label for="email"&gt;Email:&lt;/label&gt;
+        &lt;input type="email" id="email" name="email" placeholder="you@example.com"&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;label&gt;Gender:&lt;/label&gt;
+        &lt;input type="radio" id="male" name="gender" value="male"&gt;
+        &lt;label for="male"&gt;Male&lt;/label&gt;
+        &lt;input type="radio" id="female" name="gender" value="female"&gt;
+        &lt;label for="female"&gt;Female&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;input type="checkbox" id="subscribe" name="subscribe" value="yes" checked&gt;
+        &lt;label for="subscribe"&gt;Subscribe to newsletter&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;label for="comments"&gt;Comments:&lt;/label&gt;
+        &lt;textarea id="comments" name="comments" rows="3"&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;button type="submit"&gt;Submit Application&lt;/button&gt;
+    &lt;button type="reset"&gt;Clear Form&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+            <p class="important">Form processing (what happens when you click "Submit") typically requires a server-side language (like PHP, Python, Node.js, Java, Ruby, etc.) or can be handled client-side with JavaScript for some simpler tasks or AJAX submissions.</p>
+        </section>
+
+        <section id="semantic-html">
+            <h2>Semantic HTML</h2>
+            <p>Semantic HTML elements are elements with a meaning. They clearly describe their meaning to both the browser and the developer. Using semantic HTML improves accessibility, SEO, and code readability.</p>
+            <p>Examples of non-semantic elements: <code class="inline-code">&lt;div&gt;</code> and <code class="inline-code">&lt;span&gt;</code>. They tell nothing about their content.</p>
+            <p>Examples of semantic elements (many introduced in HTML5):</p>
+            <ul>
+                <li><code class="inline-code">&lt;header&gt;</code>: Defines a header for a document or a section. Often contains a logo, navigation, search bar.</li>
+                <li><code class="inline-code">&lt;nav&gt;</code>: Defines a set of navigation links.</li>
+                <li><code class="inline-code">&lt;main&gt;</code>: Specifies the main content of a document. There should be only one <code class="inline-code">&lt;main&gt;</code> element per page.</li>
+                <li><code class="inline-code">&lt;article&gt;</code>: Defines self-contained content that could be distributed independently (e.g., a blog post, news story, forum post).</li>
+                <li><code class="inline-code">&lt;section&gt;</code>: Defines a thematic grouping of content, typically with a heading.</li>
+                <li><code class="inline-code">&lt;aside&gt;</code>: Defines content aside from the content it is placed in (e.g., a sidebar, call-out box).</li>
+                <li><code class="inline-code">&lt;footer&gt;</code>: Defines a footer for a document or a section. Often contains copyright information, contact details, sitemap links.</li>
+                <li><code class="inline-code">&lt;figure&gt;</code> and <code class="inline-code">&lt;figcaption&gt;</code>: Used to group an image, diagram, or code listing with a caption.
+<pre><code class="language-html">&lt;figure&gt;
+  &lt;img src="chart.png" alt="Sales chart for Q1"&gt;
+  &lt;figcaption&gt;Fig.1 - Quarterly Sales Chart.&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+                </li>
+                <li><code class="inline-code">&lt;time&gt;</code>: Defines a specific time (or date). The <code class="inline-code">datetime</code> attribute provides a machine-readable format.
+<pre><code class="language-html">&lt;p&gt;Published on &lt;time datetime="2023-10-26"&gt;October 26, 2023&lt;/time&gt;.&lt;/p&gt;</code></pre>
+                </li>
+            </ul>
+            <h3>Example Page Layout with Semantic HTML</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;title&gt;Semantic Page Layout&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;My Awesome Website&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#"&gt;About&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;article&gt;
+            &lt;h2&gt;Main Article Title&lt;/h2&gt;
+            &lt;p&gt;This is the main content of the article...&lt;/p&gt;
+        &lt;/article&gt;
+
+        &lt;section&gt;
+            &lt;h2&gt;Related Posts&lt;/h2&gt;
+            &lt;p&gt;Some related information here...&lt;/p&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+    &lt;aside&gt;
+        &lt;h3&gt;Sidebar Content&lt;/h3&gt;
+        &lt;p&gt;Advertisements or related links.&lt;/p&gt;
+    &lt;/aside&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;&amp;copy; 2023 My Awesome Website. All rights reserved.&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+        </section>
+
+        <section id="comments">
+            <h2>HTML Comments</h2>
+            <p>Comments are used to add notes or explanations within your HTML code. They are ignored by the browser and not displayed on the page.</p>
+            <p>HTML comments start with <code class="inline-code">&lt;!--</code> and end with <code class="inline-code">--&gt;</code>.</p>
+<pre><code class="language-html">&lt;!-- This is a single-line comment --&gt;
+
+&lt;p&gt;This is a paragraph.&lt;/p&gt;
+
+&lt;!--
+  This is a
+  multi-line comment.
+  It can span several lines.
+--&gt;
+
+&lt;!-- You can also use comments to temporarily hide parts of your code:
+&lt;p&gt;This paragraph is commented out and will not be displayed.&lt;/p&gt;
+--&gt;
+</code></pre>
+            <p>Comments are useful for:</p>
+            <ul>
+                <li>Explaining complex code sections.</li>
+                <li>Leaving notes for yourself or other developers.</li>
+                <li>Temporarily disabling code for testing or debugging.</li>
+            </ul>
+        </section>
+
+        <section id="entities">
+            <h2>HTML Entities</h2>
+            <p>Some characters are reserved in HTML (e.g., <code class="inline-code">&lt;</code>, <code class="inline-code">&gt;</code>, <code class="inline-code">&amp;</code>). To display these characters literally in your text content, you need to use HTML entities.</p>
+            <p>An HTML entity starts with an ampersand (<code class="inline-code">&amp;</code>) and ends with a semicolon (<code class="inline-code">;</code>).</p>
+            <p>Common HTML Entities:</p>
+            <ul>
+                <li><code class="inline-code">&amp;lt;</code> for <code class="inline-code">&lt;</code> (less than)</li>
+                <li><code class="inline-code">&amp;gt;</code> for <code class="inline-code">&gt;</code> (greater than)</li>
+                <li><code class="inline-code">&amp;amp;</code> for <code class="inline-code">&amp;</code> (ampersand)</li>
+                <li><code class="inline-code">&amp;quot;</code> for <code class="inline-code">"</code> (double quote)</li>
+                <li><code class="inline-code">&amp;apos;</code> for <code class="inline-code">'</code> (single quote - not always necessary, but good for consistency)</li>
+                <li><code class="inline-code">&amp;nbsp;</code> for a non-breaking space (prevents a line break at that space)</li>
+                <li><code class="inline-code">&amp;copy;</code> for <code class="inline-code">&copy;</code> (copyright symbol)</li>
+                <li><code class="inline-code">&amp;reg;</code> for <code class="inline-code">&reg;</code> (registered trademark symbol)</li>
+                <li><code class="inline-code">&amp;trade;</code> for <code class="inline-code">&trade;</code> (trademark symbol)</li>
+            </ul>
+<pre><code class="language-html">&lt;p&gt;To write &lt;p&gt; in text, use &amp;lt;p&amp;gt;.&lt;/p&gt;
+&lt;p&gt;This text contains a non-breaking&amp;nbsp;space.&lt;/p&gt;
+&lt;p&gt;Copyright &amp;copy; 2023.&lt;/p&gt;
+</code></pre>
+            <p>Entities can also be represented by their numeric character reference (e.g., <code class="inline-code">&amp;#60;</code> for <code class="inline-code">&lt;</code>).</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>Congratulations on completing this introductory guide to HTML! You now have a solid understanding of how to structure web pages.</p>
+            <p>To continue your web development journey:</p>
+            <ul>
+                <li><strong>Practice:</strong> The more you write HTML, the more comfortable you'll become. Try rebuilding simple web page structures.</li>
+                <li><strong>Learn CSS (Cascading Style Sheets):</strong> HTML defines the structure, but CSS defines the presentation (layout, colors, fonts, etc.). They work hand-in-hand. This is the most logical next step.</li>
+                <li><strong>Learn JavaScript:</strong> Once you have structure (HTML) and style (CSS), JavaScript adds interactivity and dynamic behavior to your web pages.</li>
+                <li><strong>Validate Your HTML:</strong> Use tools like the <a href="https://validator.w3.org/" target="_blank">W3C Markup Validation Service</a> to check your HTML code for errors and ensure it conforms to standards.</li>
+                <li><strong>Explore More HTML Elements and Attributes:</strong> There are many more elements for embedding multimedia (<code class="inline-code">&lt;audio&gt;</code>, <code class="inline-code">&lt;video&gt;</code>, <code class="inline-code">&lt;iframe&gt;</code>), advanced form controls, and more semantic tags. Refer to resources like MDN Web Docs.</li>
+                <li><strong>Understand Web Accessibility (a11y):</strong> Learn how to write HTML that is accessible to all users, including those with disabilities. This includes using semantic HTML correctly, providing alt text for images, and ensuring keyboard navigability.</li>
+                <li><strong>Build Simple Websites:</strong> Start combining your HTML, CSS, and eventually JavaScript skills to build small, complete websites.</li>
+                <li><strong>Refer to MDN Web Docs:</strong> The <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank">Mozilla Developer Network (MDN)</a> is an excellent and comprehensive resource for all web technologies, including HTML.</li>
+            </ul>
+            <p class="important">HTML is the foundation of the web. A strong grasp of HTML will serve you well in any web-related field.</p>
+            <p>Happy coding!</p>
+        </section>
+
+    </div>
+
+    <script>
+       
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        function activateInitialLink() {
+            const hash = window.location.hash;
+            let activeLinkFound = false;
+            if (hash) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                        activeLinkFound = true;
+                    }
+                });
+            }
+            if (!activeLinkFound && navLinks.length > 0) {
+                navLinks[0].classList.add('active'); 
+            }
+        }
+        activateInitialLink();
+        window.addEventListener('hashchange', activateInitialLink); 
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

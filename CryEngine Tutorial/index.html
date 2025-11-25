@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryEngine Beginner's Guide: Your First World</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #2c3e50; 
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #ecf0f1; 
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #bdc3c7; 
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #3498db; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #2980b9; 
+            border-bottom: 2px solid #2980b9;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #3498db; 
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c0392b; 
+        }
+        pre code {
+            display: block;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            background-color: #34495e; 
+            color: #ecf0f1; 
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #f39c12; 
+            border-left: 5px solid #d35400;
+            color: #fff;
+        }
+        .important {
+            background-color: #1abc9c; 
+            border-left: 5px solid #16a085;
+            color: #fff;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+            background-color: #ecf0f1; 
+            padding: 1px 4px;
+            border-radius: 3px;
+            border: 1px solid #bdc3c7;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#installation">1. Installation & Setup</a></li>
+            <li><a href="#editor-overview">2. CryEngine Editor (Sandbox)</a></li>
+            <li><a href="#levels-objects">3. Levels, Layers & Objects</a></li>
+            <li><a href="#terrain">4. Terrain Sculpting & Painting</a></li>
+            <li><a href="#vegetation">5. Vegetation & Environment</a></li>
+            <li><a href="#flowgraph">6. Flow Graph (Visual Scripting)</a></li>
+            <li><a href="#cpp-scripting">7. C++ & Schematyc Scripting</a></li>
+            <li><a href="#lighting-tod">8. Lighting & Time of Day</a></li>
+            <li><a href="#packaging">9. Packaging Your Game</a></li>
+            <li><a href="#next-steps">Next Steps & Resources</a></li>
+            <li><a href="#disclaimer">Disclaimer</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>CryEngine Beginner's Guide: Crafting Your First World</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to CryEngine</h2>
+            <p>Welcome to the CryEngine Beginner's Guide! CryEngine is a powerful, real-time game development platform renowned for its cutting-edge visuals, realistic physics, and extensive toolset, particularly excelling in creating large, open-world environments.</p>
+            <p>This guide will introduce you to the fundamental aspects of CryEngine, helping you take your first steps from installation to crafting a basic interactive environment.</p>
+            <p class="important"><strong>Note:</strong> CryEngine is a feature-rich engine that evolves. While this guide focuses on core principles applicable to CryEngine 5.x, specific UI elements or workflows might see minor changes in newer updates.</p>
+        </section>
+
+        <section id="installation">
+            <h2>1. Installation & Setup</h2>
+            <p>CryEngine is managed and installed via the CRYENGINE Launcher.</p>
+            <ol>
+                <li><strong>Download CRYENGINE Launcher:</strong> Visit the official <a href="https://www.cryengine.com/get-cryengine" target="_blank">CryEngine website</a> and download the CRYENGINE Launcher.</li>
+                <li><strong>Install Launcher & Sign Up:</strong> Run the installer. You will need to create a free CryEngine account to log in and use the launcher.</li>
+                <li><strong>Install the Engine:</strong>
+                    <ul>
+                        <li>Once logged into the launcher, navigate to the "Engines" or "My Engines" tab.</li>
+                        <li>Click on "Install Engine" and choose the latest stable version (e.g., CRYENGINE 5.6, 5.7, or newer).</li>
+                        <li>The launcher will download and install the selected engine version. This may take some time.</li>
+                    </ul>
+                </li>
+                <li><strong>Create a New Project:</strong>
+                    <ul>
+                        <li>Go to the "My Projects" tab in the launcher.</li>
+                        <li>Click "New Project".</li>
+                        <li>Select the engine version you just installed.</li>
+                        <li>Choose a project template. The "Blank (C++)" or "Blank (C# - if available and preferred)" template is a good starting point for learning. The "GameSDK Sample Project" offers a more complete example to explore later.</li>
+                        <li>Give your project a name and choose a location, then click "Create".</li>
+                    </ul>
+                </li>
+                <li><strong>Launch the Editor:</strong> Once the project is created, you can open it by selecting it in "My Projects" and clicking "Launch Editor".</li>
+            </ol>
+        </section>
+
+        <section id="editor-overview">
+            <h2>2. CryEngine Editor (Sandbox) Overview</h2>
+            <p>The CryEngine editor, traditionally known as Sandbox, is where you'll build your worlds and game experiences. It's a comprehensive suite of tools. Here are some key windows and areas:</p>
+            <ul>
+                <li><strong>Perspective Viewport:</strong> The main 3D window where you view and interact with your level. Navigation is typically:
+                    <ul>
+                        <li>Hold Right Mouse Button: Look around.</li>
+                        <li>Right Mouse Button + WASD: Fly/Move. Q/E for up/down. Mouse Wheel to adjust speed.</li>
+                        <li>Middle Mouse Button: Pan.</li>
+                    </ul>
+                </li>
+                <li><strong>RollupBar / Object Panel:</strong> (Often on the right or as a tabbed window) This is crucial. It contains tabs for:
+                    <ul>
+                        <li><strong>Objects:</strong> Create and place various entity types (Brushes, Entities, Lights, Sounds, etc.).</li>
+                        <li><strong>Terrain:</strong> Tools for sculpting terrain, painting layers, modifying heightmaps.</li>
+                        <li><strong>Layers:</strong> Manage object layers for organization.</li>
+                        <li><strong>Vegetation:</strong> Paint and manage vegetation objects.</li>
+                        <li>And more, depending on the selected tool mode.</li>
+                    </ul>
+                </li>
+                <li><strong>Asset Browser:</strong> (Usually <code>View > Open View Pane > Asset Browser</code>) For browsing and managing all project assets like models (<code>.cgf</code>), materials (<code>.mtl</code>), textures, animations.</li>
+                <li><strong>Properties Panel / Entity Properties:</strong> (Often bottom right or as a tabbed window) Displays and allows editing of parameters for the currently selected object or tool.</li>
+                <li><strong>Console:</strong> (Access with `~` tilde key) For commands, debugging information, and error messages.</li>
+                <li><strong>Specialized Editors:</strong> CryEngine has many dedicated editors accessible from the main menu (e.g., <code>Tools > Material Editor</code>, <code>Tools > Character Tool</code>, <code>Tools > Flow Graph Editor</code>).</li>
+                <li><strong>Toolbar:</strong> Contains common tools like Translate, Rotate, Scale, object selection modes, and shortcuts to various editors.</li>
+            </ul>
+            <p class="important">The editor layout is highly customizable. You can dock, float, and rearrange windows to suit your workflow. Explore <code>View > Layouts</code> for presets.</p>
+        </section>
+
+        <section id="levels-objects">
+            <h2>3. Levels, Layers & Objects</h2>
+            <h3>Levels</h3>
+            <p>In CryEngine, a game "scene" or "map" is referred to as a <strong>Level</strong>. Each level is typically stored as a <code>.cry</code> file within your project's <code class="path">Levels</code> folder.</p>
+            <ul>
+                <li>To create a new level: <code>File > New</code>.</li>
+                <li>To open an existing level: <code>File > Open</code>.</li>
+                <li>Save your level frequently: <code>File > Save</code>.</li>
+            </ul>
+
+            <h3>Layers</h3>
+            <p>Layers are essential for organizing the objects within your level. Think of them as folders for your game objects.</p>
+            <ul>
+                <li>Access layers via the "Layers" tab in the RollupBar or a dedicated Layers window (<code>View > Open View Pane > Layers</code>).</li>
+                <li>You can create new layers, assign objects to layers, and control the visibility or frozen state of entire layers.</li>
+                <li>Good layer management is crucial for performance and organization in complex levels. For example, create layers for "StaticProps_Buildings", "Vegetation_Trees", "Gameplay_Triggers", etc.</li>
+            </ul>
+
+            <h3>Objects (Entities)</h3>
+            <p>Everything in your level is an object, often referred to as an <strong>Entity</strong> in CryEngine terminology.</p>
+            <ul>
+                <li><strong>Brushes:</strong> Basic geometric primitives (cubes, spheres, etc.) often used for level blockouts or simple static geometry. Found under the "Objects" tab in RollupBar > "Brush".</li>
+                <li><strong>Entities:</strong> More complex objects that can have scripts, components, and specific behaviors. This includes characters, vehicles, lights, sound emitters, gameplay triggers, and imported 3D models. Found under "Objects" tab > "Entity".
+                    <ul>
+                        <li>When you place an "Entity" of type "GeomEntity", you can assign a 3D model (<code>.cgf</code> file) to it.</li>
+                    </ul>
+                </li>
+                <li><strong>Decals:</strong> Textures projected onto surfaces (e.g., bullet holes, stains, posters).</li>
+                <li><strong>Lights:</strong> Various light types to illuminate your scene (Point, Spot, Projector, EnvironmentProbe).</li>
+            </ul>
+            <p>To place an object, select its type from the RollupBar, configure its properties (if any), and click in the Perspective Viewport.</p>
+        </section>
+
+        <section id="terrain">
+            <h2>4. Terrain Sculpting & Painting</h2>
+            <p>CryEngine is famous for its powerful terrain tools, allowing for the creation of vast and detailed landscapes.</p>
+            <ol>
+                <li><strong>Create Terrain:</strong> If your new level doesn't have terrain, go to <code>Terrain > Edit Terrain</code>. This opens the Terrain Editor panel (often docked with the RollupBar). Click <code>File > New Terrain</code> within this panel to generate a default heightmap.</li>
+                <li><strong>Sculpting Tools:</strong> In the Terrain Editor panel, under the "Modify" section, you'll find tools like:
+                    <ul>
+                        <li><strong>Raise/Lower:</strong> To sculpt hills and valleys. Adjust brush size and hardness.</li>
+                        <li><strong>Smooth:</strong> To soften sharp edges.</li>
+                        <li><strong>Flatten:</strong> To create flat areas at a specific height.</li>
+                        <li><strong>Noise:</strong> To add random detail.</li>
+                    </ul>
+                </li>
+                <li><strong>Terrain Layers (Texturing):</strong>
+                    <ul>
+                        <li>Go to <code>Terrain > Layer Painter</code> (or find the tab in the Terrain Editor).</li>
+                        <li>A default terrain material is usually assigned. You can modify this in the Material Editor or assign a new one.</li>
+                        <li>In the Layer Painter, you can add new texture layers (e.g., grass, rock, sand, dirt). Each layer uses a material and can have properties like surface type (for footstep sounds, physics interactions).</li>
+                        <li>Select a layer and a brush, then paint directly onto the terrain in the viewport. You can control opacity, hardness, and altitude/slope constraints for painting.</li>
+                    </ul>
+                </li>
+                <li><strong>Holes:</strong> You can create holes in the terrain (for caves, etc.) using the "Hole" tool in the Terrain Editor.</li>
+            </ol>
+            <p class="warning">Large, high-resolution terrains can be performance-intensive. Optimize by using appropriate heightmap resolutions and level of detail (LOD) settings.</p>
+        </section>
+
+        <section id="vegetation">
+            <h2>5. Vegetation & Environment</h2>
+            <p>CryEngine's vegetation system allows for efficient placement of vast amounts of foliage and other environmental details.</p>
+            <ol>
+                <li><strong>Open Vegetation Panel:</strong> Go to the "Vegetation" tab in the RollupBar (or <code>Terrain > Vegetation</code>).</li>
+                <li><strong>Add Vegetation Objects:</strong>
+                    <ul>
+                        <li>Click "Add Object".</li>
+                        <li>Browse to a vegetation asset (<code>.cgf</code> file, e.g., a tree or a rock model) in the Asset Browser or file dialog.
+                        You can find many sample assets in the `GameSDK` project or on the CRYENGINE Marketplace.</li>
+                        <li>The selected object will appear in the list in the Vegetation panel.</li>
+                    </ul>
+                </li>
+                <li><strong>Paint Vegetation:</strong>
+                    <ul>
+                        <li>Select one or more vegetation objects from the list (hold Ctrl to select multiple).</li>
+                        <li>Adjust parameters like Size, Randomness, Density, Slope alignment, etc.</li>
+                        <li>Select the "Paint" tool (brush icon) in the Vegetation panel.</li>
+                        <li>Click and drag in the Perspective Viewport to paint instances of the selected vegetation onto the terrain or other objects.</li>
+                    </ul>
+                </li>
+                <li><strong>Other Tools:</strong> The Vegetation panel also includes tools to Erase, Move, Rotate, and individually place vegetation instances.</li>
+            </ol>
+            <p class="important">The vegetation system uses instancing and LODs to render large amounts of foliage efficiently. Ensure your vegetation assets are optimized with proper LODs.</p>
+            <p>Beyond vegetation, you can enhance your environment with:</p>
+            <ul>
+                <li><strong>Environment Probes:</strong> Capture reflections for PBR materials. (Found under "Objects" tab > "Area" > "EnvironmentProbe").</li>
+                <li><strong>Decals:</strong> Add details like cracks, stains, or posters.</li>
+                <li><strong>Particles:</strong> Create effects like fire, smoke, waterfalls (using the Particle Editor: <code>Tools > Particle Editor</code>).</li>
+            </ul>
+        </section>
+
+        <section id="flowgraph">
+            <h2>6. Flow Graph (Visual Scripting)</h2>
+            <p>Flow Graph is CryEngine's visual scripting system. It allows you to create game logic and interactions without writing traditional code by connecting nodes that represent functions and events.</p>
+            <ol>
+                <li><strong>Open Flow Graph Editor:</strong> <code>Tools > Flow Graph Editor</code> or press <code>F</code>.</li>
+                <li><strong>Create a Flow Graph:</strong>
+                    <ul>
+                        <li>Select an entity in your level that will host the Flow Graph (e.g., a trigger volume, a specific interactive object). You can also create global Flow Graphs.</li>
+                        <li>In the Flow Graph Editor, right-click in the "Graphs" pane (left side) and select "Add FlowGraph" or "Add Entity FlowGraph" if an entity is selected. Give it a name.</li>
+                    </ul>
+                </li>
+                <li><strong>Adding Nodes:</strong>
+                    <ul>
+                        <li>Right-click in the main graph view (center area) to open the context menu.</li>
+                        <li>Browse through categories like "Entity", "Game", "Input", "Math", "Time" to find nodes.
+                        For example, to react to a player entering a trigger: <code>Entity > ProximityTrigger</code>.
+                        To start an action: <code>Game > Start</code>.</li>
+                    </ul>
+                </li>
+                <li><strong>Connecting Nodes:</strong> Nodes have input ports (usually on the left) and output ports (usually on the right). Click and drag from an output port of one node to an input port of another to create a connection (a "link"). This defines the flow of logic and data.</li>
+                <li><strong>Example: Door Opens on Player Proximity</strong>
+                    <ol>
+                        <li>Place a door entity and a ProximityTrigger entity in your level.</li>
+                        <li>Select the ProximityTrigger, create an Entity FlowGraph for it.</li>
+                        <li>Add an <code>Entity:ProximityTrigger</code> node. It will have outputs like "Enter" and "Leave".</li>
+                        <li>Add an <code>Entity:PlayAnimation</code> node (or similar action for your door, like <code>Entity:SetPos</code> or a custom door component node).</li>
+                        <li>In the <code>Entity:PlayAnimation</code> node's properties (select node, view in Properties panel), assign the Door entity to its "EntityId" input or by picking it. Set the animation name (e.g., "door_open").</li>
+                        <li>Connect the "Enter" output of the ProximityTrigger node to the "Start" (or "Play") input of the PlayAnimation node.</li>
+                    </ol>
+                </li>
+            </ol>
+            <p>Flow Graph is powerful for prototyping, level scripting, and simple AI behaviors. For more complex systems, C++ or Schematyc is generally preferred.</p>
+        </section>
+        
+        <section id="cpp-scripting">
+            <h2>7. C++ & Schematyc Scripting</h2>
+            <p>For advanced game logic, performance-critical systems, and custom engine extensions, C++ is the primary programming language in CryEngine.</p>
+            <h3>C++</h3>
+            <p>Direct C++ scripting involves creating new components, game objects, and systems by deriving from CryEngine's base classes.</p>
+            <ul>
+                <li>You'll need a C++ IDE like Visual Studio (Community Edition is free).</li>
+                <li>When you create a C++ project, CryEngine generates a Visual Studio solution.</li>
+                <li>Key concepts include:
+                    <ul>
+                        <li><strong>Entities and Components:</strong> Modern CryEngine uses an Entity-Component System (ECS) architecture. You create custom components in C++ and attach them to entities.</li>
+                        <li><strong>Game Object Extensions:</strong> For older systems, or specific gameplay objects not fitting the component model.</li>
+                        <li><strong>CryCommon Headers:</strong> Include files providing access to engine APIs.</li>
+                        <li><strong>Building Code:</strong> Use Visual Studio to compile your C++ code into DLLs that the engine loads.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="important">C++ development in CryEngine requires a good understanding of C++ and game engine architecture. Refer to the official CryEngine C++ API documentation and tutorials.</p>
+
+            <h3>Schematyc</h3>
+            <p>Schematyc is a node-based visual logic system designed to be more accessible than raw C++ for certain tasks, while still offering robust capabilities. It can bridge the gap between Flow Graph and C++.</p>
+            <ul>
+                <li>Schematyc allows you to define custom entity components, state machines, and data structures visually.</li>
+                <li>These visual graphs can then be compiled into efficient C++ code or interpreted directly.</li>
+                <li>It aims to provide a more designer-friendly way to implement complex behaviors that might be cumbersome in Flow Graph but don't require deep C++ knowledge.</li>
+            </ul>
+            <p>Explore the <code>Tools > Schematyc Editor</code> to see how it works. Its usage and prominence can vary between CryEngine versions and project types.</p>
+            <p class="warning">Scripting in CryEngine has a steeper learning curve than in some other engines. Start with Flow Graph for basic interactions and gradually explore Schematyc or C++ as your needs and skills grow.</p>
+        </section>
+
+        <section id="lighting-tod">
+            <h2>8. Lighting & Time of Day</h2>
+            <p>CryEngine's lighting system is one of its hallmarks, enabling highly realistic and dynamic illumination.</p>
+            <h3>Basic Lights</h3>
+            <p>You can place various light entities from the "Objects" tab in the RollupBar > "Light":</p>
+            <ul>
+                <li><strong>Light (Point Light):</strong> Emits light in all directions from a point.</li>
+                <li><strong>Projector (Spot Light):</strong> Emits light in a cone shape. Can project textures.</li>
+                <li><strong>EnvironmentProbe:</strong> Captures surrounding environment for reflections. Essential for PBR materials.</li>
+                <li><strong>DeferredLight:</strong> Optimized lights that work well with deferred rendering.</li>
+            </ul>
+            <p>Each light has numerous properties in the Properties Panel (color, intensity, radius, shadow casting options, etc.).</p>
+            
+            <h3>Time of Day (TOD) System</h3>
+            <p>CryEngine's Time of Day system is incredibly powerful for creating dynamic skies, weather, and lighting transitions.</p>
+            <ol>
+                <li><strong>Open TOD Editor:</strong> <code>Terrain > Time Of Day</code> or <code>Tools > Time Of Day Editor</code>.</li>
+                <li>The editor displays a timeline (usually 00:00 to 24:00). You can scrub through time to see immediate changes in the viewport.</li>
+                <li><strong>Keyframing Parameters:</strong> Almost every atmospheric and lighting parameter can be keyframed along this timeline. This includes:
+                    <ul>
+                        <li>Sun direction, color, intensity.</li>
+                        <li>Sky color, fog density and color.</li>
+                        <li>Cloud settings.</li>
+                        <li>Moon properties.</li>
+                        <li>Global illumination parameters.</li>
+                    </ul>
+                </li>
+                <li>To set a keyframe: Move the timeline slider to the desired time, adjust a parameter (e.g., Sun Color), and right-click on the parameter's track in the TOD editor to add a key.</li>
+                <li>You can create multiple TOD sequences (e.g., for different weather states or moods) and switch between them.</li>
+            </ol>
+            <p class="important">Experimenting with the Time of Day editor is crucial for achieving stunning visuals. Save your TOD settings frequently (<code>File > Save</code> within the TOD editor).</p>
+        </section>
+
+        <section id="packaging">
+            <h2>9. Packaging Your Game</h2>
+            <p>When your project is ready for distribution, you need to package it into a standalone build.</p>
+            <ol>
+                <li><strong>Project Configurator:</strong> Open the CRYENGINE Launcher. Go to your project and click "Configure Project" or a similar option if available. This tool helps manage project settings, assets, and build configurations. (The exact tools and steps can vary slightly between engine versions).</li>
+                <li><strong>Build Options / Game Exporter:</strong>
+                    <ul>
+                        <li>Within the CryEngine Editor, look for options under <code>File > Export to Engine</code> or similar, or through dedicated build tools.</li>
+                        <li>Alternatively, the CRYENGINE Launcher or specific command-line tools provided with the engine are used for packaging.</li>
+                        <li>You typically need to specify:
+                            <ul>
+                                <li>Target platform (e.g., Windows 64-bit).</li>
+                                <li>Build configuration (e.g., "Release" for a final build, "Debug" for testing).</li>
+                                <li>Which levels to include.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Asset Processing:</strong> Before packaging, ensure all your assets are processed by the Resource Compiler (RC). This usually happens automatically when you save assets or can be triggered manually. The RC converts source assets (like <code>.max</code> files or <code>.tif</code> textures) into engine-ready formats (<code>.cgf</code>, <code>.dds</code>).</li>
+                <li><strong>Running the Packaged Game:</strong> The build process will generate an executable (e.g., <code>YourGame.exe</code>) and all necessary data files in a specified output folder. You can then run this executable to play your game.</li>
+            </ol>
+            <p class="warning">Packaging can be a complex step. Consult the official CryEngine documentation for the specific version you are using for detailed instructions on building and exporting your project. Ensure your license agreement with Crytek is understood regarding distribution.</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps & Resources</h2>
+            <p>You've now scratched the surface of CryEngine. To continue your journey:</p>
+            <ul>
+                <li><strong>Official Documentation:</strong> The <a href="https://documentation.cryengine.com/" target="_blank">CryEngine Official Documentation</a> is your primary resource. It contains detailed manuals, API references, and tutorials.</li>
+                <li><strong>CRYENGINE Answers & Forums:</strong> The <a href="https://answers.cryengine.com/" target="_blank">CRYENGINE Answers</a> site and the <a href="https://www.cryengine.com/community/forums" target="_blank">official forums</a> are great places to ask questions and learn from the community.</li>
+                <li><strong>CRYENGINE Marketplace:</strong> Find assets, tools, and sample projects that can accelerate your development.</li>
+                <li><strong>Tutorials:</strong> Look for official and community-made tutorials on YouTube and other platforms focusing on specific CryEngine features you want to learn (e.g., character animation, AI, advanced materials).</li>
+                <li><strong>Sample Projects:</strong> Deconstruct the GameSDK Sample Project or other available samples to see how features are implemented.</li>
+            </ul>
+            <p>Focus on mastering one area at a time, whether it's terrain, Flow Graph, materials, or C++ scripting. Consistent practice and experimentation are key.</p>
+        </section>
+
+        <section id="disclaimer">
+            <h2>Disclaimer</h2>
+            <p>This guide is provided for informational purposes only. Game development with CryEngine is a complex undertaking. There is no guarantee of success or functionality of the steps described here in every specific scenario or CryEngine version. The author of this webpage assumes no responsibility for any problems, data loss, or other difficulties that may arise from following this guide.</p>
+            <p>Always refer to the official CryEngine documentation and community resources for the most up-to-date and accurate information. Happy developing!</p>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        if(sections.length > 0 && navLinks.length > 0) {
+             window.dispatchEvent(new Event('scroll'));
+        }
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

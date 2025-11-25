@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-de="x86 Computer Guide" data-lang-en="x86 Computer Guide" data-lang-es="Guía de Ordenadores x86"></title>
+    
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #343a40;
+            --primary-color: #007bff;
+            --card-bg-color: #ffffff;
+            --border-color: #dee2e6;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+
+            --svg-bg: #e9ecef;
+            --svg-stroke: #495057;
+            --svg-detail: #adb5bd;
+            --svg-accent: var(--primary-color);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --text-color: #e0e0e0;
+                --primary-color: #64b5f6;
+                --card-bg-color: #1e1e1e;
+                --border-color: #333;
+                --shadow-color: rgba(0, 0, 0, 0.2);
+                
+                --svg-bg: #2c2c2c;
+                --svg-stroke: #ced4da;
+                --svg-detail: #6c757d;
+            }
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 6rem 1.5rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-top: 4rem;
+            margin-bottom: 5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-color);
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .component {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px var(--shadow-color);
+        }
+
+        .component.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .component ul {
+            list-style: none;
+            padding-left: 0;
+            font-size: 1rem;
+            flex-grow: 1;
+        }
+
+        .component ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 0.5rem;
+        }
+
+        .component ul li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            top: -2px;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .drawing-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            background-color: var(--bg-color);
+            border-radius: 12px;
+            padding: 2rem;
+            min-height: 220px;
+            transition: background-color 0.3s;
+        }
+
+        .drawing-container svg {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+        }
+        
+        svg .svg-bg { fill: var(--svg-bg); transition: fill 0.3s; }
+        svg .svg-stroke { stroke: var(--svg-stroke); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; fill: none; transition: stroke 0.3s; }
+        svg .svg-detail { fill: var(--svg-detail); transition: fill 0.3s; }
+        svg .svg-accent { fill: var(--svg-accent); transition: fill 0.3s; }
+        svg .svg-text { fill: var(--text-color); font-family: -apple-system, sans-serif; font-size: 12px; font-weight: 600; transition: fill 0.3s; }
+        svg .svg-flow { stroke: var(--svg-accent); stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+        svg .svg-flow-text { fill: var(--text-color); font-family: -apple-system, sans-serif; font-size: 16px; font-weight: bold; }
+
+        .how-it-works-layout {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .how-it-works-layout .drawing-container {
+            padding: 1rem;
+        }
+
+        .how-it-works-layout ol {
+            padding-left: 1.5rem;
+            font-size: 1rem;
+        }
+        .how-it-works-layout li {
+            margin-bottom: 0.75rem;
+        }
+        .how-it-works-layout strong {
+            color: var(--primary-color);
+        }
+
+        @media (min-width: 1000px) {
+            .how-it-works-layout {
+                flex-direction: row;
+                gap: 2rem;
+                align-items: center;
+            }
+            .how-it-works-layout .drawing-container {
+                flex: 1 1 55%;
+            }
+            .how-it-works-layout .text-content {
+                flex: 1 1 45%;
+            }
+        }
+
+        .menu-toggle {
+            position: fixed; top: 20px; left: 20px; z-index: 1001; width: 50px; height: 50px;
+            background-color: var(--card-bg-color); border: 1px solid var(--border-color);
+            border-radius: 50%; cursor: pointer; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        .menu-toggle:hover { transform: scale(1.1); }
+        .menu-toggle span { display: block; width: 24px; height: 2px; background-color: var(--text-color); margin: 3px 0; transition: all 0.3s; }
+        .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .menu-toggle.open span:nth-child(2) { opacity: 0; }
+        .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        nav {
+            position: fixed; top: 0; left: 0; width: 280px; height: 100%; background-color: var(--card-bg-color);
+            border-right: 1px solid var(--border-color); z-index: 1000; transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1); padding-top: 100px;
+            box-shadow: 5px 0 20px rgba(0,0,0,0.1);
+        }
+        nav.open { transform: translateX(0); }
+        .nav-header { padding: 0 2rem; margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: 600; color: var(--primary-color); }
+        .lang-switcher { list-style: none; padding: 0; margin: 0; }
+        .lang-switcher li button {
+            display: block; width: 100%; text-align: left; padding: 1rem 2rem; background: none; border: none;
+            color: var(--text-color); font-size: 1.1rem; font-weight: 500; cursor: pointer;
+            transition: background-color 0.2s, color 0.2s; border-left: 4px solid transparent;
+        }
+        .lang-switcher li button:hover { background-color: rgba(0,0,0,0.05); }
+        @media (prefers-color-scheme: dark) { .lang-switcher li button:hover { background-color: rgba(255,255,255,0.05); } }
+        .lang-switcher li button.active { color: var(--primary-color); font-weight: bold; border-left-color: var(--primary-color); }
+    </style>
+</head>
+<body>
+
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+    </button>
+
+    <nav id="nav-menu">
+        <div class="nav-header" data-lang-de="Sprache wählen" data-lang-en="Select Language" data-lang-es="Seleccionar Idioma"></div>
+        <ul class="lang-switcher">
+            <li><button id="lang-de" data-lang="de">Deutsch</button></li>
+            <li><button id="lang-en" data-lang="en">English</button></li>
+            <li><button id="lang-es" data-lang="es">Español</button></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1 data-lang-de="x86 Computer Anatomie" 
+                data-lang-en="x86 Computer Anatomy"
+                data-lang-es="Anatomía del Ordenador x86"></h1>
+            <p data-lang-de="Ein visueller Guide zu den Kernkomponenten moderner Computer."
+               data-lang-en="A visual guide to the core components of modern computers."
+               data-lang-es="Una guía visual de los componentes clave de los ordenadores modernos."></p>
+        </header>
+
+        <main class="component-grid">
+
+            <div class="component full-width">
+                <div class="how-it-works-layout">
+                    <div class="drawing-container">
+                        <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" aria-labelledby="howitworks-title" role="img">
+                            <title id="howitworks-title" data-lang-de="Flussdiagramm der Computerprozesse" data-lang-en="Flowchart of computer processes" data-lang-es="Diagrama de flujo de los procesos del ordenador"></title>
+                            <defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="var(--svg-accent)" /></marker></defs>
+                            <g id="user-icon" transform="translate(30, 100)">
+                                <circle class="svg-bg" cx="15" cy="15" r="15"/>
+                                <path class="svg-stroke" d="M15,9 a6,6 0 1,1 0,12 a6,6 0 1,1 0,-12 M5,26 a10,12 0 0,1 20,0"/>
+                                <text class="svg-text" x="8" y="40" data-lang-de="DU" data-lang-en="YOU" data-lang-es="TÚ"></text>
+                            </g>
+                            <g id="cpu-icon" transform="translate(100, 20)">
+                                <rect class="svg-bg" x="0" y="0" width="40" height="40" rx="3"/>
+                                <path class="svg-stroke" d="M10,10 h20 v20 h-20z M0,10h10 M30,10h10 M0,30h10 M30,30h10 M10,0v10 M10,30v10 M30,0v10 M30,30v10"/>
+                                <text class="svg-text" x="5" y="55">CPU</text>
+                            </g>
+                            <g id="ssd-icon" transform="translate(100, 160)">
+                                <rect class="svg-bg" x="0" y="0" width="40" height="50" rx="3"/>
+                                <rect class="svg-detail" x="10" y="38" width="20" height="5" rx="1"/>
+                                <text class="svg-text" x="3" y="-8" data-lang-de="Speicher" data-lang-en="Storage" data-lang-es="Almacen."></text>
+                            </g>
+                             <g id="ram-icon" transform="translate(180, 20)">
+                                <rect class="svg-bg" x="0" y="0" width="40" height="40" rx="2"/>
+                                <rect class="svg-detail" x="5" y="5" width="8" height="12"/> <rect class="svg-detail" x="16" y="5" width="8" height="12"/> <rect class="svg-detail" x="27" y="5" width="8" height="12"/>
+                                <text class="svg-text" x="5" y="55">RAM</text>
+                            </g>
+                            <g id="gpu-icon" transform="translate(260, 20)">
+                                <rect class="svg-bg" x="0" y="0" width="40" height="40" rx="3"/>
+                                <circle class="svg-detail" cx="20" cy="20" r="12"/>
+                                <path class="svg-stroke" d="M20,8 v24 M8,20 h24"/>
+                                <text class="svg-text" x="5" y="55">GPU</text>
+                            </g>
+                            <g id="monitor-icon" transform="translate(340, 95)">
+                                <rect class="svg-bg" x="0" y="0" width="50" height="30" rx="2"/>
+                                <path class="svg-stroke" d="M25,30 v10 M15,40 h20"/>
+                            </g>
+                            <path class="svg-flow" d="M50,115 C 80,115 80,40 100,40"/> <text class="svg-flow-text" x="75" y="90">1</text>
+                            <path class="svg-flow" d="M120,65 C 120,100 120,150 120,160"/> <text class="svg-flow-text" x="125" y="120">2</text>
+                            <path class="svg-flow" d="M140,180 C 160,180 160,60 180,60"/> <text class="svg-flow-text" x="150" y="120">3</text>
+                            <path class="svg-flow" d="M220,40 h 40"/> <text class="svg-flow-text" x="235" y="35">4</text>
+                            <path class="svg-flow" d="M300,40 C 320,40 340,80 340,100"/> <text class="svg-flow-text" x="325" y="65">5</text>
+                        </svg>
+                    </div>
+                    <div class="text-content">
+                        <h2 data-lang-de="Wie alles zusammenarbeitet" data-lang-en="How It All Works Together" data-lang-es="Cómo Funciona Todo Junto"></h2>
+                        <ol>
+                            <li data-lang-de="<strong>Du</strong> gibst einen Befehl (z.B. Klick)." data-lang-en="<strong>You</strong> give a command (e.g., a click)." data-lang-es="<strong>Tú</strong> das una orden (p. ej., un clic)."></li>
+                            <li data-lang-de="Die <strong>CPU</strong> fragt die Daten vom <strong>Speicher</strong> an." data-lang-en="The <strong>CPU</strong> requests data from <strong>Storage</strong>." data-lang-es="La <strong>CPU</strong> solicita los datos del <strong>Almacenamiento</strong>."></li>
+                            <li data-lang-de="Daten werden vom Speicher in den schnellen <strong>RAM</strong> geladen." data-lang-en="Data is loaded from storage into the fast <strong>RAM</strong>." data-lang-es="Los datos se cargan del almacenamiento a la <strong>RAM</strong> rápida."></li>
+                            <li data-lang-de="Die <strong>CPU</strong> verarbeitet die Daten und schickt Grafikanweisungen an die <strong>GPU</strong>." data-lang-en="The <strong>CPU</strong> processes the data and sends graphics commands to the <strong>GPU</strong>." data-lang-es="La <strong>CPU</strong> procesa los datos y envía comandos gráficos a la <strong>GPU</strong>."></li>
+                            <li data-lang-de="Die <strong>GPU</strong> erzeugt das Bild für deinen <strong>Monitor</strong>." data-lang-en="The <strong>GPU</strong> creates the image for your <strong>Monitor</strong>." data-lang-es="La <strong>GPU</strong> crea la imagen para tu <strong>Monitor</strong>."></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="drawing-container">
+                    <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-labelledby="cpu-title" role="img">
+                        <title id="cpu-title">CPU</title>
+                        <rect class="svg-bg" x="50" y="35" width="100" height="100" rx="5"/>
+                        <path class="svg-stroke" d="M60,45 h80 v80 h-80 z"/>
+                        <path class="svg-detail" d="M50,35 l10,10 M150,35 l-10,10 M50,135 l10,-10 M150,135 l-10,-10"/>
+                    </svg>
+                </div>
+                <h2>CPU</h2>
+                <ul>
+                    <li data-lang-de="Das Gehirn des Computers." data-lang-en="The brain of the computer." data-lang-es="El cerebro del ordenador."></li>
+                    <li data-lang-de="Führt alle Befehle und Berechnungen aus." data-lang-en="Executes all commands and calculations." data-lang-es="Ejecuta todos los comandos y cálculos."></li>
+                    <li data-lang-de="Die Geschwindigkeit bestimmt die allgemeine Leistung." data-lang-en="Its speed determines overall performance." data-lang-es="Su velocidad determina el rendimiento general."></li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <div class="drawing-container">
+                    <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-labelledby="ram-title" role="img">
+                         <title id="ram-title">RAM</title>
+                         <g transform="translate(25, 55) rotate(-15)">
+                           <rect class="svg-bg" x="0" y="0" width="150" height="40" rx="3"/>
+                           <path class="svg-stroke" d="M0,35 C 20,45 130,45 150,35"/>
+                           <rect class="svg-detail" x="10" y="8" width="15" height="20" rx="1"/>
+                           <rect class="svg-detail" x="30" y="8" width="15" height="20" rx="1"/>
+                           <rect class="svg-detail" x="50" y="8" width="15" height="20" rx="1"/>
+                           <rect class="svg-detail" x="70" y="8" width="15" height="20" rx="1"/>
+                           <rect class="svg-detail" x="90" y="8" width="15" height="20" rx="1"/>
+                           <rect class="svg-detail" x="110" y="8" width="15" height="20" rx="1"/>
+                           <rect class="svg-detail" x="130" y="8" width="15" height="20" rx="1"/>
+                         </g>
+                    </svg>
+                </div>
+                <h2>RAM</h2>
+                <ul>
+                    <li data-lang-de="Kurzzeitgedächtnis für aktiven Datenzugriff." data-lang-en="Short-term memory for active data access." data-lang-es="Memoria a corto plazo para acceso a datos activos."></li>
+                    <li data-lang-de="Speichert laufende Programme und Dateien." data-lang-en="Holds currently running programs and files." data-lang-es="Guarda programas y archivos en ejecución."></li>
+                    <li data-lang-de="Inhalt wird beim Ausschalten gelöscht (flüchtig)." data-lang-en="Contents are erased on power off (volatile)." data-lang-es="El contenido se borra al apagar (volátil)."></li>
+                </ul>
+            </div>
+
+            <div class="component">
+                <div class="drawing-container">
+                    <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-labelledby="gpu-title" role="img">
+                        <title id="gpu-title">GPU</title>
+                        <g transform="translate(10, 20)">
+                            <rect class="svg-bg" x="0" y="0" width="180" height="90" rx="5"/>
+                            <rect class="svg-stroke" x="10" y="10" width="160" height="70" rx="3"/>
+                            <circle class="svg-detail" cx="60" cy="45" r="25"/>
+                            <path class="svg-stroke" d="M60,20 v50 M35,45 h50 M42,27 l36,36 M42,63 l36,-36" />
+                            <rect class="svg-detail" x="120" y="25" width="40" height="40" rx="2"/>
+                            <path class="svg-stroke" d="M0,70 h10"/>
+                        </g>
+                    </svg>
+                </div>
+                <h2>GPU</h2>
+                <ul>
+                    <li data-lang-de="Spezialist für visuelle Darstellungen." data-lang-en="Specialist for visual rendering." data-lang-es="Especialista en renderizado visual."></li>
+                    <li data-lang-de="Erzeugt Bilder, Videos und 3D-Grafiken." data-lang-en="Creates images, videos, and 3D graphics." data-lang-es="Crea imágenes, vídeos y gráficos 3D."></li>
+                    <li data-lang-de="Entscheidend für Gaming und kreative Arbeit." data-lang-en="Crucial for gaming and creative work." data-lang-es="Crucial para juegos y trabajo creativo."></li>
+                </ul>
+            </div>
+
+            <div class="component">
+                <div class="drawing-container">
+                    <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-labelledby="storage-title" role="img">
+                        <title id="storage-title">Storage</title>
+                        <rect class="svg-bg" x="40" y="40" width="120" height="80" rx="5"/>
+                        <rect class="svg-stroke" x="48" y="48" width="104" height="64" rx="2"/>
+                        <rect class="svg-detail" x="80" y="100" width="40" height="8" rx="1"/>
+                        <circle class="svg-accent" cx="145" cy="55" r="3"/>
+                    </svg>
+                </div>
+                <h2>Speicher (SSD)</h2>
+                <ul>
+                    <li data-lang-de="Langzeitgedächtnis des Computers." data-lang-en="The computer's long-term memory." data-lang-es="La memoria a largo plazo del ordenador."></li>
+                    <li data-lang-de="Speichert OS, Programme und deine Dateien." data-lang-en="Stores the OS, programs, and your files." data-lang-es="Almacena el SO, programas y tus archivos."></li>
+                    <li data-lang-de="Bleibt auch ohne Strom erhalten (nicht-flüchtig)." data-lang-en="Keeps data without power (non-volatile)." data-lang-es="Conserva datos sin energía (no volátil)."></li>
+                </ul>
+            </div>
+
+            <div class="component">
+                 <div class="drawing-container">
+                    <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-labelledby="psu-title" role="img">
+                        <title id="psu-title">PSU</title>
+                        <rect class="svg-bg" x="40" y="40" width="120" height="100" rx="5"/>
+                        <circle class="svg-detail" cx="100" cy="90" r="30" />
+                        <path class="svg-stroke" d="M100,60 v60 M70,90 h60 M78.8,68.8 l42.4,42.4 M78.8,111.2 l42.4,-42.4"/>
+                        <rect class="svg-stroke" x="60" y="50" width="80" height="20" rx="2"/>
+                    </svg>
+                </div>
+                <h2>Netzteil (PSU)</h2>
+                <ul>
+                    <li data-lang-de="Versorgt alle Komponenten mit Strom." data-lang-en="Supplies power to all components." data-lang-es="Suministra energía a todos los componentes."></li>
+                    <li data-lang-de="Wandelt Netzstrom in nutzbare Spannung um." data-lang-en="Converts wall power to usable voltages." data-lang-es="Convierte la corriente de pared a voltajes útiles."></li>
+                    <li data-lang-de="Wichtig für Stabilität und Schutz des Systems." data-lang-en="Vital for system stability and protection." data-lang-es="Vital para la estabilidad y protección del sistema."></li>
+                </ul>
+            </div>
+
+            <div class="component">
+                <div class="drawing-container">
+                     <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-labelledby="motherboard-title" role="img">
+                        <title id="motherboard-title">Motherboard</title>
+                        <rect class="svg-bg" x="10" y="10" width="180" height="130" rx="5"/>
+                        <path class="svg-detail" d="M10,80 h180 M90,10 v130 M 50,10 L 150,140 M 150,10 L 50,140"/>
+                        <rect class="svg-stroke" x="75" y="20" width="50" height="50" rx="2"/>
+                        <text class="svg-text" x="88" y="50">CPU</text>
+                        <rect class="svg-stroke" x="25" y="80" width="15" height="50" rx="1"/>
+                        <rect class="svg-stroke" x="45" y="80" width="15" height="50" rx="1"/>
+                        <text class="svg-text" x="28" y="75">RAM</text>
+                        <rect class="svg-stroke" x="140" y="80" width="40" height="50" rx="2"/>
+                        <text class="svg-text" x="148" y="75">GPU</text>
+                    </svg>
+                </div>
+                <h2>Mainboard</h2>
+                <ul>
+                    <li data-lang-de="Die zentrale Verbindungsplattform." data-lang-en="The central connection hub." data-lang-es="El centro de conexión principal."></li>
+                    <li data-lang-de="Verbindet alle Teile miteinander." data-lang-en="Connects all the parts together." data-lang-es="Conecta todas las piezas entre sí."></li>
+                    <li data-lang-de="Ermöglicht die Kommunikation der Komponenten." data-lang-en="Allows components to communicate." data-lang-es="Permite la comunicación entre componentes."></li>
+                </ul>
+            </div>
+            
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const supportedLangs = ['de', 'en', 'es'];
+            let currentLang;
+
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('open');
+                navMenu.classList.toggle('open');
+            });
+            
+            const elementsToTranslate = document.querySelectorAll('[data-lang-de], [data-lang-en], [data-lang-es]');
+
+            function setLanguage(lang) {
+                if (!supportedLangs.includes(lang)) {
+                    lang = 'en';
+                }
+
+                elementsToTranslate.forEach(el => {
+                    const text = el.getAttribute(`data-lang-${lang}`);
+                    if (text) {
+                        if (el.tagName === 'TITLE' || el.tagName === 'BUTTON') {
+                            el.textContent = text;
+                        } else {
+                            el.innerHTML = text;
+                        }
+                    }
+                });
+
+                document.documentElement.lang = lang;
+                localStorage.setItem('userLanguage', lang);
+                currentLang = lang;
+                
+                updateActiveButton(lang);
+            }
+
+            function updateActiveButton(lang) {
+                document.querySelectorAll('.lang-switcher button').forEach(button => {
+                    if (button.dataset.lang === lang) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                });
+            }
+
+            function getInitialLanguage() {
+                const savedLang = localStorage.getItem('userLanguage');
+                if (savedLang && supportedLangs.includes(savedLang)) {
+                    return savedLang;
+                }
+
+                const browserLang = navigator.language.split('-')[0];
+                if (supportedLangs.includes(browserLang)) {
+                    return browserLang;
+                }
+
+                return 'en';
+            }
+            
+            document.querySelectorAll('.lang-switcher button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const newLang = e.target.dataset.lang;
+                    setLanguage(newLang);
+                    menuToggle.classList.remove('open');
+                    navMenu.classList.remove('open');
+                });
+            });
+
+            const initialLang = getInitialLanguage();
+            setLanguage(initialLang);
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

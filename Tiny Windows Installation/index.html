@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>"Tiny Windows" (e.g., Tiny10/Tiny11) Installation Guide</title>
+    <style>
+        :root {
+            
+            --bg-color: #f4f4f4;
+            --content-bg: #fff;
+            --text-color: #333;
+            --sidebar-bg: #4A4A4A;
+            --sidebar-text: #ddd;
+            --sidebar-text-active: #000;
+            --accent-gray: #9E9E9E; 
+            --accent-gray-dark: #616161; 
+            --accent-gray-darker: #424242; 
+            --link-color: #757575;
+            --border-color: #ddd;
+            --border-color-light: #eee;
+            --code-bg: #e9ecef;
+            --code-text: #c7254e;
+            --warning-bg: #fff3cd;
+            --warning-border: #ffeeba;
+            --warning-text: #856404;
+            --important-bg: #d1ecf1;
+            --important-border: #bee5eb;
+            --important-text: #0c5460;
+            --danger-bg: #f8d7da;
+            --danger-border: #f5c6cb;
+            --danger-text: #721c24;
+            --controls-bg: #33383d;
+            --controls-text: #fff;
+            --controls-border: #444;
+            --button-bg: #5a5a5a;
+            --button-bg-active: #9E9E9E;
+        }
+
+       
+        @media (prefers-color-scheme: dark) {
+            :root:not(.light-theme) {
+                --bg-color: #1a1d21;
+                --content-bg: #272b30;
+                --text-color: #d1d5db;
+                --sidebar-bg: #1e2125;
+                --sidebar-text: #b0b3b8;
+                --sidebar-text-active: #fff;
+                --accent-gray: #555;
+                --accent-gray-dark: #9e9e9e;
+                --accent-gray-darker: #bdbdbd;
+                --link-color: #b0b3b8;
+                --border-color: #4b5563;
+                --border-color-light: #374151;
+                --code-bg: #374151;
+                --code-text: #f089a2;
+                --warning-bg: #4d4021;
+                --warning-border: #a48c3a;
+                --warning-text: #ffe08a;
+                --important-bg: #1f444d;
+                --important-border: #528994;
+                --important-text: #a6d7e0;
+                --danger-bg: #5c2126;
+                --danger-border: #a73c44;
+                --danger-text: #f5c6cb;
+                --controls-bg: #1e2125;
+                --controls-text: #fff;
+                --controls-border: #555;
+                --button-bg: #495057;
+                --button-bg-active: #777;
+            }
+        }
+        
+        
+        html.dark-theme {
+            --bg-color: #1a1d21;
+            --content-bg: #272b30;
+            --text-color: #d1d5db;
+            --sidebar-bg: #1e2125;
+            --sidebar-text: #b0b3b8;
+            --sidebar-text-active: #fff;
+            --accent-gray: #555;
+            --accent-gray-dark: #9e9e9e;
+            --accent-gray-darker: #bdbdbd;
+            --link-color: #b0b3b8;
+            --border-color: #4b5563;
+            --border-color-light: #374151;
+            --code-bg: #374151;
+            --code-text: #f089a2;
+            --warning-bg: #4d4021;
+            --warning-border: #a48c3a;
+            --warning-text: #ffe08a;
+            --important-bg: #1f444d;
+            --important-border: #528994;
+            --important-text: #a6d7e0;
+            --danger-bg: #5c2126;
+            --danger-border: #a73c44;
+            --danger-text: #f5c6cb;
+            --controls-bg: #1e2125;
+            --controls-text: #fff;
+            --controls-border: #555;
+            --button-bg: #495057;
+            --button-bg-active: #777;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text-active);
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            transition: background-color 0.3s;
+        }
+        #sidebar h2 {
+            color: #fff; 
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: var(--sidebar-text);
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: var(--accent-gray);
+            color: var(--sidebar-text-active);
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: var(--content-bg);
+            min-height: 100vh;
+            transition: background-color 0.3s;
+        }
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: var(--text-color);
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: var(--accent-gray-dark);
+            border-bottom: 2px solid var(--accent-gray-dark);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: var(--accent-gray-darker);
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: var(--code-text);
+        }
+        .warning, .important, .danger {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: var(--warning-bg);
+            border-left: 5px solid var(--warning-border);
+            color: var(--warning-text);
+        }
+        .important {
+            background-color: var(--important-bg);
+            border-left: 5px solid var(--important-border);
+            color: var(--important-text);
+        }
+        .danger {
+            background-color: var(--danger-bg);
+            border-left: 5px solid var(--danger-border);
+            color: var(--danger-text);
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+        }
+
+        #ui-controls {
+            background-color: var(--controls-bg);
+            color: var(--controls-text);
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            border-bottom: 1px solid var(--controls-border);
+        }
+        .control-group {
+            margin-bottom: 15px;
+        }
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        .control-group label {
+            display: block;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        #language-switcher, #theme-switcher button {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid var(--controls-border);
+            background-color: var(--button-bg);
+            color: var(--controls-text);
+            cursor: pointer;
+        }
+        #theme-switcher {
+            display: flex;
+            gap: 5px;
+        }
+        #theme-switcher button {
+            flex: 1;
+        }
+        #theme-switcher button.active {
+            background-color: var(--button-bg-active);
+            font-weight: bold;
+        }
+        
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+                box-sizing: border-box;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <div id="ui-controls">
+            <div class="control-group">
+                <label for="language-switcher" data-i18n="lang_label">Language</label>
+                <select id="language-switcher">
+                    <option value="en">English</option>
+                    <option value="de">Deutsch</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label data-i18n="theme_label">Theme</label>
+                <div id="theme-switcher">
+                    <button data-theme="light" data-i18n="theme_light">Light</button>
+                    <button data-theme="dark" data-i18n="theme_dark">Dark</button>
+                    <button data-theme="auto" data-i18n="theme_auto">Auto</button>
+                </div>
+            </div>
+        </div>
+        
+        <h2 data-i18n="nav_header">Navigation</h2>
+        <ul>
+            <li><a href="#introduction" data-i18n="nav_introduction">Introduction to "Tiny Windows"</a></li>
+            <li><a href="#prerequisites" data-i18n="nav_prerequisites">Prerequisites & Backup</a></li>
+            <li><a href="#download-iso" data-i18n="nav_download">1. Download & Verify ISO</a></li>
+            <li><a href="#installation-media" data-i18n="nav_media">2. Create Installation Media</a></li>
+            <li><a href="#bios-uefi" data-i18n="nav_bios">3. BIOS/UEFI Configuration</a></li>
+            <li><a href="#boot-installer" data-i18n="nav_boot">4. Booting the Installer</a></li>
+            <li><a href="#windows-setup" data-i18n="nav_setup">5. Windows Setup Process</a></li>
+            <li><a href="#oobe" data-i18n="nav_oobe">6. Initial Configuration (OOBE)</a></li>
+            <li><a href="#post-install" data-i18n="nav_postinstall">7. Post-Installation Steps</a></li>
+            <li><a href="#crucial-considerations" data-i18n="nav_considerations">Crucial Considerations</a></li>
+            <li><a href="#troubleshooting" data-i18n="nav_troubleshooting">Troubleshooting Tips</a></li>
+            <li><a href="#disclaimer" data-i18n="nav_disclaimer">Disclaimer</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1 data-i18n="main_title">"Tiny Windows" (e.g., Tiny10/Tiny11) Installation Guide</h1>
+        </header>
+
+        <section id="introduction">
+            <h2 data-i18n="sec_intro_title">Introduction to "Tiny Windows"</h2>
+            <p data-i18n="sec_intro_p1"></p>
+            <p class="danger" data-i18n="sec_intro_p2_danger"></p>
+        </section>
+
+        <section id="prerequisites">
+            <h2 data-i18n="sec_prereq_title">Prerequisites & Crucial: Backup Your Data!</h2>
+            <p class="warning" data-i18n="sec_prereq_p1_warning"></p>
+            <p data-i18n="sec_prereq_p2"></p>
+            <ul data-i18n="sec_prereq_ul1"></ul>
+        </section>
+
+        <section id="download-iso">
+            <h2 data-i18n="sec_download_title">1. Download "Tiny Windows" ISO & Verify</h2>
+            <ol data-i18n="sec_download_ol1"></ol>
+        </section>
+
+        <section id="installation-media">
+            <h2 data-i18n="sec_media_title">2. Create Bootable Installation Media (USB Drive)</h2>
+            <p class="warning" data-i18n="sec_media_p1_warning"></p>
+            <p data-i18n="sec_media_p2"></p>
+            <ul data-i18n="sec_media_ul1"></ul>
+        </section>
+
+        <section id="bios-uefi">
+            <h2 data-i18n="sec_bios_title">3. BIOS/UEFI Configuration</h2>
+            <ol data-i18n="sec_bios_ol1"></ol>
+        </section>
+
+        <section id="boot-installer">
+            <h2 data-i18n="sec_boot_title">4. Booting the "Tiny Windows" Installer</h2>
+            <ol data-i18n="sec_boot_ol1"></ol>
+        </section>
+
+        <section id="windows-setup">
+            <h2 data-i18n="sec_setup_title">5. Windows Setup Process ("Tiny Windows")</h2>
+            <p data-i18n="sec_setup_p1"></p>
+            <ol data-i18n="sec_setup_ol1"></ol>
+        </section>
+
+        <section id="oobe">
+            <h2 data-i18n="sec_oobe_title">6. Initial Windows Configuration (OOBE)</h2>
+            <p data-i18n="sec_oobe_p1"></p>
+            <ol data-i18n="sec_oobe_ol1"></ol>
+        </section>
+
+        <section id="post-install">
+            <h2 data-i18n="sec_postinstall_title">7. Post-Installation Steps</h2>
+            <p class="danger" data-i18n="sec_postinstall_p1_danger"></p>
+            <ol data-i18n="sec_postinstall_ol1"></ol>
+        </section>
+
+        <section id="crucial-considerations">
+            <h2 data-i18n="sec_considerations_title">Crucial Considerations for "Tiny Windows"</h2>
+            <div class="danger" data-i18n="sec_considerations_div_danger"></div>
+        </section>
+
+        <section id="troubleshooting">
+            <h2 data-i18n="sec_troubleshooting_title">Troubleshooting Tips</h2>
+            <ul data-i18n="sec_troubleshooting_ul1"></ul>
+        </section>
+
+        <section id="disclaimer">
+            <h2 data-i18n="sec_disclaimer_title">Disclaimer</h2>
+            <p class="danger" data-i18n="sec_disclaimer_p1_danger"></p>
+            <p data-i18n="sec_disclaimer_p2"></p>
+        </section>
+
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                
+                en: {
+                    page_title: '"Tiny Windows" (e.g., Tiny10/Tiny11) Installation Guide',
+                    lang_label: "Language",
+                    theme_label: "Theme",
+                    theme_light: "Light",
+                    theme_dark: "Dark",
+                    theme_auto: "Auto",
+                    nav_header: "Navigation",
+                    nav_introduction: 'Introduction to "Tiny Windows"',
+                    nav_prerequisites: "Prerequisites & Backup",
+                    nav_download: "1. Download & Verify ISO",
+                    nav_media: "2. Create Installation Media",
+                    nav_bios: "3. BIOS/UEFI Configuration",
+                    nav_boot: "4. Booting the Installer",
+                    nav_setup: "5. Windows Setup Process",
+                    nav_oobe: "6. Initial Configuration (OOBE)",
+                    nav_postinstall: "7. Post-Installation Steps",
+                    nav_considerations: "Crucial Considerations",
+                    nav_troubleshooting: "Troubleshooting Tips",
+                    nav_disclaimer: "Disclaimer",
+                    main_title: '"Tiny Windows" (e.g., Tiny10/Tiny11) Installation Guide',
+                    sec_intro_title: 'Introduction to "Tiny Windows"',
+                    sec_intro_p1: '"Tiny Windows" refers to heavily modified, unofficial versions of Microsoft Windows, such as Tiny10 or Tiny11 by NTDEV. These versions are stripped of many components and features to reduce their footprint and resource usage, primarily aiming to run on very old or low-specification hardware.',
+                    sec_intro_p2_danger: "<strong>EXTREME WARNING:</strong> These are <strong>NOT</strong> official Microsoft products. They are created by community developers by removing significant parts of Windows. This process carries substantial risks regarding security, stability, compatibility, and legality. Proceed with extreme caution and full understanding of the risks outlined in this guide.",
+                    sec_prereq_title: "Prerequisites & Crucial: Backup Your Data!",
+                    sec_prereq_p1_warning: "<strong>CRITICAL: BACKUP YOUR DATA!</strong> Installing any OS, especially a heavily modified one, will erase the target drive. Back up all important data externally before you begin.",
+                    sec_prereq_p2: "You will need:",
+                    sec_prereq_ul1: `
+                        <li><strong>Target Computer:</strong> Usually very old or low-spec hardware.
+                            <ul>
+                                <li>Processor: 32-bit or 64-bit (depending on the "Tiny" version).</li>
+                                <li>RAM: Very low (e.g., Tiny10 x86 might aim for ~256MB, Tiny11 for ~2GB, but check the specific version's claims).</li>
+                                <li>Storage: Very small footprint (e.g., a few GBs for the OS, but more needed for any apps).</li>
+                            </ul>
+                        </li>
+                        <li><strong>"Tiny Windows" ISO File:</strong> Downloaded <strong>ONLY</strong> from the original developer's specified official channels (e.g., NTDEV's uploads on Internet Archive).</li>
+                        <li><strong>USB Flash Drive:</strong> Minimum 4GB capacity (usually). This drive will be erased.</li>
+                        <li><strong>Valid Windows Product Key:</strong>
+                            <p class="important">"Tiny Windows" does NOT provide a Windows license or bypass activation. You need a legitimate Windows 7/8/10/11 product key (depending on the base of the "Tiny" version) to activate it. Often, keys for older Windows versions (like 7/8) can still activate corresponding editions of Windows 10/11 if the "Tiny" version is based on them.</p>
+                        </li>
+                        <li><strong>(Optional) Another Working Computer:</strong> To download the ISO and create the USB media.</li>`,
+                    sec_download_title: '1. Download "Tiny Windows" ISO & Verify',
+                    sec_download_ol1: `
+                        <li>
+                            <p class="danger"><strong>SOURCE IS PARAMOUNT:</strong> You MUST download the ISO from the original developer's official distribution channels. For Tiny10/Tiny11, this is typically NTDEV's uploads on the <a href="https://archive.org/" target="_blank">Internet Archive</a> (search for "Tiny10 by NTDEV" or "Tiny11 by NTDEV"). <strong>DO NOT download from random websites, YouTube links, or forums unless directly linked by the original developer.</strong> The risk of malware from unofficial sources is extremely high.</p>
+                        </li>
+                        <li>Choose the correct version for your hardware (e.g., x86 for 32-bit, x64 for 64-bit) and the specific "Tiny" build you want. Read the developer's description carefully.</li>
+                        <li>Download the official ISO file.</li>
+                        <li>
+                            <p class="important"><strong>Verify the ISO Download (Crucial!):</strong></p>
+                            <ul>
+                                <li>The original developer should provide a checksum (e.g., SHA256) for the ISO on their download page/description.</li>
+                                <li>Calculate the checksum of your downloaded ISO:
+                                    <ul>
+                                        <li>Windows PowerShell: <code>Get-FileHash -Algorithm SHA256 /path/to/TinyWindows.iso</code></li>
+                                        <li>Linux/macOS Terminal: <code>sha256sum /path/to/TinyWindows.iso</code></li>
+                                    </ul>
+                                </li>
+                                <li>Compare with the official checksum. They <strong>MUST MATCH</strong>. If not, your download is compromised; delete it and re-download ONLY from the official source.</li>
+                            </ul>
+                        </li>`,
+                    sec_media_title: "2. Create Bootable Installation Media (USB Drive)",
+                    sec_media_p1_warning: "The USB flash drive will be erased. Back up its data.",
+                    sec_media_p2: "Recommended tool:",
+                    sec_media_ul1: `
+                        <li>
+                            <strong><a href="https://rufus.ie/" target="_blank">Rufus</a> (Windows):</strong>
+                            <ol>
+                                <li>Download and run Rufus.</li>
+                                <li>Select your USB drive.</li>
+                                <li>Click "SELECT" and choose your "Tiny Windows" ISO.</li>
+                                <li><strong>Partition scheme:</strong>
+                                    <ul>
+                                        <li>"GPT" for UEFI systems (if your target old hardware supports UEFI).</li>
+                                        <li>"MBR" for older BIOS-only systems.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Target system:</strong> Will usually auto-select based on partition scheme.</li>
+                                <li>Ensure "Standard Windows installation" is selected under "Image option".</li>
+                                <li>Click "START". Confirm data erasure.</li>
+                            </ol>
+                        </li>`,
+                    sec_bios_title: "3. BIOS/UEFI Configuration",
+                    sec_bios_ol1: `
+                        <li>Insert the bootable "Tiny Windows" USB drive.</li>
+                        <li><strong>Access BIOS/UEFI Setup:</strong> Restart/turn on. Press the key for BIOS/UEFI (Common: <code>Del</code>, <code>F2</code>, <code>F1</code>, <code>F10</code>, <code>Esc</code>).</li>
+                        <li><strong>Set Boot Order:</strong> Make the USB drive the first boot device.</li>
+                        <li><strong>Boot Mode:</strong>
+                            <ul>
+                                <li>If your hardware and "Tiny" version support UEFI, use UEFI mode.</li>
+                                <li>Otherwise, use Legacy/BIOS mode (CSM enabled if applicable).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p class="important"><strong>Secure Boot:</strong></p>
+                            <ul>
+                                <li>Secure Boot <strong>MUST BE DISABLED</strong> for these unofficial, modified Windows versions.</li>
+                            </ul>
+                        </li>
+                        <li><strong>SATA Mode:</strong> Set to <strong>AHCI</strong> (or IDE/Compatible if AHCI causes issues on very old hardware, though AHCI is preferred).</li>
+                        <li><strong>Disable Fast Boot/Quick Boot.</strong></li>
+                        <li><strong>Save and Exit.</strong></li>`,
+                    sec_boot_title: '4. Booting the "Tiny Windows" Installer',
+                    sec_boot_ol1: `
+                        <li>The computer should boot from the USB drive.</li>
+                        <li>You will see a standard-looking Windows Setup loading screen, though it might proceed faster than usual.</li>`,
+                    sec_setup_title: '5. Windows Setup Process ("Tiny Windows")',
+                    sec_setup_p1: "This is similar to a standard Windows install, but options may be reduced.",
+                    sec_setup_ol1: `
+                        <li><strong>Language/Time/Keyboard:</strong> Select preferences. Click Next.</li>
+                        <li>Click <strong>"Install now"</strong>.</li>
+                        <li><strong>Product Key:</strong>
+                            <ul>
+                                <li>Enter your valid Windows product key.</li>
+                                <li>Or click "I don't have a product key" to enter it later.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Select OS Edition:</strong> The "Tiny" ISO might only contain one pre-selected edition (e.g., "Windows 10 Pro Tiny"). If multiple, choose one matching your license. Click Next.</li>
+                        <li><strong>Accept License Terms:</strong> Check the box for Microsoft's EULA. Click Next.</li>
+                        <li><strong>Installation Type:</strong> Choose <strong>"Custom: Install Windows only (advanced)"</strong>.</li>
+                        <li><strong>Partitioning:</strong>
+                            <p class="warning"><strong>DATA ON SELECTED PARTITIONS WILL BE ERASED.</strong></p>
+                            <ul>
+                                <li>For a clean install on the entire drive: Delete all existing partitions on the target drive until only "Unallocated Space" remains.</li>
+                                <li>Select the "Unallocated Space".</li>
+                                <li>Click <strong>"Next"</strong>. Setup will create necessary partitions.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Installing Windows:</strong> Files will be copied. This is usually much faster than a standard Windows install due to the reduced size. The PC will restart.</li>`,
+                    sec_oobe_title: "6. Initial Windows Configuration (OOBE)",
+                    sec_oobe_p1: 'The Out-of-Box Experience for "Tiny Windows" is typically EXTREMELY minimal or heavily streamlined.',
+                    sec_oobe_ol1: `
+                        <li>After restarts, you might go straight to a simplified account creation.</li>
+                        <li><strong>Account Setup:</strong> These versions almost always default to creating a <strong>Local Account</strong>.
+                            <ul>
+                                <li>Enter your desired username.</li>
+                                <li>Set a password (or leave blank if the version allows, though not recommended).</li>
+                            </ul>
+                        </li>
+                        <li>There will likely be no prompts for Cortana, online accounts, activity history, or extensive privacy settings, as these components are often removed.</li>
+                        <li>You may boot directly to the desktop much quicker than standard Windows.</li>`,
+                    sec_postinstall_title: "7. Post-Installation Steps",
+                    sec_postinstall_p1_danger: '<strong>This section requires extreme care due to the nature of "Tiny Windows".</strong>',
+                    sec_postinstall_ol1: `
+                        <li>
+                            <strong>CRITICAL: Install Drivers Manually:</strong>
+                            <ul>
+                                <li>"Tiny" versions often strip out most built-in drivers. You will likely have no network, sound, or proper graphics initially.</li>
+                                <li>You MUST have drivers for your specific hardware (especially Network/LAN, Chipset, Graphics, Sound) downloaded beforehand on another USB drive or computer.</li>
+                                <li>Install them one by one. Start with Chipset and Network drivers to hopefully get internet access.</li>
+                                <li>Check Device Manager (right-click Start > Device Manager) for missing drivers (yellow exclamation marks).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Windows Updates: DO NOT EXPECT THEM.</strong>
+                            <ul>
+                                <li class="danger">Windows Update functionality is typically broken, disabled, or completely removed in "Tiny" versions. This is a core part of how they achieve their small size and "no telemetry" claims.</li>
+                                <li class="danger"><strong>This means NO security updates. Your system will remain vulnerable to any exploits discovered after the base Windows image was created.</strong></li>
+                                <li>Do NOT attempt to force Windows Updates unless explicitly guided by the original "Tiny" developer, as it may break the system.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Activate Windows:</strong>
+                            <ul>
+                                <li>Go to <code>Settings > Update & Security > Activation</code> (if Settings app is present and functional).</li>
+                                <li>Enter your valid Windows product key.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Install Essential Applications:</strong>
+                            <ul>
+                                <li>You will need to manually install a web browser (as Edge is usually removed).</li>
+                                <li>Be very selective with applications. Complex or resource-hungry software may not run well or at all due to removed dependencies.</li>
+                                <li>Antivirus: Since Defender is removed, if you connect this machine to any network, you *must* install a lightweight third-party antivirus, understanding it might impact performance. Many mainstream AVs might also have issues due to removed Windows components.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Understand Limitations:</strong> Many Windows features will be gone (Microsoft Store, Xbox services, many modern apps, system restore, some accessibility features, etc.).</li>`,
+                    sec_considerations_title: 'Crucial Considerations for "Tiny Windows"',
+                    sec_considerations_div_danger: `
+                        <strong>READ THIS CAREFULLY BEFORE AND AFTER INSTALLATION:</strong>
+                        <ul>
+                            <li><strong>SECURITY IS SEVERELY COMPROMISED:</strong> With no Windows Defender and no updates, these systems are highly vulnerable if connected to the internet or exposed to untrusted files/devices.</li>
+                            <li><strong>FUNCTIONALITY IS LIMITED:</strong> Many standard Windows features, applications, and services will not work. Do not expect a full Windows experience.</li>
+                            <li><strong>STABILITY & COMPATIBILITY:</strong> Can be unpredictable. Software or hardware may not work as expected due to removed components or dependencies.</li>
+                            <li><strong>NOT FOR GENERAL/DAILY USE:</strong> These are generally **NOT SUITABLE** as a primary operating system for most users, especially for tasks involving sensitive data, online banking, or general internet browsing.</li>
+                            <li><strong>SPECIFIC USE CASES:</strong>
+                                <ul>
+                                    <li>Reviving extremely old, otherwise unusable hardware for very basic, offline tasks.</li>
+                                    <li>Specific single-purpose applications on isolated systems where performance is paramount and security risks are managed differently.</li>
+                                    <li>Learning/experimentation by advanced users who understand the risks.</li>
+                                </ul>
+                            </li>
+                            <li><strong>LEGAL & ETHICAL:</strong> Using modified Windows is in a legal gray area and violates Microsoft's EULA. Support the original Windows developers by purchasing legitimate licenses.</li>
+                            <li><strong>NO GUARANTEES:</strong> These are community projects. There's no guarantee of continued development, support, or that they are free from unintended issues.</li>
+                        </ul>`,
+                    sec_troubleshooting_title: "Troubleshooting Tips",
+                    sec_troubleshooting_ul1: `
+                        <li><strong>Installation Fails:</strong> Ensure Secure Boot is OFF. Verify ISO. Try different USB creation settings in Rufus (e.g., MBR for very old BIOS). Basic hardware checks.</li>
+                        <li><strong>No Boot After Install:</strong> Recheck BIOS boot order. Ensure correct partition scheme (MBR/GPT) was used for your hardware.</li>
+                        <li><strong>Driver Problems:</strong> This is expected. You *must* source and install drivers manually.</li>
+                        <li><strong>Application Errors:</strong> Likely due to removed Windows components/dependencies. The application may simply be incompatible with such a stripped-down OS.</li>
+                        <li><strong>Community Resources:</strong> For issues specific to a "Tiny Windows" version, look for forums or communities dedicated to that specific project or by its developer (e.g., NTDEV's channels). Standard Microsoft support will not help.</li>`,
+                    sec_disclaimer_title: "Disclaimer",
+                    sec_disclaimer_p1_danger: '<strong>This guide is for informational purposes only. The use of unofficial, modified operating systems like "Tiny Windows" carries significant risks, including but not limited to severe security vulnerabilities, system instability, data loss, software/hardware incompatibilities, and potential violation of software license agreements.</strong>',
+                    sec_disclaimer_p2: "You proceed entirely at your own risk. The author of this webpage is not affiliated with the developers of \"Tiny Windows\" and is not responsible for any damage, data loss, security breaches, legal issues, or any other negative consequences that may arise from following this guide or using such software. It is strongly recommended to use official, supported operating systems from Microsoft for any critical or daily use."
+                },
+                
+                de: {
+                    page_title: '"Tiny Windows" (z.B. Tiny10/Tiny11) Installationsanleitung',
+                    lang_label: "Sprache",
+                    theme_label: "Thema",
+                    theme_light: "Hell",
+                    theme_dark: "Dunkel",
+                    theme_auto: "Auto",
+                    nav_header: "Navigation",
+                    nav_introduction: 'Einführung in "Tiny Windows"',
+                    nav_prerequisites: "Voraussetzungen & Backup",
+                    nav_download: "1. ISO herunterladen & verifizieren",
+                    nav_media: "2. Installationsmedium erstellen",
+                    nav_bios: "3. BIOS/UEFI-Konfiguration",
+                    nav_boot: "4. Booten des Installers",
+                    nav_setup: "5. Windows-Setup-Prozess",
+                    nav_oobe: "6. Erstkonfiguration (OOBE)",
+                    nav_postinstall: "7. Schritte nach der Installation",
+                    nav_considerations: "Wichtige Überlegungen",
+                    nav_troubleshooting: "Fehlerbehebung",
+                    nav_disclaimer: "Haftungsausschluss",
+                    main_title: '"Tiny Windows" (z.B. Tiny10/Tiny11) Installationsanleitung',
+                    sec_intro_title: 'Einführung in "Tiny Windows"',
+                    sec_intro_p1: '"Tiny Windows" bezieht sich auf stark modifizierte, inoffizielle Versionen von Microsoft Windows, wie Tiny10 oder Tiny11 von NTDEV. Diese Versionen wurden um viele Komponenten und Funktionen erleichtert, um ihren Speicherbedarf und ihre Ressourcennutzung zu reduzieren, hauptsächlich mit dem Ziel, auf sehr alter oder leistungsschwacher Hardware zu laufen.',
+                    sec_intro_p2_danger: "<strong>EXTREME WARNUNG:</strong> Dies sind <strong>KEINE</strong> offiziellen Microsoft-Produkte. Sie werden von Community-Entwicklern erstellt, indem wesentliche Teile von Windows entfernt werden. Dieser Prozess birgt erhebliche Risiken in Bezug auf Sicherheit, Stabilität, Kompatibilität und Rechtmäßigkeit. Gehen Sie mit äußerster Vorsicht und vollem Verständnis der in dieser Anleitung beschriebenen Risiken vor.",
+                    sec_prereq_title: "Voraussetzungen & Entscheidend: Sichern Sie Ihre Daten!",
+                    sec_prereq_p1_warning: "<strong>KRITISCH: SICHERN SIE IHRE DATEN!</strong> Die Installation eines Betriebssystems, insbesondere einer stark modifizierten Version, löscht das Ziellaufwerk. Sichern Sie alle wichtigen Daten extern, bevor Sie beginnen.",
+                    sec_prereq_p2: "Sie benötigen:",
+                    sec_prereq_ul1: `
+                        <li><strong>Zielcomputer:</strong> Normalerweise sehr alte oder leistungsschwache Hardware.
+                            <ul>
+                                <li>Prozessor: 32-Bit oder 64-Bit (abhängig von der "Tiny"-Version).</li>
+                                <li>RAM: Sehr wenig (z.B. Tiny10 x86 zielt auf ~256MB, Tiny11 auf ~2GB, aber prüfen Sie die Angaben der spezifischen Version).</li>
+                                <li>Speicher: Sehr geringer Platzbedarf (z.B. einige GB für das Betriebssystem, aber mehr für Anwendungen benötigt).</li>
+                            </ul>
+                        </li>
+                        <li><strong>"Tiny Windows" ISO-Datei:</strong> <strong>NUR</strong> von den offiziellen, vom ursprünglichen Entwickler angegebenen Kanälen heruntergeladen (z.B. NTDEVs Uploads im Internet Archive).</li>
+                        <li><strong>USB-Stick:</strong> Mindestens 4 GB Kapazität (normalerweise). Dieser Stick wird gelöscht.</li>
+                        <li><strong>Gültiger Windows-Produktschlüssel:</strong>
+                            <p class="important">"Tiny Windows" stellt keine Windows-Lizenz bereit und umgeht die Aktivierung nicht. Sie benötigen einen legitimen Windows 7/8/10/11-Produktschlüssel (abhängig von der Basis der "Tiny"-Version), um es zu aktivieren. Oft können Schlüssel für ältere Windows-Versionen (wie 7/8) auch entsprechende Editionen von Windows 10/11 aktivieren, wenn die "Tiny"-Version darauf basiert.</p>
+                        </li>
+                        <li><strong>(Optional) Ein weiterer funktionierender Computer:</strong> Um die ISO herunterzuladen und das USB-Medium zu erstellen.</li>`,
+                    sec_download_title: '1. "Tiny Windows" ISO herunterladen & verifizieren',
+                    sec_download_ol1: `
+                        <li>
+                            <p class="danger"><strong>DIE QUELLE IST ENTSCHEIDEND:</strong> Sie MÜSSEN die ISO von den offiziellen Vertriebskanälen des ursprünglichen Entwicklers herunterladen. Für Tiny10/Tiny11 sind dies typischerweise die Uploads von NTDEV im <a href="https://archive.org/" target="_blank">Internet Archive</a> (suchen Sie nach "Tiny10 by NTDEV" oder "Tiny11 by NTDEV"). <strong>Laden Sie NICHT von zufälligen Websites, YouTube-Links oder Foren herunter, es sei denn, diese werden direkt vom ursprünglichen Entwickler verlinkt.</strong> Das Risiko von Malware aus inoffiziellen Quellen ist extrem hoch.</p>
+                        </li>
+                        <li>Wählen Sie die richtige Version für Ihre Hardware (z.B. x86 für 32-Bit, x64 für 64-Bit) und den spezifischen "Tiny"-Build, den Sie möchten. Lesen Sie die Beschreibung des Entwicklers sorgfältig durch.</li>
+                        <li>Laden Sie die offizielle ISO-Datei herunter.</li>
+                        <li>
+                            <p class="important"><strong>ISO-Download verifizieren (Entscheidend!):</strong></p>
+                            <ul>
+                                <li>Der ursprüngliche Entwickler sollte eine Prüfsumme (z.B. SHA256) für die ISO auf seiner Download-Seite/Beschreibung bereitstellen.</li>
+                                <li>Berechnen Sie die Prüfsumme Ihrer heruntergeladenen ISO:
+                                    <ul>
+                                        <li>Windows PowerShell: <code>Get-FileHash -Algorithm SHA256 /pfad/zu/TinyWindows.iso</code></li>
+                                        <li>Linux/macOS Terminal: <code>sha256sum /pfad/zu/TinyWindows.iso</code></li>
+                                    </ul>
+                                </li>
+                                <li>Vergleichen Sie sie mit der offiziellen Prüfsumme. Sie <strong>MÜSSEN ÜBEREINSTIMMEN</strong>. Wenn nicht, ist Ihr Download kompromittiert; löschen Sie ihn und laden Sie ihn NUR von der offiziellen Quelle erneut herunter.</li>
+                            </ul>
+                        </li>`,
+                    sec_media_title: "2. Bootfähiges Installationsmedium erstellen (USB-Stick)",
+                    sec_media_p1_warning: "Der USB-Stick wird gelöscht. Sichern Sie seine Daten.",
+                    sec_media_p2: "Empfohlenes Werkzeug:",
+                    sec_media_ul1: `
+                        <li>
+                            <strong><a href="https://rufus.ie/" target="_blank">Rufus</a> (Windows):</strong>
+                            <ol>
+                                <li>Laden Sie Rufus herunter und führen Sie es aus.</li>
+                                <li>Wählen Sie Ihren USB-Stick aus.</li>
+                                <li>Klicken Sie auf "AUSWÄHLEN" und wählen Sie Ihre "Tiny Windows"-ISO.</li>
+                                <li><strong>Partitionsschema:</strong>
+                                    <ul>
+                                        <li>"GPT" für UEFI-Systeme (wenn Ihre alte Zielhardware UEFI unterstützt).</li>
+                                        <li>"MBR" für ältere reine BIOS-Systeme.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Zielsystem:</strong> Wird normalerweise automatisch basierend auf dem Partitionsschema ausgewählt.</li>
+                                <li>Stellen Sie sicher, dass "Standard-Windows-Installation" unter "Image-Option" ausgewählt ist.</li>
+                                <li>Klicken Sie auf "START". Bestätigen Sie die Datenlöschung.</li>
+                            </ol>
+                        </li>`,
+                    sec_bios_title: "3. BIOS/UEFI-Konfiguration",
+                    sec_bios_ol1: `
+                        <li>Stecken Sie den bootfähigen "Tiny Windows" USB-Stick ein.</li>
+                        <li><strong>BIOS/UEFI-Setup aufrufen:</strong> Neustarten/Einschalten. Drücken Sie die Taste für BIOS/UEFI (Üblich: <code>Entf</code>, <code>F2</code>, <code>F1</code>, <code>F10</code>, <code>Esc</code>).</li>
+                        <li><strong>Boot-Reihenfolge festlegen:</strong> Machen Sie den USB-Stick zum ersten Boot-Gerät.</li>
+                        <li><strong>Boot-Modus:</strong>
+                            <ul>
+                                <li>Wenn Ihre Hardware und die "Tiny"-Version UEFI unterstützen, verwenden Sie den UEFI-Modus.</li>
+                                <li>Andernfalls verwenden Sie den Legacy/BIOS-Modus (CSM aktiviert, falls zutreffend).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p class="important"><strong>Sicherer Start (Secure Boot):</strong></p>
+                            <ul>
+                                <li>Secure Boot <strong>MUSS DEAKTIVIERT SEIN</strong> für diese inoffiziellen, modifizierten Windows-Versionen.</li>
+                            </ul>
+                        </li>
+                        <li><strong>SATA-Modus:</strong> Auf <strong>AHCI</strong> einstellen (oder IDE/Kompatibel, wenn AHCI auf sehr alter Hardware Probleme verursacht, obwohl AHCI bevorzugt wird).</li>
+                        <li><strong>Fast Boot/Quick Boot deaktivieren.</strong></li>
+                        <li><strong>Speichern und Beenden.</strong></li>`,
+                    sec_boot_title: '4. Booten des "Tiny Windows" Installers',
+                    sec_boot_ol1: `
+                        <li>Der Computer sollte vom USB-Stick booten.</li>
+                        <li>Sie sehen einen standardmäßig aussehenden Windows-Setup-Ladebildschirm, der jedoch möglicherweise schneller als gewöhnlich abläuft.</li>`,
+                    sec_setup_title: '5. Windows-Setup-Prozess ("Tiny Windows")',
+                    sec_setup_p1: "Dies ähnelt einer Standard-Windows-Installation, aber die Optionen können reduziert sein.",
+                    sec_setup_ol1: `
+                        <li><strong>Sprache/Zeit/Tastatur:</strong> Einstellungen auswählen. Klicken Sie auf Weiter.</li>
+                        <li>Klicken Sie auf <strong>"Jetzt installieren"</strong>.</li>
+                        <li><strong>Produktschlüssel:</strong>
+                            <ul>
+                                <li>Geben Sie Ihren gültigen Windows-Produktschlüssel ein.</li>
+                                <li>Oder klicken Sie auf "Ich habe keinen Produktschlüssel", um ihn später einzugeben.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Betriebssystem-Edition auswählen:</strong> Die "Tiny"-ISO enthält möglicherweise nur eine vorausgewählte Edition (z.B. "Windows 10 Pro Tiny"). Wenn mehrere vorhanden sind, wählen Sie eine, die zu Ihrer Lizenz passt. Klicken Sie auf Weiter.</li>
+                        <li><strong>Lizenzbedingungen akzeptieren:</strong> Aktivieren Sie das Kontrollkästchen für die Microsoft-EULA. Klicken Sie auf Weiter.</li>
+                        <li><strong>Installationstyp:</strong> Wählen Sie <strong>"Benutzerdefiniert: Nur Windows installieren (erweitert)"</strong>.</li>
+                        <li><strong>Partitionierung:</strong>
+                            <p class="warning"><strong>DATEN AUF AUSGEWÄHLTEN PARTITIONEN WERDEN GELÖSCHT.</strong></p>
+                            <ul>
+                                <li>Für eine Neuinstallation auf dem gesamten Laufwerk: Löschen Sie alle vorhandenen Partitionen auf dem Ziellaufwerk, bis nur noch "Nicht zugewiesener Speicherplatz" übrig ist.</li>
+                                <li>Wählen Sie den "Nicht zugewiesenen Speicherplatz" aus.</li>
+                                <li>Klicken Sie auf <strong>"Weiter"</strong>. Setup erstellt die notwendigen Partitionen.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Windows wird installiert:</strong> Dateien werden kopiert. Dies ist aufgrund der reduzierten Größe normalerweise viel schneller als eine Standard-Windows-Installation. Der PC wird neu gestartet.</li>`,
+                    sec_oobe_title: "6. Initiale Windows-Konfiguration (OOBE)",
+                    sec_oobe_p1: 'Die Out-of-Box-Experience für "Tiny Windows" ist typischerweise EXTREM minimal oder stark vereinfacht.',
+                    sec_oobe_ol1: `
+                        <li>Nach Neustarts gelangen Sie möglicherweise direkt zu einer vereinfachten Kontoerstellung.</li>
+                        <li><strong>Konto-Setup:</strong> Diese Versionen verwenden fast immer standardmäßig die Erstellung eines <strong>Lokalen Kontos</strong>.
+                            <ul>
+                                <li>Geben Sie Ihren gewünschten Benutzernamen ein.</li>
+                                <li>Legen Sie ein Passwort fest (oder lassen Sie es leer, wenn die Version es erlaubt, was jedoch nicht empfohlen wird).</li>
+                            </ul>
+                        </li>
+                        <li>Es wird wahrscheinlich keine Aufforderungen für Cortana, Online-Konten, Aktivitätsverlauf oder umfangreiche Datenschutzeinstellungen geben, da diese Komponenten oft entfernt wurden.</li>
+                        <li>Sie booten möglicherweise viel schneller als bei Standard-Windows direkt auf den Desktop.</li>`,
+                    sec_postinstall_title: "7. Schritte nach der Installation",
+                    sec_postinstall_p1_danger: '<strong>Dieser Abschnitt erfordert äußerste Sorgfalt aufgrund der Natur von "Tiny Windows".</strong>',
+                    sec_postinstall_ol1: `
+                        <li>
+                            <strong>KRITISCH: Treiber manuell installieren:</strong>
+                            <ul>
+                                <li>"Tiny"-Versionen entfernen oft die meisten integrierten Treiber. Sie werden anfangs wahrscheinlich kein Netzwerk, keinen Ton oder keine korrekte Grafik haben.</li>
+                                <li>Sie MÜSSEN Treiber für Ihre spezifische Hardware (insbesondere Netzwerk/LAN, Chipsatz, Grafik, Sound) vorab auf einem anderen USB-Stick oder Computer heruntergeladen haben.</li>
+                                <li>Installieren Sie sie nacheinander. Beginnen Sie mit den Chipsatz- und Netzwerktreibern, um hoffentlich Internetzugang zu erhalten.</li>
+                                <li>Überprüfen Sie den Geräte-Manager (Rechtsklick auf Start > Geräte-Manager) auf fehlende Treiber (gelbe Ausrufezeichen).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Windows-Updates: ERWARTEN SIE SIE NICHT.</strong>
+                            <ul>
+                                <li class="danger">Die Windows-Update-Funktionalität ist in "Tiny"-Versionen typischerweise defekt, deaktiviert oder vollständig entfernt. Dies ist ein zentraler Teil, wie sie ihre geringe Größe und den Anspruch "keine Telemetrie" erreichen.</li>
+                                <li class="danger"><strong>Das bedeutet KEINE Sicherheitsupdates. Ihr System bleibt anfällig für alle Exploits, die nach der Erstellung des Basis-Windows-Images entdeckt werden.</strong></li>
+                                <li>Versuchen Sie NICHT, Windows-Updates zu erzwingen, es sei denn, der ursprüngliche "Tiny"-Entwickler leitet Sie explizit dazu an, da dies das System beschädigen kann.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Windows aktivieren:</strong>
+                            <ul>
+                                <li>Gehen Sie zu <code>Einstellungen > Update und Sicherheit > Aktivierung</code> (wenn die Einstellungs-App vorhanden und funktionsfähig ist).</li>
+                                <li>Geben Sie Ihren gültigen Windows-Produktschlüssel ein.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Wichtige Anwendungen installieren:</strong>
+                            <ul>
+                                <li>Sie müssen einen Webbrowser manuell installieren (da Edge normalerweise entfernt wird).</li>
+                                <li>Seien Sie bei der Auswahl der Anwendungen sehr wählerisch. Komplexe oder ressourcenintensive Software läuft aufgrund entfernter Abhängigkeiten möglicherweise nicht gut oder gar nicht.</li>
+                                <li>Antivirus: Da Defender entfernt ist, müssen Sie, wenn Sie diesen Computer mit einem Netzwerk verbinden, ein leichtes Antivirenprogramm eines Drittanbieters installieren, wobei Sie verstehen müssen, dass dies die Leistung beeinträchtigen kann. Viele gängige AV-Programme könnten aufgrund entfernter Windows-Komponenten ebenfalls Probleme haben.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Einschränkungen verstehen:</strong> Viele Windows-Funktionen werden fehlen (Microsoft Store, Xbox-Dienste, viele moderne Apps, Systemwiederherstellung, einige Barrierefreiheitsfunktionen usw.).</li>`,
+                    sec_considerations_title: 'Wichtige Überlegungen zu "Tiny Windows"',
+                    sec_considerations_div_danger: `
+                        <strong>LESEN SIE DIES VOR UND NACH DER INSTALLATION SORGFÄLTIG DURCH:</strong>
+                        <ul>
+                            <li><strong>DIE SICHERHEIT IST STARK KOMPROMITTIERT:</strong> Ohne Windows Defender und ohne Updates sind diese Systeme hochgradig anfällig, wenn sie mit dem Internet verbunden oder nicht vertrauenswürdigen Dateien/Geräten ausgesetzt sind.</li>
+                            <li><strong>DIE FUNKTIONALITÄT IST EINGESCHRÄNKT:</strong> Viele Standard-Windows-Funktionen, -Anwendungen und -Dienste werden nicht funktionieren. Erwarten Sie kein vollständiges Windows-Erlebnis.</li>
+                            <li><strong>STABILITÄT & KOMPATIBILITÄT:</strong> Kann unvorhersehbar sein. Software oder Hardware funktioniert aufgrund entfernter Komponenten oder Abhängigkeiten möglicherweise nicht wie erwartet.</li>
+                            <li><strong>NICHT FÜR DEN ALLGEMEINEN/TÄGLICHEN GEBRAUCH:</strong> Diese sind im Allgemeinen **NICHT GEEIGNET** als primäres Betriebssystem für die meisten Benutzer, insbesondere für Aufgaben mit sensiblen Daten, Online-Banking oder allgemeinem Surfen im Internet.</li>
+                            <li><strong>SPEZIFISCHE ANWENDUNGSFÄLLE:</strong>
+                                <ul>
+                                    <li>Wiederbelebung extrem alter, ansonsten unbrauchbarer Hardware für sehr grundlegende, Offline-Aufgaben.</li>
+                                    <li>Spezifische Einzelzweckanwendungen auf isolierten Systemen, bei denen Leistung an erster Stelle steht und Sicherheitsrisiken anders gehandhabt werden.</li>
+                                    <li>Lernen/Experimentieren durch fortgeschrittene Benutzer, die die Risiken verstehen.</li>
+                                </ul>
+                            </li>
+                            <li><strong>RECHTLICHES & ETHISCHES:</strong> Die Verwendung modifizierter Windows-Versionen befindet sich in einer rechtlichen Grauzone und verstößt gegen die EULA von Microsoft. Unterstützen Sie die ursprünglichen Windows-Entwickler durch den Kauf legitimer Lizenzen.</li>
+                            <li><strong>KEINE GARANTIEN:</strong> Dies sind Community-Projekte. Es gibt keine Garantie für eine fortgesetzte Entwicklung, Unterstützung oder dass sie frei von unbeabsichtigten Problemen sind.</li>
+                        </ul>`,
+                    sec_troubleshooting_title: "Tipps zur Fehlerbehebung",
+                    sec_troubleshooting_ul1: `
+                        <li><strong>Installation schlägt fehl:</strong> Stellen Sie sicher, dass Secure Boot AUS ist. Verifizieren Sie die ISO. Versuchen Sie andere USB-Erstellungseinstellungen in Rufus (z.B. MBR für sehr altes BIOS). Grundlegende Hardware-Prüfungen.</li>
+                        <li><strong>Kein Boot nach der Installation:</strong> Überprüfen Sie die BIOS-Boot-Reihenfolge. Stellen Sie sicher, dass das richtige Partitionsschema (MBR/GPT) für Ihre Hardware verwendet wurde.</li>
+                        <li><strong>Treiberprobleme:</strong> Dies ist zu erwarten. Sie *müssen* Treiber manuell beschaffen und installieren.</li>
+                        <li><strong>Anwendungsfehler:</strong> Wahrscheinlich aufgrund entfernter Windows-Komponenten/Abhängigkeiten. Die Anwendung ist möglicherweise einfach inkompatibel mit einem so abgespeckten Betriebssystem.</li>
+                        <li><strong>Community-Ressourcen:</strong> Bei Problemen, die spezifisch für eine "Tiny Windows"-Version sind, suchen Sie nach Foren oder Communitys, die diesem speziellen Projekt oder seinem Entwickler gewidmet sind (z.B. die Kanäle von NTDEV). Der Standard-Microsoft-Support wird nicht helfen.</li>`,
+                    sec_disclaimer_title: "Haftungsausschluss",
+                    sec_disclaimer_p1_danger: '<strong>Diese Anleitung dient nur zu Informationszwecken. Die Verwendung inoffizieller, modifizierter Betriebssysteme wie "Tiny Windows" birgt erhebliche Risiken, einschließlich, aber nicht beschränkt auf schwere Sicherheitslücken, Systeminstabilität, Datenverlust, Software-/Hardware-Inkompatibilitäten und eine mögliche Verletzung von Software-Lizenzvereinbarungen.</strong>',
+                    sec_disclaimer_p2: "Sie handeln vollständig auf eigenes Risiko. Der Autor dieser Webseite ist nicht mit den Entwicklern von \"Tiny Windows\" verbunden und ist nicht verantwortlich für Schäden, Datenverlust, Sicherheitsverletzungen, rechtliche Probleme oder andere negative Konsequenzen, die sich aus dem Befolgen dieser Anleitung oder der Verwendung solcher Software ergeben können. Es wird dringend empfohlen, für jeden kritischen oder täglichen Gebrauch offizielle, unterstützte Betriebssysteme von Microsoft zu verwenden."
+                },
+               
+                es: {
+                    page_title: 'Guía de Instalación de "Tiny Windows" (p. ej., Tiny10/Tiny11)',
+                    lang_label: "Idioma",
+                    theme_label: "Tema",
+                    theme_light: "Claro",
+                    theme_dark: "Oscuro",
+                    theme_auto: "Auto",
+                    nav_header: "Navegación",
+                    nav_introduction: 'Introducción a "Tiny Windows"',
+                    nav_prerequisites: "Prerrequisitos y Copia de Seguridad",
+                    nav_download: "1. Descargar y Verificar ISO",
+                    nav_media: "2. Crear Medio de Instalación",
+                    nav_bios: "3. Configuración de BIOS/UEFI",
+                    nav_boot: "4. Arrancando el Instalador",
+                    nav_setup: "5. Proceso de Instalación de Windows",
+                    nav_oobe: "6. Configuración Inicial (OOBE)",
+                    nav_postinstall: "7. Pasos Posteriores a la Instalación",
+                    nav_considerations: "Consideraciones Cruciales",
+                    nav_troubleshooting: "Solución de Problemas",
+                    nav_disclaimer: "Descargo de Responsabilidad",
+                    main_title: 'Guía de Instalación de "Tiny Windows" (p. ej., Tiny10/Tiny11)',
+                    sec_intro_title: 'Introducción a "Tiny Windows"',
+                    sec_intro_p1: '"Tiny Windows" se refiere a versiones de Microsoft Windows no oficiales y fuertemente modificadas, como Tiny10 o Tiny11 por NTDEV. A estas versiones se les han quitado muchos componentes y características para reducir su tamaño y uso de recursos, con el objetivo principal de funcionar en hardware muy antiguo o de bajas especificaciones.',
+                    sec_intro_p2_danger: "<strong>ADVERTENCIA EXTREMA:</strong> Estos <strong>NO</strong> son productos oficiales de Microsoft. Son creados por desarrolladores de la comunidad eliminando partes significativas de Windows. Este proceso conlleva riesgos sustanciales en cuanto a seguridad, estabilidad, compatibilidad y legalidad. Proceda con extrema precaución y pleno conocimiento de los riesgos descritos en esta guía.",
+                    sec_prereq_title: "Prerrequisitos y Crucial: ¡Haga una Copia de Seguridad de sus Datos!",
+                    sec_prereq_p1_warning: "<strong>CRÍTICO: ¡HAGA UNA COPIA DE SEGURIDAD DE SUS DATOS!</strong> Instalar cualquier sistema operativo, especialmente uno muy modificado, borrará la unidad de destino. Haga una copia de seguridad externa de todos sus datos importantes antes de comenzar.",
+                    sec_prereq_p2: "Necesitará:",
+                    sec_prereq_ul1: `
+                        <li><strong>Ordenador de Destino:</strong> Generalmente hardware muy antiguo o de bajas especificaciones.
+                            <ul>
+                                <li>Procesador: 32 bits o 64 bits (dependiendo de la versión "Tiny").</li>
+                                <li>RAM: Muy baja (p. ej., Tiny10 x86 puede apuntar a ~256MB, Tiny11 a ~2GB, pero verifique las afirmaciones de la versión específica).</li>
+                                <li>Almacenamiento: Huella muy pequeña (p. ej., unos pocos GB para el SO, pero se necesita más para cualquier aplicación).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Archivo ISO de "Tiny Windows":</strong> Descargado <strong>SOLAMENTE</strong> de los canales oficiales especificados por el desarrollador original (p. ej., las subidas de NTDEV en Internet Archive).</li>
+                        <li><strong>Unidad Flash USB:</strong> Capacidad mínima de 4GB (generalmente). Esta unidad será borrada.</li>
+                        <li><strong>Clave de Producto de Windows Válida:</strong>
+                            <p class="important">"Tiny Windows" NO proporciona una licencia de Windows ni omite la activación. Necesita una clave de producto legítima de Windows 7/8/10/11 (dependiendo de la base de la versión "Tiny") para activarlo. A menudo, las claves de versiones antiguas de Windows (como 7/8) todavía pueden activar las ediciones correspondientes de Windows 10/11 si la versión "Tiny" se basa en ellas.</p>
+                        </li>
+                        <li><strong>(Opcional) Otro Ordenador Funcional:</strong> Para descargar la ISO y crear el medio USB.</li>`,
+                    sec_download_title: '1. Descargar y Verificar la ISO de "Tiny Windows"',
+                    sec_download_ol1: `
+                        <li>
+                            <p class="danger"><strong>LA FUENTE ES PRIMORDIAL:</strong> DEBE descargar la ISO de los canales de distribución oficiales del desarrollador original. Para Tiny10/Tiny11, esto suele ser las subidas de NTDEV en el <a href="https://archive.org/" target="_blank">Internet Archive</a> (busque "Tiny10 by NTDEV" o "Tiny11 by NTDEV"). <strong>NO descargue de sitios web aleatorios, enlaces de YouTube o foros a menos que estén vinculados directamente por el desarrollador original.</strong> El riesgo de malware de fuentes no oficiales es extremadamente alto.</p>
+                        </li>
+                        <li>Elija la versión correcta para su hardware (p. ej., x86 para 32 bits, x64 para 64 bits) y la compilación "Tiny" específica que desee. Lea atentamente la descripción del desarrollador.</li>
+                        <li>Descargue el archivo ISO oficial.</li>
+                        <li>
+                            <p class="important"><strong>Verificar la Descarga de la ISO (¡Crucial!):</strong></p>
+                            <ul>
+                                <li>El desarrollador original debería proporcionar una suma de comprobación (checksum, p. ej., SHA256) para la ISO en su página/descripción de descarga.</li>
+                                <li>Calcule la suma de comprobación de su ISO descargada:
+                                    <ul>
+                                        <li>Windows PowerShell: <code>Get-FileHash -Algorithm SHA256 /ruta/a/TinyWindows.iso</code></li>
+                                        <li>Terminal de Linux/macOS: <code>sha256sum /ruta/a/TinyWindows.iso</code></li>
+                                    </ul>
+                                </li>
+                                <li>Compare con la suma de comprobación oficial. <strong>DEBEN COINCIDIR</strong>. Si no, su descarga está comprometida; bórrela y vuelva a descargarla SOLAMENTE de la fuente oficial.</li>
+                            </ul>
+                        </li>`,
+                    sec_media_title: "2. Crear Medio de Instalación de Arranque (Unidad USB)",
+                    sec_media_p1_warning: "La unidad flash USB será borrada. Haga una copia de seguridad de sus datos.",
+                    sec_media_p2: "Herramienta recomendada:",
+                    sec_media_ul1: `
+                        <li>
+                            <strong><a href="https://rufus.ie/es/" target="_blank">Rufus</a> (Windows):</strong>
+                            <ol>
+                                <li>Descargue y ejecute Rufus.</li>
+                                <li>Seleccione su unidad USB.</li>
+                                <li>Haga clic en "SELECCIONAR" y elija su ISO de "Tiny Windows".</li>
+                                <li><strong>Esquema de partición:</strong>
+                                    <ul>
+                                        <li>"GPT" para sistemas UEFI (si su hardware antiguo de destino soporta UEFI).</li>
+                                        <li>"MBR" para sistemas antiguos solo con BIOS.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Sistema de destino:</strong> Normalmente se autoseleccionará según el esquema de partición.</li>
+                                <li>Asegúrese de que "Instalación de Windows estándar" esté seleccionado en "Opción de imagen".</li>
+                                <li>Haga clic en "EMPEZAR". Confirme el borrado de datos.</li>
+                            </ol>
+                        </li>`,
+                    sec_bios_title: "3. Configuración de BIOS/UEFI",
+                    sec_bios_ol1: `
+                        <li>Inserte la unidad USB de arranque de "Tiny Windows".</li>
+                        <li><strong>Acceder a la Configuración de BIOS/UEFI:</strong> Reinicie/encienda. Presione la tecla para BIOS/UEFI (Comunes: <code>Supr</code>, <code>F2</code>, <code>F1</code>, <code>F10</code>, <code>Esc</code>).</li>
+                        <li><strong>Establecer Orden de Arranque:</strong> Haga que la unidad USB sea el primer dispositivo de arranque.</li>
+                        <li><strong>Modo de Arranque:</strong>
+                            <ul>
+                                <li>Si su hardware y la versión "Tiny" soportan UEFI, use el modo UEFI.</li>
+                                <li>De lo contrario, use el modo Legacy/BIOS (CSM habilitado si aplica).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p class="important"><strong>Arranque Seguro (Secure Boot):</strong></p>
+                            <ul>
+                                <li>El Arranque Seguro <strong>DEBE ESTAR DESHABILITADO</strong> para estas versiones de Windows no oficiales y modificadas.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Modo SATA:</strong> Establecer en <strong>AHCI</strong> (o IDE/Compatible si AHCI causa problemas en hardware muy antiguo, aunque se prefiere AHCI).</li>
+                        <li><strong>Deshabilitar Fast Boot/Quick Boot.</strong></li>
+                        <li><strong>Guardar y Salir.</strong></li>`,
+                    sec_boot_title: '4. Arrancando el Instalador de "Tiny Windows"',
+                    sec_boot_ol1: `
+                        <li>El ordenador debería arrancar desde la unidad USB.</li>
+                        <li>Verá una pantalla de carga de instalación de Windows de aspecto estándar, aunque podría proceder más rápido de lo habitual.</li>`,
+                    sec_setup_title: '5. Proceso de Instalación de Windows ("Tiny Windows")',
+                    sec_setup_p1: "Esto es similar a una instalación estándar de Windows, pero las opciones pueden estar reducidas.",
+                    sec_setup_ol1: `
+                        <li><strong>Idioma/Hora/Teclado:</strong> Seleccione las preferencias. Haga clic en Siguiente.</li>
+                        <li>Haga clic en <strong>"Instalar ahora"</strong>.</li>
+                        <li><strong>Clave de Producto:</strong>
+                            <ul>
+                                <li>Ingrese su clave de producto de Windows válida.</li>
+                                <li>O haga clic en "No tengo una clave de producto" para ingresarla más tarde.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Seleccionar Edición del SO:</strong> La ISO "Tiny" podría contener solo una edición preseleccionada (p. ej., "Windows 10 Pro Tiny"). Si hay varias, elija una que coincida con su licencia. Haga clic en Siguiente.</li>
+                        <li><strong>Aceptar Términos de Licencia:</strong> Marque la casilla del EULA de Microsoft. Haga clic en Siguiente.</li>
+                        <li><strong>Tipo de Instalación:</strong> Elija <strong>"Personalizada: Instalar solo Windows (avanzado)"</strong>.</li>
+                        <li><strong>Particionamiento:</strong>
+                            <p class="warning"><strong>LOS DATOS EN LAS PARTICIONES SELECCIONADAS SERÁN BORRADOS.</strong></p>
+                            <ul>
+                                <li>Para una instalación limpia en toda la unidad: Elimine todas las particiones existentes en la unidad de destino hasta que solo quede "Espacio no asignado".</li>
+                                <li>Seleccione el "Espacio no asignado".</li>
+                                <li>Haga clic en <strong>"Siguiente"</strong>. La instalación creará las particiones necesarias.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Instalando Windows:</strong> Se copiarán los archivos. Esto suele ser mucho más rápido que una instalación estándar de Windows debido al tamaño reducido. El PC se reiniciará.</li>`,
+                    sec_oobe_title: "6. Configuración Inicial de Windows (OOBE)",
+                    sec_oobe_p1: 'La Experiencia Fuera de la Caja (OOBE) para "Tiny Windows" es típicamente EXTREMADAMENTE mínima o muy simplificada.',
+                    sec_oobe_ol1: `
+                        <li>Después de los reinicios, podría ir directamente a una creación de cuenta simplificada.</li>
+                        <li><strong>Configuración de la Cuenta:</strong> Estas versiones casi siempre optan por crear una <strong>Cuenta Local</strong>.
+                            <ul>
+                                <li>Ingrese el nombre de usuario que desee.</li>
+                                <li>Establezca una contraseña (o déjela en blanco si la versión lo permite, aunque no se recomienda).</li>
+                            </ul>
+                        </li>
+                        <li>Es probable que no haya avisos para Cortana, cuentas en línea, historial de actividades o configuraciones de privacidad extensas, ya que estos componentes suelen eliminarse.</li>
+                        <li>Puede que arranque directamente al escritorio mucho más rápido que en un Windows estándar.</li>`,
+                    sec_postinstall_title: "7. Pasos Posteriores a la Instalación",
+                    sec_postinstall_p1_danger: '<strong>Esta sección requiere un cuidado extremo debido a la naturaleza de "Tiny Windows".</strong>',
+                    sec_postinstall_ol1: `
+                        <li>
+                            <strong>CRÍTICO: Instalar Controladores Manualmente:</strong>
+                            <ul>
+                                <li>Las versiones "Tiny" a menudo eliminan la mayoría de los controladores incorporados. Es probable que inicialmente no tenga red, sonido o gráficos adecuados.</li>
+                                <li>DEBE tener los controladores para su hardware específico (especialmente Red/LAN, Chipset, Gráficos, Sonido) descargados de antemano en otra unidad USB u ordenador.</li>
+                                <li>Instálelos uno por uno. Comience con los controladores de Chipset y Red para, con suerte, obtener acceso a Internet.</li>
+                                <li>Revise el Administrador de Dispositivos (clic derecho en Inicio > Administrador de Dispositivos) para ver si faltan controladores (signos de exclamación amarillos).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Actualizaciones de Windows: NO LAS ESPERE.</strong>
+                            <ul>
+                                <li class="danger">La funcionalidad de Windows Update suele estar rota, deshabilitada o completamente eliminada en las versiones "Tiny". Esta es una parte fundamental de cómo logran su pequeño tamaño y sus afirmaciones de "sin telemetría".</li>
+                                <li class="danger"><strong>Esto significa SIN actualizaciones de seguridad. Su sistema permanecerá vulnerable a cualquier exploit descubierto después de que se creara la imagen base de Windows.</strong></li>
+                                <li>NO intente forzar las actualizaciones de Windows a menos que el desarrollador original de "Tiny" lo indique explícitamente, ya que podría romper el sistema.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Activar Windows:</strong>
+                            <ul>
+                                <li>Vaya a <code>Configuración > Actualización y seguridad > Activación</code> (si la aplicación de Configuración está presente y funcional).</li>
+                                <li>Ingrese su clave de producto de Windows válida.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Instalar Aplicaciones Esenciales:</strong>
+                            <ul>
+                                <li>Necesitará instalar manualmente un navegador web (ya que Edge generalmente se elimina).</li>
+                                <li>Sea muy selectivo con las aplicaciones. El software complejo o que consume muchos recursos puede no funcionar bien o en absoluto debido a las dependencias eliminadas.</li>
+                                <li>Antivirus: Dado que Defender se elimina, si conecta esta máquina a cualquier red, *debe* instalar un antivirus ligero de terceros, entendiendo que podría afectar el rendimiento. Muchos AV convencionales también podrían tener problemas debido a los componentes de Windows eliminados.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Comprender las Limitaciones:</strong> Faltarán muchas características de Windows (Microsoft Store, servicios de Xbox, muchas aplicaciones modernas, restauración del sistema, algunas funciones de accesibilidad, etc.).</li>`,
+                    sec_considerations_title: 'Consideraciones Cruciales para "Tiny Windows"',
+                    sec_considerations_div_danger: `
+                        <strong>LEA ESTO CUIDADOSAMENTE ANTES Y DESPUÉS DE LA INSTALACIÓN:</strong>
+                        <ul>
+                            <li><strong>LA SEGURIDAD ESTÁ SEVERAMENTE COMPROMETIDA:</strong> Sin Windows Defender y sin actualizaciones, estos sistemas son altamente vulnerables si se conectan a Internet o se exponen a archivos/dispositivos no confiables.</li>
+                            <li><strong>LA FUNCIONALIDAD ES LIMITADA:</strong> Muchas características, aplicaciones y servicios estándar de Windows no funcionarán. No espere una experiencia completa de Windows.</li>
+                            <li><strong>ESTABILIDAD Y COMPATIBILIDAD:</strong> Pueden ser impredecibles. El software o el hardware pueden no funcionar como se espera debido a componentes o dependencias eliminados.</li>
+                            <li><strong>NO PARA USO GENERAL/DIARIO:</strong> Generalmente, **NO SON ADECUADOS** como sistema operativo principal para la mayoría de los usuarios, especialmente para tareas que involucran datos sensibles, banca en línea o navegación general por Internet.</li>
+                            <li><strong>CASOS DE USO ESPECÍFICOS:</strong>
+                                <ul>
+                                    <li>Revivir hardware extremadamente antiguo, de otro modo inutilizable, para tareas muy básicas y sin conexión.</li>
+                                    <li>Aplicaciones específicas de un solo propósito en sistemas aislados donde el rendimiento es primordial y los riesgos de seguridad se gestionan de manera diferente.</li>
+                                    <li>Aprendizaje/experimentación por parte de usuarios avanzados que comprenden los riesgos.</li>
+                                </ul>
+                            </li>
+                            <li><strong>LEGAL Y ÉTICO:</strong> Usar Windows modificado se encuentra en un área gris legal y viola el EULA de Microsoft. Apoye a los desarrolladores originales de Windows comprando licencias legítimas.</li>
+                            <li><strong>SIN GARANTÍAS:</strong> Son proyectos comunitarios. No hay garantía de desarrollo continuo, soporte o de que estén libres de problemas no intencionados.</li>
+                        </ul>`,
+                    sec_troubleshooting_title: "Consejos para la Solución de Problemas",
+                    sec_troubleshooting_ul1: `
+                        <li><strong>La Instalación Falla:</strong> Asegúrese de que el Arranque Seguro (Secure Boot) esté DESACTIVADO. Verifique la ISO. Pruebe diferentes configuraciones de creación de USB en Rufus (p. ej., MBR para BIOS muy antiguo). Verificaciones básicas de hardware.</li>
+                        <li><strong>No Arranca Después de la Instalación:</strong> Vuelva a verificar el orden de arranque del BIOS. Asegúrese de que se utilizó el esquema de partición correcto (MBR/GPT) para su hardware.</li>
+                        <li><strong>Problemas de Controladores:</strong> Esto es de esperar. *Debe* obtener e instalar los controladores manualmente.</li>
+                        <li><strong>Errores de Aplicación:</strong> Probablemente debido a componentes/dependencias de Windows eliminados. La aplicación puede ser simplemente incompatible con un SO tan reducido.</li>
+                        <li><strong>Recursos de la Comunidad:</strong> Para problemas específicos de una versión de "Tiny Windows", busque foros o comunidades dedicadas a ese proyecto específico o a su desarrollador (p. ej., los canales de NTDEV). El soporte estándar de Microsoft no ayudará.</li>`,
+                    sec_disclaimer_title: "Descargo de Responsabilidad",
+                    sec_disclaimer_p1_danger: '<strong>Esta guía es solo para fines informativos. El uso de sistemas operativos no oficiales y modificados como "Tiny Windows" conlleva riesgos significativos, que incluyen, entre otros, graves vulnerabilidades de seguridad, inestabilidad del sistema, pérdida de datos, incompatibilidades de software/hardware y una posible violación de los acuerdos de licencia de software.</strong>',
+                    sec_disclaimer_p2: "Usted procede enteramente bajo su propio riesgo. El autor de esta página web no está afiliado a los desarrolladores de \"Tiny Windows\" y no es responsable de ningún daño, pérdida de datos, brechas de seguridad, problemas legales o cualquier otra consecuencia negativa que pueda surgir de seguir esta guía o usar dicho software. Se recomienda encarecidamente utilizar sistemas operativos oficiales y con soporte de Microsoft para cualquier uso crítico o diario."
+                }
+            };
+
+
+            const languageSwitcher = document.getElementById('language-switcher');
+            const themeButtons = document.querySelectorAll('#theme-switcher button');
+            const htmlEl = document.documentElement;
+
+           
+            const setLanguage = (lang) => {
+                if (!translations[lang]) lang = 'en'; 
+                
+                htmlEl.setAttribute('lang', lang);
+                document.title = translations[lang].page_title;
+
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang][key]) {
+                        
+                        element.innerHTML = translations[lang][key];
+                    }
+                });
+                
+                languageSwitcher.value = lang;
+                localStorage.setItem('language', lang);
+            };
+
+            languageSwitcher.addEventListener('change', (event) => {
+                setLanguage(event.target.value);
+            });
+            
+            
+            const applyTheme = (theme) => {
+                htmlEl.classList.remove('light-theme', 'dark-theme');
+                if (theme === 'light' || theme === 'dark') {
+                    htmlEl.classList.add(`${theme}-theme`);
+                }
+
+                themeButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.theme === theme);
+                });
+
+                localStorage.setItem('theme', theme);
+            };
+
+            themeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    applyTheme(button.dataset.theme);
+                });
+            });
+
+           
+            const sections = document.querySelectorAll('#main-content section');
+            const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+            const updateActiveLink = () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 70) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', updateActiveLink);
+            
+            
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            applyTheme(savedTheme);
+
+           
+            const savedLang = localStorage.getItem('language');
+            const browserLang = navigator.language.split('-')[0];
+            const initialLang = savedLang || (translations[browserLang] ? browserLang : 'en');
+            setLanguage(initialLang);
+
+           
+            updateActiveLink();
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

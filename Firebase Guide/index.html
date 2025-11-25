@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="page_title">Firebase Guide</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --card-bg-color: #ffffff;
+            --text-color: #2c3e50;
+            --primary-color: #ffca28;
+            --primary-text-color: #2c3e50;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --nav-bg-color: rgba(255, 255, 255, 0.8);
+            --svg-stroke-color: #34495e;
+            --svg-fill-color: #ecf0f1;
+            --svg-accent-color: #e74c3c;
+            --backdrop-filter: saturate(180%) blur(10px);
+        }
+
+        body.dark-mode {
+            --bg-color: #1a1a1a;
+            --card-bg-color: #2a2a2a;
+            --text-color: #ecf0f1;
+            --primary-color: #ffca28;
+            --primary-text-color: #1a1a1a;
+            --border-color: #444;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --nav-bg-color: rgba(30, 30, 30, 0.8);
+            --svg-stroke-color: #ecf0f1;
+            --svg-fill-color: #34495e;
+            --svg-accent-color: #e74c3c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--nav-bg-color);
+            backdrop-filter: var(--backdrop-filter);
+            -webkit-backdrop-filter: var(--backdrop-filter);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .language-switcher, .dark-mode-switcher {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-color);
+            color: var(--primary-text-color);
+            border-color: var(--primary-color);
+        }
+
+        .dark-mode-toggle {
+            cursor: pointer;
+            width: 44px;
+            height: 24px;
+            background-color: var(--border-color);
+            border-radius: 12px;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode-toggle .toggle-circle {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        
+        body.dark-mode .dark-mode-toggle .toggle-circle {
+            transform: translateX(20px);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        main {
+            padding: 8rem 2rem 2rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .guide-section {
+            background-color: var(--card-bg-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .guide-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .guide-section p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .sketch-container {
+            width: 100%;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .sketch-container svg {
+            width: 100%;
+            height: auto;
+            font-family: 'Comic Sans MS', 'Chalkduster', 'cursive';
+        }
+        
+        .sketch-container .stroke {
+            stroke: var(--svg-stroke-color);
+            stroke-width: 2;
+            fill: none;
+        }
+        
+        .sketch-container .fill {
+            fill: var(--svg-fill-color);
+            stroke: var(--svg-stroke-color);
+            stroke-width: 2;
+        }
+        
+        .sketch-container .accent-fill {
+            fill: var(--svg-accent-color);
+            stroke: var(--svg-accent-color);
+        }
+
+        .sketch-container text {
+            fill: var(--text-color);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .hamburger {
+                display: flex;
+                z-index: 1001;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 70%;
+                height: 100vh;
+                background-color: var(--card-bg-color);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                transform: translateX(100%);
+                transition: transform 0.4s ease-in-out;
+                box-shadow: -5px 0 15px var(--shadow-color);
+            }
+            
+            .nav-links.nav-active {
+                transform: translateX(0);
+            }
+
+            .nav-active .hamburger .bar:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+            .nav-active .hamburger .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .nav-active .hamburger .bar:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+            
+            main {
+                padding: 6rem 1rem 1rem 1rem;
+            }
+
+            .guide-section h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" data-lang-key="logo">Firebase Guide</div>
+        <div class="nav-links">
+            <a href="#what-is-firebase" data-lang-key="nav_what_is_firebase">Was ist Firebase?</a>
+            <a href="#auth" data-lang-key="nav_auth">Authentifizierung</a>
+            <a href="#firestore" data-lang-key="nav_firestore">Firestore</a>
+            <a href="#storage" data-lang-key="nav_storage">Storage</a>
+            <a href="#functions" data-lang-key="nav_functions">Functions</a>
+            <div class="language-switcher">
+                <button class="lang-btn" data-lang="de">DE</button>
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="es">ES</button>
+            </div>
+            <div class="dark-mode-switcher">
+                 <div class="dark-mode-toggle">
+                     <div class="toggle-circle"></div>
+                 </div>
+            </div>
+        </div>
+        <div class="hamburger">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="what-is-firebase" class="guide-section">
+            <h2 data-lang-key="title_what_is_firebase">Was ist Firebase?</h2>
+            <p data-lang-key="desc_what_is_firebase">Firebase ist eine von Google entwickelte Plattform für die Erstellung von mobilen und Web-Anwendungen. Es fungiert als "Backend-as-a-Service" (BaaS), was bedeutet, dass es Entwicklern serverseitige Funktionen wie Authentifizierung, Datenbanken und Speicherung zur Verfügung stellt, ohne dass sie einen eigenen Server verwalten müssen.</p>
+            <div class="sketch-container">
+                <svg viewBox="0 0 400 200">
+                    <rect x="10" y="50" width="80" height="100" rx="5" class="fill" />
+                    <text x="30" y="100" data-lang-key="svg_your_app">Deine App</text>
+                    <path d="M90 100 L150 100" class="stroke" style="stroke-dasharray: 5,5;"/>
+                    <path d="M145 95 L150 100 L145 105" class="stroke"/>
+                    
+                    <path d="M160 20 L390 20 L390 180 L160 180 Z" class="fill" />
+                    <text x="230" y="45" font-weight="bold">Firebase Cloud</text>
+                    
+                    <rect x="170" y="60" width="100" height="25" rx="3" class="stroke"/>
+                    <text x="180" y="77" data-lang-key="nav_auth">Authentifizierung</text>
+                    
+                    <rect x="170" y="95" width="100" height="25" rx="3" class="stroke"/>
+                    <text x="180" y="112" data-lang-key="nav_firestore">Firestore DB</text>
+                    
+                    <rect x="170" y="130" width="100" height="25" rx="3" class="stroke"/>
+                    <text x="180" y="147" data-lang-key="nav_storage">Storage</text>
+                    
+                    <rect x="280" y="60" width="100" height="25" rx="3" class="stroke"/>
+                    <text x="290" y="77" data-lang-key="nav_functions">Functions</text>
+                    
+                    <rect x="280" y="95" width="100" height="25" rx="3" class="stroke"/>
+                    <text x="290" y="112">Hosting</text>
+                    
+                    <rect x="280" y="130" width="100" height="25" rx="3" class="stroke"/>
+                    <text x="300" y="147">...</text>
+                </svg>
+            </div>
+        </section>
+
+        <section id="auth" class="guide-section">
+            <h2 data-lang-key="title_auth">Authentifizierung</h2>
+            <p data-lang-key="desc_auth">Firebase Authentication bietet einfach zu bedienende UI-Bibliotheken und SDKs, um Benutzer in deiner App zu authentifizieren. Es unterstützt die Authentifizierung mit Passwörtern, Telefonnummern und populären Anbietern wie Google, Facebook und Twitter.</p>
+            <div class="sketch-container">
+                 <svg viewBox="0 0 400 150">
+                    <rect x="10" y="30" width="80" height="90" rx="5" class="fill" />
+                    <text x="35" y="60" data-lang-key="svg_user">Benutzer</text>
+                    <text x="20" y="90">(Login Form)</text>
+
+                    <path d="M90 75 L150 75" class="stroke"/>
+                    <path d="M145 70 L150 75 L145 80" class="stroke"/>
+
+                    <rect x="150" y="30" width="100" height="90" rx="5" class="fill" />
+                    <text x="160" y="70">Firebase</text>
+                    <text x="175" y="90">Auth</text>
+
+                    <path d="M250 50 L310 50" class="stroke"/>
+                    <path d="M305 45 L310 50 L305 55" class="stroke"/>
+                    <rect x="310" y="30" width="80" height="40" rx="5" class="accent-fill" style="fill: #2ecc71; stroke: #2ecc71;"/>
+                    <text x="320" y="55" fill="white" data-lang-key="svg_success">Erfolg</text>
+                    
+                    <path d="M250 100 L310 100" class="stroke"/>
+                    <path d="M305 95 L310 100 L305 105" class="stroke"/>
+                    <rect x="310" y="80" width="80" height="40" rx="5" class="accent-fill"/>
+                    <text x="330" y="105" fill="white" data-lang-key="svg_error">Fehler</text>
+                </svg>
+            </div>
+        </section>
+
+        <section id="firestore" class="guide-section">
+            <h2 data-lang-key="title_firestore">Cloud Firestore</h2>
+            <p data-lang-key="desc_firestore">Cloud Firestore ist eine flexible, skalierbare NoSQL-Cloud-Datenbank zum Speichern und Synchronisieren von Daten für mobile und Web-Entwicklung. Daten werden in Dokumenten gespeichert, die in Sammlungen organisiert sind. Firestore synchronisiert Daten in Echtzeit über alle verbundenen Clients.</p>
+             <div class="sketch-container">
+                <svg viewBox="0 0 400 220">
+                    <text x="10" y="20" font-size="16" data-lang-key="svg_collection_users">Sammlung: 'users'</text>
+                    <path d="M10 30 L10 180" class="stroke"/>
+                    
+                    <path d="M10 50 L40 50" class="stroke"/>
+                    <rect x="40" y="35" width="120" height="30" rx="3" class="fill"/>
+                    <text x="50" y="55" data-lang-key="svg_document_alice">Dokument: 'alice'</text>
+
+                    <path d="M160 50 L190 50" class="stroke" style="stroke-dasharray: 3,3;"/>
+                    <rect x="190" y="25" width="180" height="50" rx="3" class="stroke"/>
+                    <text x="200" y="45">name: "Alice"</text>
+                    <text x="200" y="65">city: "Berlin"</text>
+
+                    <path d="M10 100 L40 100" class="stroke"/>
+                    <rect x="40" y="85" width="120" height="30" rx="3" class="fill"/>
+                    <text x="55" y="105" data-lang-key="svg_document_bob">Dokument: 'bob'</text>
+
+                    <path d="M160 100 L190 100" class="stroke" style="stroke-dasharray: 3,3;"/>
+                    <rect x="190" y="75" width="180" height="50" rx="3" class="stroke"/>
+                    <text x="200" y="95">name: "Bob"</text>
+                    <text x="200" y="115">city: "New York"</text>
+                    
+                    <path d="M10 150 L40 150" class="stroke"/>
+                    <rect x="40" y="135" width="120" height="30" rx="3" class="fill"/>
+                    <text x="50" y="155">...</text>
+                </svg>
+            </div>
+        </section>
+
+        <section id="storage" class="guide-section">
+            <h2 data-lang-key="title_storage">Cloud Storage</h2>
+            <p data-lang-key="desc_storage">Cloud Storage für Firebase dient zum Speichern und Verwalten von nutzergenerierten Inhalten wie Fotos und Videos. Es ist robust, einfach und kostengünstig. Die SDKs übernehmen die Sicherheit und die Logik für Uploads und Downloads.</p>
+            <div class="sketch-container">
+                <svg viewBox="0 0 400 150">
+                    <rect x="10" y="30" width="80" height="90" rx="5" class="fill" />
+                    <text x="35" y="60" data-lang-key="svg_user">Benutzer</text>
+                    <text x="15" y="90">profile.jpg</text>
+
+                    <path d="M90 75 L150 75" class="stroke"/>
+                    <path d="M145 70 L150 75 L145 80" class="stroke"/>
+                    <text x="100" y="65" data-lang-key="svg_upload">Upload</text>
+
+                    <path d="M180,120 C 180,140 320,140 320,120 L 320,50 L 180,50 Z" class="fill" />
+                    <path d="M210,50 C 210,20 290,20 290,50" class="fill" />
+                    <text x="200" y="90">Firebase Storage</text>
+                </svg>
+            </div>
+        </section>
+
+        <section id="functions" class="guide-section">
+            <h2 data-lang-key="title_functions">Cloud Functions</h2>
+            <p data-lang-key="desc_functions">Cloud Functions für Firebase ermöglicht das Ausführen von serverseitigem Code als Reaktion auf Ereignisse, die durch Firebase-Funktionen und HTTPS-Anfragen ausgelöst werden. Es ist eine serverlose Umgebung, d.h. du schreibst nur den Code, und Google kümmert sich um die Skalierung der Infrastruktur.</p>
+            <div class="sketch-container">
+                <svg viewBox="0 0 400 180">
+                    <rect x="10" y="50" width="100" height="60" rx="5" class="fill" />
+                    <text x="30" y="75" data-lang-key="svg_event">Ereignis</text>
+                    <text x="15" y="95" data-lang-key="svg_new_user_signup">(Neuer Nutzer)</text>
+
+                    <path d="M110 80 L160 80" class="stroke"/>
+                    <path d="M155 75 L160 80 L155 85" class="stroke"/>
+                    <text x="115" y="70" data-lang-key="svg_trigger">Auslöser</text>
+
+                    <rect x="160" y="50" width="120" height="60" rx="5" class="accent-fill" />
+                    <text x="170" y="85" fill="white">Cloud Function</text>
+
+                    <path d="M280 80 L330 80" class="stroke"/>
+                    <path d="M325 75 L330 80 L325 85" class="stroke"/>
+                    <text x="285" y="70" data-lang-key="svg_action">Aktion</text>
+
+                    <rect x="330" y="50" width="60" height="60" rx="5" class="fill" />
+                    <text x="340" y="85" data-lang-key="svg_send_email">E-Mail</text>
+                </svg>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const translations = {
+                de: {
+                    page_title: "Firebase Anleitung",
+                    logo: "Firebase Anleitung",
+                    nav_what_is_firebase: "Was ist Firebase?",
+                    nav_auth: "Authentifizierung",
+                    nav_firestore: "Firestore",
+                    nav_storage: "Storage",
+                    nav_functions: "Functions",
+                    title_what_is_firebase: "Was ist Firebase?",
+                    desc_what_is_firebase: "Firebase ist eine von Google entwickelte Plattform für die Erstellung von mobilen und Web-Anwendungen. Es fungiert als 'Backend-as-a-Service' (BaaS), was bedeutet, dass es Entwicklern serverseitige Funktionen wie Authentifizierung, Datenbanken und Speicherung zur Verfügung stellt, ohne dass sie einen eigenen Server verwalten müssen.",
+                    title_auth: "Authentifizierung",
+                    desc_auth: "Firebase Authentication bietet einfach zu bedienende UI-Bibliotheken und SDKs, um Benutzer in deiner App zu authentifizieren. Es unterstützt die Authentifizierung mit Passwörtern, Telefonnummern und populären Anbietern wie Google, Facebook und Twitter.",
+                    title_firestore: "Cloud Firestore",
+                    desc_firestore: "Cloud Firestore ist eine flexible, skalierbare NoSQL-Cloud-Datenbank zum Speichern und Synchronisieren von Daten für mobile und Web-Entwicklung. Daten werden in Dokumenten gespeichert, die in Sammlungen organisiert sind. Firestore synchronisiert Daten in Echtzeit über alle verbundenen Clients.",
+                    title_storage: "Cloud Storage",
+                    desc_storage: "Cloud Storage für Firebase dient zum Speichern und Verwalten von nutzergenerierten Inhalten wie Fotos und Videos. Es ist robust, einfach und kostengünstig. Die SDKs übernehmen die Sicherheit und die Logik für Uploads und Downloads.",
+                    title_functions: "Cloud Functions",
+                    desc_functions: "Cloud Functions für Firebase ermöglicht das Ausführen von serverseitigem Code als Reaktion auf Ereignisse, die durch Firebase-Funktionen und HTTPS-Anfragen ausgelöst werden. Es ist eine serverlose Umgebung, d.h. du schreibst nur den Code, und Google kümmert sich um die Skalierung der Infrastruktur.",
+                    svg_your_app: "Deine App",
+                    svg_user: "Benutzer",
+                    svg_success: "Erfolg",
+                    svg_error: "Fehler",
+                    svg_collection_users: "Sammlung: 'users'",
+                    svg_document_alice: "Dokument: 'alice'",
+                    svg_document_bob: "Dokument: 'bob'",
+                    svg_upload: "Hochladen",
+                    svg_event: "Ereignis",
+                    svg_new_user_signup: "(Neuer Nutzer)",
+                    svg_trigger: "Auslöser",
+                    svg_action: "Aktion",
+                    svg_send_email: "E-Mail senden"
+                },
+                en: {
+                    page_title: "Firebase Guide",
+                    logo: "Firebase Guide",
+                    nav_what_is_firebase: "What is Firebase?",
+                    nav_auth: "Authentication",
+                    nav_firestore: "Firestore",
+                    nav_storage: "Storage",
+                    nav_functions: "Functions",
+                    title_what_is_firebase: "What is Firebase?",
+                    desc_what_is_firebase: "Firebase is a platform developed by Google for creating mobile and web applications. It acts as a 'Backend-as-a-Service' (BaaS), meaning it provides developers with server-side features like authentication, databases, and storage without them having to manage their own server.",
+                    title_auth: "Authentication",
+                    desc_auth: "Firebase Authentication provides easy-to-use UI libraries and SDKs to authenticate users in your app. It supports authentication using passwords, phone numbers, and popular federated identity providers like Google, Facebook and Twitter.",
+                    title_firestore: "Cloud Firestore",
+                    desc_firestore: "Cloud Firestore is a flexible, scalable NoSQL cloud database for storing and syncing data for mobile and web development. Data is stored in documents, which are organized into collections. Firestore syncs data in real-time across all connected clients.",
+                    title_storage: "Cloud Storage",
+                    desc_storage: "Cloud Storage for Firebase is built for storing and managing user-generated content, like photos or videos. It is robust, simple, and cost-effective. The SDKs handle the security and logic for uploads and downloads.",
+                    title_functions: "Cloud Functions",
+                    desc_functions: "Cloud Functions for Firebase lets you run backend code in response to events triggered by Firebase features and HTTPS requests. It's a serverless environment, meaning you just write the code and Google handles scaling the infrastructure.",
+                    svg_your_app: "Your App",
+                    svg_user: "User",
+                    svg_success: "Success",
+                    svg_error: "Error",
+                    svg_collection_users: "Collection: 'users'",
+                    svg_document_alice: "Document: 'alice'",
+                    svg_document_bob: "Document: 'bob'",
+                    svg_upload: "Upload",
+                    svg_event: "Event",
+                    svg_new_user_signup: "(New User Signup)",
+                    svg_trigger: "Trigger",
+                    svg_action: "Action",
+                    svg_send_email: "Send Email"
+                },
+                es: {
+                    page_title: "Guía de Firebase",
+                    logo: "Guía de Firebase",
+                    nav_what_is_firebase: "¿Qué es Firebase?",
+                    nav_auth: "Autenticación",
+                    nav_firestore: "Firestore",
+                    nav_storage: "Storage",
+                    nav_functions: "Functions",
+                    title_what_is_firebase: "¿Qué es Firebase?",
+                    desc_what_is_firebase: "Firebase es una plataforma desarrollada por Google para crear aplicaciones móviles y web. Actúa como un 'Backend-como-un-Servicio' (BaaS), lo que significa que proporciona a los desarrolladores funciones del lado del servidor como autenticación, bases de datos y almacenamiento sin que tengan que gestionar su propio servidor.",
+                    title_auth: "Autenticación",
+                    desc_auth: "Firebase Authentication proporciona bibliotecas de interfaz de usuario y SDKs fáciles de usar para autenticar a los usuarios en tu aplicación. Admite la autenticación mediante contraseñas, números de teléfono y proveedores de identidad federada populares como Google, Facebook y Twitter.",
+                    title_firestore: "Cloud Firestore",
+                    desc_firestore: "Cloud Firestore es una base de datos en la nube NoSQL flexible y escalable para almacenar y sincronizar datos para el desarrollo móvil y web. Los datos se almacenan en documentos, que se organizan en colecciones. Firestore sincroniza los datos en tiempo real entre todos los clientes conectados.",
+                    title_storage: "Cloud Storage",
+                    desc_storage: "Cloud Storage para Firebase está diseñado para almacenar y gestionar contenido generado por el usuario, como fotos o vídeos. Es robusto, simple y rentable. Los SDK se encargan de la seguridad y la lógica para las subidas y descargas.",
+                    title_functions: "Cloud Functions",
+                    desc_functions: "Cloud Functions para Firebase te permite ejecutar código de backend en respuesta a eventos desencadenados por funciones de Firebase y solicitudes HTTPS. Es un entorno sin servidor, lo que significa que solo escribes el código y Google se encarga de escalar la infraestructura.",
+                    svg_your_app: "Tu App",
+                    svg_user: "Usuario",
+                    svg_success: "Éxito",
+                    svg_error: "Error",
+                    svg_collection_users: "Colección: 'users'",
+                    svg_document_alice: "Documento: 'alice'",
+                    svg_document_bob: "Documento: 'bob'",
+                    svg_upload: "Subir",
+                    svg_event: "Evento",
+                    svg_new_user_signup: "(Nuevo Usuario)",
+                    svg_trigger: "Disparador",
+                    svg_action: "Acción",
+                    svg_send_email: "Enviar Email"
+                }
+            };
+
+            const languageSwitcher = document.querySelector('.language-switcher');
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const darkModeToggle = document.querySelector('.dark-mode-toggle');
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                const elements = document.querySelectorAll('[data-lang-key]');
+                elements.forEach(el => {
+                    const key = el.getAttribute('data-lang-key');
+                    if (translations[lang] && translations[lang][key]) {
+                        el.textContent = translations[lang][key];
+                    }
+                });
+                
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+
+                localStorage.setItem('language', lang);
+            };
+            
+            languageSwitcher.addEventListener('click', (e) => {
+                if (e.target.classList.contains('lang-btn')) {
+                    const selectedLang = e.target.dataset.lang;
+                    setLanguage(selectedLang);
+                }
+            });
+
+            const setDarkMode = (isDark) => {
+                if (isDark) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            };
+            
+            darkModeToggle.addEventListener('click', () => {
+                const isDark = !document.body.classList.contains('dark-mode');
+                setDarkMode(isDark);
+            });
+            
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('nav-active');
+                hamburger.classList.toggle('nav-active');
+            });
+            
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('nav-active')) {
+                        navLinks.classList.remove('nav-active');
+                        hamburger.classList.remove('nav-active');
+                    }
+                });
+            });
+
+
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'enabled' || (savedDarkMode === null && prefersDark)) {
+                setDarkMode(true);
+            } else {
+                setDarkMode(false);
+            }
+
+            const savedLang = localStorage.getItem('language');
+            const userLang = (navigator.language || navigator.userLanguage).split('-')[0];
+            
+            if (savedLang) {
+                setLanguage(savedLang);
+            } else if (translations[userLang]) {
+                setLanguage(userLang);
+            } else {
+                setLanguage('en'); 
+            }
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

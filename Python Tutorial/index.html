@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Beginner's Guide to Python</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code.inline-code { 
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        pre {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9em;
+        }
+        pre code { 
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+        }
+        .warning, .important { 
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        
+        .path { 
+            font-style: italic;
+            color: #555;
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Python Guide</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to Python</a></li>
+            <li><a href="#setting-up">Setting Up Your Environment</a></li>
+            <li><a href="#first-program">Your First Python Program</a></li>
+            <li><a href="#variables-datatypes">Variables & Data Types</a></li>
+            <li><a href="#operators">Operators</a></li>
+            <li><a href="#input-output">Input and Output</a></li>
+            <li><a href="#control-flow">Control Flow</a></li>
+            <li><a href="#functions">Functions</a></li>
+            <li><a href="#data-structures">Data Structures</a></li>
+            <li><a href="#modules-packages">Modules & Packages</a></li>
+            <li><a href="#error-handling">Error Handling (Exceptions)</a></li>
+            <li><a href="#file-io">File I/O</a></li>
+            <li><a href="#oop-intro">Intro to OOP (Optional)</a></li>
+            <li><a href="#next-steps">Next Steps</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>A Comprehensive Beginner's Guide to Python Programming</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to Python</h2>
+            <p>Welcome to the world of Python! Python is a high-level, interpreted programming language known for its readability, simplicity, and versatility. Created by Guido van Rossum and first released in 1991, Python's design philosophy emphasizes code readability with its notable use of significant indentation.</p>
+            <p><strong>Why learn Python?</strong></p>
+            <ul>
+                <li><strong>Easy to Learn:</strong> Python has a simple syntax similar to the English language, making it an excellent choice for beginners.</li>
+                <li><strong>Versatile:</strong> It's used in web development, data science, machine learning, artificial intelligence, scripting, game development, and much more.</li>
+                <li><strong>Large Community & Libraries:</strong> Python has a massive and active community, which means plenty of resources, support, and a vast collection of third-party libraries (pre-written code) to help you accomplish tasks quickly.</li>
+                <li><strong>Cross-Platform:</strong> Python code can run on Windows, macOS, Linux, and other operating systems without modification.</li>
+                <li><strong>Interpreted:</strong> Python code is executed line by line, which makes debugging easier.</li>
+            </ul>
+        </section>
+
+        <section id="setting-up">
+            <h2>Setting Up Your Environment</h2>
+            <p>Before you can start coding in Python, you need to install it on your computer.</p>
+            <h3>1. Installing Python</h3>
+            <ol>
+                <li>Visit the official Python website: <a href="https://www.python.org/downloads/" target="_blank">python.org/downloads/</a></li>
+                <li>Download the latest version of Python 3 for your operating system (Windows, macOS, Linux).</li>
+                <li>Run the installer.
+                    <p class="important"><strong>Windows Users:</strong> Make sure to check the box that says "Add Python to PATH" during installation. This makes it easier to run Python from the command line.</p>
+                </li>
+                <li>To verify the installation, open your terminal (Command Prompt on Windows, Terminal on macOS/Linux) and type:
+<pre><code class="path">python --version</code></pre>
+                    Or, depending on your installation:
+<pre><code class="path">python3 --version</code></pre>
+                    You should see the Python version number printed.
+                </li>
+            </ol>
+
+            <h3>2. Choosing a Code Editor / IDE</h3>
+            <p>While you can write Python code in a simple text editor, using a dedicated code editor or an Integrated Development Environment (IDE) will make your life much easier. They offer features like syntax highlighting, code completion, and debugging tools.</p>
+            Popular choices include:
+            <ul>
+                <li><strong>Visual Studio Code (VS Code):</strong> Free, powerful, and highly customizable with excellent Python support through extensions. <a href="https://code.visualstudio.com/" target="_blank">Download VS Code</a></li>
+                <li><strong>PyCharm:</strong> A professional IDE specifically for Python. It has a free Community Edition. <a href="https://www.jetbrains.com/pycharm/" target="_blank">Download PyCharm</a></li>
+                <li><strong>Sublime Text:</strong> A lightweight and fast editor, popular for its speed and flexibility. <a href="https://www.sublimetext.com/" target="_blank">Download Sublime Text</a></li>
+                <li><strong>IDLE:</strong> Python's built-in basic IDE. It's installed automatically with Python and is good for very simple scripts or quick tests.</li>
+            </ul>
+            <p>For this guide, we'll assume you're using a plain text file with a <code class="inline-code">.py</code> extension (e.g., <code class="inline-code">my_script.py</code>) and running it from the terminal.</p>
+        </section>
+
+        <section id="first-program">
+            <h2>Your First Python Program: "Hello, World!"</h2>
+            <p>It's a tradition in programming to start with a "Hello, World!" program. This simple program will print the text "Hello, World!" to your screen.</p>
+            <ol>
+                <li>Open your chosen code editor (or a simple text editor like Notepad).</li>
+                <li>Type the following line of code:
+<pre><code>print("Hello, World!")</code></pre>
+                </li>
+                <li>Save the file as <code class="inline-code">hello.py</code> (make sure the extension is <code class="inline-code">.py</code>).</li>
+                <li>Open your terminal or command prompt.</li>
+                <li>Navigate to the directory where you saved <code class="inline-code">hello.py</code>. For example, if you saved it in a folder named "PythonProjects" on your Desktop:
+<pre><code class="path">cd Desktop/PythonProjects</code></pre>
+                </li>
+                <li>Run the script by typing:
+<pre><code class="path">python hello.py</code></pre>
+                    (Or <code class="path">python3 hello.py</code> if needed)
+                </li>
+            </ol>
+            <p>You should see the output:</p>
+<pre><code>Hello, World!</code></pre>
+            <p><strong>Explanation:</strong></p>
+            <ul>
+                <li><code class="inline-code">print()</code> is a built-in Python <strong>function</strong>. Functions are reusable blocks of code that perform a specific task.</li>
+                <li>The text inside the parentheses <code class="inline-code">("Hello, World!")</code> is called an <strong>argument</strong> that we pass to the <code class="inline-code">print()</code> function.</li>
+                <li><code class="inline-code">"Hello, World!"</code> is a <strong>string</strong>, which is a sequence of characters enclosed in quotes (either single <code class="inline-code">' '</code> or double <code class="inline-code">" "</code>).</li>
+            </ul>
+        </section>
+
+        <section id="variables-datatypes">
+            <h2>Variables and Data Types</h2>
+            <p>Variables are containers for storing data values. In Python, you don't need to explicitly declare the type of a variable; the type is inferred from the value assigned to it.</p>
+
+            <h3>Creating Variables</h3>
+            <p>You create a variable by assigning a value to it using the equals sign (<code class="inline-code">=</code>).</p>
+<pre><code># Variable assignment
+name = "Alice"       # String
+age = 30             # Integer
+height = 5.9         # Float (decimal number)
+is_student = False   # Boolean (True or False)
+
+print(name)
+print(age)
+print(height)
+print(is_student)</code></pre>
+            <p>Output:</p>
+<pre><code>Alice
+30
+5.9
+False</code></pre>
+
+            <h3>Common Data Types</h3>
+            Python has several built-in data types. Here are the most common ones:
+            <ul>
+                <li><strong>Text Type:</strong> <code class="inline-code">str</code> (string) - sequence of characters.
+                    <pre><code>my_string = "Hello Python"
+another_string = 'Python is fun!'</code></pre>
+                </li>
+                <li><strong>Numeric Types:</strong>
+                    <ul>
+                        <li><code class="inline-code">int</code> (integer) - whole numbers, positive or negative, without decimals.
+                            <pre><code>count = 100
+negative_number = -5</code></pre>
+                        </li>
+                        <li><code class="inline-code">float</code> (floating-point number) - numbers with a decimal point.
+                            <pre><code>price = 19.99
+pi_value = 3.14159</code></pre>
+                        </li>
+                        <li><code class="inline-code">complex</code> (complex numbers) - written with a "j" as the imaginary part.
+                            <pre><code>z = 3 + 5j</code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Sequence Types:</strong>
+                    <ul>
+                        <li><code class="inline-code">list</code> - ordered, mutable (changeable) collection. Allows duplicate members.
+                            <pre><code>my_list = ["apple", "banana", "cherry"]</code></pre>
+                        </li>
+                        <li><code class="inline-code">tuple</code> - ordered, immutable (unchangeable) collection. Allows duplicate members.
+                            <pre><code>my_tuple = ("apple", "banana", "cherry")</code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Mapping Type:</strong>
+                    <ul>
+                        <li><code class="inline-code">dict</code> (dictionary) - unordered, mutable collection of key-value pairs. Keys must be unique.
+                            <pre><code>my_dict = {"name": "Bob", "age": 25}</code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Set Types:</strong>
+                    <ul>
+                        <li><code class="inline-code">set</code> - unordered, mutable collection. No duplicate members.
+                            <pre><code>my_set = {"apple", "banana", "cherry"}</code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Boolean Type:</strong>
+                    <ul>
+                        <li><code class="inline-code">bool</code> - represents one of two values: <code class="inline-code">True</code> or <code class="inline-code">False</code>.
+                            <pre><code>is_active = True
+has_permission = False</code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>None Type:</strong>
+                    <ul>
+                        <li><code class="inline-code">NoneType</code> - represents the absence of a value. Its only value is <code class="inline-code">None</code>.
+                            <pre><code>result = None</code></pre>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p>You can find the type of any variable using the <code class="inline-code">type()</code> function:</p>
+<pre><code>x = 5
+print(type(x))  # Output: &lt;class 'int'&gt;
+
+y = "Hello"
+print(type(y))  # Output: &lt;class 'str'&gt;</code></pre>
+
+            <h3>Variable Naming Rules</h3>
+            <ul>
+                <li>Must start with a letter (a-z, A-Z) or an underscore (_).</li>
+                <li>Cannot start with a number.</li>
+                <li>Can only contain alpha-numeric characters and underscores (A-z, 0-9, and _).</li>
+                <li>Are case-sensitive (<code class="inline-code">age</code>, <code class="inline-code">Age</code>, and <code class="inline-code">AGE</code> are three different variables).</li>
+                <li>Avoid using Python keywords (like <code class="inline-code">if</code>, <code class="inline-code">else</code>, <code class="inline-code">while</code>, <code class="inline-code">def</code>, etc.) as variable names.</li>
+            </ul>
+            <p class="important">Use descriptive variable names to make your code more readable (e.g., <code class="inline-code">user_name</code> instead of <code class="inline-code">un</code>).</p>
+        </section>
+
+        <section id="operators">
+            <h2>Operators</h2>
+            <p>Operators are special symbols in Python that carry out arithmetic or logical computation. The value that the operator operates on is called the operand.</p>
+
+            <h3>1. Arithmetic Operators</h3>
+            <p>Used to perform mathematical operations:</p>
+            <ul>
+                <li><code class="inline-code">+</code> : Addition (<code class="inline-code">x + y</code>)</li>
+                <li><code class="inline-code">-</code> : Subtraction (<code class="inline-code">x - y</code>)</li>
+                <li><code class="inline-code">*</code> : Multiplication (<code class="inline-code">x * y</code>)</li>
+                <li><code class="inline-code">/</code> : Division (results in a float, <code class="inline-code">x / y</code>)</li>
+                <li><code class="inline-code">%</code> : Modulus (remainder of division, <code class="inline-code">x % y</code>)</li>
+                <li><code class="inline-code">**</code> : Exponentiation (<code class="inline-code">x ** y</code>, same as x<sup>y</sup>)</li>
+                <li><code class="inline-code">//</code> : Floor division (division that results in whole number, discarding remainder, <code class="inline-code">x // y</code>)</li>
+            </ul>
+<pre><code>a = 10
+b = 3
+
+print(a + b)   # Output: 13
+print(a - b)   # Output: 7
+print(a * b)   # Output: 30
+print(a / b)   # Output: 3.333...
+print(a % b)   # Output: 1 (10 divided by 3 is 3 with a remainder of 1)
+print(a ** b)  # Output: 1000 (10 to the power of 3)
+print(a // b)  # Output: 3 (discards the .333...)</code></pre>
+
+            <h3>2. Comparison Operators</h3>
+            <p>Used to compare two values. They return either <code class="inline-code">True</code> or <code class="inline-code">False</code>.</p>
+            <ul>
+                <li><code class="inline-code">==</code> : Equal to (<code class="inline-code">x == y</code>)</li>
+                <li><code class="inline-code">!=</code> : Not equal to (<code class="inline-code">x != y</code>)</li>
+                <li><code class="inline-code">></code> : Greater than (<code class="inline-code">x > y</code>)</li>
+                <li><code class="inline-code"><</code> : Less than (<code class="inline-code">x < y</code>)</li>
+                <li><code class="inline-code">>=</code> : Greater than or equal to (<code class="inline-code">x >= y</code>)</li>
+                <li><code class="inline-code"><=</code> : Less than or equal to (<code class="inline-code">x <= y</code>)</li>
+            </ul>
+<pre><code>x = 5
+y = 10
+
+print(x == y)  # Output: False
+print(x != y)  # Output: True
+print(x > y)   # Output: False
+print(x < y)   # Output: True</code></pre>
+
+            <h3>3. Logical Operators</h3>
+            <p>Used to combine conditional statements. They also return <code class="inline-code">True</code> or <code class="inline-code">False</code>.</p>
+            <ul>
+                <li><code class="inline-code">and</code> : Returns <code class="inline-code">True</code> if both statements are true.</li>
+                <li><code class="inline-code">or</code> : Returns <code class="inline-code">True</code> if one of the statements is true.</li>
+                <li><code class="inline-code">not</code> : Reverses the result, returns <code class="inline-code">False</code> if the result is true, and vice-versa.</li>
+            </ul>
+<pre><code>age = 25
+has_license = True
+
+# Example 1: and
+if age > 18 and has_license:
+    print("Can drive") # Output: Can drive
+else:
+    print("Cannot drive")
+
+# Example 2: or
+is_weekend = False
+is_holiday = True
+if is_weekend or is_holiday:
+    print("Day off!") # Output: Day off!
+else:
+    print("Work day")
+
+# Example 3: not
+is_raining = False
+if not is_raining:
+    print("It's not raining, good for a walk!") # Output: It's not raining...
+</code></pre>
+
+            <h3>4. Assignment Operators</h3>
+            <p>Used to assign values to variables. We've already seen <code class="inline-code">=</code>. There are also compound assignment operators:</p>
+            <ul>
+                <li><code class="inline-code">+=</code> : <code class="inline-code">x += 3</code> is same as <code class="inline-code">x = x + 3</code></li>
+                <li><code class="inline-code">-=</code> : <code class="inline-code">x -= 3</code> is same as <code class="inline-code">x = x - 3</code></li>
+                <li><code class="inline-code">*=</code> : <code class="inline-code">x *= 3</code> is same as <code class="inline-code">x = x * 3</code></li>
+                <li>And so on for <code class="inline-code">/=</code>, <code class="inline-code">%=</code>, <code class="inline-code">//=</code>, <code class="inline-code">**=</code>.</li>
+            </ul>
+<pre><code>count = 5
+count += 2  # count is now 7
+print(count)
+
+count *= 3  # count is now 21 (7 * 3)
+print(count)</code></pre>
+        </section>
+
+        <section id="input-output">
+            <h2>Input and Output</h2>
+            <h3>Output using <code class="inline-code">print()</code></h3>
+            <p>We've already used the <code class="inline-code">print()</code> function to display output. It can print strings, numbers, variables, and expressions.</p>
+<pre><code>name = "Charlie"
+age = 22
+print("My name is", name, "and I am", age, "years old.")
+# Output: My name is Charlie and I am 22 years old.
+
+# Using f-strings (formatted string literals - recommended for Python 3.6+)
+print(f"My name is {name} and I am {age} years old.")
+# Output: My name is Charlie and I am 22 years old.
+
+print(5 + 3) # Output: 8
+</code></pre>
+            <p class="important">F-strings provide a concise and convenient way to embed expressions inside string literals for formatting.</p>
+
+            <h3>Input using <code class="inline-code">input()</code></h3>
+            <p>The <code class="inline-code">input()</code> function allows you to get input from the user. It always returns the user's input as a string, even if they type numbers.</p>
+<pre><code>user_name = input("Enter your name: ")
+print(f"Hello, {user_name}!")
+
+# Getting numerical input
+user_age_str = input("Enter your age: ")
+# You need to convert the string to an integer if you want to do math
+user_age_int = int(user_age_str) 
+
+birth_year = 2024 - user_age_int
+print(f"You were likely born in {birth_year}.")
+</code></pre>
+            <p>If you run the code above, it will pause and wait for you to type something after "Enter your name: " and "Enter your age: ".
+            <p class="warning">Always remember that <code class="inline-code">input()</code> returns a string. If you need a number, you must convert it using <code class="inline-code">int()</code> for integers or <code class="inline-code">float()</code> for decimal numbers. If the user enters text that cannot be converted (e.g., "abc" when expecting a number), your program will raise an error (ValueError).</p>
+        </section>
+
+        <section id="control-flow">
+            <h2>Control Flow</h2>
+            <p>Control flow statements determine the order in which statements are executed in a program.</p>
+
+            <h3>1. Conditional Statements (<code class="inline-code">if</code>, <code class="inline-code">elif</code>, <code class="inline-code">else</code>)</h3>
+            <p>These statements allow you to execute certain blocks of code only if a specific condition is true.</p>
+            <p><strong>Indentation is crucial in Python.</strong> It defines the blocks of code associated with control flow statements.</p>
+<pre><code>temperature = 25
+
+if temperature > 30:
+    print("It's a hot day!")
+elif temperature > 20:  # 'elif' is short for 'else if'
+    print("It's a pleasant day.")
+elif temperature < 10:
+    print("It's a cold day!")
+else:
+    print("It's cool.")
+
+# Output for temperature = 25: It's a pleasant day.
+</code></pre>
+            <p>Key points:</p>
+            <ul>
+                <li>The condition is followed by a colon (<code class="inline-code">:</code>).</li>
+                <li>The code block to be executed if the condition is true is indented (usually 4 spaces).</li>
+                <li><code class="inline-code">elif</code> allows you to check multiple conditions.</li>
+                <li><code class="inline-code">else</code> is optional and executes if none of the preceding <code class="inline-code">if</code> or <code class="inline-code">elif</code> conditions are true.</li>
+            </ul>
+
+            <h3>2. Looping Statements</h3>
+            <p>Loops are used to execute a block of code repeatedly.</p>
+            <h4>a) <code class="inline-code">for</code> loop</h4>
+            <p>A <code class="inline-code">for</code> loop is used for iterating over a sequence (like a list, tuple, dictionary, set, or string) or other iterable objects.</p>
+<pre><code># Looping through a list
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(fruit)
+# Output:
+# apple
+# banana
+# cherry
+
+# Looping through a string
+for letter in "Python":
+    print(letter)
+# Output:
+# P
+# y
+# t
+# h
+# o
+# n
+
+# Looping with range()
+# range(5) generates numbers from 0 up to (but not including) 5
+for i in range(5):
+    print(i)
+# Output:
+# 0
+# 1
+# 2
+# 3
+# 4
+
+# range(start, stop, step)
+for i in range(2, 10, 2): # Start at 2, up to 10, increment by 2
+    print(i)
+# Output:
+# 2
+# 4
+# 6
+# 8
+</code></pre>
+
+            <h4>b) <code class="inline-code">while</code> loop</h4>
+            <p>A <code class="inline-code">while</code> loop executes a block of code as long as a specified condition is true.</p>
+<pre><code>count = 0
+while count < 5:
+    print(count)
+    count += 1  # Important: update the counter, otherwise it's an infinite loop!
+# Output:
+# 0
+# 1
+# 2
+# 3
+# 4
+
+print("Loop finished")
+</code></pre>
+            <p class="warning">Be careful with <code class="inline-code">while</code> loops! If the condition never becomes false, you'll create an infinite loop, and your program will hang. Always ensure there's a way for the condition to eventually become false.</p>
+
+            <h3>3. Loop Control Statements</h3>
+            <ul>
+                <li><code class="inline-code">break</code>: Exits the current loop prematurely.
+<pre><code>for i in range(10):
+    if i == 5:
+        break  # Stop the loop when i is 5
+    print(i)
+# Output: 0, 1, 2, 3, 4
+</code></pre>
+                </li>
+                <li><code class="inline-code">continue</code>: Skips the rest of the code inside the loop for the current iteration and proceeds to the next iteration.
+<pre><code>for i in range(5):
+    if i == 2:
+        continue  # Skip printing 2
+    print(i)
+# Output: 0, 1, 3, 4
+</code></pre>
+                </li>
+                <li><code class="inline-code">pass</code>: The <code class="inline-code">pass</code> statement is a null operation; nothing happens when it executes. It's used as a placeholder where syntactically some code is required, but you haven't written it yet.
+<pre><code>def my_empty_function():
+    pass # TODO: Implement this later
+
+if x > 10:
+    pass # Placeholder for future code
+</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="functions">
+            <h2>Functions</h2>
+            <p>A function is a block of organized, reusable code that is used to perform a single, related action. Functions provide better modularity for your application and a high degree of code reusing.</p>
+
+            <h3>Defining a Function</h3>
+            You define a function using the <code class="inline-code">def</code> keyword, followed by the function name and parentheses <code class="inline-code">()</code>.
+<pre><code>def greet():
+    print("Hello from a function!")
+
+# Calling the function
+greet() # Output: Hello from a function!
+</code></pre>
+
+            <h3>Function Arguments (Parameters)</h3>
+            <p>You can pass data, known as parameters or arguments, into a function.</p>
+<pre><code>def greet_user(name): # 'name' is a parameter
+    print(f"Hello, {name}!")
+
+greet_user("Alice")  # "Alice" is an argument. Output: Hello, Alice!
+greet_user("Bob")    # Output: Hello, Bob!
+</code></pre>
+
+            <h3>Return Values</h3>
+            <p>Functions can return a value to the caller using the <code class="inline-code">return</code> statement.</p>
+<pre><code>def add_numbers(x, y):
+    sum_result = x + y
+    return sum_result
+
+result = add_numbers(5, 3)
+print(result)  # Output: 8
+
+another_result = add_numbers(10, 20)
+print(another_result) # Output: 30
+</code></pre>
+            <p>If a function doesn't have a <code class="inline-code">return</code> statement, or has a <code class="inline-code">return</code> statement without an expression, it implicitly returns <code class="inline-code">None</code>.</p>
+
+            <h3>Default Parameter Values</h3>
+            <p>You can specify a default value for a parameter. If an argument for that parameter is not provided when the function is called, the default value is used.</p>
+<pre><code>def greet_with_message(name, message="Welcome"):
+    print(f"{message}, {name}!")
+
+greet_with_message("Eve")                # Output: Welcome, Eve!
+greet_with_message("Frank", "Good morning") # Output: Good morning, Frank!
+</code></pre>
+
+            <h3>Keyword Arguments</h3>
+            <p>You can also call functions using keyword arguments of the form <code class="inline-code">kwarg=value</code>. This allows you to pass arguments out of order.</p>
+<pre><code>def describe_pet(animal_type, pet_name):
+    print(f"I have a {animal_type} named {pet_name}.")
+
+describe_pet(animal_type="hamster", pet_name="Harry") # Output: I have a hamster named Harry.
+describe_pet(pet_name="Lucy", animal_type="dog")     # Output: I have a dog named Lucy.
+</code></pre>
+
+            <h3>Docstrings (Documentation Strings)</h3>
+            <p>It's good practice to add a documentation string (docstring) as the first statement in a function's body. It explains what the function does.</p>
+<pre><code>def multiply(a, b):
+    """
+    This function multiplies two numbers and returns the result.
+    
+    Args:
+        a (int or float): The first number.
+        b (int or float): The second number.
+        
+    Returns:
+        int or float: The product of a and b.
+    """
+    return a * b
+
+print(multiply(4, 5)) # Output: 20
+help(multiply)        # Prints the docstring
+</code></pre>
+        </section>
+
+        <section id="data-structures">
+            <h2>Data Structures</h2>
+            <p>Python offers several built-in data structures to store collections of data efficiently.</p>
+
+            <h3>1. Lists</h3>
+            <p>Lists are ordered, mutable (changeable), and allow duplicate elements. They are defined using square brackets <code class="inline-code">[]</code>.</p>
+<pre><code># Creating a list
+my_list = [1, "hello", 3.14, True, "hello"]
+print(my_list) # Output: [1, 'hello', 3.14, True, 'hello']
+
+# Accessing elements (zero-indexed)
+print(my_list[0])  # Output: 1
+print(my_list[1])  # Output: hello
+
+# Modifying elements
+my_list[1] = "world"
+print(my_list) # Output: [1, 'world', 3.14, True, 'hello']
+
+# List methods
+my_list.append("new_item")    # Adds an item to the end
+print(my_list) # Output: [1, 'world', 3.14, True, 'hello', 'new_item']
+
+my_list.insert(2, "Python")   # Inserts "Python" at index 2
+print(my_list) # Output: [1, 'world', 'Python', 3.14, True, 'hello', 'new_item']
+
+my_list.remove("world")       # Removes the first occurrence of "world"
+print(my_list)
+
+popped_item = my_list.pop()   # Removes and returns the last item
+print(popped_item) # Output: new_item
+print(my_list)
+
+print(len(my_list)) # Gets the length of the list
+
+# Slicing
+print(my_list[1:3]) # Elements from index 1 up to (not including) 3
+</code></pre>
+
+            <h3>2. Tuples</h3>
+            <p>Tuples are ordered, immutable (unchangeable), and allow duplicate elements. They are defined using parentheses <code class="inline-code">()</code>.</p>
+<pre><code># Creating a tuple
+my_tuple = (1, "apple", 2.5, "apple")
+print(my_tuple) # Output: (1, 'apple', 2.5, 'apple')
+
+# Accessing elements (same as lists)
+print(my_tuple[0]) # Output: 1
+
+# Tuples are immutable - this would cause an error:
+# my_tuple[0] = 5 # TypeError: 'tuple' object does not support item assignment
+
+# Use cases: When you have a collection of items that should not change,
+# like coordinates (x, y) or RGB color values.
+coordinates = (10, 20)
+</code></pre>
+
+            <h3>3. Dictionaries</h3>
+            <p>Dictionaries are unordered (in Python versions before 3.7; ordered from 3.7+), mutable, and store data in key-value pairs. Keys must be unique and immutable (e.g., strings, numbers, or tuples). Defined using curly braces <code class="inline-code">{}</code>.</p>
+<pre><code># Creating a dictionary
+person = {
+    "name": "Alice",
+    "age": 30,
+    "city": "New York"
+}
+print(person)
+
+# Accessing values using keys
+print(person["name"])  # Output: Alice
+print(person.get("age")) # Output: 30 (get() is safer, returns None if key not found)
+
+# Modifying values
+person["age"] = 31
+print(person)
+
+# Adding new key-value pairs
+person["occupation"] = "Engineer"
+print(person)
+
+# Removing items
+person.pop("city")
+print(person)
+
+# Iterating through a dictionary
+for key in person:
+    print(key, ":", person[key])
+
+for key, value in person.items(): # More Pythonic way
+    print(f"{key}: {value}")
+</code></pre>
+
+            <h3>4. Sets</h3>
+            <p>Sets are unordered, mutable, and do not allow duplicate elements. Defined using curly braces <code class="inline-code">{}</code> or the <code class="inline-code">set()</code> function.</p>
+<pre><code># Creating a set
+my_set = {1, 2, 3, "apple", 2, "banana"} # Duplicates are automatically removed
+print(my_set) # Output might be in different order, e.g., {1, 2, 3, 'banana', 'apple'}
+
+# Adding elements
+my_set.add(4)
+my_set.add("apple") # No change, "apple" is already there
+print(my_set)
+
+# Removing elements
+my_set.remove(2)      # Raises KeyError if element not found
+my_set.discard("orange") # Does nothing if element not found (safer)
+print(my_set)
+
+# Set operations
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+print(set1.union(set2))          # Output: {1, 2, 3, 4, 5}
+print(set1.intersection(set2))   # Output: {3}
+print(set1.difference(set2))     # Output: {1, 2}
+</code></pre>
+        </section>
+
+        <section id="modules-packages">
+            <h2>Modules and Packages</h2>
+            <p>Python's power comes from its extensive standard library and the vast ecosystem of third-party packages.</p>
+
+            <h3>Modules</h3>
+            <p>A module is simply a Python file (<code class="inline-code">.py</code>) containing Python definitions and statements. You can use these definitions (functions, classes, variables) in other Python files.</p>
+            <p>To use a module, you <code class="inline-code">import</code> it.</p>
+
+            <h4>Example: Using the <code class="inline-code">math</code> module</h4>
+<pre><code>import math # Import the entire module
+
+print(math.pi)    # Accessing pi constant. Output: 3.141592653589793
+print(math.sqrt(16)) # Using the square root function. Output: 4.0
+
+# You can also import specific items from a module
+from math import pi, sqrt
+
+print(pi)         # Now you can use pi directly. Output: 3.14159...
+print(sqrt(25))   # Output: 5.0
+
+# Importing with an alias
+import math as m
+print(m.factorial(5)) # Output: 120 (5*4*3*2*1)
+</code></pre>
+
+            <h4>Creating Your Own Module</h4>
+            <p>Let's say you have a file named <code class="inline-code">my_module.py</code> with the following content:</p>
+            <p><code class="path">my_module.py</code>:</p>
+<pre><code># This is my_module.py
+def say_hello(name):
+    print(f"Hello, {name} from my_module!")
+
+MY_CONSTANT = "This is a constant from my_module."
+</code></pre>
+            <p>Now, in another Python file (e.g., <code class="inline-code">main_program.py</code>) in the <strong>same directory</strong>, you can import and use it:</p>
+            <p><code class="path">main_program.py</code>:</p>
+<pre><code>import my_module
+
+my_module.say_hello("Python Learner")
+# Output: Hello, Python Learner from my_module!
+
+print(my_module.MY_CONSTANT)
+# Output: This is a constant from my_module.
+</code></pre>
+
+            <h3>Packages</h3>
+            <p>A package is a collection of related modules. It's essentially a directory containing modules and a special <code class="inline-code">__init__.py</code> file (which can be empty) that tells Python that this directory should be treated as a package.</p>
+            <p>Example directory structure:</p>
+<pre><code>my_package/
+├── __init__.py
+├── module1.py
+└── module2.py
+</code></pre>
+            <p>You can then import modules from the package:</p>
+<pre><code>import my_package.module1
+from my_package import module2
+
+my_package.module1.some_function()
+module2.another_function()
+</code></pre>
+
+            <h3>Pip and Third-Party Packages</h3>
+            <p><code class="inline-code">pip</code> is the package installer for Python. You can use pip to install packages from the Python Package Index (PyPI).</p>
+            <p>Common pip commands (run in your terminal/command prompt):</p>
+            <ul>
+                <li>Install a package: <code class="path">pip install package_name</code> (e.g., <code class="path">pip install requests</code>)</li>
+                <li>Uninstall a package: <code class="path">pip uninstall package_name</code></li>
+                <li>List installed packages: <code class="path">pip list</code></li>
+                <li>Show information about an installed package: <code class="path">pip show package_name</code></li>
+            </ul>
+            <p class="important">When working on larger projects, it's highly recommended to use <strong>virtual environments</strong> to manage dependencies for different projects separately. Tools like <code class="inline-code">venv</code> (built-in) or <code class="inline-code">conda</code> are used for this.</p>
+        </section>
+
+        <section id="error-handling">
+            <h2>Error Handling (Exceptions)</h2>
+            <p>Errors that occur during program execution are called exceptions. Python uses <code class="inline-code">try...except</code> blocks to handle exceptions gracefully, preventing your program from crashing.</p>
+<pre><code>try:
+    # Code that might raise an exception
+    numerator = 10
+    denominator = 0 # This will cause a ZeroDivisionError
+    result = numerator / denominator
+    print(result)
+except ZeroDivisionError:
+    # Code to run if a ZeroDivisionError occurs
+    print("Error: Cannot divide by zero!")
+except ValueError:
+    # Code to run if a ValueError occurs
+    print("Error: Invalid value entered.")
+except Exception as e: # Catch any other general exception
+    print(f"An unexpected error occurred: {e}")
+else:
+    # Code to run if no exceptions were raised in the try block
+    print("Division successful.")
+finally:
+    # Code that will always run, regardless of whether an exception occurred or not
+    print("Execution finished.")
+
+# Output for the above:
+# Error: Cannot divide by zero!
+# Execution finished.
+</code></pre>
+            <p>Key parts:</p>
+            <ul>
+                <li><code class="inline-code">try</code>: The block of code to be attempted.</li>
+                <li><code class="inline-code">except</code>: If an error occurs in the <code class="inline-code">try</code> block, Python looks for a matching <code class="inline-code">except</code> block. You can specify the type of exception to catch.</li>
+                <li><code class="inline-code">else</code> (optional): Executed if the <code class="inline-code">try</code> block completes without raising an exception.</li>
+                <li><code class="inline-code">finally</code> (optional): Always executed, whether an exception occurred or not. Useful for cleanup actions (e.g., closing files).</li>
+            </ul>
+            <p>You can also raise exceptions deliberately using the <code class="inline-code">raise</code> keyword:</p>
+<pre><code>def check_age(age):
+    if age < 0:
+        raise ValueError("Age cannot be negative.")
+    elif age < 18:
+        print("Minor.")
+    else:
+        print("Adult.")
+
+try:
+    check_age(-5)
+except ValueError as e:
+    print(f"Error: {e}") # Output: Error: Age cannot be negative.
+</code></pre>
+        </section>
+
+        <section id="file-io">
+            <h2>File I/O (Input/Output)</h2>
+            <p>Python provides built-in functions for creating, reading, and writing files.</p>
+
+            <h3>Opening and Closing Files</h3>
+            <p>The <code class="inline-code">open()</code> function is used to open a file. It returns a file object.</p>
+            <p>Syntax: <code class="inline-code">file_object = open("filename.txt", "mode")</code></p>
+            <p>Common modes:</p>
+            <ul>
+                <li><code class="inline-code">'r'</code>: Read (default mode). Raises an error if the file does not exist.</li>
+                <li><code class="inline-code">'w'</code>: Write. Creates a new file if it does not exist or truncates (empties) the file if it exists.</li>
+                <li><code class="inline-code">'a'</code>: Append. Creates a new file if it does not exist. Appends to the end of the file if it exists.</li>
+                <li><code class="inline-code">'r+'</code>: Read and Write.</li>
+                <li><code class="inline-code">'b'</code>: Binary mode (e.g., <code class="inline-code">'rb'</code> or <code class="inline-code">'wb'</code> for image files).</li>
+            </ul>
+            <p class="important">It's crucial to close a file using <code class="inline-code">file_object.close()</code> after you're done with it to free up system resources and ensure data is written.</p>
+
+            <h3>Using <code class="inline-code">with</code> statement (Recommended)</h3>
+            <p>The <code class="inline-code">with</code> statement provides a cleaner way to work with files. It automatically closes the file even if errors occur.</p>
+
+            <h4>Writing to a File</h4>
+<pre><code># Writing to a file (will create or overwrite example.txt)
+try:
+    with open("example.txt", "w") as file:
+        file.write("Hello, Python files!\n")
+        file.write("This is a second line.\n")
+    print("File written successfully.")
+except IOError:
+    print("Error: Could not write to file.")
+
+# Appending to a file
+try:
+    with open("example.txt", "a") as file:
+        file.write("Appending a new line.\n")
+    print("Content appended successfully.")
+except IOError:
+    print("Error: Could not append to file.")
+</code></pre>
+
+            <h4>Reading from a File</h4>
+<pre><code>try:
+    with open("example.txt", "r") as file:
+        # Read the entire content
+        content = file.read()
+        print("--- Full Content ---")
+        print(content)
+
+        # Or, read line by line (file cursor is now at the end, so re-open or seek)
+    
+    with open("example.txt", "r") as file:
+        print("--- Line by Line ---")
+        for line in file: # Iterating over a file object reads it line by line
+            print(line.strip()) # .strip() removes leading/trailing whitespace like \n
+            
+    with open("example.txt", "r") as file:
+        print("--- Readlines ---")
+        lines_list = file.readlines() # Reads all lines into a list
+        for line_from_list in lines_list:
+            print(line_from_list.strip())
+
+except FileNotFoundError:
+    print("Error: The file was not found.")
+except IOError:
+    print("Error: Could not read from file.")
+</code></pre>
+        </section>
+
+        <section id="oop-intro">
+            <h2>Brief Introduction to Object-Oriented Programming (OOP) (Optional)</h2>
+            <p>Python is an object-oriented programming language. OOP is a programming paradigm based on the concept of "objects", which can contain data (attributes) and code (methods).</p>
+            <p class="important">This is a vast topic. This section provides only a very basic overview.</p>
+
+            <h3>Classes and Objects</h3>
+            <ul>
+                <li><strong>Class:</strong> A blueprint for creating objects. It defines a set of attributes and methods that the created objects will have.</li>
+                <li><strong>Object:</strong> An instance of a class.</li>
+            </ul>
+<pre><code># Define a class named 'Dog'
+class Dog:
+    # Class attribute (shared by all instances)
+    species = "Canis familiaris"
+
+    # Initializer / Constructor method
+    def __init__(self, name, age):
+        # Instance attributes (specific to each instance)
+        self.name = name
+        self.age = age
+        print(f"{self.name} instance created!")
+
+    # Instance method
+    def bark(self):
+        return f"{self.name} says Woof!"
+
+    # Another instance method
+    def get_details(self):
+        return f"{self.name} is {self.age} years old."
+
+# Create objects (instances) of the Dog class
+dog1 = Dog("Buddy", 3)  # Calls __init__ automatically
+dog2 = Dog("Lucy", 5)   # Calls __init__ automatically
+
+# Access instance attributes
+print(f"{dog1.name} is a {Dog.species}.") # Output: Buddy is a Canis familiaris.
+print(f"{dog2.name} is {dog2.age} years old.") # Output: Lucy is 5 years old.
+
+# Call instance methods
+print(dog1.bark())     # Output: Buddy says Woof!
+print(dog2.get_details()) # Output: Lucy is 5 years old.
+</code></pre>
+            <p><strong>Key OOP Concepts:</strong></p>
+            <ul>
+                <li><strong>Encapsulation:</strong> Bundling data (attributes) and methods that operate on the data within a single unit (class).</li>
+                <li><strong>Inheritance:</strong> Creating new classes (child classes) that inherit properties and methods from existing classes (parent classes).
+<pre><code>class Poodle(Dog): # Poodle inherits from Dog
+    def __init__(self, name, age, haircut_style):
+        super().__init__(name, age) # Call parent's __init__
+        self.haircut_style = haircut_style
+
+    def bark(self): # Overriding the parent's bark method
+        return f"{self.name} says Yap yap!"
+
+my_poodle = Poodle("Fifi", 2, "fancy")
+print(my_poodle.get_details()) # Inherited method. Output: Fifi is 2 years old.
+print(my_poodle.bark())        # Overridden method. Output: Fifi says Yap yap!
+print(my_poodle.haircut_style) # Output: fancy
+</code></pre>
+                </li>
+                <li><strong>Polymorphism:</strong> The ability of objects of different classes to respond to the same method call in different ways (e.g., the <code class="inline-code">bark()</code> method above).</li>
+            </ul>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>Congratulations on completing this introductory guide to Python! You've learned the fundamental concepts to get you started.</p>
+            <p>Here are some suggestions for what to learn next:</p>
+            <ul>
+                <li><strong>Practice, Practice, Practice:</strong> The best way to learn is by doing. Try solving small coding challenges on websites like HackerRank, LeetCode (for more advanced), or Codewars.</li>
+                <li><strong>Work on Small Projects:</strong>
+                    <ul>
+                        <li>A simple calculator.</li>
+                        <li>A to-do list application.</li>
+                        <li>A text-based adventure game.</li>
+                        <li>A web scraper (using libraries like <code class="inline-code">Requests</code> and <code class="inline-code">BeautifulSoup</code>).</li>
+                    </ul>
+                </li>
+                <li><strong>Explore Python's Standard Library:</strong> Python comes with many useful modules. Familiarize yourself with modules like <code class="inline-code">os</code>, <code class="inline-code">sys</code>, <code class="inline-code">datetime</code>, <code class="inline-code">json</code>, <code class="inline-code">csv</code>, etc.</li>
+                <li><strong>Learn about Virtual Environments:</strong> Essential for managing project dependencies (e.g., using <code class="inline-code">venv</code>).</li>
+                <li><strong>Version Control with Git:</strong> Learn Git and GitHub/GitLab for managing your code and collaborating with others.</li>
+                <li><strong>Dive Deeper into OOP:</strong> Understand inheritance, polymorphism, and design patterns more thoroughly.</li>
+                <li><strong>Explore Specific Fields:</strong>
+                    <ul>
+                        <li><strong>Web Development:</strong> Frameworks like Django or Flask.</li>
+                        <li><strong>Data Science/Machine Learning:</strong> Libraries like NumPy, Pandas, Scikit-learn, TensorFlow, PyTorch.</li>
+                        <li><strong>Automation/Scripting:</strong> Automate repetitive tasks on your computer.</li>
+                        <li><strong>GUI Development:</strong> Libraries like Tkinter (built-in), PyQt, or Kivy.</li>
+                    </ul>
+                </li>
+                <li><strong>Read Books and Online Courses:</strong> There are many excellent resources available. Look for intermediate-level Python books or courses on platforms like Coursera, Udemy, edX, or freeCodeCamp.</li>
+            </ul>
+            <p class="important">The Python community is vast and helpful. Don't hesitate to search for answers online (Stack Overflow is a great resource) or join forums and communities.</p>
+            <p>Happy coding!</p>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        function activateInitialLink() {
+            const hash = window.location.hash;
+            let activeLinkFound = false;
+            if (hash) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                        activeLinkFound = true;
+                    }
+                });
+            }
+            if (!activeLinkFound && navLinks.length > 0) {
+                navLinks[0].classList.add('active'); 
+            }
+        }
+        activateInitialLink();
+        window.addEventListener('hashchange', activateInitialLink); 
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

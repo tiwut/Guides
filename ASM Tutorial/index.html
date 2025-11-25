@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Beginner's Guide to Assembly (x86/Linux/NASM)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px;
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code.inline-code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background-color: #282c34; 
+            color: #abb2bf; 
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Consolas", "Monaco", "Courier New", Courier, monospace;
+            font-size: 0.9em;
+            border: 1px solid #3e4451;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+            color: inherit;
+        }
+       
+        pre code .asm-instruction { color: #c678dd; font-weight: bold; } 
+        pre code .asm-register { color: #e06c75; } 
+        pre code .asm-label { color: #61afef; } 
+        pre code .asm-directive { color: #d19a66; } 
+        pre code .asm-comment { color: #5c6370; font-style: italic; } 
+        pre code .asm-string { color: #98c379; } 
+        pre code .asm-number { color: #e5c07b; } 
+        pre code .asm-addressing { color: #abb2bf; }
+        pre code .asm-size-specifier { color: #56b6c2; } 
+
+
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+    <nav id="sidebar">
+        <h2>ASM Guide (x86)</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to Assembly</a></li>
+            <li><a href="#setting-up">Setting Up Environment</a></li>
+            <li><a href="#basic-concepts">Basic Concepts</a></li>
+            <li><a href="#first-program">Your First ASM Program</a></li>
+            <li><a href="#registers">CPU Registers (x86)</a></li>
+            <li><a href="#data-movement">Data Movement</a></li>
+            <li><a href="#arithmetic-logic">Arithmetic & Logic</a></li>
+            <li><a href="#control-flow">Control Flow</a></li>
+            <li><a href="#memory-addressing">Memory Addressing</a></li>
+            <li><a href="#data-sections">Data Sections & Directives</a></li>
+            <li><a href="#system-calls">System Calls (Linux)</a></li>
+            <li><a href="#functions-stack">Functions & The Stack</a></li>
+            <li><a href="#next-steps">Next Steps</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>A Beginner's Guide to x86 Assembly (NASM/Linux)</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to Assembly Language</h2>
+            <p>Assembly Language (often abbreviated as ASM or asm) is a low-level programming language that has a very strong correspondence between its instructions and the architecture's machine code instructions. It is specific to a particular computer architecture (e.g., x86, ARM, MIPS).</p>
+            <p>Instead of writing binary machine code directly, assembly programmers use mnemonics (short, human-readable names) for instructions, registers, and memory locations.</p>
+            <p><strong>Why learn Assembly?</strong></p>
+            <ul>
+                <li><strong>Understand Hardware:</strong> Provides deep insight into how CPUs, memory, and operating systems work.</li>
+                <li><strong>Performance Critical Code:</strong> For optimizing very specific, performance-sensitive parts of applications (though modern compilers are very good).</li>
+                <li><strong>Reverse Engineering:</strong> Analyzing compiled programs, malware analysis.</li>
+                <li><strong>Embedded Systems & Drivers:</strong> Writing code for hardware devices where resources are limited or direct hardware control is needed.</li>
+                <li><strong>Compiler Construction:</strong> Understanding how high-level languages are translated to machine code.</li>
+            </ul>
+            <p class="warning">Assembly language is significantly more complex and less portable than high-level languages. It requires careful attention to detail and understanding of the underlying hardware. This guide focuses on <strong>32-bit x86 Assembly using NASM syntax on a Linux system.</strong></p>
+        </section>
+
+        <section id="setting-up">
+            <h2>Setting Up Your Environment (Linux)</h2>
+            <p>To write, assemble, link, and run x86 assembly programs on Linux, you'll typically need:</p>
+            <ol>
+                <li><strong>NASM (Netwide Assembler):</strong> A popular assembler for x86.
+<pre><code class="path">sudo apt update
+sudo apt install nasm</code></pre>
+                </li>
+                <li><strong>Linker (LD):</strong> Part of the GNU Binutils, usually installed with `build-essential`.
+<pre><code class="path">sudo apt install build-essential</code></pre>
+                    (This also installs GCC/G++ which includes `ld`).
+                </li>
+                <li><strong>Text Editor or IDE:</strong> Any plain text editor (like Vim, Nano, Gedit) or a code editor like VS Code.</li>
+                <li><strong>Debugger (Optional but Recommended):</strong> GDB (GNU Debugger) is very useful.
+<pre><code class="path">sudo apt install gdb</code></pre>
+                </li>
+            </ol>
+            <p>For other operating systems, the setup will differ (e.g., MASM on Windows, or different system call conventions).</p>
+        </section>
+
+        <section id="basic-concepts">
+            <h2>Basic Assembly Concepts</h2>
+            <ul>
+                <li><strong>Instructions (Mnemonics):</strong> Human-readable names for CPU operations (e.g., <code class="inline-code">MOV</code> for move, <code class="inline-code">ADD</code> for add).</li>
+                <li><strong>Operands:</strong> The data that instructions operate on. Can be registers, memory locations, or immediate values (constants).</li>
+                <li><strong>Registers:</strong> Small, fast storage locations within the CPU used to hold data temporarily during computations.</li>
+                <li><strong>Memory:</strong> Main storage where data and programs are kept. Accessed via memory addresses.</li>
+                <li><strong>Labels:</strong> Names given to specific memory locations or points in the code, often used as targets for jumps or calls.</li>
+                <li><strong>Directives:</strong> Instructions for the assembler (not the CPU). They control how the code is assembled (e.g., defining data, reserving space, declaring sections).</li>
+                <li><strong>System Calls:</strong> How programs request services from the operating system kernel (e.g., for input/output, exiting the program).</li>
+            </ul>
+            <p>An assembly program typically has the following structure:</p>
+<pre><code class="language-nasm"><span class="asm-directive">section</span> <span class="asm-label">.data</span>         <span class="asm-comment">; Initialized data</span>
+    <span class="asm-comment">; ... define variables with initial values ...</span>
+
+<span class="asm-directive">section</span> <span class="asm-label">.bss</span>          <span class="asm-comment">; Uninitialized data (Block Started by Symbol)</span>
+    <span class="asm-comment">; ... reserve space for variables ...</span>
+
+<span class="asm-directive">section</span> <span class="asm-label">.text</span>         <span class="asm-comment">; Code</span>
+    <span class="asm-directive">global</span> <span class="asm-label">_start</span>     <span class="asm-comment">; Entry point for the linker</span>
+
+<span class="asm-label">_start:</span>
+    <span class="asm-comment">; ... your program instructions ...</span>
+</code></pre>
+        </section>
+
+        <section id="first-program">
+            <h2>Your First ASM Program: "Hello, World!" (Linux x86 NASM)</h2>
+            <p>This program will print "Hello, World!" to the console using Linux system calls.</p>
+            <ol>
+                <li>Create a file named <code class="path">hello.asm</code> with the following content:
+<pre><code class="language-nasm"><span class="asm-directive">section</span> <span class="asm-label">.data</span>
+    <span class="asm-label">message</span> <span class="asm-directive">db</span> <span class="asm-string">'Hello, World!'</span>, <span class="asm-number">0xa</span>  <span class="asm-comment">; The string to print, 0xa is newline</span>
+    <span class="asm-label">msg_len</span> <span class="asm-directive">equ</span> <span class="asm-addressing">$</span> - <span class="asm-label">message</span>         <span class="asm-comment">; Length of the message</span>
+
+<span class="asm-directive">section</span> <span class="asm-label">.text</span>
+    <span class="asm-directive">global</span> <span class="asm-label">_start</span>             <span class="asm-comment">; Make _start entry point visible to linker</span>
+
+<span class="asm-label">_start:</span>
+    <span class="asm-comment">; write(stdout, message, msg_len)</span>
+    <span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-number">4</span>              <span class="asm-comment">; System call number for sys_write (Linux 32-bit)</span>
+    <span class="asm-instruction">mov</span> <span class="asm-register">ebx</span>, <span class="asm-number">1</span>              <span class="asm-comment">; File descriptor 1 (stdout)</span>
+    <span class="asm-instruction">mov</span> <span class="asm-register">ecx</span>, <span class="asm-label">message</span>          <span class="asm-comment">; Pointer to the message</span>
+    <span class="asm-instruction">mov</span> <span class="asm-register">edx</span>, <span class="asm-label">msg_len</span>          <span class="asm-comment">; Length of the message</span>
+    <span class="asm-instruction">int</span> <span class="asm-number">0x80</span>              <span class="asm-comment">; Call kernel (interrupt)</span>
+
+    <span class="asm-comment">; exit(0)</span>
+    <span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-number">1</span>              <span class="asm-comment">; System call number for sys_exit</span>
+    <span class="asm-instruction">xor</span> <span class="asm-register">ebx</span>, <span class="asm-register">ebx</span>          <span class="asm-comment">; Exit code 0 (mov ebx, 0 also works)</span>
+    <span class="asm-instruction">int</span> <span class="asm-number">0x80</span>              <span class="asm-comment">; Call kernel</span>
+</code></pre>
+                </li>
+                <li><strong>Assemble the code:</strong> Open your terminal, navigate to the directory, and run:
+<pre><code class="path">nasm -f elf32 hello.asm -o hello.o</code></pre>
+                    This creates an object file <code class="path">hello.o</code> in ELF32 format (Executable and Linkable Format for 32-bit).
+                </li>
+                <li><strong>Link the object file:</strong>
+<pre><code class="path">ld -m elf_i386 hello.o -o hello</code></pre>
+                    This links the object file to create an executable named <code class="path">hello</code>. <code class="inline-code">-m elf_i386</code> specifies the emulation for 32-bit Intel.
+                </li>
+                <li><strong>Run the program:</strong>
+<pre><code class="path">./hello</code></pre>
+                </li>
+            </ol>
+            <p>Output:</p>
+<pre><code>Hello, World!</code></pre>
+            <p><strong>Explanation:</strong></p>
+            <ul>
+                <li><code class="inline-code">section .data</code>: Declares a section for initialized data.</li>
+                <li><code class="inline-code">message db 'Hello, World!', 0xa</code>: Defines a byte string named <code class="inline-code">message</code>. <code class="inline-code">db</code> means "define byte". <code class="inline-code">0xa</code> is the ASCII code for a newline character.</li>
+                <li><code class="inline-code">msg_len equ $ - message</code>: <code class="inline-code">equ</code> defines a constant. <code class="inline-code">$</code> refers to the current address. So, <code class="inline-code">$ - message</code> calculates the length of the <code class="inline-code">message</code> string.</li>
+                <li><code class="inline-code">section .text</code>: Declares the code section.</li>
+                <li><code class="inline-code">global _start</code>: Makes the <code class="inline-code">_start</code> label visible to the linker, which is the default entry point for Linux programs.</li>
+                <li><code class="inline-code">_start:</code>: A label marking the beginning of our code.</li>
+                <li>The first block of <code class="inline-code">mov</code> instructions sets up arguments for the <code class="inline-code">sys_write</code> system call:
+                    <ul>
+                        <li><code class="inline-code">eax = 4</code>: System call number for <code class="inline-code">write</code>.</li>
+                        <li><code class="inline-code">ebx = 1</code>: File descriptor for standard output.</li>
+                        <li><code class="inline-code">ecx = message</code>: Address of the string to write.</li>
+                        <li><code class="inline-code">edx = msg_len</code>: Length of the string.</li>
+                    </ul>
+                </li>
+                <li><code class="inline-code">int 0x80</code>: Triggers a software interrupt to call the Linux kernel to perform the system call.</li>
+                <li>The second block sets up for the <code class="inline-code">sys_exit</code> system call to terminate the program cleanly.</li>
+            </ul>
+        </section>
+
+        <section id="registers">
+            <h2>CPU Registers (x86 32-bit)</h2>
+            <p>Registers are small, high-speed storage locations within the CPU. x86 32-bit architecture has several key registers:</p>
+            <h3>General Purpose Registers (GPRs)</h3>
+            <p>Can be used for various purposes. Many have conventional uses, especially in system calls.</p>
+            <ul>
+                <li><strong>EAX (Accumulator):</strong> Often used for arithmetic operations, return values from functions, and system call numbers. (AX is 16-bit, AH/AL are 8-bit parts).</li>
+                <li><strong>EBX (Base):</strong> Often used as a base pointer for memory access, and for arguments in system calls. (BX, BH/BL).</li>
+                <li><strong>ECX (Counter):</strong> Often used as a loop counter, and for arguments in system calls. (CX, CH/CL).</li>
+                <li><strong>EDX (Data):</strong> Often used for I/O operations, multiplication/division results, and for arguments in system calls. (DX, DH/DL).</li>
+                <li><strong>ESI (Source Index):</strong> Used as a source pointer for string operations.</li>
+                <li><strong>EDI (Destination Index):</strong> Used as a destination pointer for string operations.</li>
+                <li><strong>EBP (Base Pointer):</strong> Typically used to point to the base of the current stack frame in functions.</li>
+                <li><strong>ESP (Stack Pointer):</strong> Points to the top of the current stack. Managed automatically by instructions like <code class="inline-code">PUSH</code>, <code class="inline-code">POP</code>, <code class="inline-code">CALL</code>, <code class="inline-code">RET</code>.</li>
+            </ul>
+            <h3>Instruction Pointer</h3>
+            <ul>
+                <li><strong>EIP (Instruction Pointer):</strong> Holds the memory address of the next instruction to be executed. Cannot be accessed directly by most instructions but is modified by jumps, calls, etc.</li>
+            </ul>
+            <h3>Flags Register</h3>
+            <ul>
+                <li><strong>EFLAGS:</strong> A 32-bit register containing various status flags that reflect the result of arithmetic and comparison operations (e.g., Zero Flag (ZF), Carry Flag (CF), Sign Flag (SF), Overflow Flag (OF)). Conditional jump instructions use these flags.</li>
+            </ul>
+        </section>
+
+        <section id="data-movement">
+            <h2>Data Movement Instructions</h2>
+            <p>The most fundamental instruction is <code class="inline-code">MOV</code>, used to copy data from a source to a destination.</p>
+            <p>Syntax: <code class="inline-code">MOV destination, source</code></p>
+            <p>Operands can be:</p>
+            <ul>
+                <li>Register to Register: <code class="inline-code">MOV EAX, EBX</code></li>
+                <li>Immediate value to Register: <code class="inline-code">MOV EAX, 100</code></li>
+                <li>Memory to Register: <code class="inline-code">MOV EAX, [my_variable]</code></li>
+                <li>Register to Memory: <code class="inline-code">MOV [my_variable], EAX</code></li>
+                <li>Immediate value to Memory: <code class="inline-code">MOV DWORD [my_variable], 25</code> (Note: size specifier like <code class="inline-code">DWORD</code> is often needed).</li>
+            </ul>
+            <p class="warning">You cannot move data directly from one memory location to another in a single <code class="inline-code">MOV</code> instruction (e.g., <code class="inline-code">MOV [var1], [var2]</code> is invalid). You typically need to use a register as an intermediary.</p>
+<pre><code class="language-nasm"><span class="asm-directive">section</span> <span class="asm-label">.data</span>
+    <span class="asm-label">value1</span> <span class="asm-directive">dd</span> <span class="asm-number">10</span>  <span class="asm-comment">; Define a double word (32-bit integer)</span>
+<span class="asm-directive">section</span> <span class="asm-label">.bss</span>
+    <span class="asm-label">value2</span> <span class="asm-directive">resd</span> <span class="asm-number">1</span> <span class="asm-comment">; Reserve space for one double word</span>
+<span class="asm-directive">section</span> <span class="asm-label">.text</span>
+    <span class="asm-directive">global</span> <span class="asm-label">_start</span>
+<span class="asm-label">_start:</span>
+    <span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-number">50</span>              <span class="asm-comment">; Move immediate 50 into EAX</span>
+    <span class="asm-instruction">mov</span> <span class="asm-register">ebx</span>, <span class="asm-register">eax</span>              <span class="asm-comment">; Copy value from EAX to EBX (EBX is now 50)</span>
+    <span class="asm-instruction">mov</span> <span class="asm-register">ecx</span>, <span class="asm-addressing">[</span><span class="asm-label">value1</span><span class="asm-addressing">]</span>        <span class="asm-comment">; Move content of value1 (10) into ECX</span>
+    <span class="asm-instruction">mov</span> <span class="asm-addressing">[</span><span class="asm-label">value2</span><span class="asm-addressing">]</span>, <span class="asm-register">ebx</span>        <span class="asm-comment">; Move content of EBX (50) into memory location value2</span>
+    <span class="asm-instruction">mov</span> <span class="asm-size-specifier">dword</span> <span class="asm-addressing">[</span><span class="asm-label">value2</span><span class="asm-addressing">]</span>, <span class="asm-number">100</span>   <span class="asm-comment">; Move immediate 100 into value2, specifying size</span>
+
+    <span class="asm-comment">; Exit program (simplified)</span>
+    <span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-number">1</span>
+    <span class="asm-instruction">xor</span> <span class="asm-register">ebx</span>, <span class="asm-register">ebx</span>
+    <span class="asm-instruction">int</span> <span class="asm-number">0x80</span>
+</code></pre>
+            <p>Other data movement instructions include <code class="inline-code">PUSH</code> (push onto stack), <code class="inline-code">POP</code> (pop from stack), <code class="inline-code">XCHG</code> (exchange values).</p>
+        </section>
+
+        <section id="arithmetic-logic">
+            <h2>Arithmetic and Logic Instructions</h2>
+            <h3>Arithmetic</h3>
+            <ul>
+                <li><code class="inline-code">ADD destination, source</code>: <code class="inline-code">destination = destination + source</code></li>
+                <li><code class="inline-code">SUB destination, source</code>: <code class="inline-code">destination = destination - source</code></li>
+                <li><code class="inline-code">INC destination</code>: <code class="inline-code">destination = destination + 1</code></li>
+                <li><code class="inline-code">DEC destination</code>: <code class="inline-code">destination = destination - 1</code></li>
+                <li><code class="inline-code">MUL source</code>: Unsigned multiply. Multiplies EAX by <code class="inline-code">source</code>. Result in EDX:EAX.</li>
+                <li><code class="inline-code">IMUL source</code>: Signed multiply. Similar to MUL. Can also have two or three operand forms.</li>
+                <li><code class="inline-code">DIV source</code>: Unsigned divide. Divides EDX:EAX by <code class="inline-code">source</code>. Quotient in EAX, Remainder in EDX.</li>
+                <li><code class="inline-code">IDIV source</code>: Signed divide. Similar to DIV.</li>
+            </ul>
+            <h3>Logic</h3>
+            <ul>
+                <li><code class="inline-code">AND destination, source</code>: Bitwise AND.</li>
+                <li><code class="inline-code">OR destination, source</code>: Bitwise OR.</li>
+                <li><code class="inline-code">XOR destination, source</code>: Bitwise XOR. (e.g., <code class="inline-code">XOR EAX, EAX</code> sets EAX to 0).</li>
+                <li><code class="inline-code">NOT destination</code>: Bitwise NOT (flips all bits).</li>
+                <li><code class="inline-code">SHL destination, count</code> / <code class="inline-code">SAL destination, count</code>: Shift bits left.</li>
+                <li><code class="inline-code">SHR destination, count</code> / <code class="inline-code">SAR destination, count</code>: Shift bits right (SHR is logical, SAR is arithmetic).</li>
+            </ul>
+<pre><code class="language-nasm"><span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-number">10</span>
+<span class="asm-instruction">mov</span> <span class="asm-register">ebx</span>, <span class="asm-number">5</span>
+<span class="asm-instruction">add</span> <span class="asm-register">eax</span>, <span class="asm-register">ebx</span>    <span class="asm-comment">; eax = 15</span>
+<span class="asm-instruction">sub</span> <span class="asm-register">eax</span>, <span class="asm-number">3</span>      <span class="asm-comment">; eax = 12</span>
+<span class="asm-instruction">inc</span> <span class="asm-register">ebx</span>      <span class="asm-comment">; ebx = 6</span>
+
+<span class="asm-instruction">mov</span> <span class="asm-register">al</span>, <span class="asm-number">0b11001100</span>  <span class="asm-comment">; Binary number in 8-bit AL register</span>
+<span class="asm-instruction">mov</span> <span class="asm-register">bl</span>, <span class="asm-number">0b10101010</span>
+<span class="asm-instruction">and</span> <span class="asm-register">al</span>, <span class="asm-register">bl</span>      <span class="asm-comment">; al will be 0b10001000</span>
+</code></pre>
+        </section>
+
+        <section id="control-flow">
+            <h2>Control Flow Instructions</h2>
+            <p>These instructions alter the sequence of execution.</p>
+            <h3>Unconditional Jumps</h3>
+            <ul>
+                <li><code class="inline-code">JMP target_label</code>: Transfers execution to <code class="inline-code">target_label</code>.</li>
+            </ul>
+            <h3>Conditional Jumps</h3>
+            <p>These jumps occur only if certain conditions (based on EFLAGS register) are met. They are typically used after a <code class="inline-code">CMP</code> (compare) instruction.</p>
+            <ul>
+                <li><code class="inline-code">CMP operand1, operand2</code>: Compares <code class="inline-code">operand1</code> and <code class="inline-code">operand2</code> by subtracting them and setting flags. Does not store the result of subtraction.</li>
+                <li>Common conditional jumps:
+                    <ul>
+                        <li><code class="inline-code">JE label</code> (Jump if Equal) / <code class="inline-code">JZ label</code> (Jump if Zero Flag is set)</li>
+                        <li><code class="inline-code">JNE label</code> (Jump if Not Equal) / <code class="inline-code">JNZ label</code> (Jump if Not Zero)</li>
+                        <li><code class="inline-code">JG label</code> (Jump if Greater - signed) / <code class="inline-code">JNLE label</code> (Jump if Not Less or Equal)</li>
+                        <li><code class="inline-code">JL label</code> (Jump if Less - signed) / <code class="inline-code">JNGE label</code> (Jump if Not Greater or Equal)</li>
+                        <li><code class="inline-code">JGE label</code> (Jump if Greater or Equal - signed)</li>
+                        <li><code class="inline-code">JLE label</code> (Jump if Less or Equal - signed)</li>
+                        <li><code class="inline-code">JA label</code> (Jump if Above - unsigned)</li>
+                        <li><code class="inline-code">JB label</code> (Jump if Below - unsigned)</li>
+                        <li>And many more...</li>
+                    </ul>
+                </li>
+            </ul>
+<pre><code class="language-nasm"><span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-number">10</span>
+<span class="asm-instruction">mov</span> <span class="asm-register">ebx</span>, <span class="asm-number">20</span>
+<span class="asm-instruction">cmp</span> <span class="asm-register">eax</span>, <span class="asm-register">ebx</span>
+<span class="asm-instruction">jl</span>  <span class="asm-label">eax_is_less</span> <span class="asm-comment">; Jump if EAX is less than EBX</span>
+<span class="asm-comment">; ... code if eax is not less ...</span>
+<span class="asm-instruction">jmp</span> <span class="asm-label">done</span>
+
+<span class="asm-label">eax_is_less:</span>
+    <span class="asm-comment">; ... code if eax is less ...</span>
+
+<span class="asm-label">done:</span>
+    <span class="asm-comment">; ... continue program ...</span>
+</code></pre>
+            <h3>Loops</h3>
+            <p>Loops are typically implemented using a counter, a comparison, and a conditional jump.</p>
+<pre><code class="language-nasm"><span class="asm-instruction">mov</span> <span class="asm-register">ecx</span>, <span class="asm-number">5</span>     <span class="asm-comment">; Loop 5 times</span>
+<span class="asm-label">my_loop:</span>
+    <span class="asm-comment">; ... loop body ...</span>
+    <span class="asm-comment">; For example, print something or do a calculation</span>
+    <span class="asm-instruction">dec</span> <span class="asm-register">ecx</span>     <span class="asm-comment">; Decrement counter</span>
+    <span class="asm-instruction">jnz</span> <span class="asm-label">my_loop</span> <span class="asm-comment">; Jump to my_loop if ECX is not zero</span>
+</code></pre>
+            <p>The <code class="inline-code">LOOP</code> instruction can also be used, which uses ECX as a counter implicitly.</p>
+        </section>
+
+        <section id="memory-addressing">
+            <h2>Memory Addressing</h2>
+            <p>Accessing data in memory. Square brackets <code class="inline-code">[]</code> are used to indicate that the operand is a memory address.</p>
+            <ul>
+                <li><strong>Direct Addressing:</strong> Using the name of a variable (label).
+<pre><code class="language-nasm"><span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-addressing">[</span><span class="asm-label">my_var</span><span class="asm-addressing">]</span></code></pre>
+                </li>
+                <li><strong>Register Indirect Addressing:</strong> Using a register that holds the address.
+<pre><code class="language-nasm"><span class="asm-instruction">mov</span> <span class="asm-register">ebx</span>, <span class="asm-label">my_var_address</span> <span class="asm-comment">; Assume my_var_address holds the address of my_var</span>
+<span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-addressing">[</span><span class="asm-register">ebx</span><span class="asm-addressing">]</span></code></pre>
+                </li>
+                <li><strong>Displacement Addressing:</strong> Register indirect with an offset.
+<pre><code class="language-nasm"><span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-addressing">[</span><span class="asm-register">ebx</span> <span class="asm-addressing">+</span> <span class="asm-number">4</span><span class="asm-addressing">]</span> <span class="asm-comment">; Accesses memory 4 bytes after address in EBX</span>
+<span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-addressing">[</span><span class="asm-label">my_array</span> <span class="asm-addressing">+</span> <span class="asm-number">8</span><span class="asm-addressing">]</span></code></pre>
+                </li>
+                <li><strong>Indexed Addressing:</strong> Base register + (index register * scale factor) + displacement.
+<pre><code class="language-nasm"><span class="asm-comment">; Example: Accessing elements of an array of dwords (4 bytes each)</span>
+<span class="asm-instruction">mov</span> <span class="asm-register">ebx</span>, <span class="asm-label">my_array_base</span> <span class="asm-comment">; Base address of array</span>
+<span class="asm-instruction">mov</span> <span class="asm-register">esi</span>, <span class="asm-number">2</span>           <span class="asm-comment">; Index (e.g., for 3rd element, index 2)</span>
+<span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-addressing">[</span><span class="asm-register">ebx</span> <span class="asm-addressing">+</span> <span class="asm-register">esi</span><span class="asm-addressing">*</span><span class="asm-number">4</span><span class="asm-addressing">]</span></code></pre>
+                </li>
+            </ul>
+            <p><strong>Size Specifiers:</strong> When accessing memory, you often need to tell the assembler the size of the data being accessed if it's ambiguous (e.g., when moving an immediate value to memory).</p>
+            <ul>
+                <li><code class="inline-code">BYTE</code>: 8 bits</li>
+                <li><code class="inline-code">WORD</code>: 16 bits</li>
+                <li><code class="inline-code">DWORD</code>: 32 bits (Double Word)</li>
+                <li><code class="inline-code">QWORD</code>: 64 bits (Quad Word)</li>
+            </ul>
+<pre><code class="language-nasm"><span class="asm-instruction">mov</span> <span class="asm-size-specifier">byte</span> <span class="asm-addressing">[</span><span class="asm-label">my_char_var</span><span class="asm-addressing">]</span>, <span class="asm-string">'A'</span>
+<span class="asm-instruction">mov</span> <span class="asm-size-specifier">dword</span> <span class="asm-addressing">[</span><span class="asm-label">my_int_var</span><span class="asm-addressing">]</span>, <span class="asm-number">12345</span></code></pre>
+        </section>
+
+        <section id="data-sections">
+            <h2>Data Sections and Directives</h2>
+            <p>Assembler directives instruct the assembler how to process the code, they are not CPU instructions.</p>
+            <h3>Sections</h3>
+            <ul>
+                <li><code class="inline-code">section .data</code> (or <code class="inline-code">.data</code>): For initialized data (variables with starting values).</li>
+                <li><code class="inline-code">section .bss</code>: For uninitialized data. The assembler reserves space but doesn't write initial values into the executable. This space is zero-filled by the OS when the program loads.</li>
+                <li><code class="inline-code">section .text</code>: For the actual program code (instructions).</li>
+            </ul>
+            <h3>Data Definition Directives (used in <code class="inline-code">.data</code>)</h3>
+            <ul>
+                <li><code class="inline-code">DB</code> (Define Byte): Allocates 1 byte.
+<pre><code class="language-nasm"><span class="asm-label">my_byte</span> <span class="asm-directive">db</span> <span class="asm-number">10</span>
+<span class="asm-label">my_char</span> <span class="asm-directive">db</span> <span class="asm-string">'A'</span>
+<span class="asm-label">my_string</span> <span class="asm-directive">db</span> <span class="asm-string">'Hello'</span>, <span class="asm-number">0</span> <span class="asm-comment">; C-style null-terminated string</span></code></pre>
+                </li>
+                <li><code class="inline-code">DW</code> (Define Word): Allocates 2 bytes.</li>
+                <li><code class="inline-code">DD</code> (Define Double Word): Allocates 4 bytes.</li>
+                <li><code class="inline-code">DQ</code> (Define Quad Word): Allocates 8 bytes.</li>
+                <li><code class="inline-code">EQU</code> (Equate): Defines a constant symbol.
+<pre><code class="language-nasm"><span class="asm-label">BUFFER_SIZE</span> <span class="asm-directive">equ</span> <span class="asm-number">1024</span></code></pre>
+                </li>
+                <li><code class="inline-code">TIMES</code>: Repeats an instruction or data definition.
+<pre><code class="language-nasm"><span class="asm-label">ten_zeros</span> <span class="asm-directive">times</span> <span class="asm-number">10</span> <span class="asm-directive">db</span> <span class="asm-number">0</span> <span class="asm-comment">; Ten bytes, all zero</span></code></pre>
+                </li>
+            </ul>
+            <h3>Reserving Space Directives (used in <code class="inline-code">.bss</code>)</h3>
+            <ul>
+                <li><code class="inline-code">RESB</code> (Reserve Byte): Reserves specified number of bytes.</li>
+                <li><code class="inline-code">RESW</code> (Reserve Word)</li>
+                <li><code class="inline-code">RESD</code> (Reserve Double Word)</li>
+                <li><code class="inline-code">RESQ</code> (Reserve Quad Word)</li>
+            </ul>
+<pre><code class="language-nasm"><span class="asm-directive">section</span> <span class="asm-label">.bss</span>
+    <span class="asm-label">input_buffer</span> <span class="asm-directive">resb</span> <span class="asm-number">256</span> <span class="asm-comment">; Reserve 256 bytes for a buffer</span>
+    <span class="asm-label">counter</span> <span class="asm-directive">resd</span> <span class="asm-number">1</span>      <span class="asm-comment">; Reserve space for one dword</span>
+</code></pre>
+            <h3>Other Directives</h3>
+            <ul>
+                <li><code class="inline-code">GLOBAL label</code>: Makes a label visible to the linker (e.g., <code class="inline-code">_start</code> or function names).</li>
+                <li><code class="inline-code">EXTERN symbol</code>: Declares that a symbol is defined in another file and will be linked in.</li>
+            </ul>
+        </section>
+
+        <section id="system-calls">
+            <h2>System Calls (Linux 32-bit)</h2>
+            <p>System calls are how user-mode programs request services from the operating system kernel (e.g., I/O, process management).</p>
+            <p>In 32-bit Linux, system calls are typically made via interrupt <code class="inline-code">0x80</code>.</p>
+            <p><strong>General Procedure:</strong></p>
+            <ol>
+                <li>Load the system call number into the <code class="inline-code">EAX</code> register.</li>
+                <li>Load arguments into other registers (<code class="inline-code">EBX</code>, <code class="inline-code">ECX</code>, <code class="inline-code">EDX</code>, <code class="inline-code">ESI</code>, <code class="inline-code">EDI</code>, <code class="inline-code">EBP</code> in order).</li>
+                <li>Execute <code class="inline-code">int 0x80</code>.</li>
+                <li>The result (if any) is usually returned in <code class="inline-code">EAX</code>.</li>
+            </ol>
+            <p><strong>Common System Call Numbers (32-bit Linux):</strong></p>
+            <ul>
+                <li><code class="inline-code">1</code>: <code class="inline-code">sys_exit</code> (Exit program). Arg1 (EBX): exit code.</li>
+                <li><code class="inline-code">3</code>: <code class="inline-code">sys_read</code> (Read from file descriptor). Arg1 (EBX): fd, Arg2 (ECX): buffer, Arg3 (EDX): count.</li>
+                <li><code class="inline-code">4</code>: <code class="inline-code">sys_write</code> (Write to file descriptor). Arg1 (EBX): fd, Arg2 (ECX): buffer, Arg3 (EDX): count.</li>
+                <li>File descriptors: <code class="inline-code">0</code> (stdin), <code class="inline-code">1</code> (stdout), <code class="inline-code">2</code> (stderr).</li>
+            </ul>
+            <p>A comprehensive list can be found in <code class="path">/usr/include/asm/unistd_32.h</code> or by searching online for "Linux 32-bit syscall table".</p>
+        </section>
+
+        <section id="functions-stack">
+            <h2>Functions (Procedures) and The Stack</h2>
+            <p>Functions (often called procedures or subroutines in assembly) are blocks of code that perform a specific task and can be called from other parts of the program.</p>
+            <h3>The Stack</h3>
+            <p>The stack is a region of memory that works on a Last-In, First-Out (LIFO) principle. It's crucial for managing function calls, local variables, and passing arguments.</p>
+            <ul>
+                <li><code class="inline-code">ESP</code> (Stack Pointer): Always points to the top of the stack.</li>
+                <li><code class="inline-code">EBP</code> (Base Pointer): Often used to create a "stack frame" for the current function, providing a stable reference point for accessing arguments and local variables.</li>
+                <li><code class="inline-code">PUSH operand</code>: Decrements ESP and copies <code class="inline-code">operand</code> to the new top of the stack.</li>
+                <li><code class="inline-code">POP destination</code>: Copies data from the top of the stack to <code class="inline-code">destination</code> and increments ESP.</li>
+            </ul>
+            <h3>Calling Conventions and Function Structure</h3>
+            <p>A calling convention defines how arguments are passed to functions, how return values are handled, and which registers must be preserved by the called function.</p>
+            <p><strong>A common simple function structure (cdecl-like on Linux 32-bit):</strong></p>
+<pre><code class="language-nasm"><span class="asm-label">my_function:</span>
+    <span class="asm-comment">; Prologue</span>
+    <span class="asm-instruction">push</span> <span class="asm-register">ebp</span>             <span class="asm-comment">; Save old base pointer</span>
+    <span class="asm-instruction">mov</span>  <span class="asm-register">ebp</span>, <span class="asm-register">esp</span>         <span class="asm-comment">; Set up new stack frame pointer</span>
+    <span class="asm-instruction">sub</span>  <span class="asm-register">esp</span>, <span class="asm-number">8</span>         <span class="asm-comment">; Allocate space for local variables (e.g., 8 bytes)</span>
+    <span class="asm-instruction">push</span> <span class="asm-register">ebx</span>             <span class="asm-comment">; Save callee-saved registers if used (e.g., ebx, esi, edi)</span>
+    <span class="asm-instruction">push</span> <span class="asm-register">esi</span>
+    <span class="asm-instruction">push</span> <span class="asm-register">edi</span>
+
+    <span class="asm-comment">; Function body</span>
+    <span class="asm-comment">; Access arguments: [ebp + 8], [ebp + 12], ... (after return address & old ebp)</span>
+    <span class="asm-comment">; Access local variables: [ebp - 4], [ebp - 8], ...</span>
+    <span class="asm-instruction">mov</span> <span class="asm-register">eax</span>, <span class="asm-addressing">[</span><span class="asm-register">ebp</span> <span class="asm-addressing">+</span> <span class="asm-number">8</span><span class="asm-addressing">]</span> <span class="asm-comment">; Get first argument</span>
+    <span class="asm-comment">; ... do work ...</span>
+    <span class="asm-comment">; Return value is typically placed in EAX</span>
+
+    <span class="asm-comment">; Epilogue</span>
+    <span class="asm-instruction">pop</span>  <span class="asm-register">edi</span>             <span class="asm-comment">; Restore callee-saved registers</span>
+    <span class="asm-instruction">pop</span>  <span class="asm-register">esi</span>
+    <span class="asm-instruction">pop</span>  <span class="asm-register">ebx</span>
+    <span class="asm-instruction">mov</span>  <span class="asm-register">esp</span>, <span class="asm-register">ebp</span>         <span class="asm-comment">; Deallocate local variables</span>
+    <span class="asm-instruction">pop</span>  <span class="asm-register">ebp</span>             <span class="asm-comment">; Restore old base pointer</span>
+    <span class="asm-instruction">ret</span>                 <span class="asm-comment">; Return to caller (pops return address from stack into EIP)</span>
+</code></pre>
+            <h3>Calling a Function</h3>
+            <ul>
+                <li><code class="inline-code">PUSH argumentN</code> ... <code class="inline-code">PUSH argument1</code>: Push arguments onto the stack (often in reverse order).</li>
+                <li><code class="inline-code">CALL function_label</code>: Pushes the return address (address of instruction after CALL) onto the stack and jumps to <code class="inline-code">function_label</code>.</li>
+                <li>After function returns, caller may need to clean up arguments from the stack if not done by the callee (depends on calling convention). Result often in EAX.</li>
+            </ul>
+<pre><code class="language-nasm"><span class="asm-comment">; Calling my_function with one argument (e.g., value 10)</span>
+<span class="asm-instruction">push</span> <span class="asm-number">10</span>           <span class="asm-comment">; Push argument</span>
+<span class="asm-instruction">call</span> <span class="asm-label">my_function</span>
+<span class="asm-instruction">add</span> <span class="asm-register">esp</span>, <span class="asm-number">4</span>        <span class="asm-comment">; Clean up stack (1 argument * 4 bytes/dword) - for cdecl</span>
+<span class="asm-comment">; EAX now holds the return value from my_function</span>
+</code></pre>
+            <p class="important">Calling conventions (like cdecl, stdcall, fastcall) dictate exact stack management and register usage. Understanding the target system's convention is vital when interfacing with C code or OS libraries.</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>This guide has only scratched the surface of assembly language programming. It's a vast and deep field.</p>
+            <p>To continue your journey:</p>
+            <ul>
+                <li><strong>Practice Intensely:</strong> Write many small programs. Debug them. Understand every instruction.</li>
+                <li><strong>Study Your Chosen Architecture In-Depth:</strong> Get the Intel (or AMD) developer manuals for x86, or ARM architecture reference manuals if learning ARM. These are the definitive sources.</li>
+                <li><strong>Operating System Internals:</strong> Learn how your OS handles processes, memory, and system calls. "Linux Kernel Development" or "Windows Internals" books can be insightful.</li>
+                <li><strong>Debuggers:</strong> Master GDB (Linux/macOS) or WinDbg/OllyDbg/x64dbg (Windows). Debugging is essential in assembly.</li>
+                <li><strong>Interfacing with C/C++:</strong> Learn how to call assembly functions from C/C++ and vice-versa. Understand name mangling and calling conventions.</li>
+                <li><strong>Floating-Point Unit (FPU) / SSE / AVX:</strong> Explore instructions for floating-point math and SIMD (Single Instruction, Multiple Data) operations for parallelism.</li>
+                <li><strong>Macros:</strong> Learn how to use assembler macros to simplify repetitive code patterns.</li>
+                <li><strong>Specific Applications:</strong>
+                    <ul>
+                        <li><strong>Reverse Engineering:</strong> Tools like IDA Pro, Ghidra. Books like "Reversing: Secrets of Reverse Engineering."</li>
+                        <li><strong>Exploit Development:</strong> Understanding stack overflows, shellcode. Requires strong ASM and OS knowledge.</li>
+                        <li><strong>Embedded Systems:</strong> Often involves different architectures (ARM, MIPS) and bare-metal programming or RTOS.</li>
+                    </ul>
+                </li>
+                <li><strong>Read Books and Resources:</strong>
+                    <ul>
+                        <li>"Assembly Language Step-by-Step: Programming with Linux" by Jeff Duntemann (good for NASM/Linux).</li>
+                        <li>"Professional Assembly Language" by Richard Blum.</li>
+                        <li>Online resources like OS-dev Wiki, Intel manuals, university course materials.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="warning">Assembly language programming is challenging but incredibly rewarding for understanding how computers truly work. Be patient and persistent!</p>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        function activateInitialLink() {
+            const hash = window.location.hash;
+            let activeLinkFound = false;
+            if (hash) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                        activeLinkFound = true;
+                    }
+                });
+            }
+            if (!activeLinkFound && navLinks.length > 0) {
+                navLinks[0].classList.add('active'); 
+            }
+        }
+        activateInitialLink();
+        window.addEventListener('hashchange', activateInitialLink); 
+    </script>
+
+</body>
+</html>

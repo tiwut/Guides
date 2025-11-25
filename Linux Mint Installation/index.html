@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <title>Linux Mint Installation Guide</title>
+
+    <style>
+        
+        :root {
+            
+            --bg-color: #fdfdfd;
+            --text-color: #333;
+            --sidebar-bg: #383838;
+            --sidebar-text: #f0f0f0;
+            --accent-color: #7DBE31; 
+            --accent-hover: #8DD43A; 
+            --accent-active-text: #000; 
+            --heading-color: #69A22A; 
+            --code-bg: #e9ecef;
+            --code-text: #c7254e;
+            --border-color: #e0e0e0;
+            --warning-bg: #fff3cd;
+            --warning-border: #ffeeba;
+            --warning-text: #856404;
+            --important-bg: #d1ecf1;
+            --important-border: #bee5eb;
+            --important-text: #0c5460;
+            --main-content-bg: #ffffff;
+            --lang-btn-bg: #555;
+            --lang-btn-text: #fff;
+            --lang-btn-active-bg: var(--accent-color);
+        }
+
+       
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #242424;
+                --text-color: #e0e0e0;
+                --sidebar-bg: #2d2d2d;
+                --sidebar-text: #f0f0f0;
+                --accent-color: #7DBE31;
+                --accent-hover: #8DD43A;
+                --accent-active-text: #000;
+                --heading-color: #92c457;
+                --code-bg: #3a3a3a;
+                --code-text: #f080ab;
+                --border-color: #444;
+                --warning-bg: #4d3c00;
+                --warning-border: #856404;
+                --warning-text: #ffecb3;
+                --important-bg: #003a44;
+                --important-border: #0c5460;
+                --important-text: #b8dee6;
+                --main-content-bg: #2f2f2f;
+                --lang-btn-bg: #444;
+                --lang-btn-text: #ddd;
+                --lang-btn-active-bg: var(--accent-color);
+            }
+        }
+
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+       
+        body:not(.show-en) [lang="en"] { display: none; }
+        body:not(.show-de) [lang="de"] { display: none; }
+        body:not(.show-es) [lang="es"] { display: none; }
+        
+        
+        #sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            transition: background-color 0.3s;
+            box-sizing: border-box;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: var(--sidebar-text);
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover {
+            background-color: var(--accent-hover);
+            color: var(--accent-active-text);
+        }
+        #sidebar ul li a.active {
+            background-color: var(--accent-color);
+            color: var(--accent-active-text);
+            font-weight: bold;
+        }
+
+        
+        .language-switcher {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #555;
+            padding-bottom: 20px;
+        }
+        .language-switcher button {
+            background-color: var(--lang-btn-bg);
+            color: var(--lang-btn-text);
+            border: none;
+            padding: 8px 12px;
+            margin: 0 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .language-switcher button.active {
+            background-color: var(--lang-btn-active-bg);
+            color: var(--accent-active-text);
+            font-weight: bold;
+        }
+
+       
+        #main-content {
+            margin-left: 280px;
+            padding: 20px 40px;
+            width: calc(100% - 280px);
+            background-color: var(--main-content-bg);
+            min-height: 100vh;
+            transition: background-color 0.3s;
+            box-sizing: border-box;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h1, h2, h3, p, ul, ol, div {
+            margin-block-start: 0;
+            margin-block-end: 0;
+        }
+        p, ul, ol, div.important, div.warning {
+            margin-bottom: 15px;
+        }
+        h1 {
+            color: var(--heading-color);
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            font-size: 2em;
+        }
+        h2 {
+            color: var(--heading-color);
+            border-bottom: 2px solid var(--heading-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #507C1F;
+            margin-bottom: 10px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: var(--code-text);
+        }
+        .warning, .important {
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: var(--warning-bg);
+            border-left: 5px solid var(--warning-border);
+            color: var(--warning-text);
+        }
+        .important {
+            background-color: var(--important-bg);
+            border-left: 5px solid var(--important-border);
+            color: var(--important-text);
+        }
+        
+        
+        @media (max-width: 800px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 0;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body class="show-en">
+
+    <nav id="sidebar">
+        <div class="language-switcher">
+            <button id="btn-en">English</button>
+            <button id="btn-de">Deutsch</button>
+            <button id="btn-es">Español</button>
+        </div>
+
+        <ul>
+            <li><a href="#introduction"><span lang="en">Introduction</span><span lang="de">Einführung</span><span lang="es">Introducción</span></a></li>
+            <li><a href="#prerequisites"><span lang="en">Prerequisites & Backup</span><span lang="de">Voraussetzungen & Backup</span><span lang="es">Requisitos y Respaldo</span></a></li>
+            <li><a href="#download-iso"><span lang="en">1. Download & Verify ISO</span><span lang="de">1. ISO herunterladen & verifizieren</span><span lang="es">1. Descargar y Verificar ISO</span></a></li>
+            <li><a href="#installation-media"><span lang="en">2. Create Installation Media</span><span lang="de">2. Installationsmedium erstellen</span><span lang="es">2. Crear Medio de Instalación</span></a></li>
+            <li><a href="#bios-uefi"><span lang="en">3. BIOS/UEFI Configuration</span><span lang="de">3. BIOS/UEFI-Konfiguration</span><span lang="es">3. Configuración de BIOS/UEFI</span></a></li>
+            <li><a href="#boot-live"><span lang="en">4. Boot & Live Session</span><span lang="de">4. Boot & Live-Sitzung</span><span lang="es">4. Arranque y Sesión en Vivo</span></a></li>
+            <li><a href="#installer-start"><span lang="en">5. Installer: Initial Steps</span><span lang="de">5. Installer: Erste Schritte</span><span lang="es">5. Instalador: Pasos Iniciales</span></a></li>
+            <li><a href="#installation-type"><span lang="en">6. Installation Type</span><span lang="de">6. Installationsart</span><span lang="es">6. Tipo de Instalación</span></a></li>
+            <li><a href="#location-timezone"><span lang="en">7. Location & Timezone</span><span lang="de">7. Standort & Zeitzone</span><span lang="es">7. Ubicación y Zona Horaria</span></a></li>
+            <li><a href="#user-setup"><span lang="en">8. User Account Setup</span><span lang="de">8. Benutzerkonto einrichten</span><span lang="es">8. Configurar Cuenta de Usuario</span></a></li>
+            <li><a href="#install-process"><span lang="en">9. Installation Process</span><span lang="de">9. Installationsprozess</span><span lang="es">9. Proceso de Instalación</span></a></li>
+            <li><a href="#reboot-first-boot"><span lang="en">10. Restart & First Boot</span><span lang="de">10. Neustart & Erster Start</span><span lang="es">10. Reinicio y Primer Arranque</span></a></li>
+            <li><a href="#post-install"><span lang="en">11. Post-Installation Steps</span><span lang="de">11. Schritte nach der Installation</span><span lang="es">11. Pasos Post-Instalación</span></a></li>
+            <li><a href="#troubleshooting"><span lang="en">Troubleshooting</span><span lang="de">Fehlerbehebung</span><span lang="es">Solución de Problemas</span></a></li>
+            <li><a href="#disclaimer"><span lang="en">Disclaimer</span><span lang="de">Haftungsausschluss</span><span lang="es">Descargo de Responsabilidad</span></a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <h1>
+            <span lang="en">Linux Mint Installation Guide</span>
+            <span lang="de">Installationsanleitung für Linux Mint</span>
+            <span lang="es">Guía de Instalación de Linux Mint</span>
+        </h1>
+
+        <section id="introduction">
+            <h2><span lang="en">Introduction to Linux Mint</span><span lang="de">Einführung in Linux Mint</span><span lang="es">Introducción a Linux Mint</span></h2>
+            <p lang="en">Linux Mint is a community-driven Linux distribution based on Ubuntu. It's renowned for its user-friendliness, "out-of-the-box" readiness with multimedia codecs, and its traditional desktop experience. Mint aims to be a modern, elegant, and comfortable operating system that is both powerful and easy to use.</p>
+            <p lang="de">Linux Mint ist eine Community-getriebene Linux-Distribution, die auf Ubuntu basiert. Sie ist bekannt für ihre Benutzerfreundlichkeit, ihre sofortige Einsatzbereitschaft mit Multimedia-Codecs und ihr traditionelles Desktop-Erlebnis. Mint zielt darauf ab, ein modernes, elegantes und komfortables Betriebssystem zu sein, das sowohl leistungsstark als auch einfach zu bedienen ist.</p>
+            <p lang="es">Linux Mint es una distribución de Linux comunitaria basada en Ubuntu. Es famosa por su facilidad de uso, su preparación "lista para usar" con códecs multimedia y su experiencia de escritorio tradicional. Mint aspira a ser un sistema operativo moderno, elegante y cómodo, que sea a la vez potente y fácil de usar.</p>
+            
+            <h3 lang="en">Desktop Editions:</h3>
+            <h3 lang="de">Desktop-Editionen:</h3>
+            <h3 lang="es">Ediciones de Escritorio:</h3>
+            <ul>
+                <li><strong>Cinnamon:</strong><span lang="en"> Mint's flagship desktop, modern, feature-rich, and highly customizable with a traditional layout.</span><span lang="de"> Mints Flaggschiff-Desktop, modern, funktionsreich und hochgradig anpassbar mit einem traditionellen Layout.</span><span lang="es"> El escritorio insignia de Mint, moderno, rico en funciones y altamente personalizable con un diseño tradicional.</span></li>
+                <li><strong>MATE:</strong><span lang="en"> A fork of GNOME 2, offering a classic, stable, and resource-friendly desktop.</span><span lang="de"> Ein Fork von GNOME 2, der einen klassischen, stabilen und ressourcenschonenden Desktop bietet.</span><span lang="es"> Un fork de GNOME 2, que ofrece un escritorio clásico, estable y que consume pocos recursos.</span></li>
+                <li><strong>XFCE:</strong><span lang="en"> A lightweight, fast, and stable desktop environment, excellent for older hardware or users preferring simplicity.</span><span lang="de"> Eine leichtgewichtige, schnelle und stabile Desktop-Umgebung, hervorragend für ältere Hardware oder Benutzer, die Einfachheit bevorzugen.</span><span lang="es"> Un entorno de escritorio ligero, rápido y estable, excelente para hardware antiguo o usuarios que prefieren la simplicidad.</span></li>
+            </ul>
+            <p class="important" lang="en">This guide focuses on installing Linux Mint (any desktop edition). The installation process is largely identical across editions, mainly differing in the live session's appearance and the final installed desktop.</p>
+            <p class="important" lang="de">Diese Anleitung konzentriert sich auf die Installation von Linux Mint (jede Desktop-Edition). Der Installationsprozess ist bei allen Editionen weitgehend identisch und unterscheidet sich hauptsächlich im Aussehen der Live-Sitzung und des endgültig installierten Desktops.</p>
+            <p class="important" lang="es">Esta guía se centra en la instalación de Linux Mint (cualquier edición de escritorio). El proceso de instalación es prácticamente idéntico en todas las ediciones, diferenciándose principalmente en la apariencia de la sesión en vivo y del escritorio final instalado.</p>
+        </section>
+
+        <section id="prerequisites">
+            <h2><span lang="en">Prerequisites & Crucial: Backup Your Data!</span><span lang="de">Voraussetzungen & Wichtig: Sichern Sie Ihre Daten!</span><span lang="es">Requisitos y Crucial: ¡Haga una Copia de Seguridad!</span></h2>
+            <div class="warning">
+                <strong lang="en">CRITICAL: BACKUP YOUR DATA!</strong>
+                <strong lang="de">KRITISCH: SICHERN SIE IHRE DATEN!</strong>
+                <strong lang="es">CRÍTICO: ¡HAGA UNA COPIA DE SEGURIDAD DE SUS DATOS!</strong>
+                <p lang="en">Installing any new operating system carries the risk of data loss. Before you begin, back up all important files and personal data to an external drive or cloud storage.</p>
+                <p lang="de">Die Installation eines neuen Betriebssystems birgt das Risiko von Datenverlust. Sichern Sie vor Beginn alle wichtigen Dateien und persönlichen Daten auf einer externen Festplatte oder in einem Cloud-Speicher.</p>
+                <p lang="es">Instalar cualquier sistema operativo nuevo conlleva el riesgo de pérdida de datos. Antes de empezar, haga una copia de seguridad de todos los archivos importantes y datos personales en un disco externo o en la nube.</p>
+            </div>
+            <h3><span lang="en">You will need:</span><span lang="de">Sie benötigen:</span><span lang="es">Necesitará:</span></h3>
+            <ul>
+                <li><strong><span lang="en">A Computer:</span><span lang="de">Einen Computer:</span><span lang="es">Un Ordenador:</span></strong>
+                    <ul>
+                        <li><span lang="en">Processor: 64-bit processor.</span><span lang="de">Prozessor: 64-Bit-Prozessor.</span><span lang="es">Procesador: Procesador de 64 bits.</span></li>
+                        <li><span lang="en">RAM: 2 GB RAM (4 GB+ recommended for a comfortable experience).</span><span lang="de">RAM: 2 GB RAM (4 GB+ für eine komfortable Nutzung empfohlen).</span><span lang="es">RAM: 2 GB de RAM (se recomiendan 4 GB+ para una experiencia cómoda).</span></li>
+                        <li><span lang="en">Storage: 20 GB of disk space (100 GB recommended for applications and data). An SSD is highly recommended.</span><span lang="de">Speicherplatz: 20 GB Festplattenspeicher (100 GB für Anwendungen und Daten empfohlen). Eine SSD wird dringend empfohlen.</span><span lang="es">Almacenamiento: 20 GB de espacio en disco (se recomiendan 100 GB para aplicaciones y datos). Se recomienda encarecidamente un SSD.</span></li>
+                        <li><span lang="en">Display: 1024×768 resolution.</span><span lang="de">Anzeige: 1024×768 Auflösung.</span><span lang="es">Pantalla: Resolución de 1024×768.</span></li>
+                    </ul>
+                </li>
+                <li><strong><span lang="en">Linux Mint ISO File:</span><span lang="de">Linux Mint ISO-Datei:</span><span lang="es">Archivo ISO de Linux Mint:</span></strong><span lang="en"> Downloaded from the official website.</span><span lang="de"> Von der offiziellen Webseite heruntergeladen.</span><span lang="es"> Descargado del sitio web oficial.</span></li>
+                <li><strong><span lang="en">USB Flash Drive:</span><span lang="de">USB-Stick:</span><span lang="es">Unidad Flash USB:</span></strong><span lang="en"> Minimum 4GB capacity (8GB+ recommended). This drive will be erased.</span><span lang="de"> Mindestens 4 GB Kapazität (8 GB+ empfohlen). Dieser Stick wird gelöscht.</span><span lang="es"> Capacidad mínima de 4 GB (se recomiendan 8 GB+). Esta unidad será borrada.</span></li>
+            </ul>
+        </section>
+
+        <section id="download-iso">
+            <h2><span lang="en">1. Download Linux Mint ISO & Verify</span><span lang="de">1. Linux Mint ISO herunterladen & verifizieren</span><span lang="es">1. Descargar y Verificar el ISO de Linux Mint</span></h2>
+            <ol>
+                <li><span lang="en">Go to the official </span><span lang="de">Gehen Sie zur offiziellen </span><span lang="es">Vaya a la </span><a href="https://www.linuxmint.com/download.php" target="_blank"><span lang="en">Linux Mint download page</span><span lang="de">Linux Mint Download-Seite</span><span lang="es">página de descargas oficial de Linux Mint</span></a>.</li>
+                <li><span lang="en">Choose your preferred desktop edition (Cinnamon, MATE, or XFCE) and download the 64-bit <code>.iso</code> file from a mirror.</span><span lang="de">Wählen Sie Ihre bevorzugte Desktop-Edition (Cinnamon, MATE oder XFCE) und laden Sie die 64-Bit-<code>.iso</code>-Datei von einem Spiegelserver herunter.</span><span lang="es">Elija su edición de escritorio preferida (Cinnamon, MATE o XFCE) y descargue el archivo <code>.iso</code> de 64 bits desde un mirror.</span></li>
+                <li>
+                    <div class="important">
+                        <strong lang="en">Verify the ISO Download (Essential!):</strong>
+                        <strong lang="de">ISO-Download verifizieren (Unerlässlich!):</strong>
+                        <strong lang="es">Verificar la Descarga del ISO (¡Esencial!):</strong>
+                        <p lang="en">This ensures the file is not corrupted and is authentic. On the download page, get the <code>sha256sum.txt</code> and <code>sha256sum.txt.gpg</code> files.</p>
+                        <p lang="de">Dies stellt sicher, dass die Datei nicht beschädigt und authentisch ist. Laden Sie auf der Download-Seite die Dateien <code>sha256sum.txt</code> und <code>sha256sum.txt.gpg</code> herunter.</p>
+                        <p lang="es">Esto asegura que el archivo no esté corrupto y sea auténtico. En la página de descargas, obtenga los archivos <code>sha256sum.txt</code> y <code>sha256sum.txt.gpg</code>.</p>
+                        <ol>
+                            <li><strong><span lang="en">Verify Integrity:</span><span lang="de">Integrität prüfen:</span><span lang="es">Verificar Integridad:</span></strong> <span lang="en">Open a terminal in your downloads folder and run <code>sha256sum your-linuxmint.iso</code>. Compare the output to the contents of <code>sha256sum.txt</code>. They must match.</span><span lang="de">Öffnen Sie ein Terminal in Ihrem Download-Ordner und führen Sie <code>sha256sum ihre-linuxmint.iso</code> aus. Vergleichen Sie die Ausgabe mit dem Inhalt von <code>sha256sum.txt</code>. Sie müssen übereinstimmen.</span><span lang="es">Abra una terminal en su carpeta de descargas y ejecute <code>sha256sum su-linuxmint.iso</code>. Compare el resultado con el contenido de <code>sha256sum.txt</code>. Deben coincidir.</span></li>
+                            <li><strong><span lang="en">Verify Authenticity:</span><span lang="de">Authentizität prüfen:</span><span lang="es">Verificar Autenticidad:</span></strong> <span lang="en">This confirms the checksum file is from the Mint developers. Import the signing key (check the official guide for the current key) and verify the signature file.</span><span lang="de">Dies bestätigt, dass die Prüfsummendatei von den Mint-Entwicklern stammt. Importieren Sie den Signierschlüssel (den aktuellen Schlüssel finden Sie in der offiziellen Anleitung) und überprüfen Sie die Signaturdatei.</span><span lang="es">Esto confirma que el archivo de suma de verificación es de los desarrolladores de Mint. Importe la clave de firma (consulte la guía oficial para la clave actual) y verifique el archivo de firma.</span><br><code>gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-key "27DE B156 44C6 B3CF 3BD7 D291 300F 846B A25B AE09"</code><br><code>gpg --verify sha256sum.txt.gpg sha256sum.txt</code><br><span lang="en">A "Good signature" message means it's authentic.</span><span lang="de">Eine „Gute Signatur“-Meldung bedeutet, dass sie authentisch ist.</span><span lang="es">Un mensaje de "Good signature" (Firma correcta) significa que es auténtico.</span></li>
+                        </ol>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <section id="installation-media">
+            <h2><span lang="en">2. Create Bootable Installation Media (USB Drive)</span><span lang="de">2. Bootfähiges Installationsmedium erstellen (USB-Stick)</span><span lang="es">2. Crear un Medio de Instalación Arrancable (USB)</span></h2>
+            <p class="warning" lang="en">The USB drive will be completely erased. Back up its data first.</p>
+            <p class="warning" lang="de">Der USB-Stick wird vollständig gelöscht. Sichern Sie zuerst seine Daten.</p>
+            <p class="warning" lang="es">La unidad USB será completamente borrada. Respalde sus datos primero.</p>
+            <p lang="en">Recommended tools:</p><p lang="de">Empfohlene Werkzeuge:</p><p lang="es">Herramientas recomendadas:</p>
+            <ul>
+                <li><strong><span lang="en">Linux Mint's USB Image Writer:</span><span lang="de">USB-Abbilderstellung von Linux Mint:</span><span lang="es">Grabador de Imágenes USB de Linux Mint:</span></strong><span lang="en"> Already on Mint/Ubuntu.</span><span lang="de"> Bereits auf Mint/Ubuntu vorhanden.</span><span lang="es"> Ya incluido en Mint/Ubuntu.</span></li>
+                <li><strong>BalenaEtcher:</strong><span lang="en"> For Windows, macOS, Linux.</span><span lang="de"> Für Windows, macOS, Linux.</span><span lang="es"> Para Windows, macOS, Linux.</span></li>
+                <li><strong>Rufus:</strong><span lang="en"> For Windows. Choose DD Image mode if prompted.</span><span lang="de"> Für Windows. Wählen Sie den DD-Abbild-Modus, wenn Sie dazu aufgefordert werden.</span><span lang="es"> Para Windows. Elija el modo de Imagen DD si se le solicita.</span></li>
+            </ul>
+        </section>
+
+        <section id="bios-uefi">
+            <h2><span lang="en">3. BIOS/UEFI Configuration</span><span lang="de">3. BIOS/UEFI-Konfiguration</span><span lang="es">3. Configuración de BIOS/UEFI</span></h2>
+            <ol>
+                <li><span lang="en">Insert the USB drive. Restart the computer and press the key to enter BIOS/UEFI setup (e.g., <code>Del</code>, <code>F2</code>, <code>F12</code>, <code>Esc</code>).</span><span lang="de">Stecken Sie den USB-Stick ein. Starten Sie den Computer neu und drücken Sie die Taste zum Aufrufen des BIOS/UEFI-Setups (z. B. <code>Entf</code>, <code>F2</code>, <code>F12</code>, <code>Esc</code>).</span><span lang="es">Inserte la unidad USB. Reinicie el ordenador y presione la tecla para entrar en la configuración de BIOS/UEFI (p. ej., <code>Supr</code>, <code>F2</code>, <code>F12</code>, <code>Esc</code>).</span></li>
+                <li><span lang="en"><strong>Set Boot Order:</strong> Make the USB drive the first boot device.</span><span lang="de"><strong>Boot-Reihenfolge festlegen:</strong> Machen Sie den USB-Stick zum ersten Boot-Gerät.</span><span lang="es"><strong>Establecer Orden de Arranque:</strong> Haga que la unidad USB sea el primer dispositivo de arranque.</span></li>
+                <li><span lang="en"><strong>Disable Secure Boot:</strong> While Mint can work with it, disabling it prevents potential driver issues (especially NVIDIA).</span><span lang="de"><strong>Secure Boot deaktivieren:</strong> Mint kann damit zwar funktionieren, aber die Deaktivierung verhindert potenzielle Treiberprobleme (insbesondere bei NVIDIA).</span><span lang="es"><strong>Desactivar Secure Boot:</strong> Aunque Mint puede funcionar con él, desactivarlo previene posibles problemas con los controladores (especialmente NVIDIA).</span></li>
+                <li><span lang="en"><strong>SATA Mode:</strong> Set to <strong>AHCI</strong> (not RAID or Intel RST).</span><span lang="de"><strong>SATA-Modus:</strong> Auf <strong>AHCI</strong> einstellen (nicht RAID oder Intel RST).</span><span lang="es"><strong>Modo SATA:</strong> Establecer en <strong>AHCI</strong> (no RAID o Intel RST).</span></li>
+                <li><span lang="en"><strong>Disable Fast Boot/Quick Boot.</strong></span><span lang="de"><strong>Fast Boot/Quick Boot deaktivieren.</strong></span><span lang="es"><strong>Desactivar Fast Boot/Quick Boot.</strong></span></li>
+                <li><span lang="en">Save settings and exit.</span><span lang="de">Einstellungen speichern und beenden.</span><span lang="es">Guardar configuración y salir.</span></li>
+            </ol>
+        </section>
+
+        <section id="boot-live">
+            <h2><span lang="en">4. Boot from Installation Media & Live Session</span><span lang="de">4. Vom Installationsmedium booten & Live-Sitzung</span><span lang="es">4. Arranque desde el Medio de Instalación y Sesión en Vivo</span></h2>
+            <ol>
+                <li><span lang="en">Your computer will boot from the USB into the GRUB menu. Select "Start Linux Mint" and press Enter.</span><span lang="de">Ihr Computer bootet vom USB-Stick in das GRUB-Menü. Wählen Sie „Start Linux Mint“ und drücken Sie die Eingabetaste.</span><span lang="es">Su ordenador arrancará desde el USB al menú GRUB. Seleccione "Start Linux Mint" y presione Enter.</span></li>
+                <li><span lang="en">The live desktop will load. This is a full version of Mint running from RAM. Use it to test your hardware: Wi-Fi, sound, display, etc.</span><span lang="de">Der Live-Desktop wird geladen. Dies ist eine Vollversion von Mint, die aus dem RAM läuft. Nutzen Sie sie, um Ihre Hardware zu testen: WLAN, Sound, Bildschirm usw.</span><span lang="es">Se cargará el escritorio en vivo. Esta es una versión completa de Mint ejecutándose desde la RAM. Úsela para probar su hardware: Wi-Fi, sonido, pantalla, etc.</span></li>
+                <li><span lang="en">When ready, double-click the "Install Linux Mint" icon on the desktop.</span><span lang="de">Wenn Sie bereit sind, doppelklicken Sie auf das Symbol „Install Linux Mint“ auf dem Desktop.</span><span lang="es">Cuando esté listo, haga doble clic en el icono "Install Linux Mint" del escritorio.</span></li>
+            </ol>
+        </section>
+
+        <section id="installer-start">
+            <h2><span lang="en">5. Installer: Initial Steps</span><span lang="de">5. Installer: Erste Schritte</span><span lang="es">5. Instalador: Pasos Iniciales</span></h2>
+            <ol>
+                <li><span lang="en"><strong>Language:</strong> Select your preferred language.</span><span lang="de"><strong>Sprache:</strong> Wählen Sie Ihre bevorzugte Sprache.</span><span lang="es"><strong>Idioma:</strong> Seleccione su idioma de preferencia.</span></li>
+                <li><span lang="en"><strong>Keyboard Layout:</strong> Choose your layout.</span><span lang="de"><strong>Tastaturlayout:</strong> Wählen Sie Ihr Layout.</span><span lang="es"><strong>Distribución del teclado:</strong> Elija su distribución.</span></li>
+                <li><strong><span lang="en">Multimedia Codecs:</span><span lang="de">Multimedia-Codecs:</span><span lang="es">Códecs Multimedia:</span></strong><span lang="en"> <strong>Check the box</strong> to install proprietary codecs for MP3, video playback, etc. This is highly recommended.</span><span lang="de"><strong>Aktivieren Sie das Kästchen</strong>, um proprietäre Codecs für MP3, Videowiedergabe usw. zu installieren. Dies wird dringend empfohlen.</span><span lang="es"><strong>Marque la casilla</strong> para instalar códecs propietarios para MP3, reproducción de video, etc. Es muy recomendable.</span></li>
+            </ol>
+        </section>
+
+        <section id="installation-type">
+            <h2><span lang="en">6. Installation Type (Disk Partitioning)</span><span lang="de">6. Installationsart (Festplattenpartitionierung)</span><span lang="es">6. Tipo de Instalación (Particionado de Disco)</span></h2>
+            <p class="warning" lang="en"><strong>This is a critical step. Incorrect choices can lead to data loss.</strong></p><p class="warning" lang="de"><strong>Dies ist ein kritischer Schritt. Falsche Entscheidungen können zu Datenverlust führen.</strong></p><p class="warning" lang="es"><strong>Este es un paso crítico. Una elección incorrecta puede causar la pérdida de datos.</strong></p>
+            <ol>
+                <li><strong><span lang="en">Erase disk and install Linux Mint:</span><span lang="de">Festplatte löschen und Linux Mint installieren:</span><span lang="es">Borrar disco e instalar Linux Mint:</span></strong> <span lang="en">Wipes the entire drive. Best for a dedicated Mint computer.</span><span lang="de">Löscht die gesamte Festplatte. Am besten für einen reinen Mint-Computer.</span><span lang="es">Borra toda la unidad. Es la mejor opción para un ordenador dedicado a Mint.</span></li>
+                <li><strong><span lang="en">Install Linux Mint alongside [Existing OS]:</span><span lang="de">Linux Mint neben [Bestehendes OS] installieren:</span><span lang="es">Instalar Linux Mint junto a [SO Existente]:</span></strong> <span lang="en">For dual-booting. A slider lets you choose how much space to give Mint.</span><span lang="de">Für Dual-Boot. Ein Schieberegler lässt Sie wählen, wie viel Speicherplatz Mint erhalten soll.</span><span lang="es">Para arranque dual. Un deslizador le permite elegir cuánto espacio darle a Mint.</span></li>
+                <li><strong><span lang="en">Something else (Manual Partitioning):</span><span lang="de">Etwas anderes (Manuelle Partitionierung):</span><span lang="es">Algo más (Particionado Manual):</span></strong>
+                    <div lang="en">For full control. A typical UEFI setup:
+                        <ul>
+                            <li><strong>EFI System Partition:</strong> Use the existing one if dual-booting (DO NOT FORMAT IT). If new, create a 512MB, FAT32 partition.</li>
+                            <li><strong>Root Partition (<code>/</code>):</strong> At least 30-50GB, format as Ext4, set mount point to <code>/</code>.</li>
+                            <li><strong>Home Partition (<code>/home</code>):</strong> (Recommended) Use the remaining space, format as Ext4, set mount point to <code>/home</code>. This separates your data from the OS.</li>
+                        </ul>
+                        Note: A swap partition is no longer required; Mint uses a swapfile by default.
+                    </div>
+                    <div lang="de">Für volle Kontrolle. Ein typisches UEFI-Setup:
+                        <ul>
+                            <li><strong>EFI-Systempartition:</strong> Verwenden Sie die bestehende bei Dual-Boot (NICHT FORMATIEREN). Bei Neuinstallation eine 512 MB große FAT32-Partition erstellen.</li>
+                            <li><strong>Root-Partition (<code>/</code>):</strong> Mindestens 30-50 GB, als Ext4 formatieren, Einhängepunkt auf <code>/</code> setzen.</li>
+                            <li><strong>Home-Partition (<code>/home</code>):</strong> (Empfohlen) Den restlichen Speicherplatz verwenden, als Ext4 formatieren, Einhängepunkt auf <code>/home</code> setzen. Dies trennt Ihre Daten vom Betriebssystem.</li>
+                        </ul>
+                        Hinweis: Eine Swap-Partition ist nicht mehr erforderlich; Mint verwendet standardmäßig eine Swap-Datei.
+                    </div>
+                    <div lang="es">Para un control total. Una configuración UEFI típica:
+                        <ul>
+                            <li><strong>Partición del Sistema EFI:</strong> Use la existente si hace arranque dual (NO LA FORMATEE). Si es nueva, cree una partición de 512MB en FAT32.</li>
+                            <li><strong>Partición Raíz (<code>/</code>):</strong> Al menos 30-50GB, formatear como Ext4, establecer punto de montaje en <code>/</code>.</li>
+                            <li><strong>Partición Home (<code>/home</code>):</strong> (Recomendado) Use el espacio restante, formatear como Ext4, establecer punto de montaje en <code>/home</code>. Esto separa sus datos del SO.</li>
+                        </ul>
+                        Nota: Ya no se requiere una partición de intercambio (swap); Mint usa un archivo de intercambio por defecto.
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <section id="location-timezone">
+            <h2><span lang="en">7. Where are you? (Location & Timezone)</span><span lang="de">7. Wo sind Sie? (Standort & Zeitzone)</span><span lang="es">7. ¿Dónde está? (Ubicación y Zona Horaria)</span></h2>
+            <p lang="en">Select your location on the map to set the timezone.</p><p lang="de">Wählen Sie Ihren Standort auf der Karte, um die Zeitzone festzulegen.</p><p lang="es">Seleccione su ubicación en el mapa para establecer la zona horaria.</p>
+        </section>
+
+        <section id="user-setup">
+            <h2><span lang="en">8. Who are you? (User Account Setup)</span><span lang="de">8. Wer sind Sie? (Benutzerkonto einrichten)</span><span lang="es">8. ¿Quién es usted? (Configurar Cuenta de Usuario)</span></h2>
+            <ol>
+                <li><span lang="en">Fill in your name, computer name (hostname), username, and a strong password.</span><span lang="de">Geben Sie Ihren Namen, Computernamen (Hostname), Benutzernamen und ein starkes Passwort ein.</span><span lang="es">Rellene su nombre, nombre del equipo (hostname), nombre de usuario y una contraseña segura.</span></li>
+                <li><span lang="en">Choose "Require my password to log in" (recommended).</span><span lang="de">Wählen Sie „Mein Passwort zum Anmelden abfragen“ (empfohlen).</span><span lang="es">Elija "Solicitar mi contraseña para iniciar sesión" (recomendado).</span></li>
+                <li><span lang="en">Consider checking "Encrypt my home folder" for extra security.</span><span lang="de">Erwägen Sie, „Meinen persönlichen Ordner verschlüsseln“ für zusätzliche Sicherheit zu aktivieren.</span><span lang="es">Considere marcar "Cifrar mi carpeta personal" para mayor seguridad.</span></li>
+            </ol>
+        </section>
+
+        <section id="install-process">
+            <h2><span lang="en">9. Installation Process</span><span lang="de">9. Installationsprozess</span><span lang="es">9. Proceso de Instalación</span></h2>
+            <p lang="en">Linux Mint will now install. This may take 10-30 minutes. A slideshow will highlight its features.</p><p lang="de">Linux Mint wird nun installiert. Dies kann 10-30 Minuten dauern. Eine Diashow zeigt die Funktionen.</p><p lang="es">Linux Mint se instalará ahora. Esto puede tardar de 10 a 30 minutos. Una presentación mostrará sus características.</p>
+        </section>
+        
+        <section id="reboot-first-boot">
+            <h2><span lang="en">10. Installation Complete & Restart</span><span lang="de">10. Installation abgeschlossen & Neustart</span><span lang="es">10. Instalación Completa y Reinicio</span></h2>
+            <ol>
+                <li><span lang="en">When prompted, click "Restart Now".</span><span lang="de">Wenn Sie dazu aufgefordert werden, klicken Sie auf „Jetzt neustarten“.</span><span lang="es">Cuando se le indique, haga clic en "Reiniciar ahora".</span></li>
+                <li><span lang="en">A message will say "Please remove the installation medium, then press ENTER". Unplug the USB drive and press Enter.</span><span lang="de">Eine Meldung wird besagen: „Bitte entfernen Sie das Installationsmedium und drücken Sie dann ENTER“. Ziehen Sie den USB-Stick ab und drücken Sie Enter.</span><span lang="es">Un mensaje dirá "Por favor, retire el medio de instalación y presione ENTER". Desenchufe la unidad USB y presione Enter.</span></li>
+            </ol>
+        </section>
+
+        <section id="post-install">
+            <h2><span lang="en">11. Post-Installation Steps</span><span lang="de">11. Schritte nach der Installation</span><span lang="es">11. Pasos Post-Instalación</span></h2>
+            <p lang="en">After logging in, the <strong>Welcome Screen</strong> is your best friend. Use it for these crucial first steps:</p>
+            <p lang="de">Nach dem Einloggen ist der <strong>Willkommensbildschirm</strong> Ihr bester Freund. Nutzen Sie ihn für diese entscheidenden ersten Schritte:</p>
+            <p lang="es">Después de iniciar sesión, la <strong>Pantalla de Bienvenida</strong> es su mejor amiga. Úsela para estos primeros pasos cruciales:</p>
+            <ol>
+                <li><strong><span lang="en">System Snapshots (Timeshift):</span><span lang="de">System-Schnappschüsse (Timeshift):</span><span lang="es">Instantáneas del Sistema (Timeshift):</span></strong> <span lang="en">This is your system restore. Set it up immediately. Choose RSYNC, select a schedule, and ideally save snapshots to a different drive.</span><span lang="de">Dies ist Ihre Systemwiederherstellung. Richten Sie sie sofort ein. Wählen Sie RSYNC, legen Sie einen Zeitplan fest und speichern Sie Snapshots idealerweise auf einer anderen Festplatte.</span><span lang="es">Esta es su herramienta de restauración del sistema. Configúrela de inmediato. Elija RSYNC, seleccione una programación e idealmente guarde las instantáneas en otra unidad.</span></li>
+                <li><strong><span lang="en">Driver Manager:</span><span lang="de">Treiberverwaltung:</span><span lang="es">Gestor de Controladores:</span></strong> <span lang="en">Run this to find proprietary drivers for hardware like NVIDIA graphics cards or Broadcom Wi-Fi. Install the recommended driver.</span><span lang="de">Führen Sie dies aus, um proprietäre Treiber für Hardware wie NVIDIA-Grafikkarten oder Broadcom-WLAN-Karten zu finden. Installieren Sie den empfohlenen Treiber.</span><span lang="es">Ejecútelo para encontrar controladores propietarios para hardware como tarjetas gráficas NVIDIA o Wi-Fi de Broadcom. Instale el controlador recomendado.</span></li>
+                <li><strong><span lang="en">Update Manager:</span><span lang="de">Aktualisierungsverwaltung:</span><span lang="es">Gestor de Actualizaciones:</span></strong> <span lang="en">Click the shield icon in the panel. Refresh and apply all updates to make your system secure and current.</span><span lang="de">Klicken Sie auf das Schild-Symbol in der Leiste. Aktualisieren Sie und wenden Sie alle Updates an, um Ihr System sicher und aktuell zu halten.</span><span lang="es">Haga clic en el icono del escudo en el panel. Refresque y aplique todas las actualizaciones para que su sistema esté seguro y al día.</span></li>
+                <li><strong><span lang="en">Software Manager:</span><span lang="de">Anwendungsverwaltung:</span><span lang="es">Gestor de Software:</span></strong> <span lang="en">Explore and install thousands of apps like GIMP, VLC, Steam, etc.</span><span lang="de">Entdecken und installieren Sie Tausende von Apps wie GIMP, VLC, Steam usw.</span><span lang="es">Explore e instale miles de aplicaciones como GIMP, VLC, Steam, etc.</span></li>
+                <li><strong><span lang="en">Firewall:</span><span lang="de">Firewall:</span><span lang="es">Cortafuegos:</span></strong> <span lang="en">Search for "Firewall Configuration" in the menu. Click the switch to turn it ON. The default settings are fine for most desktops.</span><span lang="de">Suchen Sie im Menü nach „Firewall-Konfiguration“. Klicken Sie auf den Schalter, um sie EINzuschalten. Die Standardeinstellungen sind für die meisten Desktops in Ordnung.</span><span lang="es">Busque "Configuración del Cortafuegos" en el menú. Haga clic en el interruptor para activarlo. La configuración predeterminada es adecuada para la mayoría de los escritorios.</span></li>
+            </ol>
+        </section>
+
+        <section id="troubleshooting">
+            <h2><span lang="en">Troubleshooting Tips</span><span lang="de">Tipps zur Fehlerbehebung</span><span lang="es">Consejos para Solución de Problemas</span></h2>
+            <ul>
+                <li><strong><span lang="en">System Doesn't Boot:</span><span lang="de">System bootet nicht:</span><span lang="es">El sistema no arranca:</span></strong> <span lang="en">Check BIOS boot order. Ensure Secure Boot is disabled. Use the "Boot Repair" tool from a live USB.</span><span lang="de">Überprüfen Sie die Boot-Reihenfolge im BIOS. Stellen Sie sicher, dass Secure Boot deaktiviert ist. Verwenden Sie das Werkzeug „Boot Repair“ von einem Live-USB-Stick.</span><span lang="es">Verifique el orden de arranque en la BIOS. Asegúrese de que Secure Boot esté desactivado. Use la herramienta "Boot Repair" desde un USB en vivo.</span></li>
+                <li><strong><span lang="en">No Wi-Fi/Graphics:</span><span lang="de">Kein WLAN/Grafik:</span><span lang="es">Sin Wi-Fi/Gráficos:</span></strong> <span lang="en">Run the Driver Manager. If that fails, search the Linux Mint Forums with your specific hardware model.</span><span lang="de">Führen Sie die Treiberverwaltung aus. Wenn das nicht hilft, suchen Sie in den Linux Mint Foren nach Ihrem spezifischen Hardwaremodell.</span><span lang="es">Ejecute el Gestor de Controladores. Si eso falla, busque en los foros de Linux Mint con su modelo de hardware específico.</span></li>
+                <li><strong><span lang="en">Resources:</span><span lang="de">Ressourcen:</span><span lang="es">Recursos:</span></strong>
+                    <ul>
+                        <li><a href="https://forums.linuxmint.com/" target="_blank">Linux Mint Forums</a></li>
+                        <li><a href="https://linuxmint-installation-guide.readthedocs.io/en/latest/" target="_blank"><span lang="en">Official Installation Guide</span><span lang="de">Offizielle Installationsanleitung</span><span lang="es">Guía de Instalación Oficial</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="disclaimer">
+            <h2><span lang="en">Disclaimer</span><span lang="de">Haftungsausschluss</span><span lang="es">Descargo de Responsabilidad</span></h2>
+            <p lang="en">This guide is for informational purposes only. Installing an OS involves risks, including data loss. Always back up your data. Proceed at your own risk. The author is not responsible for any damage or data loss.</p>
+            <p lang="de">Diese Anleitung dient nur zu Informationszwecken. Die Installation eines Betriebssystems birgt Risiken, einschließlich Datenverlust. Sichern Sie immer Ihre Daten. Die Nutzung erfolgt auf eigene Gefahr. Der Autor ist nicht für Schäden oder Datenverluste verantwortlich.</p>
+            <p lang="es">Esta guía es solo para fines informativos. Instalar un SO implica riesgos, incluida la pérdida de datos. Siempre respalde sus datos. Proceda bajo su propio riesgo. El autor no se hace responsable de ningún daño o pérdida de datos.</p>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('#main-content section');
+            const navLinks = document.querySelectorAll('#sidebar ul li a');
+            const langButtons = {
+                en: document.getElementById('btn-en'),
+                de: document.getElementById('btn-de'),
+                es: document.getElementById('btn-es')
+            };
+            const body = document.body;
+
+            const titles = {
+                en: 'Linux Mint Installation Guide',
+                de: 'Installationsanleitung für Linux Mint',
+                es: 'Guía de Instalación de Linux Mint'
+            };
+
+            function setLanguage(lang) {
+                body.classList.remove('show-en', 'show-de', 'show-es');
+                body.classList.add(`show-${lang}`);
+                try {
+                    localStorage.setItem('user-lang', lang);
+                } catch (e) {
+                    console.warn("Could not save language preference to localStorage.");
+                }
+                document.documentElement.lang = lang;
+                document.title = titles[lang] || titles['en'];
+                Object.values(langButtons).forEach(button => button.classList.remove('active'));
+                if (langButtons[lang]) {
+                    langButtons[lang].classList.add('active');
+                }
+                window.dispatchEvent(new Event('scroll'));
+            }
+
+            function initializeLanguage() {
+                let userLang = null;
+                try {
+                    userLang = localStorage.getItem('user-lang');
+                } catch (e) { /* ignore */ }
+
+                if (userLang && ['en', 'de', 'es'].includes(userLang)) {
+                    setLanguage(userLang);
+                    return;
+                }
+
+                const browserLang = (navigator.language || navigator.userLanguage || 'en').substring(0, 2);
+                if (browserLang === 'de') setLanguage('de');
+                else if (browserLang === 'es') setLanguage('es');
+                else setLanguage('en');
+            }
+            
+            langButtons.en.addEventListener('click', () => setLanguage('en'));
+            langButtons.de.addEventListener('click', () => setLanguage('de'));
+            langButtons.es.addEventListener('click', () => setLanguage('es'));
+
+            window.onscroll = () => {
+                let current = '';
+                if(sections && sections.length > 0) {
+                    sections.forEach(section => {
+                        const sectionTop = section.offsetTop;
+                        if (pageYOffset >= sectionTop - 70) {
+                            current = section.getAttribute('id');
+                        }
+                    });
+
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').substring(1) === current) {
+                            link.classList.add('active');
+                        }
+                    });
+                    
+                    if (!current && navLinks.length > 0 && pageYOffset < sections[0].offsetTop - 70) {
+                        navLinks[0].classList.add('active');
+                    }
+                }
+            };
+            
+            initializeLanguage();
+            window.dispatchEvent(new Event('scroll'));
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

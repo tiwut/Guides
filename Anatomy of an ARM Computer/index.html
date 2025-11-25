@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARM Computer Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --primary-color: #007bff;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --nav-bg-color: rgba(255, 255, 255, 0.85);
+            --svg-stroke-color: #aab8c2;
+            --svg-fill-color: #e1e8ed;
+            --svg-label-color: #657786;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --card-color: #1e1e1e;
+                --text-color: #e0e0e0;
+                --primary-color: #4dabf7;
+                --border-color: #333333;
+                --shadow-color: rgba(0, 0, 0, 0.2);
+                --nav-bg-color: rgba(30, 30, 30, 0.85);
+                --svg-stroke-color: #657786;
+                --svg-fill-color: #2c3e50;
+                --svg-label-color: #aab8c2;
+            }
+        }
+        
+        [data-lang] {
+            display: none;
+        }
+        
+        .show-lang-de [data-lang="de"],
+        .show-lang-en [data-lang="en"],
+        .show-lang-es [data-lang="es"] {
+            display: revert;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 80px;
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .guide-card {
+            background-color: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px var(--shadow-color);
+        }
+
+        .card-sketch {
+            flex: 1;
+            padding: 2rem;
+            min-width: 250px;
+        }
+
+        .card-content {
+            flex: 2;
+            padding: 2rem;
+        }
+
+        .card-sketch svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .board, .chip, .port {
+            fill: var(--svg-fill-color);
+            stroke: var(--svg-stroke-color);
+            stroke-width: 2;
+        }
+
+        .core, .component-placeholder, .port-inner {
+            fill: none;
+            stroke: var(--svg-stroke-color);
+            stroke-dasharray: 3 3;
+            stroke-width: 1.5;
+        }
+
+        .connector {
+            fill: none;
+            stroke: var(--svg-stroke-color);
+            stroke-width: 2;
+        }
+
+        .label {
+            font-size: 12px;
+            font-family: 'Roboto', sans-serif;
+            fill: var(--svg-label-color);
+            font-weight: 300;
+        }
+
+        #main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            height: 70px;
+            background-color: var(--nav-bg-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 400;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.5rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        #menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        #menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px;
+            background-color: var(--text-color);
+            transition: all 0.3s ease-in-out;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 1rem;
+                padding-top: 80px;
+            }
+
+            .guide-card {
+                flex-direction: column;
+            }
+            
+            .card-sketch {
+                width: 100%;
+                max-width: 250px;
+                padding-bottom: 0;
+            }
+            
+            .card-content {
+                padding-top: 1rem;
+                text-align: center;
+            }
+
+            #main-nav {
+                flex-direction: column;
+                align-items: flex-start;
+                height: 100vh;
+                width: 280px;
+                padding: 1.5rem;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                justify-content: flex-start;
+            }
+
+            #main-nav.open {
+                transform: translateX(0);
+            }
+            
+            .nav-header {
+                width: 100%;
+                margin-bottom: 2rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+                margin-bottom: 2rem;
+            }
+
+            .nav-link {
+                font-size: 1.2rem;
+            }
+
+            #menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+            }
+
+            #menu-toggle.open span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            #menu-toggle.open span:nth-child(2) {
+                opacity: 0;
+            }
+            #menu-toggle.open span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+    <nav id="main-nav">
+        <div class="nav-header">
+            <div class="logo-text" data-lang="de">ARM Guide</div>
+            <div class="logo-text" data-lang="en">ARM Guide</div>
+            <div class="logo-text" data-lang="es">Guía ARM</div>
+        </div>
+        
+        <ul class="nav-links">
+            <li>
+                <a href="#overview" class="nav-link" data-lang="de">Übersicht</a>
+                <a href="#overview" class="nav-link" data-lang="en">Overview</a>
+                <a href="#overview" class="nav-link" data-lang="es">Resumen</a>
+            </li>
+            <li>
+                <a href="#cpu" class="nav-link" data-lang="de">CPU</a>
+                <a href="#cpu" class="nav-link" data-lang="en">CPU</a>
+                <a href="#cpu" class="nav-link" data-lang="es">CPU</a>
+            </li>
+            <li>
+                <a href="#ram" class="nav-link" data-lang="de">RAM</a>
+                <a href="#ram" class="nav-link" data-lang="en">RAM</a>
+                <a href="#ram" class="nav-link" data-lang="es">RAM</a>
+            </li>
+            <li>
+                <a href="#io" class="nav-link" data-lang="de">I/O</a>
+                <a href="#io" class="nav-link" data-lang="en">I/O</a>
+                <a href="#io" class="nav-link" data-lang="es">E/S</a>
+            </li>
+        </ul>
+
+        <div class="language-switcher">
+            <button class="lang-btn" data-set-lang="de">DE</button>
+            <button class="lang-btn" data-set-lang="en">EN</button>
+            <button class="lang-btn" data-set-lang="es">ES</button>
+        </div>
+    </nav>
+    
+    <button id="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <main>
+        <header class="main-header">
+            <h1 data-lang="de">Anatomie eines ARM Computers</h1>
+            <h1 data-lang="en">Anatomy of an ARM Computer</h1>
+            <h1 data-lang="es">Anatomía de un Ordenador ARM</h1>
+            <p data-lang="de">Eine visuelle Erkundung der Hauptkomponenten eines modernen Einplatinencomputers.</p>
+            <p data-lang="en">A visual exploration of the main components of a modern single-board computer.</p>
+            <p data-lang="es">Una exploración visual de los componentes principales de un ordenador de placa única.</p>
+        </header>
+
+        <section id="overview" class="guide-card">
+            <div class="card-sketch">
+                <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect class="board" x="5" y="5" width="190" height="110" rx="5" />
+                    <rect class="component-placeholder" x="70" y="30" width="60" height="40" rx="2" />
+                    <text class="label" x="100" y="55" text-anchor="middle">SoC</text>
+                    <rect class="component-placeholder" x="70" y="80" width="60" height="15" rx="2" />
+                    <text class="label" x="100" y="90" text-anchor="middle">RAM</text>
+                    <rect class="component-placeholder" x="10" y="20" width="40" height="80" rx="2" />
+                    <text class="label" x="30" y="65" text-anchor="middle">I/O</text>
+                </svg>
+            </div>
+            <div class="card-content">
+                <h2 data-lang="de">System on a Chip (SoC)</h2>
+                <h2 data-lang="en">System on a Chip (SoC)</h2>
+                <h2 data-lang="es">Sistema en un Chip (SoC)</h2>
+                <p data-lang="de">Die meisten ARM-Geräte verwenden ein SoC, das CPU, GPU und andere Controller auf einem einzigen Chip integriert. Dies ist effizient und kompakt.</p>
+                <p data-lang="en">Most ARM devices use a SoC, integrating the CPU, GPU, and other controllers onto a single chip. This is efficient and compact.</p>
+                <p data-lang="es">La mayoría de los dispositivos ARM utilizan un SoC, que integra la CPU, GPU y otros controladores en un solo chip. Es eficiente y compacto.</p>
+            </div>
+        </section>
+
+        <section id="cpu" class="guide-card">
+            <div class="card-sketch">
+                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect class="chip" x="10" y="10" width="80" height="80" rx="4"/>
+                    <rect class="core" x="25" y="25" width="20" height="20" rx="1"/>
+                    <rect class="core" x="55" y="25" width="20" height="20" rx="1"/>
+                    <rect class="core" x="25" y="55" width="20" height="20" rx="1"/>
+                    <rect class="core" x="55" y="55" width="20" height="20" rx="1"/>
+                    <text class="label" x="50" y="95" text-anchor="middle">CPU Cores</text>
+                </svg>
+            </div>
+            <div class="card-content">
+                <h2 data-lang="de">Prozessor (CPU)</h2>
+                <h2 data-lang="en">Processor (CPU)</h2>
+                <h2 data-lang="es">Procesador (CPU)</h2>
+                <p data-lang="de">Das Gehirn des Computers. ARM-CPUs sind für ihre Energieeffizienz bekannt. Moderne CPUs haben mehrere Kerne für parallele Aufgaben.</p>
+                <p data-lang="en">The brain of the computer. ARM CPUs are known for their power efficiency. Modern CPUs have multiple cores for parallel tasks.</p>
+                <p data-lang="es">El cerebro del ordenador. Las CPUs ARM son conocidas por su eficiencia energética. Las CPUs modernas tienen múltiples núcleos para tareas paralelas.</p>
+            </div>
+        </section>
+
+        <section id="ram" class="guide-card">
+            <div class="card-sketch">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect class="chip" x="15" y="20" width="70" height="25" rx="2"/>
+                    <rect class="chip" x="15" y="55" width="70" height="25" rx="2"/>
+                    <path class="connector" d="M 50 45 L 50 55"/>
+                    <text class="label" x="50" y="95" text-anchor="middle">Memory</text>
+                </svg>
+            </div>
+            <div class="card-content">
+                <h2 data-lang="de">Arbeitsspeicher (RAM)</h2>
+                <h2 data-lang="en">Memory (RAM)</h2>
+                <h2 data-lang="es">Memoria (RAM)</h2>
+                <p data-lang="de">Der Kurzzeitspeicher für Daten, auf die die CPU schnell zugreifen muss. Oft direkt auf der Platine neben dem SoC verlötet.</p>
+                <p data-lang="en">The short-term memory for data that the CPU needs to access quickly. Often soldered directly onto the board next to the SoC.</p>
+                <p data-lang="es">La memoria a corto plazo para los datos que la CPU necesita acceder rápidamente. A menudo está soldada directamente en la placa junto al SoC.</p>
+            </div>
+        </section>
+
+        <section id="io" class="guide-card">
+            <div class="card-sketch">
+                <svg viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect class="port" x="10" y="30" width="25" height="40" rx="2"/>
+                    <rect class="port-inner" x="15" y="48" width="15" height="15" />
+                    <text class="label" x="22.5" y="80" text-anchor="middle">USB</text>
+                    <path class="port" d="M 50 30 L 80 30 L 85 35 L 85 65 L 80 70 L 50 70 Z"/>
+                    <text class="label" x="67.5" y="80" text-anchor="middle">HDMI</text>
+                    <rect class="port" x="100" y="30" width="40" height="30" rx="2"/>
+                    <rect class="port-inner" x="105" y="35" width="30" height="20" />
+                    <text class="label" x="120" y="80" text-anchor="middle">LAN</text>
+                </svg>
+            </div>
+            <div class="card-content">
+                <h2 data-lang="de">Ein-/Ausgabe (I/O)</h2>
+                <h2 data-lang="en">Input/Output (I/O)</h2>
+                <h2 data-lang="es">Entrada/Salida (E/S)</h2>
+                <p data-lang="de">Anschlüsse zur Kommunikation mit der Außenwelt. Dazu gehören USB, HDMI, Ethernet und GPIO-Pins für Elektronikprojekte.</p>
+                <p data-lang="en">Ports for communicating with the outside world. This includes USB, HDMI, Ethernet, and GPIO pins for electronics projects.</p>
+                <p data-lang="es">Puertos para comunicarse con el mundo exterior. Incluye USB, HDMI, Ethernet y pines GPIO para proyectos de electrónica.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    
+            const supportedLangs = ['de', 'en', 'es'];
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const menuToggle = document.getElementById('menu-toggle');
+            const mainNav = document.getElementById('main-nav');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const setLanguage = (lang) => {
+                document.body.classList.remove('show-lang-de', 'show-lang-en', 'show-lang-es');
+                document.body.classList.add(`show-lang-${lang}`);
+                document.documentElement.lang = lang;
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.setLang === lang);
+                });
+                localStorage.setItem('userLanguage', lang);
+            };
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const lang = button.dataset.setLang;
+                    setLanguage(lang);
+                });
+            });
+
+            const savedLang = localStorage.getItem('userLanguage');
+            const browserLang = navigator.language.split('-')[0];
+
+            if (savedLang && supportedLangs.includes(savedLang)) {
+                setLanguage(savedLang);
+            } else if (supportedLangs.includes(browserLang)) {
+                setLanguage(browserLang);
+            } else {
+                setLanguage('en'); 
+            }
+
+            menuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('open');
+                menuToggle.classList.toggle('open');
+            });
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mainNav.classList.contains('open')) {
+                        mainNav.classList.remove('open');
+                        menuToggle.classList.remove('open');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive FreeBSD Installation Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #AB2B28; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #AB2B28; 
+            border-bottom: 2px solid #AB2B28;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #801F1D; 
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #AB2B28;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to FreeBSD</a></li>
+            <li><a href="#prerequisites">Prerequisites & Backup</a></li>
+            <li><a href="#download-iso">1. Download & Verify Image</a></li>
+            <li><a href="#installation-media">2. Create Installation Media</a></li>
+            <li><a href="#bios-uefi">3. BIOS/UEFI Configuration</a></li>
+            <li><a href="#boot-installer">4. Booting & bsdinstall</a></li>
+            <li><a href="#keymap-hostname">5. Keymap & Hostname</a></li>
+            <li><a href="#distribution-sets">6. Distribution Sets</a></li>
+            <li><a href="#partitioning">7. Disk Partitioning (UFS/ZFS)</a></li>
+            <li><a href="#root-password">8. Root Password</a></li>
+            <li><a href="#network-config">9. Network Configuration</a></li>
+            <li><a href="#system-config">10. System Configuration</a></li>
+            <li><a href="#user-accounts">11. User Accounts</a></li>
+            <li><a href="#final-review">12. Final Configuration & Exit</a></li>
+            <li><a href="#first-boot-post">13. First Boot & Post-Install</a></li>
+            <li><a href="#troubleshooting">Troubleshooting Tips</a></li>
+            <li><a href="#disclaimer">Disclaimer</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>Comprehensive Guide: Installing FreeBSD</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to FreeBSD</h2>
+            <p>FreeBSD is a powerful, free, and open-source Unix-like operating system descended from AT&T UNIX via the Berkeley Software Distribution (BSD) branch. It is known for its stability, robust networking, advanced features, and comprehensive documentation. Unlike Linux distributions which combine the Linux kernel with software from many sources, FreeBSD develops its kernel, core userland utilities, and documentation as a single, cohesive project.</p>
+            <p>FreeBSD is widely used for servers, desktops, and embedded systems. Its base installation is typically command-line focused, but graphical desktop environments can be easily installed.</p>
+            <p class="important">This guide covers the installation process using the standard <code>bsdinstall</code> text-based installer.</p>
+        </section>
+
+        <section id="prerequisites">
+            <h2>Prerequisites & Crucial: Backup Your Data!</h2>
+            <p class="warning"><strong>CRITICAL: BACKUP YOUR DATA!</strong> Installing any new operating system, especially if repartitioning, carries the risk of data loss. Before you begin, back up all important documents, photos, applications, and personal files to an external hard drive, USB flash drive, or cloud storage.</p>
+            <p>You will need the following:</p>
+            <ul>
+                <li><strong>A Computer:</strong> FreeBSD supports a wide range of architectures (amd64/x86-64, i386, arm, etc.). This guide focuses on amd64. Check the <a href="https://www.freebsd.org/releases/13.2R/hardware/" target="_blank">FreeBSD Hardware Notes</a> for your release for compatibility.</li>
+                <li><strong>FreeBSD Installation Image:</strong> You'll download this in the next step.</li>
+                <li><strong>USB Flash Drive:</strong> Minimum 4GB capacity, 8GB+ recommended. This drive will be erased.</li>
+                <li><strong>Internet Connection:</strong> Recommended for fetching distribution sets if not included in your image, and essential for post-installation updates and package management.</li>
+                <li><strong>(Optional) Another Working Computer:</strong> To download the image and create the USB installation media.</li>
+                <li><strong>Patience:</strong> The text-based installer is efficient but requires careful reading.</li>
+            </ul>
+        </section>
+
+        <section id="download-iso">
+            <h2>1. Download & Verify Installation Image</h2>
+            <ol>
+                <li>Go to the official <a href="https://www.freebsd.org/where/" target="_blank">FreeBSD Download Page</a>.</li>
+                <li>Select your architecture (usually <strong>amd64</strong> for modern 64-bit PCs).</li>
+                <li>Choose an image type. Common options:
+                    <ul>
+                        <li><code>*-disc1.iso</code>: Contains the base system and installer. Sufficient for most installations if you have an internet connection for additional components.</li>
+                        <li><code>*-memstick.img</code>: A raw image file specifically for writing to USB drives. This is often the preferred choice.</li>
+                        <li><code>*-bootonly.iso</code>: A very small image that downloads all components over the network during installation.</li>
+                    </ul>
+                    For this guide, we'll assume you are using a <code>memstick.img</code> or <code>disc1.iso</code>.
+                </li>
+                <li>Download the chosen image file (e.g., <code>FreeBSD-13.2-RELEASE-amd64-memstick.img</code>).</li>
+                <li>
+                    <p class="important"><strong>Verify the Image Download (Crucial!):</strong></p>
+                    <ul>
+                        <li>On the download page or in a sibling directory (like <code>CHECKSUM.SHA256</code> or <code>CHECKSUM.SHA512</code>), find the checksum for your downloaded image.</li>
+                        <li><strong>How to Verify:</strong>
+                            <ul>
+                                <li><strong>Linux/macOS Terminal:</strong>
+                                    <code>sha256sum /path/to/your/FreeBSD-image.img</code> or <code>sha512sum ...</code>
+                                </li>
+                                <li><strong>Windows PowerShell:</strong>
+                                    <code>Get-FileHash -Algorithm SHA256 /path/to/your/FreeBSD-image.img</code>
+                                </li>
+                                <li><strong>Windows Command Prompt (using CertUtil):</strong>
+                                    <code>CertUtil -hashfile /path/to/your/FreeBSD-image.img SHA256</code>
+                                </li>
+                                <li>Compare the output hash with the one provided. They must match exactly. If not, re-download.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="installation-media">
+            <h2>2. Create Bootable Installation Media (USB Drive)</h2>
+            <p class="warning">The USB drive will be completely erased. Back up any data on it first.</p>
+            <ul>
+                <li>
+                    <strong>If you downloaded a <code>.img</code> file (e.g., <code>memstick.img</code>):</strong> These are raw disk images.
+                    <ul>
+                        <li>
+                            <strong><a href="https://www.balena.io/etcher/" target="_blank">BalenaEtcher</a> (Recommended for ease):</strong>
+                            Works on Windows, macOS, Linux. Select the <code>.img</code> file, select your USB drive, and click "Flash!".
+                        </li>
+                        <li>
+                            <strong><a href="https://rufus.ie/" target="_blank">Rufus</a> (Windows):</strong>
+                            Select your USB drive. Click "SELECT" and choose your <code>.img</code> file. Rufus should detect it's a DD image and configure itself accordingly. Click "START".
+                        </li>
+                        <li>
+                            <strong><code>dd</code> command (Linux/macOS - Use with EXTREME CAUTION):</strong>
+                            <p class="warning"><code>dd</code> can wipe the wrong drive with a typo. Use <code>lsblk</code> or <code>diskutil list</code> to identify your USB drive (e.g., <code>/dev/sdx</code> or <code>/dev/rdiskX</code> on macOS - use the raw device for speed). Unmount any mounted partitions of the USB drive first.</p>
+                            <code>sudo dd bs=1M if=/path/to/FreeBSD-image.img of=/dev/sdX status=progress oflag=sync</code>
+                            (Replace <code>sdX</code> with your actual USB device identifier. On macOS, use <code>bs=1m</code> and <code>rdiskX</code>).
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>If you downloaded an <code>.iso</code> file (e.g., <code>disc1.iso</code>):</strong>
+                    <ul>
+                        <li>Most modern ISO burning tools (Etcher, Rufus, Ventoy) can also write bootable ISOs to USB. Rufus might ask if you want to write in "ISO Image mode" or "DD Image mode"; "DD Image mode" is generally more reliable for hybrid ISOs like FreeBSD's.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="bios-uefi">
+            <h2>3. BIOS/UEFI Configuration</h2>
+            <ol>
+                <li>Insert the bootable FreeBSD USB drive.</li>
+                <li><strong>Access BIOS/UEFI Setup:</strong> Restart or turn on the computer. Press the key for BIOS/UEFI setup (Common: <code>Del</code>, <code>F2</code>, <code>F10</code>, <code>F12</code>, <code>Esc</code>).</li>
+                <li><strong>Set Boot Order:</strong> Make the USB drive the first boot device. It might be listed as "USB HDD," "Removable Devices," or "UEFI: [USB Drive Name]".</li>
+                <li><strong>UEFI vs. Legacy/CSM Mode:</strong>
+                    <ul>
+                        <li>FreeBSD supports both UEFI and Legacy BIOS. <strong>UEFI Mode is recommended</strong> for modern systems. Ensure "Boot Mode" is "UEFI".</li>
+                        <li>Disable "CSM" (Compatibility Support Module) or "Legacy Boot" if UEFI is enabled.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p class="important"><strong>Secure Boot:</strong></p>
+                    <ul>
+                        <li>FreeBSD does <strong>not</strong> typically support Secure Boot out-of-the-box without manual setup of a pre-loader like `shim`.</li>
+                        <li>You will most likely need to <strong>DISABLE Secure Boot</strong> in your UEFI settings to boot the FreeBSD installer and the installed system.</li>
+                    </ul>
+                </li>
+                <li><strong>SATA Mode:</strong> Ensure SATA mode is set to <strong>AHCI</strong>.</li>
+                <li><strong>Disable Fast Boot/Quick Boot.</strong></li>
+                <li><strong>Save and Exit.</strong></li>
+            </ol>
+        </section>
+
+        <section id="boot-installer">
+            <h2>4. Booting into the FreeBSD Installer (bsdinstall)</h2>
+            <ol>
+                <li>The computer will restart and should boot from the USB drive.</li>
+                <li>You'll see the FreeBSD boot loader menu. It will usually auto-boot into the installer, or you can press <code>1</code> or Enter to "Boot Multi-user".</li>
+                <li>The kernel will load, displaying boot messages.</li>
+                <li>The <code>bsdinstall</code> welcome screen will appear. Select <strong>[ Install ]</strong> and press Enter.
+                <p>Navigation in <code>bsdinstall</code> is primarily with arrow keys, Tab, Spacebar (to select/deselect checkboxes), and Enter.</p>
+                </li>
+            </ol>
+        </section>
+
+        <section id="keymap-hostname">
+            <h2>5. Keymap Selection & Hostname</h2>
+            <ol>
+                <li><strong>Keymap Selection:</strong> You'll be prompted to select your keyboard layout. Choose the appropriate one (e.g., "US Accented" or your specific country's layout). You can test it. Select "[ Select ]".</li>
+                <li><strong>Set Hostname:</strong> Enter a hostname for your system (e.g., <code>mybsd-pc</code>). This is how your computer will be identified on the network. Press Enter.</li>
+            </ol>
+        </section>
+
+        <section id="distribution-sets">
+            <h2>6. Select Optional System Components (Distribution Sets)</h2>
+            <p>You'll be asked to select optional components to install. Use the Spacebar to select/deselect.</p>
+            <ul>
+                <li><code>base-dbg</code>: Base system debugging symbols. (Usually not needed for average users).</li>
+                <li><code>kernel-dbg</code>: Kernel debugging symbols. (Usually not needed).</li>
+                <li><code>lib32</code>: 32-bit compatibility libraries. <strong>Recommended if you plan to run 32-bit applications on an amd64 system</strong> (e.g., Wine, some games).</li>
+                <li><code>ports</code>: The FreeBSD Ports Collection. This is a directory tree of Makefiles for building and installing third-party software from source. <strong>Highly recommended</strong> for flexibility, even if you primarily use binary packages. It requires some disk space (~1-2GB initially).</li>
+                <li><code>src</code>: Full system source code. Useful for developers, kernel compilation, or understanding the system. Not strictly necessary for general use.</li>
+                <li><code>tests</code>: FreeBSD Test Suite. (Usually not needed).</li>
+            </ul>
+            <p>A common selection for a desktop/general-purpose system might be <code>lib32</code> and <code>ports</code>. Select "[ OK ]" when done.</p>
+            <p>If your installation media (like bootonly.iso) doesn't contain these sets, <code>bsdinstall</code> will attempt to fetch them from the network if a connection is available.</p>
+        </section>
+
+        <section id="partitioning">
+            <h2>7. Disk Partitioning (UFS or ZFS)</h2>
+            <p>This is a critical step. FreeBSD offers UFS (Unix File System, the traditional default) and ZFS (a modern, advanced filesystem with features like snapshots, data integrity, and pooling).</p>
+            <p class="warning"><strong>Incorrect partitioning can lead to data loss. Ensure backups are complete!</strong></p>
+            <p>You'll be presented with partitioning options:</p>
+            <ul>
+                <li><strong>Auto (UFS):</strong> Guided partitioning for UFS. Good for beginners or single-OS setups. Will offer to use the entire disk or free space.</li>
+                <li><strong>Auto (ZFS):</strong> Guided partitioning for ZFS. Excellent choice for reliability and features. Offers various ZFS pool configurations (Stripe, Mirror, RAID-Z, etc.).</li>
+                <li><strong>Manual:</strong> Full control over partition creation. For advanced users or complex dual-boot scenarios.</li>
+                <li><strong>Shell:</strong> Drop to a shell to use command-line tools like <code>gpart</code> and <code>fdisk</code>. (Advanced).</li>
+            </ul>
+
+            <h3>Understanding Partitioning Concepts:</h3>
+            <ul>
+                <li><strong>GPT (GUID Partition Table):</strong> Used for UEFI systems. Allows many partitions.
+                    <ul>
+                        <li><code>efi</code>: EFI System Partition (ESP). FAT32. Stores bootloader. ~200-512MB. <code>bsdinstall</code> usually creates this automatically in guided UEFI installs.</li>
+                        <li><code>freebsd-ufs</code>: For UFS root (<code>/</code>), <code>/var</code>, <code>/tmp</code>, <code>/usr</code>.</li>
+                        <li><code>freebsd-zfs</code>: For a ZFS pool.</li>
+                        <li><code>freebsd-swap</code>: Swap partition.</li>
+                    </ul>
+                </li>
+                <li><strong>MBR (Master Boot Record):</strong> Used for older BIOS systems. FreeBSD uses "slices" within an MBR partition.
+                    <ul>
+                        <li>A primary MBR partition (slice) of type <code>freebsd</code>.</li>
+                        <li>Within this slice, BSD partitions (historically labeled 'a' for root, 'b' for swap, etc.). Modern <code>bsdinstall</code> simplifies this.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Guided Example (Auto UFS on UEFI):</h3>
+            <ol>
+                <li>Select "Auto (UFS)".</li>
+                <li>Choose "Entire Disk" or "Partition" (if you want to use only part of an existing FreeBSD slice/partition).</li>
+                <li>Confirm the disk to operate on.</li>
+                <li>Select "GPT (UEFI)" as the partition scheme for modern systems.</li>
+                <li><code>bsdinstall</code> will show a proposed layout (e.g., <code>efi</code>, <code>freebsd-ufs</code> for root, <code>freebsd-swap</code>).</li>
+                <li>Select "[ Finish ]".</li>
+                <li>Select "[ Commit ]" to write changes to disk.</li>
+            </ol>
+
+            <h3>Guided Example (Auto ZFS on UEFI):</h3>
+            <ol>
+                <li>Select "Auto (ZFS)".</li>
+                <li>The ZFS Configuration menu appears.
+                    <ul>
+                        <li><strong>Pool Type:</strong> Often <code>stripe</code> (no redundancy, uses all selected disks as one large volume) for single-disk laptops/desktops. For servers, <code>mirror</code> (RAID1), <code>raidz1/2/3</code> are common.</li>
+                        <li><strong>Select Disks:</strong> Use Spacebar to select the disk(s) for the ZFS pool.</li>
+                        <li><strong>GPT (UEFI)</strong> is usually preferred. MBR for legacy.</li>
+                        <li>Other options: Force 4K sectors, Swap size, Encrypt Disks, Mirror Swap.</li>
+                    </ul>
+                </li>
+                <li>Select "[ >>> INSTALL <<< ]".</li>
+                <li>Confirm "Yes" to destroy disk contents.</li>
+            </ol>
+            <p class="important">ZFS on root is highly recommended for its robustness. If you choose UFS, creating separate partitions for <code>/</code>, <code>/var</code>, <code>/tmp</code>, <code>/usr</code>, and <code>/home</code> is a traditional good practice, though <code>bsdinstall</code>'s UFS auto often simplifies this.</p>
+            <p>After partitioning, the chosen distribution sets will be fetched (if via network) and extracted to the newly created partitions. This can take some time.</p>
+        </section>
+
+        <section id="root-password">
+            <h2>8. Set Root Password</h2>
+            <p>You will be prompted to set the password for the <code>root</code> (superuser) account. Choose a strong password and confirm it. This account has full administrative privileges.</p>
+        </section>
+
+        <section id="network-config">
+            <h2>9. Network Configuration</h2>
+            <ol>
+                <li>A list of network interfaces will be shown (e.g., <code>em0</code>, <code>re0</code> for Ethernet, <code>wlan0</code> for Wi-Fi).</li>
+                <li>Select your primary network interface and press Enter.</li>
+                <li><strong>Configure IPv4?</strong> Select "[ Yes ]".
+                    <ul>
+                        <li><strong>DHCP?</strong> Select "[ Yes ]" to automatically obtain an IP address from your router/DHCP server (most common).</li>
+                        <li>If you select No for DHCP, you'll need to manually enter IP address, subnet mask, and default router.</li>
+                    </ul>
+                </li>
+                <li><strong>Configure IPv6?</strong> Select "[ Yes ]" for SLAAC (auto-configuration) if your network supports IPv6, or "[ No ]" otherwise.</li>
+                <li><strong>DNS Configuration:</strong> Usually, DHCP provides DNS servers. If not, or if you want to specify custom ones, you can enter them here (Resolver Configuration: Search, Nameserver1, Nameserver2).</li>
+            </ol>
+        </section>
+
+        <section id="system-config">
+            <h2>10. System Configuration</h2>
+            <ol>
+                <li><strong>Time Zone:</strong>
+                    <ul>
+                        <li>"Is this machine's CMOS clock set to UTC?" Select "[ Yes ]" if your system clock in BIOS/UEFI is set to Coordinated Universal Time (recommended, especially for dual-booting with other OSes that expect this). Select "[ No ]" if it's set to local time.</li>
+                        <li>Select your Region, Country, and Time Zone.</li>
+                    </ul>
+                </li>
+                <li><strong>Services to Start at Boot:</strong> Select services you want enabled:
+                    <ul>
+                        <li><code>sshd</code>: Secure Shell daemon. <strong>Highly recommended</strong> for remote access.</li>
+                        <li><code>moused</code>: Mouse daemon for console mouse support.</li>
+                        <li><code>ntpd</code> or <code>ntpdate</code>: Network Time Protocol daemon/client to synchronize system clock. Recommended.</li>
+                        <li><code>powerd</code>: Power management daemon. Useful for laptops.</li>
+                        <li><code>dumpdev</code>: Kernel crash dump configuration. (Usually enabled by default).</li>
+                    </ul>
+                    Select "[ OK ]".
+                </li>
+                <li><strong>System Hardening Options:</strong> Select security-enhancing options:
+                    <ul>
+                        <li><code>disable_sendmail</code>: Disables Sendmail mail server if you don't need a local MTA.</li>
+                        <li><code>hide_other_uids</code> / <code>hide_other_gids</code>: Restricts visibility of processes owned by other users.</li>
+                        <li><code>read_msgbuf</code>: Restricts non-root access to kernel message buffer.</li>
+                        <li><code>disable_ddtrace</code>: Disables DTrace by default.</li>
+                        <li><code>clear_tmp</code>: Clears <code>/tmp</code> on reboot. Recommended.</li>
+                    </ul>
+                    Review descriptions and select as desired. Select "[ OK ]".
+                </li>
+            </ol>
+        </section>
+
+        <section id="user-accounts">
+            <h2>11. Add User Accounts</h2>
+            <p>You'll be asked if you wish to add users to the installed system. Select "[ Yes ]".</p>
+            <p class="important">It's highly recommended to create at least one non-root user for daily tasks.</p>
+            <ol>
+                <li>Enter the following for each user:
+                    <ul>
+                        <li><strong>Username:</strong> Login name (e.g., <code>jdoe</code>).</li>
+                        <li><strong>Full name:</strong> Real name (e.g., John Doe).</li>
+                        <li><strong>Uid:</strong> (Leave blank for default).</li>
+                        <li><strong>Login group:</strong> (Leave blank for default, or enter username).</li>
+                        <li><strong>Invite user to other groups?</strong> Enter <code>wheel</code> here. Adding the user to the <code>wheel</code> group allows them to use <code>su</code> to become root, and is necessary if you plan to set up <code>sudo</code> or <code>doas</code> later. You can add to other groups like <code>operator</code> if needed.</li>
+                        <li><strong>Login class:</strong> (Leave blank for default).</li>
+                        <li><strong>Shell:</strong> Default is <code>/bin/sh</code>. You might prefer <code>/bin/csh</code> (FreeBSD's default interactive shell) or install and use <code>/usr/local/bin/bash</code>, <code>/usr/local/bin/zsh</code>, or <code>/usr/local/bin/fish</code> later.</li>
+                        <li><strong>Home directory:</strong> Default is <code>/home/username</code>.</li>
+                        <li><strong>Home directory permissions:</strong> (Leave blank for default).</li>
+                        <li><strong>Use password-based authentication?</strong> Yes.</li>
+                        <li><strong>Use an empty password?</strong> No.</li>
+                        <li><strong>Use a random password?</strong> No (unless you want to).</li>
+                        <li><strong>Enter password:</strong> Choose a strong password for the user.</li>
+                        <li><strong>Enter password again:</strong> Confirm it.</li>
+                        <li><strong>Lock out account after creation?</strong> No.</li>
+                    </ul>
+                </li>
+                <li>"OK? (yes/no)" Type <code>yes</code>.</li>
+                <li>"Add another user? (yes/no)" Type <code>no</code> when done.</li>
+            </ol>
+        </section>
+
+        <section id="final-review">
+            <h2>12. Final Configuration Review & Exit Installer</h2>
+            <ol>
+                <li><code>bsdinstall</code> will show a "Final Configuration" menu. This is your last chance to modify settings (Add User, Root Password, Hostname, Network, Services, Time Zone, etc.) before exiting.</li>
+                <li>If everything is correct, select "[ Exit ]".</li>
+                <li><code>bsdinstall</code> will ask if you want to open a shell in the new system before rebooting for any manual modifications. Select "[ No ]" unless you have specific tasks.</li>
+                <li>The installation is complete! The system will prompt you to reboot. Select "[ Reboot ]" and remove the USB installation media when the system shuts down.</li>
+            </ol>
+        </section>
+
+        <section id="first-boot-post">
+            <h2>13. First Boot & Post-Installation Tasks</h2>
+            <ol>
+                <li>Your computer should boot into FreeBSD.</li>
+                <li>Log in with the non-root username and password you created, or as <code>root</code> if you need to perform initial administrative tasks.</li>
+                <li>
+                    <p class="important"><strong>Update the Base System (as root or via <code>su</code>):</strong></p>
+                    <code>freebsd-update fetch</code>
+                    <br>
+                    <code>freebsd-update install</code>
+                    <br>This fetches and installs security patches and updates for the base system. Reboot if prompted (especially after kernel updates).
+                </li>
+                <li>
+                    <strong>Initialize and Update Package Manager (<code>pkg</code>):</strong>
+                    <p><code>pkg</code> is FreeBSD's binary package manager.</p>
+                    <code>pkg bootstrap -f</code> (If pkg isn't already installed, this installs it)
+                    <br>
+                    <code>pkg update && pkg upgrade -y</code>
+                </li>
+                <li>
+                    <strong>Install Sudo or Doas (Optional but Recommended):</strong>
+                    <ul>
+                        <li>For <code>sudo</code>:
+                            <code>pkg install sudo</code>
+                            <br>Then edit the sudoers file using <code>visudo</code>. Add a line like:
+                            <code>%wheel ALL=(ALL:ALL) ALL</code> (to allow all users in the 'wheel' group to use sudo)
+                            <br>Or, for passwordless sudo for a specific user (use with caution):
+                            <code>yourusername ALL=(ALL:ALL) NOPASSWD: ALL</code>
+                        </li>
+                        <li>For <code>doas</code> (simpler alternative, in base on newer FreeBSD or <code>pkg install doas</code>):
+                            Edit <code>/usr/local/etc/doas.conf</code> (create if it doesn't exist). Add:
+                            <code>permit :wheel</code> (allow members of wheel group to run commands as root)
+                            <br>Or, for passwordless:
+                            <code>permit nopass :wheel</code>
+                    </ul>
+                </li>
+                <li><strong>Configure Xorg and Desktop Environment (Optional, for GUI):</strong>
+                    FreeBSD base install is command-line. To get a GUI:
+                    <ol>
+                        <li>Install Xorg: <code>pkg install xorg</code></li>
+                        <li>Install graphics drivers:
+                            <ul>
+                                <li><strong>Intel:</strong> <code>pkg install drm-kmod</code>. Add <code>kld_list="i915kms"</code> to <code>/etc/rc.conf</code>.</li>
+                                <li><strong>AMD:</strong> <code>pkg install drm-kmod</code>. Add <code>kld_list="amdgpu"</code> (for newer cards) or <code>"radeonkms"</code> (for older) to <code>/etc/rc.conf</code>.</li>
+                                <li><strong>NVIDIA:</strong> <code>pkg install nvidia-driver</code> (or specific version like <code>nvidia-driver-470</code>). Add <code>kld_list="nvidia-modeset"</code> or <code>"nvidia"</code> to <code>/etc/rc.conf</code>. Requires agreeing to license.</li>
+                                <li>Add your user to the <code>video</code> group: <code>pw groupmod video -m yourusername</code></li>
+                            </ul>
+                        </li>
+                        <li>Install a Desktop Environment (e.g., XFCE, KDE Plasma, GNOME, MATE):
+                            <code>pkg install xfce</code> or <code>pkg install plasma5-plasma</code> or <code>pkg install gnome</code>
+                        </li>
+                        <li>Install a display manager (e.g., SLiM, SDDM, GDM) or configure <code>startx</code> with <code>.xinitrc</code>.
+                            <br>Example for XFCE with SLiM:
+                            <code>pkg install slim slim-themes</code>
+                            <br>Add <code>slim_enable="YES"</code> to <code>/etc/rc.conf</code>.
+                            <br>Create or edit <code>~/.xinitrc</code> with: <code>exec ck-launch-session startxfce4</code>
+                        </li>
+                        <li>Enable D-Bus: Add <code>dbus_enable="YES"</code> to <code>/etc/rc.conf</code>.</li>
+                        <li>Enable HAL (Hardware Abstraction Layer, may be needed for some DE features): Add <code>hald_enable="YES"</code> to <code>/etc/rc.conf</code>.</li>
+                        <li>Reboot or start services manually.</li>
+                    </ol>
+                </li>
+                <li><strong>Install Common Applications:</strong>
+                    <code>pkg install firefox nano bash git ...</code>
+                </li>
+                <li><strong>Explore the Ports Collection:</strong> If you installed `ports`, navigate to <code>/usr/ports</code>, find software, and use <code>make install clean</code> to build and install from source. Update ports tree with <code>portsnap fetch extract</code>.</li>
+            </ol>
+        </section>
+
+        <section id="troubleshooting">
+            <h2>Troubleshooting Tips</h2>
+            <ul>
+                <li><strong>System Doesn't Boot:</strong> Check BIOS/UEFI settings (boot order, Secure Boot disabled). Ensure the correct partition scheme (GPT for UEFI, MBR for BIOS) was used.</li>
+                <li><strong>Hardware Not Detected (Wi-Fi, Sound):</strong> FreeBSD's hardware support is generally good but sometimes requires specific firmware or configuration. Consult the <a href="https://www.freebsd.org/doc/handbook/" target="_blank">FreeBSD Handbook</a>, forums, and search for your hardware model with "FreeBSD".</li>
+                <li><strong>Graphics Issues:</strong> Ensure correct graphics drivers are loaded (check <code>kldstat</code>) and Xorg is configured properly.</li>
+                <li><strong>Package Installation Fails:</strong> Check internet connection. Run <code>pkg update -f</code> to force refresh repository data.</li>
+                <li><strong>The FreeBSD Handbook:</strong> Your primary resource. It's incredibly comprehensive.</li>
+                <li><strong>FreeBSD Forums and Mailing Lists:</strong> Excellent places to ask for help.</li>
+            </ul>
+        </section>
+
+        <section id="disclaimer">
+            <h2>Disclaimer</h2>
+            <p>This guide is provided for informational purposes only. Installing FreeBSD involves risks including potential data loss or system instability if steps are not followed carefully. Proceed at your own risk. Always back up your important data before making significant system changes.</p>
+            <p>The author of this webpage is not responsible for any damage to your hardware, data loss, or other issues that may arise from following this guide. Refer to the official FreeBSD documentation for definitive and the most up-to-date information.</p>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 70) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+             
+            if (!current && navLinks.length > 0 && sections.length > 0 && pageYOffset < sections[0].offsetTop - 70) {
+                navLinks[0].classList.add('active');
+            } else if (!current && navLinks.length > 0 && sections.length === 0) { 
+                 navLinks[0].classList.add('active');
+            }
+        };
+        
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

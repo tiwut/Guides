@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity Beginner's Guide: Your First Game</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff; 
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8; 
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e; 
+        }
+        pre code {
+            display: block;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+            background-color: #f0f0f0;
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#installation">1. Installation & Setup</a></li>
+            <li><a href="#unity-hub">2. Understanding Unity Hub</a></li>
+            <li><a href="#editor-overview">3. The Unity Editor</a></li>
+            <li><a href="#gameobjects-components">4. GameObjects & Components</a></li>
+            <li><a href="#assets-prefabs">5. Assets & Prefabs</a></li>
+            <li><a href="#basic-scripting">6. Basic C# Scripting</a></li>
+            <li><a href="#first-scene">7. Creating Your First Scene</a></li>
+            <li><a href="#physics">8. Basic Physics</a></li>
+            <li><a href="#ui-basics">9. UI Basics</a></li>
+            <li><a href="#building">10. Building Your Game</a></li>
+            <li><a href="#next-steps">Next Steps</a></li>
+            <li><a href="#disclaimer">Disclaimer</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>Unity Beginner's Guide: Create Your First Game</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to Unity</h2>
+            <p>Welcome to the Unity Beginner's Guide! Unity is a powerful and versatile game engine used by everyone from indie developers to large studios to create 2D and 3D games, as well as interactive experiences for a wide variety of platforms.</p>
+            <p>This guide will walk you through the basics, from installation to creating a simple interactive scene.</p>
+            <p class="important"><strong>Note:</strong> Unity is constantly evolving. Screenshots and exact menu items may differ slightly in newer versions, but the core concepts remain the same.</p>
+        </section>
+
+        <section id="installation">
+            <h2>1. Installation & Setup</h2>
+            <p>The first step is to install Unity via the Unity Hub.</p>
+            <ol>
+                <li><strong>Download Unity Hub:</strong> Go to the official <a href="https://unity.com/download" target="_blank">Unity Download page</a> and download the Unity Hub.</li>
+                <li><strong>Install Unity Hub:</strong> Run the downloaded installer and follow the instructions.</li>
+                <li><strong>Create a Unity ID:</strong> Start the Unity Hub. You will be prompted to sign in or create a Unity ID. This is free and necessary to use Unity.</li>
+                <li>
+                    <strong>Install a Unity Editor Version:</strong>
+                    <ul>
+                        <li>In the Unity Hub, click on the "Installs" tab.</li>
+                        <li>Click "Install Editor".</li>
+                        <li>It's recommended to choose the latest <strong>LTS (Long-Term Support)</strong> version, as it's the most stable. Select it and click "Install".</li>
+                        <li>During installation, you can select modules for different platforms (e.g., Android Build Support, iOS Build Support, WebGL Build Support). For starters, the default installation for desktop (Windows/Mac/Linux) is sufficient. You can always add modules later.
+                            <img src="placeholder_install_modules.avif" alt="Example of module selection during Unity Editor installation" style="width:100%; max-width:400px; display:block; margin-top:10px;">
+                            <small></small>
+                        </li>
+                        <li>The download and installation can take some time.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="unity-hub">
+            <h2>2. Understanding Unity Hub</h2>
+            <p>The Unity Hub is your central point for managing your Unity projects and installations.</p>
+            <ul>
+                <li><strong>Projects:</strong> Here you can see and open your created projects or create new ones.</li>
+                <li><strong>Installs:</strong> Manage your installed Unity Editor versions. You can have multiple versions installed side-by-side.</li>
+                <li><strong>Learn:</strong> Access tutorials and learning resources from Unity.</li>
+                <li><strong>Community:</strong> Links to forums, Unity Answers, and other community platforms.</li>
+            </ul>
+            <p class="important">It's good practice to use the Editor version a project was created with for that specific project to avoid compatibility issues.</p>
+        </section>
+
+        <section id="editor-overview">
+            <h2>3. The Unity Editor: An Overview</h2>
+            <p>After creating a new project in Unity Hub (e.g., select the "3D Core" template), the Unity Editor will open. The main windows are:</p>
+            <img src="placeholder_unity_editor.avif" alt="Overview of the Unity Editor with highlighted windows" style="width:100%; max-width:600px; display:block; margin-bottom:10px;">
+            <small>https://learn.unity.com/tutorial/explore-the-unity-editor-1#</small>
+            <ul>
+                <li><strong>Scene View:</strong> Your visual workspace for placing and manipulating GameObjects in your 3D or 2D world.
+                    <ul>
+                        <li>Navigation: Hold Right Mouse Button + WASD to fly, Mouse Wheel to zoom, Middle Mouse Button to pan.</li>
+                    </ul>
+                </li>
+                <li><strong>Game View:</strong> Shows what the camera in the game sees. This is where you test your game. Click the "Play" button at the top center to start the game.</li>
+                <li><strong>Hierarchy Window:</strong> Lists all GameObjects in the current scene. Objects can be nested hierarchically (parent-child relationships).</li>
+                <li><strong>Project Window:</strong> Your file explorer for the project. Here you'll find all assets like models, textures, scripts, audio files, etc. The important folder is <code class="path">Assets</code>.</li>
+                <li><strong>Inspector Window:</strong> Displays the properties and components of the currently selected GameObject or asset. This is where you'll make most adjustments.</li>
+                <li><strong>Console Window:</strong> Shows error messages, warnings, and debug outputs from your scripts (<code>Window > General > Console</code>).</li>
+            </ul>
+            <p class="warning">You can customize the layout of the windows by dragging and dropping their tabs. Under <code>Window > Layouts</code>, you can choose from preset layouts or save your own.</p>
+        </section>
+
+        <section id="gameobjects-components">
+            <h2>4. GameObjects & Components</h2>
+            <p>The core concept in Unity involves <strong>GameObjects</strong> and <strong>Components</strong>.</p>
+            <ul>
+                <li><strong>GameObject:</strong> Think of a GameObject as an empty container in your scene. It represents anything that exists in your game: characters, lights, cameras, props, etc. An empty GameObject does nothing on its own.</li>
+                <li><strong>Components:</strong> Components give GameObjects functionality and behavior. Every GameObject has at least one component: the <code>Transform</code> component, which determines its position, rotation, and scale in the world.</li>
+            </ul>
+            <p>Examples of components:</p>
+            <ul>
+                <li><code>Mesh Renderer</code>: Makes a 3D model visible.</li>
+                <li><code>Light</code>: Makes a GameObject emit light.</li>
+                <li><code>Camera</code>: Defines the player's viewpoint.</li>
+                <li><code>Rigidbody</code>: Enables physics behavior (gravity, collisions).</li>
+                <li><code>Audio Source</code>: Allows a GameObject to play sound.</li>
+                <li><code>Script</code>: Custom logic you write in C#.</li>
+            </ul>
+            <p>To create a GameObject: Right-click in the Hierarchy window and select, for example, <code>3D Object > Cube</code>. Select the Cube and look at its components in the Inspector.</p>
+        </section>
+
+        <section id="assets-prefabs">
+            <h2>5. Assets & Prefabs</h2>
+            <h3>Assets</h3>
+            <p>Assets are all the files you use in your project. These include:</p>
+            <ul>
+                <li>3D Models (e.g., <code>.fbx</code>, <code>.obj</code>)</li>
+                <li>Textures (images, e.g., <code>.png</code>, <code>.jpg</code>)</li>
+                <li>Materials (define the appearance of surfaces)</li>
+                <li>Audio Files (<code>.wav</code>, <code>.mp3</code>)</li>
+                <li>Scripts (<code>.cs</code> C# files)</li>
+                <li>Scenes (<code>.unity</code> files, save the state of your levels)</li>
+                <li>Animations</li>
+            </ul>
+            <p>All assets are organized in the <code class="path">Assets</code> folder of your Project window. It's advisable to create a clear folder structure here (e.g., folders for <code>Scripts</code>, <code>Materials</code>, <code>Textures</code>, <code>Models</code>, etc.).</p>
+            
+            <h3>Prefabs</h3>
+            <p>A <strong>Prefab</strong> is a template for a GameObject, including all its components and settings. If you need a GameObject часто (e.g., an enemy, a coin, a tree), you can save it as a Prefab.</p>
+            <ol>
+                <li>Create and configure a GameObject in your scene as desired.</li>
+                <li>Drag this GameObject from the Hierarchy window into a folder in the Project window. It will be saved there as a Prefab file (blue icon).</li>
+                <li>You can now drag as many instances of this Prefab into your scene as you like.</li>
+            </ol>
+            <p class="important">The big advantage: If you change the Prefab in the Project window (e.g., adjust a material or add a script), all instances of that Prefab in your scene will be automatically updated.</p>
+        </section>
+
+        <section id="basic-scripting">
+            <h2>6. Basic C# Scripting</h2>
+            <p>Unity uses the C# (C-Sharp) programming language for game logic. Scripts are components that you add to GameObjects.</p>
+            
+            <h3>Creating and Attaching a Script:</h3>
+            <ol>
+                <li>In the Project window: Right-click > <code>Create > C# Script</code>. Name it, for example, <code>PlayerMovement</code>.</li>
+                <li>Select a GameObject in your scene (e.g., the Cube you created earlier).</li>
+                <li>Drag the <code>PlayerMovement</code> script from the Project window onto the selected GameObject in the Inspector or directly onto the object in the Hierarchy. Alternatively, you can click "Add Component" in the Inspector and search for the script name.</li>
+            </ol>
+
+            <h3>Basic Structure of a Unity C# Script:</h3>
+            <p>Open the script by double-clicking it. It will open in your default code editor (often Visual Studio or VS Code).</p>
+<pre><code>
+using UnityEngine; // Important for accessing Unity functions
+
+public class PlayerMovement : MonoBehaviour
+{
+    // Variables are declared here (outside of functions)
+    public float speed = 5.0f; // 'public' makes the variable visible in the Inspector
+
+    // Start() is called once when the game starts,
+    // after the object is enabled.
+    void Start()
+    {
+        Debug.Log("PlayerMovement script started!");
+        // Example: Change the GameObject's position
+        // transform is a reference to the Transform component of this GameObject
+        transform.position = new Vector3(0, 1, 0); 
+    }
+
+    // Update() is called once per frame.
+    // Most game logic goes here (e.g., input polling, movement).
+    void Update()
+    {
+        // Example: Move the object to the right
+        // Time.deltaTime ensures frame-rate independent movement
+        transform.Translate(Vector3.right * speed * Time.deltaTime); 
+
+        // Example: Polling for input
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Spacebar pressed!");
+        }
+    }
+}
+</code></pre>
+            <ul>
+                <li><code>using UnityEngine;</code>: Imports the Unity namespace, which allows access to classes like <code>MonoBehaviour</code>, <code>GameObject</code>, <code>Transform</code>, <code>Debug</code>, <code>Input</code>, etc.</li>
+                <li><code>public class YourScriptName : MonoBehaviour</code>: Your class inherits from <code>MonoBehaviour</code>. Only then can it be attached as a component to a GameObject and have access to Unity-specific functions like <code>Start()</code> and <code>Update()</code>.</li>
+                <li><code>Start()</code>: Called once when the script is enabled, typically at the beginning of the game. Good for initializations.</li>
+                <li><code>Update()</code>: Called every frame. This is where you implement logic that needs to be executed continuously (e.g., player movement, state checks).</li>
+                <li><code>public float speed = 5.0f;</code>: A public variable. The value <code>5.0f</code> is the default. You can change this value directly in the Inspector window for the GameObject the script is attached to, without recompiling the code! The <code>f</code> stands for float.</li>
+                <li><code>transform</code>: A built-in shortcut to the <code>Transform</code> component of the GameObject this script is attached to. Allows access to position, rotation, and scale.</li>
+                <li><code>Debug.Log("Message");</code>: Prints a message to the Console window. Very useful for debugging.</li>
+                <li><code>Input.GetKeyDown(KeyCode.Space)</code>: Checks if the spacebar was pressed down in this frame.</li>
+            </ul>
+            <p class="warning">Save your script in the code editor (Ctrl+S or Cmd+S). Unity will then automatically compile it in the background.</p>
+        </section>
+
+        <section id="first-scene">
+            <h2>7. Creating Your First Scene</h2>
+            <p>Let's create a simple scene with a moving cube.</p>
+            <ol>
+                <li><strong>New Scene (optional):</strong> If you're not in an empty scene, go to <code>File > New Scene</code> (select "Basic (Built-in)" or "Empty"). Save the scene via <code>File > Save As...</code> (e.g., as <code class="path">MainScene.unity</code> in the <code class="path">Assets/Scenes</code> folder).</li>
+                <li><strong>Create a Floor:</strong>
+                    <ul>
+                        <li>Right-click in Hierarchy > <code>3D Object > Plane</code>.</li>
+                        <li>Select the Plane. In the Inspector under Transform, set Position to <code>(0, 0, 0)</code> and Scale to, for example, <code>(5, 1, 5)</code> to make it larger.</li>
+                    </ul>
+                </li>
+                <li><strong>Create a Player Cube:</strong>
+                    <ul>
+                        <li>Right-click in Hierarchy > <code>3D Object > Cube</code>.</li>
+                        <li>Rename the Cube in the Inspector to "Player".</li>
+                        <li>Set its Position in the Inspector to <code>(0, 0.5, 0)</code> so it hovers slightly above the Plane.</li>
+                    </ul>
+                </li>
+                <li><strong>Create a Movement Script for the Player:</strong>
+                    <ul>
+                        <li>Create a new C# Script named <code>SimpleMover</code> in the Project window (e.g., in the <code class="path">Assets/Scripts</code> folder).</li>
+                        <li>Paste the following code into the script:
+<pre><code>
+using UnityEngine;
+
+public class SimpleMover : MonoBehaviour
+{
+    public float moveSpeed = 5f;
+    public float turnSpeed = 180f; // Degrees per second
+
+    void Update()
+    {
+        // Forward/Backward movement based on Up/Down arrow keys or W/S
+        float verticalInput = Input.GetAxis("Vertical"); // Values between -1 and 1
+        transform.Translate(Vector3.forward * verticalInput * moveSpeed * Time.deltaTime);
+
+        // Rotation based on Left/Right arrow keys or A/D
+        float horizontalInput = Input.GetAxis("Horizontal"); // Values between -1 and 1
+        transform.Rotate(Vector3.up, horizontalInput * turnSpeed * Time.deltaTime);
+    }
+}
+</code></pre>
+                        </li>
+                        <li>Save the script.</li>
+                        <li>Drag the <code>SimpleMover</code> script onto your "Player" GameObject in the Hierarchy or Inspector.</li>
+                        <li>Select the "Player". You should now see the "Simple Mover (Script)" component in the Inspector, with public variables <code>Move Speed</code> and <code>Turn Speed</code> that you can adjust.</li>
+                    </ul>
+                </li>
+                <li><strong>Adjust Camera (optional):</strong> Select the "Main Camera" in the Hierarchy. Position it so it has a good view of the Player and Plane (e.g., Position <code>(0, 3, -5)</code> and Rotation X to about <code>20-30</code> degrees). You can see the preview in the Game window.</li>
+                <li><strong>Test:</strong> Click the Play button at the top. You should now be able to control the cube with the arrow keys or WASD! Click Play again to exit Play mode.</li>
+            </ol>
+            <p class="important">Changes you make in the Inspector during Play mode will <strong>not</strong> be saved when you exit Play mode! Always make important changes outside of Play mode.</p>
+        </section>
+        
+        <section id="physics">
+            <h2>8. Basic Physics</h2>
+            <p>Unity has a built-in physics system (based on Nvidia PhysX) that enables realistic interactions.</p>
+            <h3>Rigidbody</h3>
+            <p>For a GameObject to be affected by the physics engine (gravity, forces, collisions), it needs a <strong>Rigidbody</strong> component.</p>
+            <ol>
+                <li>Select your "Player" cube.</li>
+                <li>In the Inspector, click "Add Component".</li>
+                <li>Search for "Rigidbody" and add it.</li>
+            </ol>
+            <p>Now, if you start the game, the cube will fall onto the plane due to gravity. The default Rigidbody is for 3D physics. For 2D games, there's <code>Rigidbody 2D</code>.</p>
+            
+            <h3>Collider</h3>
+            <p>For GameObjects to collide with each other, they need <strong>Collider</strong> components. Colliders define the physical shape of an object for collision calculations. They don't have to exactly match the visible shape (simpler collider shapes are often more performant).</p>
+            <ul>
+                <li>Primitive objects like Cubes, Spheres, and Planes automatically get matching colliders (<code>Box Collider</code>, <code>Sphere Collider</code>, <code>Mesh Collider</code> for the Plane).</li>
+                <li>You can manually add/adjust colliders via "Add Component" > "Physics" > (e.g., <code>Box Collider</code>, <code>Sphere Collider</code>, <code>Capsule Collider</code>, <code>Mesh Collider</code>).</li>
+                <li>Ensure your Plane also has a collider (it should be a <code>Mesh Collider</code> by default) so the cube doesn't fall through.</li>
+                <li><code>Is Trigger</code>: If this checkbox is enabled on a collider, it will fire collision events (e.g., <code>OnTriggerEnter</code> in a script), but there will be no physical collision response (objects can pass through each other). Useful for collectibles or zones.</li>
+            </ul>
+            <p class="important">At least one of the colliding GameObjects with a collider must also have a Rigidbody for physical collisions (pushing, bouncing) to occur. Two static colliders (without a Rigidbody) will not physically interact with each other.</p>
+        </section>
+
+        <section id="ui-basics">
+            <h2>9. UI Basics</h2>
+            <p>Unity UI is used to create user interfaces like menus, health bars, score displays, etc.</p>
+            <ol>
+                <li><strong>Create a Canvas:</strong>
+                    <ul>
+                        <li>Right-click in Hierarchy > <code>UI > Canvas</code>. A Canvas GameObject will be created, along with an EventSystem (important for interactions like button clicks).</li>
+                        <li>The Canvas is the root container for all UI elements.</li>
+                        <li>In the Canvas's Inspector, set the "Render Mode" often to "Screen Space - Overlay" (UI is drawn on top of everything else) or "Screen Space - Camera" (UI is rendered by a specific camera, useful for 3D effects on UI).</li>
+                        <li>The "Canvas Scaler" (a component on the Canvas) helps adapt the UI to different screen resolutions. A common setting is "Scale With Screen Size" with a reference resolution (e.g., 1920x1080).</li>
+                    </ul>
+                </li>
+                <li><strong>Add a Text Element:</strong>
+                    <ul>
+                        <li>Right-click on the Canvas GameObject in the Hierarchy > <code>UI > Text - TextMeshPro</code>. (If TextMeshPro is used for the first time, you might need to confirm "Import TMP Essentials").</li>
+                        <li>Position the Text element in the Scene View (make sure you are in 2D mode in the Scene View to edit UI more easily - top toolbar of Scene View).</li>
+                        <li>In the Text element's Inspector, you can adjust text, font, color, size, etc.</li>
+                    </ul>
+                </li>
+                <li><strong>Add a Button:</strong>
+                    <ul>
+                        <li>Right-click on the Canvas > <code>UI > Button - TextMeshPro</code>.</li>
+                        <li>A Button typically has a child GameObject with a Text component for its label.</li>
+                        <li>The functionality of a Button is defined via the "On Click ()" event in the Button component's Inspector. You can call public functions from scripts here.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p><strong>Example: Button Click Increments Score</strong></p>
+            <ol>
+                <li>Create a C# Script named <code>UIManager</code>.
+<pre><code>
+using UnityEngine;
+using TMPro; // Important for TextMeshPro
+
+public class UIManager : MonoBehaviour
+{
+    public TextMeshProUGUI scoreText; // Drag your Text element here in the Inspector
+    private int score = 0;
+
+    void Start()
+    {
+        UpdateScoreText();
+    }
+
+    public void IncrementScore() // We'll call this function from the button
+    {
+        score++;
+        UpdateScoreText();
+    }
+
+    void UpdateScoreText()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score;
+        }
+    }
+}
+</code></pre>
+                </li>
+                <li>Create an empty GameObject in the scene (Right-click Hierarchy > Create Empty), name it "GameManager" and add the <code>UIManager</code> script to it.</li>
+                <li>Select the GameManager. Drag your TextMeshPro Text element from the Hierarchy into the "Score Text" field in the UIManager script's Inspector.</li>
+                <li>Select your Button. In the Inspector, under the Button component, find the "On Click ()" section.
+                    <ul>
+                        <li>Click the <code>+</code> sign.</li>
+                        <li>Drag your "GameManager" GameObject from the Hierarchy into the field that says "None (Object)".</li>
+                        <li>Click the "No Function" dropdown menu and select <code>UIManager > IncrementScore()</code>.</li>
+                    </ul>
+                </li>
+                <li>Start the game. Each click on the button should now increase the score in the text field.</li>
+            </ol>
+        </section>
+
+        <section id="building">
+            <h2>10. Building Your Game</h2>
+            <p>When you want to share your game with others or run it standalone, you need to "build" it.</p>
+            <ol>
+                <li>Go to <code>File > Build Settings...</code>.</li>
+                <li><strong>Add Scenes:</strong> In the "Scenes In Build" section, click "Add Open Scenes" to add your currently open scene(s). Ensure the starting scene is at the top (index 0) and checked.</li>
+                <li><strong>Choose Platform:</strong> On the left, select the target platform (e.g., "PC, Mac & Linux Standalone", "WebGL", "Android").
+                    <ul>
+                        <li>If the platform isn't installed, there's usually an "Install with Unity Hub" button.</li>
+                        <li>For "PC, Mac & Linux Standalone": Select the "Target Platform" (Windows, macOS, Linux).</li>
+                    </ul>
+                </li>
+                <li><strong>Player Settings (Optional but important):</strong> Click the "Player Settings..." button at the bottom left. Here you can configure many specific settings for your game:
+                    <ul>
+                        <li>Company Name, Product Name, Version</li>
+                        <li>Default Icon, Cursors</li>
+                        <li>Resolution and Presentation (windowed mode, supported resolutions)</li>
+                        <li>Splash Image (the image displayed when the game starts)</li>
+                        <li>Many platform-specific settings.</li>
+                    </ul>
+                </li>
+                <li><strong>Create Build:</strong>
+                    <ul>
+                        <li>If you click "Build", you'll be prompted to choose a folder where the game files will be saved. It's best to create a new, empty folder (e.g., "Builds" outside your Assets folder).</li>
+                        <li>If you click "Build And Run", the game will be built and then started immediately.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p class="warning">The build process can take some time depending on the project size and complexity.</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps & Further Learning</h2>
+            <p>Congratulations! You've learned the basics of Unity. From here, there are many paths to continue:</p>
+            <ul>
+                <li><strong>Unity Learn:</strong> <a href="https://learn.unity.com/" target="_blank">learn.unity.com</a> is Unity's official learning platform with countless free tutorials and projects for all skill levels.</li>
+                <li><strong>Unity Documentation:</strong> The <a href="https://docs.unity3d.com/Manual/index.html" target="_blank">official documentation</a> is an invaluable resource for understanding specific features and components in detail.</li>
+                <li><strong>Unity Asset Store:</strong> <a href="https://assetstore.unity.com/" target="_blank">assetstore.unity.com</a> offers a vast selection of free and paid assets (models, scripts, tools) that can help you in development.</li>
+                <li><strong>Community:</strong> Join Unity forums, Discord servers, or subreddits to ask questions and exchange ideas with other developers.</li>
+                <li><strong>Experiment!</strong> The best way to learn is to start your own small projects and try things out. Set small, achievable goals.</li>
+            </ul>
+            <p>Some areas you could explore next:</p>
+            <ul>
+                <li>Animations (Animator Controller, Timelines)</li>
+                <li>Shaders and Material creation</li>
+                <li>Terrain creation</li>
+                <li>Advanced Scripting (Events, Delegates, Interfaces, Coroutines)</li>
+                <li>Artificial Intelligence (NavMesh, State Machines)</li>
+                <li>Multiplayer Networking</li>
+                <li>Optimization and Profiling</li>
+            </ul>
+        </section>
+
+        <section id="disclaimer">
+            <h2>Disclaimer</h2>
+            <p>This guide is for informational purposes only. Game development is a complex process. There is no guarantee of success or functionality of the steps described here in every specific scenario or Unity version. The author of this webpage assumes no responsibility for any problems, data loss, or other difficulties that may arise from following this guide.</p>
+            <p>Have fun and good luck on your journey with Unity!</p>
+        </section>
+
+    </div>
+
+    <script>
+       
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+      
+        if(sections.length > 0 && navLinks.length > 0) {
+             window.dispatchEvent(new Event('scroll'));
+        }
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

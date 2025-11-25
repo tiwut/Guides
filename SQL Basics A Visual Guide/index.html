@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Basics Guide</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --nav-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #1a253c;
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --border-color: #e1e5e8;
+            --code-bg-color: #282c34;
+            --code-text-color: #abb2bf;
+            --svg-stroke: #aab8c2;
+            --svg-fill: #e1e8ed;
+            --svg-highlight: #1da1f2;
+            --svg-text: #506477;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --nav-bg-color: #1e1e1e;
+                --text-color: #e0e0e0;
+                --heading-color: #ffffff;
+                --primary-color: #4dabf7;
+                --secondary-color: #adb5bd;
+                --border-color: #333333;
+                --code-bg-color: #212529;
+                --code-text-color: #c9d1d9;
+                --svg-stroke: #555;
+                --svg-fill: #2a2a2a;
+                --svg-highlight: #4dabf7;
+                --svg-text: #999;
+                --shadow-color: rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+        }
+
+        .burger-menu {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--nav-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--heading-color);
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        nav {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: var(--nav-bg-color);
+            border-right: 1px solid var(--border-color);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, background-color 0.3s;
+            z-index: 1000;
+        }
+
+        .nav-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-header .sql-logo {
+            color: var(--primary-color);
+        }
+        
+        nav ul {
+            list-style: none;
+            flex-grow: 1;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            text-decoration: none;
+            color: var(--text-color);
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .language-switcher {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .lang-title {
+             font-size: 0.9rem;
+             font-weight: 600;
+             color: var(--secondary-color);
+             margin-bottom: 10px;
+             text-transform: uppercase;
+             padding: 0 15px;
+        }
+
+        .language-buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .language-buttons button {
+            background: none;
+            border: 2px solid var(--border-color);
+            color: var(--secondary-color);
+            padding: 8px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .language-buttons button:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .language-buttons button.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        main {
+            margin-left: 280px;
+            padding: 40px 60px;
+            width: calc(100% - 280px);
+        }
+
+        section {
+            margin-bottom: 80px;
+            padding-top: 20px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--heading-color);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 25px;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        .explanation {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .sketch-container {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--nav-bg-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .sketch-container svg {
+            width: 100%;
+            height: auto;
+        }
+        
+        .sketch-container svg .table-bg { fill: var(--svg-fill); }
+        .sketch-container svg .table-stroke { stroke: var(--svg-stroke); }
+        .sketch-container svg .highlight-strong { fill: var(--svg-highlight); opacity: 0.7; }
+        .sketch-container svg .highlight-medium { fill: var(--svg-highlight); opacity: 0.4; }
+        .sketch-container svg .highlight-soft { fill: var(--svg-highlight); opacity: 0.15; }
+        .sketch-container svg .text-main { fill: var(--text-color); }
+        .sketch-container svg .text-muted { fill: var(--svg-text); }
+        .sketch-container svg .arrow-line { stroke: var(--svg-highlight); stroke-width: 3; }
+        .sketch-container svg .arrow-head { fill: var(--svg-highlight); }
+        .sketch-container svg .delete-cross { stroke: #e0245e; stroke-width: 3; }
+        .sketch-container svg .update-spark { fill: #ffad1f; }
+        
+        pre {
+            background-color: var(--code-bg-color);
+            color: var(--code-text-color);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: "Fira Code", "Courier New", monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .burger-menu {
+                display: flex;
+            }
+            
+            nav {
+                transform: translateX(-100%);
+                box-shadow: 5px 0px 20px var(--shadow-color);
+            }
+            
+            nav.open {
+                transform: translateX(0);
+            }
+            
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 80px 20px 40px 20px;
+            }
+
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="burger-menu">&#9776;</button>
+
+    <nav>
+        <div class="nav-header" data-lang-key="navTitle">
+            <span class="sql-logo">SQL</span> Guide
+        </div>
+        <ul>
+            <li><a href="#intro" data-lang-key="navIntro"></a></li>
+            <li><a href="#select" data-lang-key="navSelect"></a></li>
+            <li><a href="#where" data-lang-key="navWhere"></a></li>
+            <li><a href="#insert" data-lang-key="navInsert"></a></li>
+            <li><a href="#update" data-lang-key="navUpdate"></a></li>
+            <li><a href="#delete" data-lang-key="navDelete"></a></li>
+        </ul>
+        <div class="language-switcher">
+            <div class="lang-title" data-lang-key="navLang"></div>
+            <div class="language-buttons">
+                <button data-lang="de">DE</button>
+                <button data-lang="en">EN</button>
+                <button data-lang="es">ES</button>
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+        <h1 data-lang-key="mainTitle"></h1>
+
+        <section id="intro">
+            <h2 data-lang-key="introTitle"></h2>
+            <div class="content-wrapper">
+                <div class="explanation">
+                    <p data-lang-key="introP1"></p>
+                    <p data-lang-key="introP2"></p>
+                </div>
+                <div class="sketch-container">
+                    <svg viewBox="0 0 400 220">
+                        <text x="200" y="25" font-size="16" text-anchor="middle" class="text-main" data-lang-key="svgUsersTable"></text>
+                        <rect x="10" y="40" width="380" height="170" rx="8" class="table-bg" />
+                        <path d="M 10 80 H 390 M 130 40 V 210 M 260 40 V 210" class="table-stroke" />
+                        <text x="70" y="65" text-anchor="middle" font-weight="bold" class="text-main">ID</text>
+                        <text x="195" y="65" text-anchor="middle" font-weight="bold" class="text-main" data-lang-key="svgName"></text>
+                        <text x="325" y="65" text-anchor="middle" font-weight="bold" class="text-main">Email</text>
+                        <text x="70" y="110" text-anchor="middle" class="text-muted">1</text>
+                        <text x="195" y="110" text-anchor="middle" class="text-muted">Alice</text>
+                        <text x="325" y="110" text-anchor="middle" class="text-muted">alice@mail.com</text>
+                        <text x="70" y="150" text-anchor="middle" class="text-muted">2</text>
+                        <text x="195" y="150" text-anchor="middle" class="text-muted">Bob</text>
+                        <text x="325" y="150" text-anchor="middle" class="text-muted">bob@mail.com</text>
+                        <text x="70" y="190" text-anchor="middle" class="text-muted">3</text>
+                        <text x="195" y="190" text-anchor="middle" class="text-muted">Charlie</text>
+                        <text x="325" y="190" text-anchor="middle" class="text-muted">charlie@mail.com</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="select">
+            <h2 data-lang-key="selectTitle"></h2>
+            <div class="content-wrapper">
+                <div class="explanation">
+                    <p data-lang-key="selectP1"></p>
+                    <pre><code class="language-sql">SELECT name, email
+FROM Users;</code></pre>
+                </div>
+                <div class="sketch-container">
+                    <svg viewBox="0 0 400 220">
+                        <rect x="132" y="42" width="256" height="166" class="highlight-soft" rx="5"/>
+                        <rect x="132" y="42" width="127" height="36" class="highlight-medium" rx="2"/>
+                        <rect x="262" y="42" width="126" height="36" class="highlight-medium" rx="2"/>
+                        <text x="200" y="25" font-size="16" text-anchor="middle" class="text-main" data-lang-key="svgUsersTable"></text>
+                        <rect x="10" y="40" width="380" height="170" rx="8" class="table-bg" />
+                        <path d="M 10 80 H 390 M 130 40 V 210 M 260 40 V 210" class="table-stroke" />
+                        <text x="70" y="65" text-anchor="middle" font-weight="bold" class="text-main">ID</text>
+                        <text x="195" y="65" text-anchor="middle" font-weight="bold" class="text-main" data-lang-key="svgName"></text>
+                        <text x="325" y="65" text-anchor="middle" font-weight="bold" class="text-main">Email</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        
+        <section id="where">
+            <h2 data-lang-key="whereTitle"></h2>
+            <div class="content-wrapper">
+                <div class="explanation">
+                    <p data-lang-key="whereP1"></p>
+                    <pre><code class="language-sql">SELECT * FROM Users
+WHERE ID = 2;</code></pre>
+                </div>
+                <div class="sketch-container">
+                    <svg viewBox="0 0 400 220">
+                        <rect x="12" y="122" width="376" height="36" class="highlight-strong" rx="5"/>
+                        <text x="200" y="25" font-size="16" text-anchor="middle" class="text-main" data-lang-key="svgUsersTable"></text>
+                        <rect x="10" y="40" width="380" height="170" rx="8" class="table-bg" />
+                        <path d="M 10 80 H 390 M 10 120 H 390 M 10 160 H 390 M 130 40 V 210 M 260 40 V 210" class="table-stroke" />
+                        <text x="70" y="65" text-anchor="middle" font-weight="bold" class="text-main">ID</text>
+                        <text x="195" y="65" text-anchor="middle" font-weight="bold" class="text-main" data-lang-key="svgName"></text>
+                        <text x="325" y="65" text-anchor="middle" font-weight="bold" class="text-main">Email</text>
+                        <text x="70" y="105" text-anchor="middle" class="text-muted">1</text>
+                        <text x="195" y="105" text-anchor="middle" class="text-muted">Alice</text>
+                        <text x="70" y="145" text-anchor="middle" class="text-main">2</text>
+                        <text x="195" y="145" text-anchor="middle" class="text-main">Bob</text>
+                        <text x="325" y="145" text-anchor="middle" class="text-main">bob@mail.com</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="insert">
+            <h2 data-lang-key="insertTitle"></h2>
+            <div class="content-wrapper">
+                <div class="explanation">
+                    <p data-lang-key="insertP1"></p>
+                    <pre><code class="language-sql">INSERT INTO Users (ID, name, email)
+VALUES (4, 'David', 'david@mail.com');</code></pre>
+                </div>
+                <div class="sketch-container">
+                     <svg viewBox="0 0 400 250">
+                        <text x="200" y="25" font-size="16" text-anchor="middle" class="text-main" data-lang-key="svgUsersTable"></text>
+                        <rect x="10" y="40" width="380" height="170" rx="8" class="table-bg" />
+                        <path d="M 10 80 H 390 M 10 120 H 390 M 10 160 H 390 M 130 40 V 210 M 260 40 V 210" class="table-stroke" />
+                        <text x="70" y="65" text-anchor="middle" font-weight="bold" class="text-main">ID</text>
+                        <text x="195" y="65" text-anchor="middle" font-weight="bold" class="text-main" data-lang-key="svgName"></text>
+                        <text x="325" y="65" text-anchor="middle" font-weight="bold" class="text-main">Email</text>
+                        <text x="70" y="105" text-anchor="middle" class="text-muted">1</text>
+                        <text x="195" y="105" text-anchor="middle" class="text-muted">Alice</text>
+                        <text x="70" y="145" text-anchor="middle" class="text-muted">2</text>
+                        <text x="195" y="145" text-anchor="middle" class="text-muted">Bob</text>
+                        <text x="70" y="185" text-anchor="middle" class="text-muted">3</text>
+                        <text x="195" y="185" text-anchor="middle" class="text-muted">Charlie</text>
+                        
+                        <g transform="translate(0, 50)">
+                            <rect x="12" y="162" width="376" height="36" rx="5" class="highlight-soft"/>
+                            <path d="M20, 180 L380, 180" stroke-dasharray="5,5" class="table-stroke"/>
+                            <text x="70" y="185" text-anchor="middle" class="text-main">4</text>
+                            <text x="195" y="185" text-anchor="middle" class="text-main">David</text>
+                            <path d="M350, 150 L350, 172" class="arrow-line"/>
+                            <polygon points="345,170 355,170 350,180" class="arrow-head" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="update">
+            <h2 data-lang-key="updateTitle"></h2>
+            <div class="content-wrapper">
+                <div class="explanation">
+                    <p data-lang-key="updateP1"></p>
+                    <pre><code class="language-sql">UPDATE Users
+SET email = 'bob.new@mail.com'
+WHERE ID = 2;</code></pre>
+                </div>
+                <div class="sketch-container">
+                    <svg viewBox="0 0 400 220">
+                        <rect x="262" y="122" width="126" height="36" class="highlight-medium" rx="5"/>
+                        <text x="200" y="25" font-size="16" text-anchor="middle" class="text-main" data-lang-key="svgUsersTable"></text>
+                        <rect x="10" y="40" width="380" height="170" rx="8" class="table-bg" />
+                        <path d="M 10 80 H 390 M 10 120 H 390 M 10 160 H 390 M 130 40 V 210 M 260 40 V 210" class="table-stroke" />
+                        <text x="70" y="65" text-anchor="middle" font-weight="bold" class="text-main">ID</text>
+                        <text x="195" y="65" text-anchor="middle" font-weight="bold" class="text-main" data-lang-key="svgName"></text>
+                        <text x="325" y="65" text-anchor="middle" font-weight="bold" class="text-main">Email</text>
+                        <text x="70" y="145" text-anchor="middle" class="text-muted">2</text>
+                        <text x="195" y="145" text-anchor="middle" class="text-muted">Bob</text>
+                        <text x="325" y="145" text-anchor="middle" class="text-main" data-lang-key="svgNewEmail"></text>
+                        <polygon points="270,135 285,130 290,115 295,130 310,135 295,140 290,155 285,140" class="update-spark"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="delete">
+            <h2 data-lang-key="deleteTitle"></h2>
+            <div class="content-wrapper">
+                <div class="explanation">
+                    <p data-lang-key="deleteP1"></p>
+                    <pre><code class="language-sql">DELETE FROM Users
+WHERE ID = 3;</code></pre>
+                </div>
+                <div class="sketch-container">
+                    <svg viewBox="0 0 400 220">
+                        <g opacity="0.4">
+                            <rect x="12" y="162" width="376" height="36" rx="5" fill="#e0245e" fill-opacity="0.2"/>
+                            <text x="70" y="185" text-anchor="middle" class="text-muted">3</text>
+                            <text x="195" y="185" text-anchor="middle" class="text-muted">Charlie</text>
+                            <text x="325" y="185" text-anchor="middle" class="text-muted">charlie@mail.com</text>
+                        </g>
+                        <text x="200" y="25" font-size="16" text-anchor="middle" class="text-main" data-lang-key="svgUsersTable"></text>
+                        <rect x="10" y="40" width="380" height="170" rx="8" class="table-bg" />
+                        <path d="M 10 80 H 390 M 10 120 H 390 M 10 160 H 390 M 130 40 V 210 M 260 40 V 210" class="table-stroke" />
+                        <text x="70" y="65" text-anchor="middle" font-weight="bold" class="text-main">ID</text>
+                        <text x="195" y="65" text-anchor="middle" font-weight="bold" class="text-main" data-lang-key="svgName"></text>
+                        <text x="325" y="65" text-anchor="middle" font-weight="bold" class="text-main">Email</text>
+                        <text x="70" y="105" text-anchor="middle" class="text-muted">1</text>
+                        <text x="195" y="105" text-anchor="middle" class="text-muted">Alice</text>
+                        <text x="70" y="145" text-anchor="middle" class="text-muted">2</text>
+                        <text x="195" y="145" text-anchor="middle" class="text-muted">Bob</text>
+                        <line x1="20" y1="170" x2="380" y2="190" class="delete-cross"/>
+                        <line x1="20" y1="190" x2="380" y2="170" class="delete-cross"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const translations = {
+            de: {
+                navTitle: "SQL Guide",
+                navIntro: "Was ist SQL?",
+                navSelect: "Daten abfragen",
+                navWhere: "Daten filtern",
+                navInsert: "Daten einfügen",
+                navUpdate: "Daten aktualisieren",
+                navDelete: "Daten löschen",
+                navLang: "Sprache",
+                mainTitle: "SQL-Grundlagen: Ein visueller Guide",
+                introTitle: "Was ist eine Datenbank?",
+                introP1: "Stell dir eine Datenbank als einen digitalen Aktenschrank vor. In diesem Schrank gibt es verschiedene Ordner, die in SQL als 'Tabellen' bezeichnet werden.",
+                introP2: "Jede Tabelle organisiert Informationen zu einem bestimmten Thema, z. B. Benutzer, Produkte oder Bestellungen. Die Daten sind in Zeilen (Datensätze) und Spalten (Attribute) strukturiert, genau wie in einer Tabelle.",
+                svgUsersTable: "Tabelle: Benutzer",
+                svgName: "Name",
+                selectTitle: "Daten abfragen: SELECT",
+                selectP1: "Der Befehl `SELECT` ist der häufigste in SQL. Du verwendest ihn, um bestimmte Spalten aus einer Tabelle auszuwählen. Mit `FROM` gibst du an, aus welcher Tabelle die Daten kommen sollen. `SELECT *` wählt alle Spalten aus.",
+                whereTitle: "Daten filtern: WHERE",
+                whereP1: "`WHERE` wird verwendet, um die Datensätze zu filtern, die von einer Abfrage zurückgegeben werden. Du kannst Bedingungen festlegen, um nur die Zeilen zu erhalten, die deinen Kriterien entsprechen.",
+                insertTitle: "Daten einfügen: INSERT INTO",
+                insertP1: "Mit `INSERT INTO` fügst du eine neue Zeile (einen neuen Datensatz) zu einer bestehenden Tabelle hinzu. Du musst die Spalten angeben, in die du Daten einfügen möchtest, und dann die entsprechenden Werte.",
+                updateTitle: "Daten aktualisieren: UPDATE",
+                updateP1: "Der `UPDATE`-Befehl wird verwendet, um bereits vorhandene Datensätze in einer Tabelle zu ändern. In Kombination mit `WHERE` kannst du genau bestimmen, welche Zeile(n) aktualisiert werden sollen.",
+                svgNewEmail: "bob.new@mail.com",
+                deleteTitle: "Daten löschen: DELETE",
+                deleteP1: "Mit `DELETE` entfernst du eine oder mehrere Zeilen aus einer Tabelle. Sei vorsichtig: Ohne eine `WHERE`-Klausel löscht dieser Befehl alle Datensätze in der Tabelle!",
+            },
+            en: {
+                navTitle: "SQL Guide",
+                navIntro: "What is SQL?",
+                navSelect: "Querying Data",
+                navWhere: "Filtering Data",
+                navInsert: "Inserting Data",
+                navUpdate: "Updating Data",
+                navDelete: "Deleting Data",
+                navLang: "Language",
+                mainTitle: "SQL Basics: A Visual Guide",
+                introTitle: "What is a Database?",
+                introP1: "Imagine a database as a digital filing cabinet. Inside this cabinet, there are various folders, which in SQL are called 'tables'.",
+                introP2: "Each table organizes information about a specific topic, such as users, products, or orders. Data is structured in rows (records) and columns (attributes), just like in a spreadsheet.",
+                svgUsersTable: "Table: Users",
+                svgName: "Name",
+                selectTitle: "Querying Data: SELECT",
+                selectP1: "The `SELECT` command is the most common in SQL. You use it to choose specific columns from a table. `FROM` specifies which table to get the data from. `SELECT *` selects all columns.",
+                whereTitle: "Filtering Data: WHERE",
+                whereP1: "`WHERE` is used to filter the records returned by a query. You can set conditions to get only the rows that match your criteria.",
+                insertTitle: "Inserting Data: INSERT INTO",
+                insertP1: "With `INSERT INTO`, you add a new row (a new record) to an existing table. You need to specify the columns you want to insert data into, and then the corresponding values.",
+                updateTitle: "Updating Data: UPDATE",
+                updateP1: "The `UPDATE` command is used to modify existing records in a table. Combined with `WHERE`, you can pinpoint exactly which row(s) to update.",
+                svgNewEmail: "bob.new@mail.com",
+                deleteTitle: "Deleting Data: DELETE",
+                deleteP1: "With `DELETE`, you remove one or more rows from a table. Be careful: without a `WHERE` clause, this command will delete all records in the table!",
+            },
+            es: {
+                navTitle: "Guía SQL",
+                navIntro: "¿Qué es SQL?",
+                navSelect: "Consultar Datos",
+                navWhere: "Filtrar Datos",
+                navInsert: "Insertar Datos",
+                navUpdate: "Actualizar Datos",
+                navDelete: "Eliminar Datos",
+                navLang: "Idioma",
+                mainTitle: "Fundamentos de SQL: Una Guía Visual",
+                introTitle: "¿Qué es una Base de Datos?",
+                introP1: "Imagina una base de datos como un archivador digital. Dentro de este archivador, hay varias carpetas, que en SQL se llaman 'tablas'.",
+                introP2: "Cada tabla organiza información sobre un tema específico, como usuarios, productos o pedidos. Los datos se estructuran en filas (registros) y columnas (atributos), igual que en una hoja de cálculo.",
+                svgUsersTable: "Tabla: Usuarios",
+                svgName: "Nombre",
+                selectTitle: "Consultar Datos: SELECT",
+                selectP1: "El comando `SELECT` es el más común en SQL. Lo usas para elegir columnas específicas de una tabla. Con `FROM` especificas de qué tabla obtener los datos. `SELECT *` selecciona todas las columnas.",
+                whereTitle: "Filtrar Datos: WHERE",
+                whereP1: "`WHERE` se utiliza para filtrar los registros devueltos por una consulta. Puedes establecer condiciones para obtener solo las filas que cumplan con tus criterios.",
+                insertTitle: "Insertar Datos: INSERT INTO",
+                insertP1: "Con `INSERT INTO`, añades una nueva fila (un nuevo registro) a una tabla existente. Debes especificar las columnas en las que quieres insertar datos y luego los valores correspondientes.",
+                updateTitle: "Actualizar Datos: UPDATE",
+                updateP1: "El comando `UPDATE` se utiliza para modificar registros existentes en una tabla. Combinado con `WHERE`, puedes تحديد exactamente qué fila(s) actualizar.",
+                svgNewEmail: "bob.nuevo@mail.com",
+                deleteTitle: "Eliminar Datos: DELETE",
+                deleteP1: "Con `DELETE`, eliminas una o más filas de una tabla. Ten cuidado: ¡sin una cláusula `WHERE`, este comando borrará todos los registros de la tabla!",
+            }
+        };
+
+        const setLanguage = (lang) => {
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+
+            const elements = document.querySelectorAll('[data-lang-key]');
+            elements.forEach(el => {
+                const key = el.dataset.langKey;
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('.language-buttons button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('language');
+            const browserLang = navigator.language.substring(0, 2);
+            const defaultLang = 'en';
+            
+            let currentLang = savedLang || (translations[browserLang] ? browserLang : defaultLang);
+            setLanguage(currentLang);
+
+            document.querySelectorAll('.language-buttons button').forEach(button => {
+                button.addEventListener('click', () => {
+                    setLanguage(button.dataset.lang);
+                });
+            });
+
+            const burgerMenu = document.querySelector('.burger-menu');
+            const nav = document.querySelector('nav');
+            burgerMenu.addEventListener('click', () => {
+                nav.classList.toggle('open');
+            });
+            
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        nav.classList.remove('open');
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

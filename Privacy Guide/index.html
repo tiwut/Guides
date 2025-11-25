@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="pageTitle">Privacy Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --card-bg-color: #ffffff;
+            --text-color: #2c3e50;
+            --primary-color: #3498db;
+            --subtle-text-color: #7f8c8d;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --card-bg-color: #252525;
+                --text-color: #ecf0f1;
+                --primary-color: #5dade2;
+                --subtle-text-color: #95a5a6;
+                --border-color: #3d3d3d;
+                --shadow-color: rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--card-bg-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background-color: transparent;
+            color: var(--subtle-text-color);
+            cursor: pointer;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--card-bg-color);
+            border-color: var(--primary-color);
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-color);
+            color: var(--card-bg-color);
+            border-color: var(--primary-color);
+        }
+
+        .burger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .burger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        main {
+            padding: 2rem 5%;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--subtle-text-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .guide-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+
+        .guide-card {
+            background-color: var(--card-bg-color);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px var(--shadow-color);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .card-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-content h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-content p {
+            color: var(--subtle-text-color);
+            font-size: 0.95rem;
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+            
+            .nav-links {
+                position: fixed;
+                right: 0px;
+                top: 0;
+                height: 100vh;
+                background-color: var(--card-bg-color);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 60%;
+                transform: translateX(100%);
+                transition: transform 0.5s ease-in;
+                box-shadow: -5px 0 15px var(--shadow-color);
+            }
+            
+            .nav-links.nav-active {
+                transform: translateX(0%);
+            }
+
+            .lang-switcher {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .lang-btn {
+                font-size: 1.2rem;
+            }
+
+            .burger {
+                display: block;
+                z-index: 101;
+            }
+        }
+
+        .toggle .line1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .toggle .line2 {
+            opacity: 0;
+        }
+        .toggle .line3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" data-key="navTitle">Privacy Guide</div>
+        <div class="nav-links">
+            <div class="lang-switcher">
+                <button class="lang-btn" data-lang="de">DE</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="es">ES</button>
+            </div>
+        </div>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <main>
+        <header class="hero">
+            <h1 data-key="heroTitle">Deine Daten. Deine Rechte.</h1>
+            <p data-key="heroSubtitle">Ein moderner Guide zum Schutz deiner digitalen Privatsphäre.</p>
+        </header>
+
+        <div class="guide-container">
+            
+            <section class="guide-card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,10 C72.1,10 90,27.9 90,50 C90,72.1 72.1,90 50,90 C27.9,90 10,72.1 10,50 C10,27.9 27.9,10 50,10 M50,15 C30.7,15 15,30.7 15,50 C15,69.3 30.7,85 50,85 C69.3,85 85,69.3 85,50 C85,30.7 69.3,15 50,15 Z" fill="currentColor"/><path d="M50 25 a 12 12 0 1 1 0 24 a 12 12 0 1 1 0 -24z" fill="currentColor"/><path d="M25 80 q 25 -30 50 0" stroke="currentColor" fill="none" stroke-width="5" stroke-linecap="round" /></svg>
+                </div>
+                <div class="card-content">
+                    <h2 data-key="card1Title">Was sind personenbezogene Daten?</h2>
+                    <p data-key="card1Text">Alles, was dich identifizieren kann: Name, Adresse, E-Mail, IP-Adresse oder sogar dein Standort. Sie sind wie dein digitaler Fingerabdruck.</p>
+                </div>
+            </section>
+
+            <section class="guide-card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M20,25 L80,25 L80,75 L20,75 Z" stroke="currentColor" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"/><path d="M30,35 h40" stroke="currentColor" stroke-width="4" stroke-linecap="round" /><circle cx="35" cy="55" r="5" fill="currentColor"/><circle cx="50" cy="55" r="5" fill="currentColor"/><circle cx="65" cy="55" r="5" fill="currentColor"/></svg>
+                </div>
+                <div class="card-content">
+                    <h2 data-key="card2Title">Wie werden Daten gesammelt?</h2>
+                    <p data-key="card2Text">Durch Cookies auf Webseiten, Ausfüllen von Formularen, App-Berechtigungen und Social-Media-Aktivitäten. Oft geschieht dies unbemerkt im Hintergrund.</p>
+                </div>
+            </section>
+            
+            <section class="guide-card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 15 L 15 35 L 15 65 L 50 85 L 85 65 L 85 35 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><polyline points="35,50 48,63 65,38" stroke="currentColor" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="card-content">
+                    <h2 data-key="card3Title">Deine Rechte (DSGVO/GDPR)</h2>
+                    <p data-key="card3Text">Du hast das Recht auf Auskunft, Berichtigung, Löschung ("Recht auf Vergessenwerden") und Übertragung deiner Daten. Du bist der Eigentümer.</p>
+                </div>
+            </section>
+
+            <section class="guide-card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M25 40 L 50 15 L 75 40 L 75 70 a 25 25 0 0 1 -50 0 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M50,45 v20" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="70" r="3" fill="currentColor"/></svg>
+                </div>
+                <div class="card-content">
+                    <h2 data-key="card4Title">Wie du dich schützen kannst</h2>
+                    <p data-key="card4Text">Verwende starke, einzigartige Passwörter. Sei sparsam mit persönlichen Informationen. Überprüfe App-Berechtigungen und nutze datenschutzfreundliche Browser und Suchmaschinen.</p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const translations = {
+                de: {
+                    pageTitle: "Datenschutz Guide",
+                    navTitle: "Privacy Guide",
+                    heroTitle: "Deine Daten. Deine Rechte.",
+                    heroSubtitle: "Ein moderner Guide zum Schutz deiner digitalen Privatsphäre.",
+                    card1Title: "Was sind personenbezogene Daten?",
+                    card1Text: "Alles, was dich identifizieren kann: Name, Adresse, E-Mail, IP-Adresse oder sogar dein Standort. Sie sind wie dein digitaler Fingerabdruck.",
+                    card2Title: "Wie werden Daten gesammelt?",
+                    card2Text: "Durch Cookies auf Webseiten, Ausfüllen von Formularen, App-Berechtigungen und Social-Media-Aktivitäten. Oft geschieht dies unbemerkt im Hintergrund.",
+                    card3Title: "Deine Rechte (DSGVO)",
+                    card3Text: "Du hast das Recht auf Auskunft, Berichtigung, Löschung ('Recht auf Vergessenwerden') und Übertragung deiner Daten. Du bist der Eigentümer.",
+                    card4Title: "Wie du dich schützen kannst",
+                    card4Text: "Verwende starke, einzigartige Passwörter. Sei sparsam mit persönlichen Informationen. Überprüfe App-Berechtigungen und nutze datenschutzfreundliche Browser.",
+                },
+                en: {
+                    pageTitle: "Privacy Guide",
+                    navTitle: "Privacy Guide",
+                    heroTitle: "Your Data. Your Rights.",
+                    heroSubtitle: "A modern guide to protecting your digital privacy.",
+                    card1Title: "What is Personal Data?",
+                    card1Text: "Anything that can identify you: name, address, email, IP address, or even your location. It's like your digital fingerprint.",
+                    card2Title: "How is Data Collected?",
+                    card2Text: "Through website cookies, filling out forms, app permissions, and social media activity. It often happens silently in the background.",
+                    card3Title: "Your Rights (GDPR)",
+                    card3Text: "You have the right to access, correct, delete ('right to be forgotten'), and transfer your data. You are the owner.",
+                    card4Title: "How to Protect Yourself",
+                    card4Text: "Use strong, unique passwords. Be mindful of personal information you share. Review app permissions and use privacy-focused browsers.",
+                },
+                es: {
+                    pageTitle: "Guía de Privacidad",
+                    navTitle: "Guía de Privacidad",
+                    heroTitle: "Tus Datos. Tus Derechos.",
+                    heroSubtitle: "Una guía moderna para proteger tu privacidad digital.",
+                    card1Title: "¿Qué son los Datos Personales?",
+                    card1Text: "Cualquier cosa que pueda identificarte: nombre, dirección, correo electrónico, dirección IP o incluso tu ubicación. Es como tu huella digital.",
+                    card2Title: "¿Cómo se recopilan los datos?",
+                    card2Text: "A través de cookies en sitios web, rellenando formularios, permisos de aplicaciones y actividad en redes sociales. A menudo ocurre de forma silenciosa.",
+                    card3Title: "Tus Derechos (RGPD)",
+                    card3Text: "Tienes derecho a acceder, rectificar, suprimir ('derecho al olvido') y transferir tus datos. Tú eres el propietario.",
+                    card4Title: "Cómo Protegerte",
+                    card4Text: "Usa contraseñas fuertes y únicas. Sé cuidadoso con la información personal que compartes. Revisa los permisos de las apps y usa navegadores enfocados en la privacidad.",
+                }
+            };
+
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const burger = document.querySelector('.burger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                localStorage.setItem('language', lang);
+                
+                document.querySelectorAll('[data-key]').forEach(element => {
+                    const key = element.dataset.key;
+                    if (translations[lang] && translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                    }
+                });
+
+                langButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.lang === lang) {
+                        btn.classList.add('active');
+                    }
+                });
+            };
+
+            const getInitialLanguage = () => {
+                const savedLang = localStorage.getItem('language');
+                if (savedLang && translations[savedLang]) {
+                    return savedLang;
+                }
+
+                const browserLang = navigator.language.split('-')[0];
+                if (translations[browserLang]) {
+                    return browserLang;
+                }
+
+                return 'en';
+            };
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const lang = button.dataset.lang;
+                    setLanguage(lang);
+                    if (navLinks.classList.contains('nav-active')) {
+                        navLinks.classList.remove('nav-active');
+                        burger.classList.remove('toggle');
+                    }
+                });
+            });
+
+            burger.addEventListener('click', () => {
+                navLinks.classList.toggle('nav-active');
+                burger.classList.toggle('toggle');
+            });
+
+            const initialLang = getInitialLanguage();
+            setLanguage(initialLang);
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Synology NAS Initial Setup Guide</title>
+    <style>
+        :root {
+            
+            --bg-color: #f4f4f4;
+            --content-bg: #fff;
+            --text-color: #333;
+            --sidebar-bg: #262a2e;
+            --sidebar-text: #ddd;
+            --sidebar-text-active: #fff;
+            --accent-blue: #0073cf;
+            --accent-blue-dark: #0065b3;
+            --accent-blue-darker: #004c85;
+            --link-color: #0073cf;
+            --border-color: #ddd;
+            --border-color-light: #eee;
+            --code-bg: #e9ecef;
+            --code-text: #c7254e;
+            --warning-bg: #fff3cd;
+            --warning-border: #ffeeba;
+            --warning-text: #856404;
+            --important-bg: #d1ecf1;
+            --important-border: #bee5eb;
+            --important-text: #0c5460;
+            --controls-bg: #33383d;
+            --controls-text: #fff;
+            --controls-border: #444;
+            --button-bg: #495057;
+            --button-bg-active: #0073cf;
+        }
+
+        
+        @media (prefers-color-scheme: dark) {
+            :root:not(.light-theme) {
+                --bg-color: #1a1d21;
+                --content-bg: #272b30;
+                --text-color: #d1d5db;
+                --sidebar-bg: #1e2125;
+                --sidebar-text: #b0b3b8;
+                --sidebar-text-active: #fff;
+                --accent-blue: #2591e4;
+                --accent-blue-dark: #2591e4;
+                --accent-blue-darker: #59aeee;
+                --link-color: #59aeee;
+                --border-color: #4b5563;
+                --border-color-light: #374151;
+                --code-bg: #374151;
+                --code-text: #f089a2;
+                --warning-bg: #4d4021;
+                --warning-border: #a48c3a;
+                --warning-text: #ffe08a;
+                --important-bg: #1f444d;
+                --important-border: #528994;
+                --important-text: #a6d7e0;
+                --controls-bg: #1e2125;
+                --controls-text: #fff;
+                --controls-border: #555;
+                --button-bg: #495057;
+                --button-bg-active: #2591e4;
+            }
+        }
+        
+        
+        html.dark-theme {
+            --bg-color: #1a1d21;
+            --content-bg: #272b30;
+            --text-color: #d1d5db;
+            --sidebar-bg: #1e2125;
+            --sidebar-text: #b0b3b8;
+            --sidebar-text-active: #fff;
+            --accent-blue: #2591e4;
+            --accent-blue-dark: #2591e4;
+            --accent-blue-darker: #59aeee;
+            --link-color: #59aeee;
+            --border-color: #4b5563;
+            --border-color-light: #374151;
+            --code-bg: #374151;
+            --code-text: #f089a2;
+            --warning-bg: #4d4021;
+            --warning-border: #a48c3a;
+            --warning-text: #ffe08a;
+            --important-bg: #1f444d;
+            --important-border: #528994;
+            --important-text: #a6d7e0;
+            --controls-bg: #1e2125;
+            --controls-text: #fff;
+            --controls-border: #555;
+            --button-bg: #495057;
+            --button-bg-active: #2591e4;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text-active);
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            transition: background-color 0.3s;
+        }
+        #sidebar h2 {
+            color: var(--sidebar-text-active);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: var(--sidebar-text);
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: var(--accent-blue);
+            color: var(--sidebar-text-active);
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: var(--content-bg);
+            min-height: 100vh;
+            transition: background-color 0.3s;
+        }
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: var(--text-color);
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: var(--accent-blue-dark);
+            border-bottom: 2px solid var(--accent-blue-dark);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: var(--accent-blue-darker);
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: var(--code-text);
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: var(--warning-bg);
+            border-left: 5px solid var(--warning-border);
+            color: var(--warning-text);
+        }
+        .important {
+            background-color: var(--important-bg);
+            border-left: 5px solid var(--important-border);
+            color: var(--important-text);
+        }
+        .path {
+            font-style: italic;
+            color: #555; 
+        }
+
+        #ui-controls {
+            background-color: var(--controls-bg);
+            color: var(--controls-text);
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            border-bottom: 1px solid var(--controls-border);
+        }
+        .control-group {
+            margin-bottom: 15px;
+        }
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        .control-group label {
+            display: block;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        #language-switcher, #theme-switcher button {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid var(--controls-border);
+            background-color: var(--button-bg);
+            color: var(--controls-text);
+            cursor: pointer;
+        }
+        #theme-switcher {
+            display: flex;
+            gap: 5px;
+        }
+        #theme-switcher button {
+            flex: 1;
+        }
+        #theme-switcher button.active {
+            background-color: var(--button-bg-active);
+            font-weight: bold;
+        }
+        
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+                box-sizing: border-box;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <div id="ui-controls">
+            <div class="control-group">
+                <label for="language-switcher" data-i18n="lang_label">Language</label>
+                <select id="language-switcher">
+                    <option value="en">English</option>
+                    <option value="de">Deutsch</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label data-i18n="theme_label">Theme</label>
+                <div id="theme-switcher">
+                    <button data-theme="light" data-i18n="theme_light">Light</button>
+                    <button data-theme="dark" data-i18n="theme_dark">Dark</button>
+                    <button data-theme="auto" data-i18n="theme_auto">Auto</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 data-i18n="nav_header">Navigation</h2>
+        <ul>
+            <li><a href="#introduction" data-i18n="nav_introduction">Introduction to Synology NAS</a></li>
+            <li><a href="#prerequisites" data-i18n="nav_prerequisites">Prerequisites</a></li>
+            <li><a href="#unboxing-hardware" data-i18n="nav_unboxing">1. Unboxing & Hardware Setup</a></li>
+            <li><a href="#drive-installation" data-i18n="nav_drive_installation">2. Hard Drive Installation</a></li>
+            <li><a href="#network-power" data-i18n="nav_network_power">3. Network & Power Connection</a></li>
+            <li><a href="#finding-nas" data-i18n="nav_finding_nas">4. Finding Your NAS on Network</a></li>
+            <li><a href="#dsm-install-setup" data-i18n="nav_dsm_install">5. DSM Installation & Setup</a></li>
+            <li><a href="#storage-pool-volume" data-i18n="nav_storage_pool">6. Create Storage Pool & Volume</a></li>
+            <li><a href="#shared-folders" data-i18n="nav_shared_folders">7. Create Shared Folders</a></li>
+            <li><a href="#user-accounts" data-i18n="nav_user_accounts">8. Create User Accounts</a></li>
+            <li><a href="#essential-packages" data-i18n="nav_essential_packages">9. Essential Package Center Apps</a></li>
+            <li><a href="#security-updates" data-i18n="nav_security_updates">10. Security & Updates</a></li>
+            <li><a href="#next-steps" data-i18n="nav_next_steps">Next Steps & Resources</a></li>
+            <li><a href="#disclaimer" data-i18n="nav_disclaimer">Disclaimer</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1 data-i18n="main_title">Synology NAS: Initial Setup & Configuration Guide</h1>
+        </header>
+
+        <section id="introduction">
+            <h2 data-i18n="sec_intro_title">Introduction to Synology NAS</h2>
+            <p data-i18n="sec_intro_p1"></p>
+            <p data-i18n="sec_intro_p2"></p>
+            <p class="important" data-i18n="sec_intro_p3_important"></p>
+        </section>
+
+        <section id="prerequisites">
+            <h2 data-i18n="sec_prereq_title">Prerequisites</h2>
+            <p data-i18n="sec_prereq_p1"></p>
+            <ul data-i18n="sec_prereq_ul1"></ul>
+        </section>
+
+        <section id="unboxing-hardware">
+            <h2 data-i18n="sec_unboxing_title">1. Unboxing & Hardware Setup</h2>
+            <ol data-i18n="sec_unboxing_ol1"></ol>
+        </section>
+
+        <section id="drive-installation">
+            <h2 data-i18n="sec_drive_title">2. Hard Drive Installation</h2>
+            <p class="important" data-i18n="sec_drive_p1_important"></p>
+            <ol data-i18n="sec_drive_ol1"></ol>
+        </section>
+
+        <section id="network-power">
+            <h2 data-i18n="sec_network_title">3. Network & Power Connection</h2>
+            <ol data-i18n="sec_network_ol1"></ol>
+        </section>
+
+        <section id="finding-nas">
+            <h2 data-i18n="sec_finding_title">4. Finding Your NAS on the Network</h2>
+            <p data-i18n="sec_finding_p1"></p>
+            <p data-i18n="sec_finding_p2"></p>
+            <ol data-i18n="sec_finding_ol1"></ol>
+        </section>
+
+        <section id="dsm-install-setup">
+            <h2 data-i18n="sec_dsm_title">5. DiskStation Manager (DSM) Installation & Setup</h2>
+            <p data-i18n="sec_dsm_p1"></p>
+            <ol data-i18n="sec_dsm_ol1"></ol>
+        </section>
+
+        <section id="storage-pool-volume">
+            <h2 data-i18n="sec_storage_title">6. Create Your First Storage Pool and Volume</h2>
+            <p data-i18n="sec_storage_p1"></p>
+            <p class="important" data-i18n="sec_storage_p2_important"></p>
+            <ol data-i18n="sec_storage_ol1"></ol>
+        </section>
+
+        <section id="shared-folders">
+            <h2 data-i18n="sec_folders_title">7. Create Shared Folders</h2>
+            <p data-i18n="sec_folders_p1"></p>
+            <ol data-i18n="sec_folders_ol1"></ol>
+            <p data-i18n="sec_folders_p2"></p>
+        </section>
+
+        <section id="user-accounts">
+            <h2 data-i18n="sec_users_title">8. Create User Accounts</h2>
+            <p data-i18n="sec_users_p1"></p>
+            <ol data-i18n="sec_users_ol1"></ol>
+            <p data-i18n="sec_users_p2"></p>
+        </section>
+
+        <section id="essential-packages">
+            <h2 data-i18n="sec_packages_title">9. Install Essential Packages from Package Center</h2>
+            <p data-i18n="sec_packages_p1"></p>
+            <ol data-i18n="sec_packages_ol1"></ol>
+        </section>
+
+        <section id="security-updates">
+            <h2 data-i18n="sec_security_title">10. Security & Updates</h2>
+            <p data-i18n="sec_security_p1"></p>
+            <ol data-i18n="sec_security_ol1"></ol>
+        </section>
+
+        <section id="next-steps">
+            <h2 data-i18n="sec_next_title">Next Steps & Resources</h2>
+            <p data-i18n="sec_next_p1"></p>
+            <ul data-i18n="sec_next_ul1"></ul>
+        </section>
+
+        <section id="disclaimer">
+            <h2 data-i18n="sec_disclaimer_title">Disclaimer</h2>
+            <p data-i18n="sec_disclaimer_p1"></p>
+            <p data-i18n="sec_disclaimer_p2"></p>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const translations = {
+                
+                en: {
+                    page_title: "Synology NAS Initial Setup Guide",
+                    lang_label: "Language",
+                    theme_label: "Theme",
+                    theme_light: "Light",
+                    theme_dark: "Dark",
+                    theme_auto: "Auto",
+                    nav_header: "Navigation",
+                    nav_introduction: "Introduction to Synology NAS",
+                    nav_prerequisites: "Prerequisites",
+                    nav_unboxing: "1. Unboxing & Hardware Setup",
+                    nav_drive_installation: "2. Hard Drive Installation",
+                    nav_network_power: "3. Network & Power Connection",
+                    nav_finding_nas: "4. Finding Your NAS on Network",
+                    nav_dsm_install: "5. DSM Installation & Setup",
+                    nav_storage_pool: "6. Create Storage Pool & Volume",
+                    nav_shared_folders: "7. Create Shared Folders",
+                    nav_user_accounts: "8. Create User Accounts",
+                    nav_essential_packages: "9. Essential Package Center Apps",
+                    nav_security_updates: "10. Security & Updates",
+                    nav_next_steps: "Next Steps & Resources",
+                    nav_disclaimer: "Disclaimer",
+                    main_title: "Synology NAS: Initial Setup & Configuration Guide",
+                    sec_intro_title: "Introduction to Synology NAS",
+                    sec_intro_p1: "Synology Inc. is a company specializing in Network Attached Storage (NAS) appliances. Synology NAS devices run a Linux-based operating system called DiskStation Manager (DSM), which provides a user-friendly web interface for managing storage, sharing files, running applications, and much more.",
+                    sec_intro_p2: "Synology offers a wide range of NAS models, from small home units (J series, Value series) to powerful enterprise solutions (Plus series, XS/XS+ series, SA series, UC series). While specific hardware capabilities vary, the initial setup process for DSM is largely consistent.",
+                    sec_intro_p3_important: "This guide covers the general steps for unboxing, hardware setup, DSM installation, and essential initial configuration for most Synology NAS devices.",
+                    sec_prereq_title: "Prerequisites",
+                    sec_prereq_p1: "Before you begin, ensure you have the following:",
+                    sec_prereq_ul1: `
+                        <li><strong>Synology NAS Device:</strong> The NAS unit itself.</li>
+                        <li><strong>Compatible Hard Drives (HDDs) or Solid State Drives (SSDs):</strong>
+                            <ul>
+                                <li>Check the <a href="https://www.synology.com/compatibility" target="_blank">Synology Products Compatibility List</a> for your specific NAS model to ensure drive compatibility.</li>
+                                <li>You'll need at least one drive to start, but most NAS setups use two or more drives for redundancy (RAID).</li>
+                                <li class="warning">If using drives that previously contained data, this data will be erased during the DSM setup and storage pool creation. Back up any important data from these drives.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Network Connection:</strong>
+                            <ul>
+                                <li>An active internet connection for downloading DSM (if needed) and updates.</li>
+                                <li>An Ethernet cable to connect the NAS to your router or network switch.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Computer on the Same Network:</strong> A PC or Mac connected to the same network as the NAS, used for initial setup and accessing the DSM web interface.</li>
+                        <li><strong>Screwdriver (Optional):</strong> Some NAS models require a Phillips screwdriver for drive installation, though many offer tool-less drive trays.</li>
+                        <li><strong>Time:</strong> Allow at least an hour for the initial setup, DSM installation, and storage pool creation (which can take many hours or even days depending on drive size and RAID type).</li>`,
+                    sec_unboxing_title: "1. Unboxing & Hardware Setup",
+                    sec_unboxing_ol1: `
+                        <li><strong>Unbox Your Synology NAS:</strong> Carefully unpack the NAS unit and all included accessories (power adapter, Ethernet cable(s), drive tray keys if applicable, screws if needed, quick start guide).</li>
+                        <li><strong>Familiarize Yourself with the Unit:</strong> Identify the drive bays, network ports (LAN ports), USB ports, power connector, and power button. Consult your specific model's Quick Installation Guide or Hardware Installation Guide (available on Synology's website).</li>
+                        <li><strong>(If applicable) Install RAM or M.2 NVMe SSD Cache:</strong> If you purchased additional RAM or M.2 NVMe SSDs for caching (supported on certain models), install them now according to your NAS model's hardware guide. This is often easier before installing hard drives.</li>`,
+                    sec_drive_title: "2. Hard Drive Installation",
+                    sec_drive_p1_important: "Ensure the NAS is powered OFF and unplugged before installing or removing drives.",
+                    sec_drive_ol1: `
+                        <li><strong>Open Drive Bays:</strong>
+                            <ul>
+                                <li>For models with hot-swappable trays: Unlock and pull out the drive trays.</li>
+                                <li>For other models: You may need to remove a cover or panel as per your model's guide.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Mount Drives onto Trays (or directly into bays):</strong>
+                            <ul>
+                                <li><strong>3.5-inch HDDs:</strong> Most Synology units have tool-less trays for 3.5-inch drives where you secure the drive with side clips or panels. Some may require screws.</li>
+                                <li><strong>2.5-inch HDDs/SSDs:</strong> You'll typically need to use screws to secure 2.5-inch drives to the trays. Adapter brackets might be needed or included for some models.</li>
+                            </ul>
+                            Ensure the drive's connectors (SATA power and data) are facing the correct way to align with the backplane in the NAS.
+                        </li>
+                        <li><strong>Insert Drive Trays:</strong> Slide the drive trays (with drives installed) back into the NAS until they click securely into place. Ensure they are fully seated. Lock them if your model has tray locks.</li>
+                        <li><strong>Number of Drives:</strong>
+                            <ul>
+                                <li>You can start with one drive, but for data redundancy using RAID (e.g., SHR, RAID 1, RAID 5, RAID 6), you'll need two or more drives.</li>
+                                <li>It's generally recommended to use drives of the same model and capacity for optimal RAID performance and compatibility, though Synology Hybrid RAID (SHR) offers more flexibility with mixed drive sizes.</li>
+                            </ul>
+                        </li>`,
+                    sec_network_title: "3. Network & Power Connection",
+                    sec_network_ol1: `
+                        <li><strong>Connect Ethernet Cable:</strong> Connect one end of an Ethernet cable to one of the LAN ports on your Synology NAS and the other end to an available port on your router or network switch.
+                            <p class="note">If your NAS has multiple LAN ports, connect to LAN 1 initially unless you have specific network bonding plans.</p>
+                        </li>
+                        <li><strong>Connect Power Adapter:</strong> Connect the AC power adapter to the NAS and plug the other end into a power outlet.
+                            <p class="important">It's highly recommended to connect your NAS to an Uninterruptible Power Supply (UPS) to protect against data corruption from power outages.</p>
+                        </li>
+                        <li><strong>Power On the NAS:</strong> Press the power button on the front or back of the NAS. Wait for it to boot up. This may take a few minutes. You should see status LEDs light up.</li>`,
+                    sec_finding_title: "4. Finding Your NAS on the Network",
+                    sec_finding_p1: "Once the NAS has booted (usually indicated by a beep and stable status LEDs), you need to find its IP address to access the setup wizard.",
+                    sec_finding_p2: "Methods to find your NAS:",
+                    sec_finding_ol1: `
+                        <li>
+                            <strong>Synology Web Assistant:</strong>
+                            <ul>
+                                <li>On a computer connected to the same network, open a web browser and go to <a href="http://find.synology.com" target="_blank">http://find.synology.com</a> or <a href="http://diskstation:5000" target="_blank">http://diskstation:5000</a> (for DiskStation models) or <a href="http://rackstation:5000" target="_blank">http://rackstation:5000</a> (for RackStation models).</li>
+                                <li>Web Assistant should scan your local network and list your Synology NAS. Click on it to connect.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Synology Assistant (Desktop Utility):</strong>
+                            <ul>
+                                <li>Download and install the Synology Assistant utility from the <a href="https://www.synology.com/support/download" target="_blank">Synology Download Center</a> for your computer's OS.</li>
+                                <li>Launch Synology Assistant. It will scan your network for Synology devices.</li>
+                                <li>Select your NAS from the list and click "Connect".</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Router's DHCP Client List:</strong>
+                            <ul>
+                                <li>Log in to your router's administration interface.</li>
+                                <li>Look for a "DHCP Client List," "Connected Devices," or similar section. Find your Synology NAS (it might be listed by its model name or MAC address) and note its assigned IP address.</li>
+                                <li>Enter this IP address into your web browser (e.g., <code>http://192.168.1.105</code>). Add <code>:5000</code> if it doesn't connect directly (e.g. <code>http://192.168.1.105:5000</code>).</li>
+                            </ul>
+                        </li>`,
+                    sec_dsm_title: "5. DiskStation Manager (DSM) Installation & Setup",
+                    sec_dsm_p1: "Once you connect to your NAS via a web browser using one of the methods above, the DSM setup wizard will begin.",
+                    sec_dsm_ol1: `
+                        <li><strong>Welcome & EULA:</strong> You'll see a welcome screen. Click "Set up". Accept the End User License Agreement (EULA).</li>
+                        <li>
+                            <strong>Install DSM:</strong>
+                            <ul>
+                                <li><strong>Automatic Download & Install (Recommended):</strong> If your NAS has internet access, it will offer to download and install the latest version of DSM automatically. This is the easiest method. Click "Install Now".</li>
+                                <li><strong>Manual Install:</strong> If you downloaded a <code>.pat</code> DSM installation file from Synology's website, you can choose "Manual Install" and browse to the file. This is useful for offline installations or specific version requirements.</li>
+                            </ul>
+                            <p class="warning">This step will format the hard drives you installed in the NAS. Confirm that you want to proceed, understanding all data on those drives will be erased.</p>
+                            The NAS will now download (if applicable) and install DSM. This process will take around 10-15 minutes, and the NAS will reboot automatically.
+                        </li>
+                        <li><strong>Create Administrator Account:</strong> After reboot, the wizard will continue.
+                            <ul>
+                                <li><strong>Server Name:</strong> Give your NAS a unique name (e.g., <code>MySynologyNAS</code>).</li>
+                                <li><strong>Username:</strong> Create an administrator username. <strong>Avoid using common names like <code>admin</code> or <code>root</code> for better security.</strong></li>
+                                <li><strong>Password:</strong> Create a strong password for this administrator account. Confirm it.</li>
+                            </ul>
+                            Click "Next".
+                        </li>
+                        <li><strong>DSM Update and Maintenance:</strong>
+                            <ul>
+                                <li>Choose how you want DSM updates to be handled:
+                                    <ul>
+                                        <li>"Install important DSM updates automatically (recommended)"</li>
+                                        <li>"Install important DSM updates and all package updates automatically"</li>
+                                        <li>"Notify me and let me install updates manually"</li>
+                                    </ul>
+                                </li>
+                                <li>You can also configure a schedule for S.M.A.R.T. tests for your drives. Defaults are usually fine to start.</li>
+                            </ul>
+                            Click "Next".
+                        </li>
+                        <li><strong>Synology Account (Optional but Recommended):</strong>
+                            <ul>
+                                <li>You'll be prompted to sign in with or create a Synology Account.</li>
+                                <li>A Synology Account enables features like QuickConnect (easy remote access), technical support, extended warranty registration, and notifications.</li>
+                                <li>You can "Sign In," "Create an account," or "Skip this step" (you can set it up later).</li>
+                            </ul>
+                        </li>
+                        <li><strong>QuickConnect ID (If setting up Synology Account):</strong> If you opt-in for QuickConnect, create a unique QuickConnect ID. This allows you to access your NAS remotely without complex port forwarding (e.g., <code>http://QuickConnect.to/YourID</code>).</li>
+                        <li><strong>Device Analytics (Optional):</strong> Choose whether to share anonymous device analytics with Synology to help improve products. Click "Submit" or "Skip".</li>
+                        <li><strong>You Are All Set:</strong> You'll see a confirmation page. Click "Go" to be taken to the DSM desktop.</li>`,
+                    sec_storage_title: "6. Create Your First Storage Pool and Volume",
+                    sec_storage_p1: "After the initial DSM setup, you need to create a storage pool and at least one volume to start storing data.",
+                    sec_storage_p2_important: "Storage Manager will likely open automatically for new setups. If not, open it from the DSM main menu.",
+                    sec_storage_ol1: `
+                        <li>In <strong>Storage Manager</strong>, you'll be guided to create a storage pool.
+                            <ul>
+                                <li><strong>Choose a RAID Type:</strong>
+                                    <ul>
+                                        <li><strong>SHR (Synology Hybrid RAID):</strong> Recommended for most home users and beginners. It simplifies storage expansion and allows mixing drive sizes (with some caveats). SHR-1 offers 1-drive fault tolerance; SHR-2 offers 2-drive fault tolerance (requires more drives).</li>
+                                        <li><strong>Basic:</strong> Single drive, no redundancy. Not recommended unless you have a robust backup plan.</li>
+                                        <li><strong>RAID 0 (Stripe):</strong> Combines drives for performance, no redundancy. Not recommended for critical data.</li>
+                                        <li><strong>RAID 1 (Mirror):</strong> Duplicates data across two drives. 1-drive fault tolerance.</li>
+                                        <li><strong>RAID 5:</strong> Needs at least 3 drives. 1-drive fault tolerance. Good balance of capacity and redundancy.</li>
+                                        <li><strong>RAID 6:</strong> Needs at least 4 drives. 2-drive fault tolerance. Higher redundancy than RAID 5.</li>
+                                        <li><strong>RAID 10 (Stripe of Mirrors):</strong> Needs at least 4 drives (even numbers). Good performance and redundancy.</li>
+                                    </ul>
+                                    Select your preferred RAID type based on the number of drives and your needs.
+                                </li>
+                                <li><strong>Select Drives:</strong> Choose the drives you want to include in this storage pool.</li>
+                                <li><strong>Drive Check (Optional but Recommended):</strong> The wizard may ask if you want to perform a drive check. This can take a long time but helps identify faulty drives early.</li>
+                                <li><strong>Confirm Settings:</strong> Review the summary and confirm.
+                                    <p class="warning">The selected drives will be formatted and all data on them erased.</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Create Volume:</strong> Once the storage pool is created, you'll be prompted to create a volume on it.
+                            <ul>
+                                <li><strong>Filesystem:</strong> Choose <strong>Btrfs</strong> (recommended for features like data checksumming, snapshots, and shared folder quotas) or <strong>ext4</strong>. Btrfs is the default and preferred choice for most modern Synology features.</li>
+                                <li><strong>Allocate Size:</strong> You can allocate the entire pool capacity to one volume or create multiple volumes with specific sizes. For simplicity, using the maximum available space for one volume is common.</li>
+                            </ul>
+                        </li>
+                        <li>Storage Manager will now create and optimize/synchronize the storage pool and volume. This process (especially RAID synchronization or parity checks) can take many hours or even days depending on drive sizes and RAID type. You can still use DSM during this time, but performance might be impacted. Monitor progress in Storage Manager.</li>`,
+                    sec_folders_title: "7. Create Shared Folders",
+                    sec_folders_p1: "Shared folders are the top-level directories where you will store your data and grant access to users.",
+                    sec_folders_ol1: `
+                        <li>Open <strong>Control Panel</strong> from the DSM main menu.</li>
+                        <li>Go to <strong>Shared Folder</strong>.</li>
+                        <li>Click <strong>Create</strong> > <strong>Create Shared Folder</strong>.</li>
+                        <li><strong>Basic Information:</strong>
+                            <ul>
+                                <li><strong>Name:</strong> Enter a name for the shared folder (e.g., <code>Documents</code>, <code>Photos</code>, <code>Backups</code>).</li>
+                                <li><strong>Description (Optional):</strong> Add a description.</li>
+                                <li><strong>Location:</strong> Select the volume where this shared folder will reside.</li>
+                                <li><strong>Options:</strong>
+                                    <ul>
+                                        <li>Hide this shared folder in "My Network Places".</li>
+                                        <li>Hide sub-folders and files from users without permissions.</li>
+                                        <li><strong>Enable Recycle Bin:</strong> Highly recommended. You can restrict access to administrators.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            Click "Next".
+                        </li>
+                        <li><strong>Encryption (Optional):</strong> You can choose to encrypt the shared folder for added security. If you do, you'll need to manage an encryption key. Click "Next".</li>
+                        <li><strong>Advanced Data Integrity (Btrfs only, Optional):</strong> If using Btrfs, you can enable "Enable data checksum for advanced data integrity". Recommended. Click "Next".</li>
+                        <li><strong>Configure User Permissions:</strong> Assign read/write (RW), read-only (RO), or no access (NA) permissions for different users or groups to this shared folder. You'll create users in the next step; you can come back to edit permissions later. For now, your administrator account will have access. Click "Apply" or "OK".</li>`,
+                    sec_folders_p2: "Repeat for any other top-level shared folders you need.",
+                    sec_users_title: "8. Create User Accounts",
+                    sec_users_p1: "It's best practice to create non-administrator user accounts for daily access to files.",
+                    sec_users_ol1: `
+                        <li>Open <strong>Control Panel</strong>.</li>
+                        <li>Go to <strong>User & Group</strong> (or just "User" on older DSM).</li>
+                        <li>On the "User" tab, click <strong>Create</strong>.</li>
+                        <li><strong>User Information:</strong>
+                            <ul>
+                                <li><strong>Name (Username):</strong> The login name.</li>
+                                <li><strong>Description (Optional).</strong></li>
+                                <li><strong>Email (Optional):</strong> For password reset notifications.</li>
+                                <li><strong>Password:</strong> Set a strong password. Confirm it.</li>
+                                <li>Options like "Disallow the user to change account password" or "Password is always valid".</li>
+                            </ul>
+                            Click "Next".
+                        </li>
+                        <li><strong>Join Groups:</strong> Add the user to relevant groups (e.g., <code>users</code> is default). You can create custom groups later. Click "Next".</li>
+                        <li><strong>Assign Shared Folder Permissions:</strong> For each shared folder, set permissions (No access, Read-only, Read/Write) for this new user. Click "Next".</li>
+                        <li><strong>Assign Quota (Optional):</strong> Set storage quotas for the user on specific volumes. Click "Next".</li>
+                        <li><strong>Assign Application Permissions:</strong> Control access to installed applications (e.g., File Station, Synology Photos). Click "Next".</li>
+                        <li><strong>User Speed Limit (Optional):</strong> Set upload/download speed limits for various services. Click "Next".</li>
+                        <li><strong>Confirm Settings:</strong> Review and click "Apply" or "Done".</li>`,
+                    sec_users_p2: "Create accounts for all individuals who will access the NAS.",
+                    sec_packages_title: "9. Install Essential Packages from Package Center",
+                    sec_packages_p1: "Package Center is Synology's app store. Install packages to extend your NAS's functionality.",
+                    sec_packages_ol1: `
+                        <li>Open <strong>Package Center</strong> from the DSM main menu.</li>
+                        <li>Browse or search for packages. Some essentials or highly recommended ones:
+                            <ul>
+                                <li><strong>Synology Drive Server:</strong> For private cloud file syncing and sharing (like Dropbox/Google Drive).</li>
+                                <li><strong>Synology Photos:</strong> Photo management, sharing, and mobile backup.</li>
+                                <li><strong>Hyper Backup:</strong> Robust backup solution for backing up your NAS data to various destinations (another Synology NAS, USB drive, cloud services).</li>
+                                <li><strong>Snapshot Replication (Btrfs only):</strong> For creating point-in-time snapshots of shared folders and LUNs, and replicating them.</li>
+                                <li><strong>Antivirus Essential</strong> or <strong>Antivirus by McAfee:</strong> For on-NAS virus scanning.</li>
+                                <li><strong>Universal Search:</strong> For fast searching of files and metadata.</li>
+                                <li>Consider others based on your needs: Plex Media Server, Docker, Virtual Machine Manager, Note Station, Calendar, etc.</li>
+                            </ul>
+                        </li>
+                        <li>Click "Install" for desired packages. Some may have additional setup steps after installation.</li>`,
+                    sec_security_title: "10. Security & Updates",
+                    sec_security_p1: "Keeping your NAS secure and up-to-date is crucial.",
+                    sec_security_ol1: `
+                        <li><strong>DSM Updates:</strong>
+                            <ul>
+                                <li>Go to <strong>Control Panel > Update & Restore</strong>.</li>
+                                <li>Check your "Update Settings" from the DSM setup. Ensure it's set to automatically download/install important updates or notify you.</li>
+                                <li>Regularly check for and apply DSM updates.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Package Updates:</strong>
+                            <ul>
+                                <li>Open <strong>Package Center</strong>. Go to the "Installed" tab.</li>
+                                <li>Update any packages that show an "Update" button. You can enable auto-updates for packages in Package Center settings.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Security Advisor:</strong>
+                            <ul>
+                                <li>Open <strong>Security Advisor</strong> from the main menu.</li>
+                                <li>Run a scan. It will check for security vulnerabilities and offer recommendations (e.g., strong passwords, firewall settings, disabling unused services). Address any issues found.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Firewall:</strong>
+                            <ul>
+                                <li>Go to <strong>Control Panel > Security > Firewall</strong>.</li>
+                                <li>Enable the firewall and create rules to allow only necessary services and IP addresses/regions to access your NAS. Start with default rules and refine.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Account Protection & Auto Block:</strong> (Control Panel > Security > Account / Auto Block) Enable these features to protect against brute-force login attacks.</li>
+                        <li><strong>Two-Factor Authentication (2FA):</strong> (DSM User Icon > Personal > Account / Security) Enable 2FA for your administrator and user accounts for significantly improved security.</li>
+                        <li><strong>Disable Unused Services:</strong> (Control Panel > File Services / Application Privileges) Disable any services or applications you don't use to reduce the attack surface.</li>`,
+                    sec_next_title: "Next Steps & Resources",
+                    sec_next_p1: "Your Synology NAS is now set up with basic configuration! Here's what to explore next:",
+                    sec_next_ul1: `
+                        <li><strong>Map Network Drives:</strong> Connect to your shared folders from Windows, macOS, or Linux computers.</li>
+                        <li><strong>Configure Mobile Apps:</strong> Synology offers many mobile apps (DS file, Synology Photos, Synology Drive) for accessing your NAS on the go.</li>
+                        <li><strong>Set up Backups:</strong> Use Hyper Backup to back up your NAS data. Also, back up important client devices to the NAS.</li>
+                        <li><strong>Explore Package Center:</strong> Discover more applications to suit your needs.</li>
+                        <li><strong>Remote Access:</strong> If you set up QuickConnect or configure DDNS and port forwarding, explore accessing your NAS remotely.</li>
+                        <li><strong>Learn More:</strong>
+                            <ul>
+                                <li><a href="https://kb.synology.com/" target="_blank">Synology Knowledge Base</a> (Extensive articles and tutorials).</li>
+                                <li><a href="https://community.synology.com/" target="_blank">Synology Community Forum</a> (User discussions and support).</li>
+                                <li>Your NAS model's specific User Guide from the Synology Download Center.</li>
+                            </ul>
+                        </li>`,
+                    sec_disclaimer_title: "Disclaimer",
+                    sec_disclaimer_p1: "This guide is provided for informational purposes only. While it aims to cover common setup steps, specific Synology models or DSM versions may have slight variations. Always refer to the official Synology documentation for your specific device for the most accurate and up-to-date information.",
+                    sec_disclaimer_p2: "The author of this webpage is not responsible for any data loss, hardware damage, or other issues that may arise from following this guide. Proceed with care, especially when dealing with drive formatting and data management.",
+                },
+                
+                de: {
+                    page_title: "Synology NAS Ersteinrichtungsanleitung",
+                    lang_label: "Sprache",
+                    theme_label: "Thema",
+                    theme_light: "Hell",
+                    theme_dark: "Dunkel",
+                    theme_auto: "Auto",
+                    nav_header: "Navigation",
+                    nav_introduction: "Einführung in Synology NAS",
+                    nav_prerequisites: "Voraussetzungen",
+                    nav_unboxing: "1. Auspacken & Hardware-Einrichtung",
+                    nav_drive_installation: "2. Festplatteninstallation",
+                    nav_network_power: "3. Netzwerk- & Stromanschluss",
+                    nav_finding_nas: "4. Ihr NAS im Netzwerk finden",
+                    nav_dsm_install: "5. DSM-Installation & Einrichtung",
+                    nav_storage_pool: "6. Speicherpool & Volume erstellen",
+                    nav_shared_folders: "7. Freigegebene Ordner erstellen",
+                    nav_user_accounts: "8. Benutzerkonten erstellen",
+                    nav_essential_packages: "9. Wichtige Pakete aus dem Paketzentrum",
+                    nav_security_updates: "10. Sicherheit & Updates",
+                    nav_next_steps: "Nächste Schritte & Ressourcen",
+                    nav_disclaimer: "Haftungsausschluss",
+                    main_title: "Synology NAS: Anleitung zur Ersteinrichtung & Konfiguration",
+                    sec_intro_title: "Einführung in Synology NAS",
+                    sec_intro_p1: "Synology Inc. ist ein Unternehmen, das sich auf Network Attached Storage (NAS)-Geräte spezialisiert hat. Synology NAS-Geräte verwenden ein Linux-basiertes Betriebssystem namens DiskStation Manager (DSM), das eine benutzerfreundliche Weboberfläche zur Verwaltung von Speicher, zur Dateifreigabe, zum Ausführen von Anwendungen und vielem mehr bietet.",
+                    sec_intro_p2: "Synology bietet eine breite Palette von NAS-Modellen an, von kleinen Geräten für den Heimgebrauch (J-Serie, Value-Serie) bis hin zu leistungsstarken Unternehmenslösungen (Plus-Serie, XS/XS+-Serie, SA-Serie, UC-Serie). Obwohl die spezifischen Hardware-Fähigkeiten variieren, ist der Ersteinrichtungsprozess für DSM weitgehend konsistent.",
+                    sec_intro_p3_important: "Diese Anleitung behandelt die allgemeinen Schritte zum Auspacken, zur Hardware-Einrichtung, zur DSM-Installation und zur grundlegenden Erstkonfiguration für die meisten Synology NAS-Geräte.",
+                    sec_prereq_title: "Voraussetzungen",
+                    sec_prereq_p1: "Bevor Sie beginnen, stellen Sie sicher, dass Sie Folgendes haben:",
+                    sec_prereq_ul1: `
+                        <li><strong>Synology NAS-Gerät:</strong> Das NAS-Gerät selbst.</li>
+                        <li><strong>Kompatible Festplatten (HDDs) oder Solid-State-Laufwerke (SSDs):</strong>
+                            <ul>
+                                <li>Überprüfen Sie die <a href="https://www.synology.com/de-de/compatibility" target="_blank">Synology Produkt-Kompatibilitätsliste</a> für Ihr spezifisches NAS-Modell, um die Laufwerkskompatibilität sicherzustellen.</li>
+                                <li>Sie benötigen mindestens ein Laufwerk, um zu beginnen, aber die meisten NAS-Setups verwenden zwei oder mehr Laufwerke für Redundanz (RAID).</li>
+                                <li class="warning">Wenn Sie Laufwerke verwenden, die zuvor Daten enthielten, werden diese Daten während der DSM-Einrichtung und der Erstellung des Speicherpools gelöscht. Sichern Sie alle wichtigen Daten von diesen Laufwerken.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Netzwerkverbindung:</strong>
+                            <ul>
+                                <li>Eine aktive Internetverbindung zum Herunterladen von DSM (falls erforderlich) und Updates.</li>
+                                <li>Ein Ethernet-Kabel, um das NAS mit Ihrem Router oder Netzwerk-Switch zu verbinden.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Computer im selben Netzwerk:</strong> Ein PC oder Mac, der mit demselben Netzwerk wie das NAS verbunden ist und für die Ersteinrichtung und den Zugriff auf die DSM-Weboberfläche verwendet wird.</li>
+                        <li><strong>Schraubendreher (Optional):</strong> Einige NAS-Modelle erfordern einen Kreuzschlitzschraubendreher für die Laufwerksinstallation, obwohl viele werkzeuglose Laufwerkseinschübe bieten.</li>
+                        <li><strong>Zeit:</strong> Planen Sie mindestens eine Stunde für die Ersteinrichtung, die DSM-Installation und die Erstellung des Speicherpools ein (letzteres kann je nach Laufwerksgröße und RAID-Typ viele Stunden oder sogar Tage dauern).</li>`,
+                    sec_unboxing_title: "1. Auspacken & Hardware-Einrichtung",
+                    sec_unboxing_ol1: `
+                        <li><strong>Packen Sie Ihr Synology NAS aus:</strong> Packen Sie das NAS-Gerät und das gesamte mitgelieferte Zubehör (Netzteil, Ethernet-Kabel, Schlüssel für Laufwerkseinschübe falls zutreffend, Schrauben falls nötig, Schnellstartanleitung) sorgfältig aus.</li>
+                        <li><strong>Machen Sie sich mit dem Gerät vertraut:</strong> Identifizieren Sie die Laufwerkseinschübe, Netzwerkanschlüsse (LAN-Ports), USB-Anschlüsse, den Stromanschluss und den Netzschalter. Konsultieren Sie die Schnellinstallationsanleitung oder die Hardware-Installationsanleitung Ihres Modells (verfügbar auf der Synology-Website).</li>
+                        <li><strong>(Falls zutreffend) RAM oder M.2 NVMe SSD-Cache installieren:</strong> Wenn Sie zusätzlichen RAM oder M.2 NVMe SSDs für Caching erworben haben (wird von bestimmten Modellen unterstützt), installieren Sie diese jetzt gemäß der Hardware-Anleitung Ihres NAS-Modells. Dies ist oft einfacher, bevor die Festplatten installiert werden.</li>`,
+                    sec_drive_title: "2. Festplatteninstallation",
+                    sec_drive_p1_important: "Stellen Sie sicher, dass das NAS ausgeschaltet und vom Stromnetz getrennt ist, bevor Sie Laufwerke installieren oder entfernen.",
+                    sec_drive_ol1: `
+                        <li><strong>Laufwerkseinschübe öffnen:</strong>
+                            <ul>
+                                <li>Bei Modellen mit Hot-Swap-fähigen Einschüben: Entriegeln und ziehen Sie die Laufwerkseinschübe heraus.</li>
+                                <li>Bei anderen Modellen: Möglicherweise müssen Sie eine Abdeckung oder Blende gemäß der Anleitung Ihres Modells entfernen.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Laufwerke in Einschübe (oder direkt in Schächte) montieren:</strong>
+                            <ul>
+                                <li><strong>3,5-Zoll-HDDs:</strong> Die meisten Synology-Geräte haben werkzeuglose Einschübe für 3,5-Zoll-Laufwerke, bei denen Sie das Laufwerk mit seitlichen Clips oder Blenden befestigen. Einige erfordern möglicherweise Schrauben.</li>
+                                <li><strong>2,5-Zoll-HDDs/SSDs:</strong> In der Regel müssen Sie Schrauben verwenden, um 2,5-Zoll-Laufwerke in den Einschüben zu befestigen. Adapterhalterungen könnten für einige Modelle erforderlich oder im Lieferumfang enthalten sein.</li>
+                            </ul>
+                            Stellen Sie sicher, dass die Anschlüsse des Laufwerks (SATA-Strom und -Daten) richtig ausgerichtet sind, um mit der Backplane im NAS übereinzustimmen.
+                        </li>
+                        <li><strong>Laufwerkseinschübe einsetzen:</strong> Schieben Sie die Laufwerkseinschübe (mit installierten Laufwerken) wieder in das NAS, bis sie sicher einrasten. Stellen Sie sicher, dass sie vollständig eingesetzt sind. Verriegeln Sie sie, wenn Ihr Modell über Einschubschlösser verfügt.</li>
+                        <li><strong>Anzahl der Laufwerke:</strong>
+                            <ul>
+                                <li>Sie können mit einem Laufwerk beginnen, aber für Datenredundanz mittels RAID (z.B. SHR, RAID 1, RAID 5, RAID 6) benötigen Sie zwei oder mehr Laufwerke.</li>
+                                <li>Es wird allgemein empfohlen, Laufwerke desselben Modells und derselben Kapazität für optimale RAID-Leistung und Kompatibilität zu verwenden, obwohl Synology Hybrid RAID (SHR) mehr Flexibilität bei gemischten Laufwerksgrößen bietet.</li>
+                            </ul>
+                        </li>`,
+                    sec_network_title: "3. Netzwerk- & Stromanschluss",
+                    sec_network_ol1: `
+                        <li><strong>Ethernet-Kabel anschließen:</strong> Verbinden Sie ein Ende eines Ethernet-Kabels mit einem der LAN-Anschlüsse Ihres Synology NAS und das andere Ende mit einem freien Anschluss an Ihrem Router oder Netzwerk-Switch.
+                            <p class="note">Wenn Ihr NAS über mehrere LAN-Anschlüsse verfügt, verbinden Sie es zunächst mit LAN 1, es sei denn, Sie haben spezielle Pläne für Link Aggregation.</p>
+                        </li>
+                        <li><strong>Netzteil anschließen:</strong> Schließen Sie das Netzteil am NAS an und stecken Sie das andere Ende in eine Steckdose.
+                            <p class="important">Es wird dringend empfohlen, Ihr NAS an eine unterbrechungsfreie Stromversorgung (USV) anzuschließen, um Datenverlust durch Stromausfälle zu vermeiden.</p>
+                        </li>
+                        <li><strong>NAS einschalten:</strong> Drücken Sie den Netzschalter an der Vorder- oder Rückseite des NAS. Warten Sie, bis es hochgefahren ist. Dies kann einige Minuten dauern. Sie sollten sehen, wie die Status-LEDs aufleuchten.</li>`,
+                    sec_finding_title: "4. Ihr NAS im Netzwerk finden",
+                    sec_finding_p1: "Sobald das NAS hochgefahren ist (normalerweise durch einen Piepton und stabile Status-LEDs angezeigt), müssen Sie seine IP-Adresse finden, um auf den Einrichtungsassistenten zuzugreifen.",
+                    sec_finding_p2: "Methoden, um Ihr NAS zu finden:",
+                    sec_finding_ol1: `
+                        <li>
+                            <strong>Synology Web Assistant:</strong>
+                            <ul>
+                                <li>Öffnen Sie auf einem Computer im selben Netzwerk einen Webbrowser und gehen Sie zu <a href="http://find.synology.com" target="_blank">http://find.synology.com</a> oder <a href="http://diskstation:5000" target="_blank">http://diskstation:5000</a> (für DiskStation-Modelle) oder <a href="http://rackstation:5000" target="_blank">http://rackstation:5000</a> (für RackStation-Modelle).</li>
+                                <li>Der Web Assistant sollte Ihr lokales Netzwerk scannen und Ihr Synology NAS auflisten. Klicken Sie darauf, um eine Verbindung herzustellen.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Synology Assistant (Desktop-Programm):</strong>
+                            <ul>
+                                <li>Laden Sie das Synology Assistant-Dienstprogramm aus dem <a href="https://www.synology.com/support/download" target="_blank">Synology Download-Zentrum</a> für das Betriebssystem Ihres Computers herunter und installieren Sie es.</li>
+                                <li>Starten Sie den Synology Assistant. Er wird Ihr Netzwerk nach Synology-Geräten durchsuchen.</li>
+                                <li>Wählen Sie Ihr NAS aus der Liste aus und klicken Sie auf "Verbinden".</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>DHCP-Client-Liste des Routers:</strong>
+                            <ul>
+                                <li>Melden Sie sich an der Verwaltungsoberfläche Ihres Routers an.</li>
+                                <li>Suchen Sie nach einem Abschnitt wie "DHCP-Client-Liste" oder "Verbundene Geräte". Finden Sie Ihr Synology NAS (es könnte unter seinem Modellnamen oder seiner MAC-Adresse aufgeführt sein) und notieren Sie sich die zugewiesene IP-Adresse.</li>
+                                <li>Geben Sie diese IP-Adresse in Ihren Webbrowser ein (z.B. <code>http://192.168.1.105</code>). Fügen Sie <code>:5000</code> hinzu, wenn es nicht direkt verbindet (z.B. <code>http://192.168.1.105:5000</code>).</li>
+                            </ul>
+                        </li>`,
+                    sec_dsm_title: "5. DiskStation Manager (DSM) Installation & Einrichtung",
+                    sec_dsm_p1: "Sobald Sie sich über einen Webbrowser mit einer der oben genannten Methoden mit Ihrem NAS verbunden haben, startet der DSM-Einrichtungsassistent.",
+                    sec_dsm_ol1: `
+                        <li><strong>Willkommen & EULA:</strong> Sie sehen einen Willkommensbildschirm. Klicken Sie auf "Einrichten". Akzeptieren Sie die Endbenutzer-Lizenzvereinbarung (EULA).</li>
+                        <li>
+                            <strong>DSM installieren:</strong>
+                            <ul>
+                                <li><strong>Automatischer Download & Installation (Empfohlen):</strong> Wenn Ihr NAS Internetzugang hat, wird es anbieten, die neueste Version von DSM automatisch herunterzuladen und zu installieren. Dies ist die einfachste Methode. Klicken Sie auf "Jetzt installieren".</li>
+                                <li><strong>Manuelle Installation:</strong> Wenn Sie eine <code>.pat</code> DSM-Installationsdatei von der Synology-Website heruntergeladen haben, können Sie "Manuelle Installation" wählen und zur Datei navigieren. Dies ist nützlich für Offline-Installationen oder spezielle Versionsanforderungen.</li>
+                            </ul>
+                            <p class="warning">Dieser Schritt formatiert die im NAS installierten Festplatten. Bestätigen Sie, dass Sie fortfahren möchten, im Wissen, dass alle Daten auf diesen Laufwerken gelöscht werden.</p>
+                            Das NAS wird nun DSM herunterladen (falls zutreffend) und installieren. Dieser Vorgang dauert etwa 10-15 Minuten, und das NAS wird automatisch neu gestartet.
+                        </li>
+                        <li><strong>Administrator-Konto erstellen:</strong> Nach dem Neustart wird der Assistent fortgesetzt.
+                            <ul>
+                                <li><strong>Servername:</strong> Geben Sie Ihrem NAS einen eindeutigen Namen (z.B. <code>MeinSynologyNAS</code>).</li>
+                                <li><strong>Benutzername:</strong> Erstellen Sie einen Administrator-Benutzernamen. <strong>Vermeiden Sie zur besseren Sicherheit gebräuchliche Namen wie <code>admin</code> oder <code>root</code>.</strong></li>
+                                <li><strong>Passwort:</strong> Erstellen Sie ein sicheres Passwort für dieses Administratorkonto. Bestätigen Sie es.</li>
+                            </ul>
+                            Klicken Sie auf "Weiter".
+                        </li>
+                        <li><strong>DSM-Update und -Wartung:</strong>
+                            <ul>
+                                <li>Wählen Sie, wie DSM-Updates gehandhabt werden sollen:
+                                    <ul>
+                                        <li>"Wichtige DSM-Updates automatisch installieren (empfohlen)"</li>
+                                        <li>"Wichtige DSM-Updates und alle Paket-Updates automatisch installieren"</li>
+                                        <li>"Mich benachrichtigen und Updates manuell installieren lassen"</li>
+                                    </ul>
+                                </li>
+                                <li>Sie können auch einen Zeitplan für S.M.A.R.T.-Tests Ihrer Laufwerke konfigurieren. Die Standardeinstellungen sind für den Anfang in der Regel in Ordnung.</li>
+                            </ul>
+                            Klicken Sie auf "Weiter".
+                        </li>
+                        <li><strong>Synology-Konto (Optional, aber empfohlen):</strong>
+                            <ul>
+                                <li>Sie werden aufgefordert, sich mit einem Synology-Konto anzumelden oder eines zu erstellen.</li>
+                                <li>Ein Synology-Konto ermöglicht Funktionen wie QuickConnect (einfacher Fernzugriff), technischen Support, Registrierung für erweiterte Garantie und Benachrichtigungen.</li>
+                                <li>Sie können sich "Anmelden", ein "Konto erstellen" oder "Diesen Schritt überspringen" (Sie können es später einrichten).</li>
+                            </ul>
+                        </li>
+                        <li><strong>QuickConnect-ID (Wenn Sie ein Synology-Konto einrichten):</strong> Wenn Sie sich für QuickConnect entscheiden, erstellen Sie eine eindeutige QuickConnect-ID. Dies ermöglicht Ihnen den Fernzugriff auf Ihr NAS ohne komplexe Portweiterleitung (z.B. <code>http://QuickConnect.to/IhreID</code>).</li>
+                        <li><strong>Geräteanalyse (Optional):</strong> Wählen Sie, ob Sie anonyme Geräteanalysedaten mit Synology teilen möchten, um zur Produktverbesserung beizutragen. Klicken Sie auf "Senden" oder "Überspringen".</li>
+                        <li><strong>Sie sind fertig:</strong> Sie sehen eine Bestätigungsseite. Klicken Sie auf "Los", um zum DSM-Desktop zu gelangen.</li>`,
+                    sec_storage_title: "6. Erstellen Sie Ihren ersten Speicherpool und Ihr erstes Volume",
+                    sec_storage_p1: "Nach der ersten DSM-Einrichtung müssen Sie einen Speicherpool und mindestens ein Volume erstellen, um mit der Datenspeicherung zu beginnen.",
+                    sec_storage_p2_important: "Der Speicher-Manager wird bei neuen Setups wahrscheinlich automatisch geöffnet. Falls nicht, öffnen Sie ihn über das DSM-Hauptmenü.",
+                    sec_storage_ol1: `
+                        <li>Im <strong>Speicher-Manager</strong> werden Sie angeleitet, einen Speicherpool zu erstellen.
+                            <ul>
+                                <li><strong>Wählen Sie einen RAID-Typ:</strong>
+                                    <ul>
+                                        <li><strong>SHR (Synology Hybrid RAID):</strong> Empfohlen für die meisten Heimanwender und Anfänger. Es vereinfacht die Speichererweiterung und ermöglicht die Mischung von Laufwerksgrößen (mit einigen Einschränkungen). SHR-1 bietet 1-Laufwerk-Fehlertoleranz; SHR-2 bietet 2-Laufwerk-Fehlertoleranz (erfordert mehr Laufwerke).</li>
+                                        <li><strong>Basic:</strong> Einzellaufwerk, keine Redundanz. Nicht empfohlen, es sei denn, Sie haben einen soliden Backup-Plan.</li>
+                                        <li><strong>RAID 0 (Stripe):</strong> Kombiniert Laufwerke für Leistung, keine Redundanz. Nicht für kritische Daten empfohlen.</li>
+                                        <li><strong>RAID 1 (Mirror):</strong> Dupliziert Daten auf zwei Laufwerken. 1-Laufwerk-Fehlertoleranz.</li>
+                                        <li><strong>RAID 5:</strong> Benötigt mindestens 3 Laufwerke. 1-Laufwerk-Fehlertoleranz. Gute Balance aus Kapazität und Redundanz.</li>
+                                        <li><strong>RAID 6:</strong> Benötigt mindestens 4 Laufwerke. 2-Laufwerk-Fehlertoleranz. Höhere Redundanz als RAID 5.</li>
+                                        <li><strong>RAID 10 (Stripe of Mirrors):</strong> Benötigt mindestens 4 Laufwerke (gerade Anzahl). Gute Leistung und Redundanz.</li>
+                                    </ul>
+                                    Wählen Sie Ihren bevorzugten RAID-Typ basierend auf der Anzahl der Laufwerke und Ihren Bedürfnissen.
+                                </li>
+                                <li><strong>Laufwerke auswählen:</strong> Wählen Sie die Laufwerke aus, die Sie in diesen Speicherpool aufnehmen möchten.</li>
+                                <li><strong>Laufwerksüberprüfung (Optional, aber empfohlen):</strong> Der Assistent fragt möglicherweise, ob Sie eine Laufwerksüberprüfung durchführen möchten. Dies kann lange dauern, hilft aber, fehlerhafte Laufwerke frühzeitig zu erkennen.</li>
+                                <li><strong>Einstellungen bestätigen:</strong> Überprüfen Sie die Zusammenfassung und bestätigen Sie.
+                                    <p class="warning">Die ausgewählten Laufwerke werden formatiert und alle Daten darauf werden gelöscht.</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Volume erstellen:</strong> Sobald der Speicherpool erstellt ist, werden Sie aufgefordert, ein Volume darauf zu erstellen.
+                            <ul>
+                                <li><strong>Dateisystem:</strong> Wählen Sie <strong>Btrfs</strong> (empfohlen für Funktionen wie Daten-Prüfsummen, Snapshots und Kontingente für freigegebene Ordner) oder <strong>ext4</strong>. Btrfs ist die Standard- und bevorzugte Wahl für die meisten modernen Synology-Funktionen.</li>
+                                <li><strong>Größe zuweisen:</strong> Sie können die gesamte Poolkapazität einem Volume zuweisen oder mehrere Volumes mit spezifischen Größen erstellen. Der Einfachheit halber ist die Verwendung des maximal verfügbaren Speicherplatzes für ein Volume üblich.</li>
+                            </ul>
+                        </li>
+                        <li>Der Speicher-Manager erstellt und optimiert/synchronisiert nun den Speicherpool und das Volume. Dieser Prozess (insbesondere die RAID-Synchronisierung oder Paritätsprüfung) kann je nach Laufwerksgröße und RAID-Typ viele Stunden oder sogar Tage dauern. Sie können DSM während dieser Zeit weiterhin verwenden, aber die Leistung kann beeinträchtigt sein. Überwachen Sie den Fortschritt im Speicher-Manager.</li>`,
+                    sec_folders_title: "7. Freigegebene Ordner erstellen",
+                    sec_folders_p1: "Freigegebene Ordner sind die Verzeichnisse der obersten Ebene, in denen Sie Ihre Daten speichern und Benutzern Zugriff gewähren.",
+                    sec_folders_ol1: `
+                        <li>Öffnen Sie die <strong>Systemsteuerung</strong> aus dem DSM-Hauptmenü.</li>
+                        <li>Gehen Sie zu <strong>Freigegebener Ordner</strong>.</li>
+                        <li>Klicken Sie auf <strong>Erstellen</strong> > <strong>Freigegebenen Ordner erstellen</strong>.</li>
+                        <li><strong>Grundlegende Informationen:</strong>
+                            <ul>
+                                <li><strong>Name:</strong> Geben Sie einen Namen für den freigegebenen Ordner ein (z.B. <code>Dokumente</code>, <code>Fotos</code>, <code>Backups</code>).</li>
+                                <li><strong>Beschreibung (Optional):</strong> Fügen Sie eine Beschreibung hinzu.</li>
+                                <li><strong>Standort:</strong> Wählen Sie das Volume aus, auf dem dieser freigegebene Ordner liegen wird.</li>
+                                <li><strong>Optionen:</strong>
+                                    <ul>
+                                        <li>Diesen freigegebenen Ordner in "Netzwerkumgebung" ausblenden.</li>
+                                        <li>Unterordner und Dateien vor Benutzern ohne Berechtigungen verbergen.</li>
+                                        <li><strong>Papierkorb aktivieren:</strong> Dringend empfohlen. Sie können den Zugriff auf Administratoren beschränken.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            Klicken Sie auf "Weiter".
+                        </li>
+                        <li><strong>Verschlüsselung (Optional):</strong> Sie können den freigegebenen Ordner für zusätzliche Sicherheit verschlüsseln. In diesem Fall müssen Sie einen Verschlüsselungsschlüssel verwalten. Klicken Sie auf "Weiter".</li>
+                        <li><strong>Erweiterte Datenintegrität (nur Btrfs, Optional):</strong> Wenn Sie Btrfs verwenden, können Sie "Daten-Prüfsumme für erweiterte Datenintegrität aktivieren" aktivieren. Empfohlen. Klicken Sie auf "Weiter".</li>
+                        <li><strong>Benutzerberechtigungen konfigurieren:</strong> Weisen Sie verschiedenen Benutzern oder Gruppen Lese-/Schreib- (RW), schreibgeschützte (RO) oder keine Zugriffsberechtigungen (NA) für diesen freigegebenen Ordner zu. Sie erstellen Benutzer im nächsten Schritt; Sie können später zurückkehren, um Berechtigungen zu bearbeiten. Vorerst hat Ihr Administratorkonto Zugriff. Klicken Sie auf "Übernehmen" oder "OK".</li>`,
+                    sec_folders_p2: "Wiederholen Sie dies für alle anderen freigegebenen Ordner der obersten Ebene, die Sie benötigen.",
+                    sec_users_title: "8. Benutzerkonten erstellen",
+                    sec_users_p1: "Es ist eine bewährte Vorgehensweise, Nicht-Administrator-Benutzerkonten für den täglichen Zugriff auf Dateien zu erstellen.",
+                    sec_users_ol1: `
+                        <li>Öffnen Sie die <strong>Systemsteuerung</strong>.</li>
+                        <li>Gehen Sie zu <strong>Benutzer und Gruppe</strong> (oder nur "Benutzer" bei älterem DSM).</li>
+                        <li>Klicken Sie im Reiter "Benutzer" auf <strong>Erstellen</strong>.</li>
+                        <li><strong>Benutzerinformationen:</strong>
+                            <ul>
+                                <li><strong>Name (Benutzername):</strong> Der Anmeldename.</li>
+                                <li><strong>Beschreibung (Optional).</strong></li>
+                                <li><strong>E-Mail (Optional):</strong> Für Benachrichtigungen zur Passwortzurücksetzung.</li>
+                                <li><strong>Passwort:</strong> Legen Sie ein sicheres Passwort fest. Bestätigen Sie es.</li>
+                                <li>Optionen wie "Benutzer darf das Kontopasswort nicht ändern" oder "Passwort ist immer gültig".</li>
+                            </ul>
+                            Klicken Sie auf "Weiter".
+                        </li>
+                        <li><strong>Gruppen beitreten:</strong> Fügen Sie den Benutzer relevanten Gruppen hinzu (z.B. <code>users</code> ist Standard). Sie können später benutzerdefinierte Gruppen erstellen. Klicken Sie auf "Weiter".</li>
+                        <li><strong>Berechtigungen für freigegebene Ordner zuweisen:</strong> Legen Sie für jeden freigegebenen Ordner Berechtigungen (Kein Zugriff, Schreibgeschützt, Lesen/Schreiben) für diesen neuen Benutzer fest. Klicken Sie auf "Weiter".</li>
+                        <li><strong>Kontingent zuweisen (Optional):</strong> Legen Sie Speicherkontingente für den Benutzer auf bestimmten Volumes fest. Klicken Sie auf "Weiter".</li>
+                        <li><strong>Anwendungsberechtigungen zuweisen:</strong> Steuern Sie den Zugriff auf installierte Anwendungen (z.B. File Station, Synology Photos). Klicken Sie auf "Weiter".</li>
+                        <li><strong>Geschwindigkeitsbegrenzung für Benutzer (Optional):</strong> Legen Sie Upload-/Download-Geschwindigkeitsbegrenzungen für verschiedene Dienste fest. Klicken Sie auf "Weiter".</li>
+                        <li><strong>Einstellungen bestätigen:</strong> Überprüfen Sie die Angaben und klicken Sie auf "Übernehmen" oder "Fertig".</li>`,
+                    sec_users_p2: "Erstellen Sie Konten für alle Personen, die auf das NAS zugreifen werden.",
+                    sec_packages_title: "9. Wichtige Pakete aus dem Paketzentrum installieren",
+                    sec_packages_p1: "Das Paketzentrum ist der App Store von Synology. Installieren Sie Pakete, um die Funktionalität Ihres NAS zu erweitern.",
+                    sec_packages_ol1: `
+                        <li>Öffnen Sie das <strong>Paketzentrum</strong> aus dem DSM-Hauptmenü.</li>
+                        <li>Durchsuchen oder suchen Sie nach Paketen. Einige wichtige oder sehr empfehlenswerte sind:
+                            <ul>
+                                <li><strong>Synology Drive Server:</strong> Für private Cloud-Dateisynchronisierung und -freigabe (wie Dropbox/Google Drive).</li>
+                                <li><strong>Synology Photos:</strong> Fotoverwaltung, -freigabe und mobile Sicherung.</li>
+                                <li><strong>Hyper Backup:</strong> Robuste Backup-Lösung zur Sicherung Ihrer NAS-Daten an verschiedenen Zielen (ein anderes Synology NAS, USB-Laufwerk, Cloud-Dienste).</li>
+                                <li><strong>Snapshot Replication (nur Btrfs):</strong> Zum Erstellen von Point-in-Time-Snapshots von freigegebenen Ordnern und LUNs und deren Replikation.</li>
+                                <li><strong>Antivirus Essential</strong> oder <strong>Antivirus by McAfee:</strong> Für Virenscans auf dem NAS.</li>
+                                <li><strong>Universal Search:</strong> Für die schnelle Suche nach Dateien und Metadaten.</li>
+                                <li>Ziehen Sie je nach Bedarf weitere in Betracht: Plex Media Server, Docker, Virtual Machine Manager, Note Station, Calendar usw.</li>
+                            </ul>
+                        </li>
+                        <li>Klicken Sie bei gewünschten Paketen auf "Installieren". Einige erfordern möglicherweise zusätzliche Einrichtungsschritte nach der Installation.</li>`,
+                    sec_security_title: "10. Sicherheit & Updates",
+                    sec_security_p1: "Die Sicherheit und Aktualität Ihres NAS ist von entscheidender Bedeutung.",
+                    sec_security_ol1: `
+                        <li><strong>DSM-Updates:</strong>
+                            <ul>
+                                <li>Gehen Sie zu <strong>Systemsteuerung > Aktualisieren & Wiederherst.</strong>.</li>
+                                <li>Überprüfen Sie Ihre "Update-Einstellungen" aus der DSM-Einrichtung. Stellen Sie sicher, dass wichtige Updates automatisch heruntergeladen/installiert werden oder Sie benachrichtigt werden.</li>
+                                <li>Suchen Sie regelmäßig nach DSM-Updates und wenden Sie diese an.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Paket-Updates:</strong>
+                            <ul>
+                                <li>Öffnen Sie das <strong>Paketzentrum</strong>. Gehen Sie zum Reiter "Installiert".</li>
+                                <li>Aktualisieren Sie alle Pakete, die eine "Aktualisieren"-Schaltfläche anzeigen. Sie können automatische Updates für Pakete in den Einstellungen des Paketzentrums aktivieren.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Sicherheitsberater:</strong>
+                            <ul>
+                                <li>Öffnen Sie den <strong>Sicherheitsberater</strong> aus dem Hauptmenü.</li>
+                                <li>Führen Sie einen Scan durch. Er prüft auf Sicherheitsschwachstellen und gibt Empfehlungen (z.B. sichere Passwörter, Firewall-Einstellungen, Deaktivierung ungenutzter Dienste). Beheben Sie alle gefundenen Probleme.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Firewall:</strong>
+                            <ul>
+                                <li>Gehen Sie zu <strong>Systemsteuerung > Sicherheit > Firewall</strong>.</li>
+                                <li>Aktivieren Sie die Firewall und erstellen Sie Regeln, um nur notwendigen Diensten und IP-Adressen/Regionen den Zugriff auf Ihr NAS zu ermöglichen. Beginnen Sie mit den Standardregeln und verfeinern Sie diese.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Kontoschutz & Automatische Blockierung:</strong> (Systemsteuerung > Sicherheit > Konto / Autom. Blockierung) Aktivieren Sie diese Funktionen, um sich vor Brute-Force-Anmeldeversuchen zu schützen.</li>
+                        <li><strong>Zwei-Faktor-Authentifizierung (2FA):</strong> (DSM-Benutzersymbol > Persönlich > Konto / Sicherheit) Aktivieren Sie 2FA für Ihre Administrator- und Benutzerkonten für eine erheblich verbesserte Sicherheit.</li>
+                        <li><strong>Ungenutzte Dienste deaktivieren:</strong> (Systemsteuerung > Dateidienste / Anwendungsberechtigungen) Deaktivieren Sie alle Dienste oder Anwendungen, die Sie nicht verwenden, um die Angriffsfläche zu verringern.</li>`,
+                    sec_next_title: "Nächste Schritte & Ressourcen",
+                    sec_next_p1: "Ihr Synology NAS ist nun mit der Grundkonfiguration eingerichtet! Hier ist, was Sie als Nächstes erkunden können:",
+                    sec_next_ul1: `
+                        <li><strong>Netzwerklaufwerke verbinden:</strong> Verbinden Sie sich von Windows-, macOS- oder Linux-Computern mit Ihren freigegebenen Ordnern.</li>
+                        <li><strong>Mobile Apps konfigurieren:</strong> Synology bietet viele mobile Apps (DS file, Synology Photos, Synology Drive) für den Zugriff auf Ihr NAS von unterwegs.</li>
+                        <li><strong>Backups einrichten:</strong> Verwenden Sie Hyper Backup, um Ihre NAS-Daten zu sichern. Sichern Sie auch wichtige Client-Geräte auf dem NAS.</li>
+                        <li><strong>Paketzentrum erkunden:</strong> Entdecken Sie weitere Anwendungen, die Ihren Bedürfnissen entsprechen.</li>
+                        <li><strong>Fernzugriff:</strong> Wenn Sie QuickConnect eingerichtet oder DDNS und Portweiterleitung konfiguriert haben, erkunden Sie den Fernzugriff auf Ihr NAS.</li>
+                        <li><strong>Mehr erfahren:</strong>
+                            <ul>
+                                <li><a href="https://kb.synology.com/de-de" target="_blank">Synology Wissensdatenbank</a> (Umfangreiche Artikel und Tutorials).</li>
+                                <li><a href="https://community.synology.com/" target="_blank">Synology Community-Forum</a> (Benutzerdiskussionen und Support).</li>
+                                <li>Das spezifische Benutzerhandbuch Ihres NAS-Modells aus dem Synology Download-Zentrum.</li>
+                            </ul>
+                        </li>`,
+                    sec_disclaimer_title: "Haftungsausschluss",
+                    sec_disclaimer_p1: "Diese Anleitung dient nur zu Informationszwecken. Obwohl sie darauf abzielt, gängige Einrichtungsschritte abzudecken, können bei bestimmten Synology-Modellen oder DSM-Versionen leichte Abweichungen auftreten. Beziehen Sie sich immer auf die offizielle Synology-Dokumentation für Ihr spezifisches Gerät, um die genauesten und aktuellsten Informationen zu erhalten.",
+                    sec_disclaimer_p2: "Der Autor dieser Webseite ist nicht verantwortlich für Datenverlust, Hardwareschäden oder andere Probleme, die durch das Befolgen dieser Anleitung entstehen können. Gehen Sie mit Vorsicht vor, insbesondere bei der Formatierung von Laufwerken und der Datenverwaltung.",
+                },
+                
+                es: {
+                    page_title: "Guía de Configuración Inicial de Synology NAS",
+                    lang_label: "Idioma",
+                    theme_label: "Tema",
+                    theme_light: "Claro",
+                    theme_dark: "Oscuro",
+                    theme_auto: "Auto",
+                    nav_header: "Navegación",
+                    nav_introduction: "Introducción a Synology NAS",
+                    nav_prerequisites: "Prerrequisitos",
+                    nav_unboxing: "1. Desembalaje y Configuración de Hardware",
+                    nav_drive_installation: "2. Instalación de Discos Duros",
+                    nav_network_power: "3. Conexión de Red y Alimentación",
+                    nav_finding_nas: "4. Encontrar su NAS en la Red",
+                    nav_dsm_install: "5. Instalación y Configuración de DSM",
+                    nav_storage_pool: "6. Crear Grupo de Almacenamiento y Volumen",
+                    nav_shared_folders: "7. Crear Carpetas Compartidas",
+                    nav_user_accounts: "8. Crear Cuentas de Usuario",
+                    nav_essential_packages: "9. Paquetes Esenciales del Centro de Paquetes",
+                    nav_security_updates: "10. Seguridad y Actualizaciones",
+                    nav_next_steps: "Próximos Pasos y Recursos",
+                    nav_disclaimer: "Descargo de Responsabilidad",
+                    main_title: "Synology NAS: Guía de Configuración Inicial y Configuración",
+                    sec_intro_title: "Introducción a Synology NAS",
+                    sec_intro_p1: "Synology Inc. es una empresa especializada en dispositivos de Almacenamiento Conectado en Red (NAS). Los dispositivos NAS de Synology ejecutan un sistema operativo basado en Linux llamado DiskStation Manager (DSM), que proporciona una interfaz web fácil de usar para administrar el almacenamiento, compartir archivos, ejecutar aplicaciones y mucho más.",
+                    sec_intro_p2: "Synology ofrece una amplia gama de modelos de NAS, desde pequeñas unidades domésticas (series J, Value) hasta potentes soluciones empresariales (series Plus, XS/XS+, SA, UC). Aunque las capacidades de hardware específicas varían, el proceso de configuración inicial para DSM es en gran medida consistente.",
+                    sec_intro_p3_important: "Esta guía cubre los pasos generales para el desembalaje, la configuración del hardware, la instalación de DSM y la configuración inicial esencial para la mayoría de los dispositivos NAS de Synology.",
+                    sec_prereq_title: "Prerrequisitos",
+                    sec_prereq_p1: "Antes de comenzar, asegúrese de tener lo siguiente:",
+                    sec_prereq_ul1: `
+                        <li><strong>Dispositivo Synology NAS:</strong> La propia unidad NAS.</li>
+                        <li><strong>Discos Duros (HDD) o Unidades de Estado Sólido (SSD) Compatibles:</strong>
+                            <ul>
+                                <li>Consulte la <a href="https://www.synology.com/es-es/compatibility" target="_blank">Lista de compatibilidad de productos de Synology</a> para su modelo de NAS específico para garantizar la compatibilidad de las unidades.</li>
+                                <li>Necesitará al menos una unidad para comenzar, pero la mayoría de las configuraciones de NAS utilizan dos o más unidades para redundancia (RAID).</li>
+                                <li class="warning">Si utiliza unidades que contenían datos previamente, estos datos se borrarán durante la configuración de DSM y la creación del grupo de almacenamiento. Haga una copia de seguridad de cualquier dato importante de estas unidades.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Conexión de Red:</strong>
+                            <ul>
+                                <li>Una conexión a Internet activa para descargar DSM (si es necesario) y actualizaciones.</li>
+                                <li>Un cable Ethernet para conectar el NAS a su enrutador o conmutador de red.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Ordenador en la Misma Red:</strong> Un PC o Mac conectado a la misma red que el NAS, utilizado para la configuración inicial y el acceso a la interfaz web de DSM.</li>
+                        <li><strong>Destornillador (Opcional):</strong> Algunos modelos de NAS requieren un destornillador Phillips para la instalación de unidades, aunque muchos ofrecen bandejas de unidades sin herramientas.</li>
+                        <li><strong>Tiempo:</strong> Dedique al menos una hora para la configuración inicial, la instalación de DSM y la creación del grupo de almacenamiento (que puede llevar muchas horas o incluso días dependiendo del tamaño de la unidad y el tipo de RAID).</li>`,
+                    sec_unboxing_title: "1. Desembalaje y Configuración de Hardware",
+                    sec_unboxing_ol1: `
+                        <li><strong>Desembale su Synology NAS:</strong> Desembale con cuidado la unidad NAS y todos los accesorios incluidos (adaptador de corriente, cable(s) Ethernet, llaves de bandeja de unidad si corresponde, tornillos si es necesario, guía de inicio rápido).</li>
+                        <li><strong>Familiarícese con la Unidad:</strong> Identifique las bahías de las unidades, los puertos de red (puertos LAN), los puertos USB, el conector de alimentación y el botón de encendido. Consulte la Guía de Instalación Rápida o la Guía de Instalación de Hardware de su modelo específico (disponible en el sitio web de Synology).</li>
+                        <li><strong>(Si aplica) Instale RAM o Caché SSD M.2 NVMe:</strong> Si compró RAM adicional o SSD M.2 NVMe para caché (soportado en ciertos modelos), instálelos ahora de acuerdo con la guía de hardware de su modelo de NAS. Esto suele ser más fácil antes de instalar los discos duros.</li>`,
+                    sec_drive_title: "2. Instalación de Discos Duros",
+                    sec_drive_p1_important: "Asegúrese de que el NAS esté APAGADO y desenchufado antes de instalar o quitar unidades.",
+                    sec_drive_ol1: `
+                        <li><strong>Abra las Bahías de Unidades:</strong>
+                            <ul>
+                                <li>Para modelos con bandejas intercambiables en caliente: Desbloquee y extraiga las bandejas de las unidades.</li>
+                                <li>Para otros modelos: Es posible que deba quitar una cubierta o panel según la guía de su modelo.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Monte las Unidades en las Bandejas (o directamente en las bahías):</strong>
+                            <ul>
+                                <li><strong>HDD de 3.5 pulgadas:</strong> La mayoría de las unidades Synology tienen bandejas sin herramientas para unidades de 3.5 pulgadas donde se asegura la unidad con clips o paneles laterales. Algunas pueden requerir tornillos.</li>
+                                <li><strong>HDD/SSD de 2.5 pulgadas:</strong> Normalmente necesitará usar tornillos para asegurar las unidades de 2.5 pulgadas a las bandejas. Es posible que se necesiten o incluyan soportes adaptadores para algunos modelos.</li>
+                            </ul>
+                            Asegúrese de que los conectores de la unidad (alimentación y datos SATA) estén orientados de la manera correcta para alinearse con el backplane en el NAS.
+                        </li>
+                        <li><strong>Inserte las Bandejas de Unidades:</strong> Deslice las bandejas de unidades (con las unidades instaladas) de nuevo en el NAS hasta que encajen de forma segura. Asegúrese de que estén completamente asentadas. Ciérrelas si su modelo tiene cerraduras de bandeja.</li>
+                        <li><strong>Número de Unidades:</strong>
+                            <ul>
+                                <li>Puede comenzar con una unidad, pero para la redundancia de datos usando RAID (por ejemplo, SHR, RAID 1, RAID 5, RAID 6), necesitará dos o más unidades.</li>
+                                <li>Generalmente se recomienda usar unidades del mismo modelo y capacidad para un rendimiento y compatibilidad RAID óptimos, aunque Synology Hybrid RAID (SHR) ofrece más flexibilidad con tamaños de unidades mixtos.</li>
+                            </ul>
+                        </li>`,
+                    sec_network_title: "3. Conexión de Red y Alimentación",
+                    sec_network_ol1: `
+                        <li><strong>Conecte el Cable Ethernet:</strong> Conecte un extremo de un cable Ethernet a uno de los puertos LAN de su Synology NAS y el otro extremo a un puerto disponible en su enrutador o conmutador de red.
+                            <p class="note">Si su NAS tiene múltiples puertos LAN, conéctelo a LAN 1 inicialmente a menos que tenga planes específicos de agregación de enlaces.</p>
+                        </li>
+                        <li><strong>Conecte el Adaptador de Corriente:</strong> Conecte el adaptador de corriente alterna al NAS y enchufe el otro extremo a una toma de corriente.
+                            <p class="important">Es muy recomendable conectar su NAS a un Sistema de Alimentación Ininterrumpida (SAI/UPS) para protegerlo contra la corrupción de datos por cortes de energía.</p>
+                        </li>
+                        <li><strong>Encienda el NAS:</strong> Presione el botón de encendido en la parte frontal o posterior del NAS. Espere a que arranque. Esto puede tardar unos minutos. Debería ver que se encienden los LED de estado.</li>`,
+                    sec_finding_title: "4. Encontrar su NAS en la Red",
+                    sec_finding_p1: "Una vez que el NAS ha arrancado (generalmente indicado por un pitido y LEDs de estado estables), necesita encontrar su dirección IP para acceder al asistente de configuración.",
+                    sec_finding_p2: "Métodos para encontrar su NAS:",
+                    sec_finding_ol1: `
+                        <li>
+                            <strong>Synology Web Assistant:</strong>
+                            <ul>
+                                <li>En un ordenador conectado a la misma red, abra un navegador web y vaya a <a href="http://find.synology.com" target="_blank">http://find.synology.com</a> o <a href="http://diskstation:5000" target="_blank">http://diskstation:5000</a> (para modelos DiskStation) o <a href="http://rackstation:5000" target="_blank">http://rackstation:5000</a> (para modelos RackStation).</li>
+                                <li>Web Assistant debería escanear su red local y listar su Synology NAS. Haga clic en él para conectarse.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Synology Assistant (Utilidad de Escritorio):</strong>
+                            <ul>
+                                <li>Descargue e instale la utilidad Synology Assistant desde el <a href="https://www.synology.com/support/download" target="_blank">Centro de descargas de Synology</a> para el sistema operativo de su ordenador.</li>
+                                <li>Inicie Synology Assistant. Escaneará su red en busca de dispositivos Synology.</li>
+                                <li>Seleccione su NAS de la lista y haga clic en "Conectar".</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Lista de Clientes DHCP del Enrutador:</strong>
+                            <ul>
+                                <li>Inicie sesión en la interfaz de administración de su enrutador.</li>
+                                <li>Busque una sección de "Lista de Clientes DHCP", "Dispositivos Conectados" o similar. Encuentre su Synology NAS (podría estar listado por su nombre de modelo o dirección MAC) y anote su dirección IP asignada.</li>
+                                <li>Ingrese esta dirección IP en su navegador web (por ejemplo, <code>http://192.168.1.105</code>). Agregue <code>:5000</code> si no se conecta directamente (por ejemplo, <code>http://192.168.1.105:5000</code>).</li>
+                            </ul>
+                        </li>`,
+                    sec_dsm_title: "5. Instalación y Configuración de DiskStation Manager (DSM)",
+                    sec_dsm_p1: "Una vez que se conecte a su NAS a través de un navegador web utilizando uno de los métodos anteriores, comenzará el asistente de configuración de DSM.",
+                    sec_dsm_ol1: `
+                        <li><strong>Bienvenida y EULA:</strong> Verá una pantalla de bienvenida. Haga clic en "Configurar". Acepte el Acuerdo de Licencia de Usuario Final (EULA).</li>
+                        <li>
+                            <strong>Instalar DSM:</strong>
+                            <ul>
+                                <li><strong>Descarga e Instalación Automática (Recomendado):</strong> Si su NAS tiene acceso a Internet, ofrecerá descargar e instalar la última versión de DSM automáticamente. Este es el método más fácil. Haga clic en "Instalar ahora".</li>
+                                <li><strong>Instalación Manual:</strong> Si descargó un archivo de instalación de DSM <code>.pat</code> del sitio web de Synology, puede elegir "Instalación Manual" y buscar el archivo. Esto es útil para instalaciones sin conexión o requisitos de versión específicos.</li>
+                            </ul>
+                            <p class="warning">Este paso formateará los discos duros que instaló en el NAS. Confirme que desea continuar, entendiendo que todos los datos en esas unidades serán borrados.</p>
+                            El NAS ahora descargará (si corresponde) e instalará DSM. Este proceso tomará alrededor de 10-15 minutos, y el NAS se reiniciará automáticamente.
+                        </li>
+                        <li><strong>Crear Cuenta de Administrador:</strong> Después de reiniciar, el asistente continuará.
+                            <ul>
+                                <li><strong>Nombre del Servidor:</strong> Dé a su NAS un nombre único (por ejemplo, <code>MiSynologyNAS</code>).</li>
+                                <li><strong>Nombre de Usuario:</strong> Cree un nombre de usuario de administrador. <strong>Evite usar nombres comunes como <code>admin</code> o <code>root</code> para mayor seguridad.</strong></li>
+                                <li><strong>Contraseña:</strong> Cree una contraseña segura para esta cuenta de administrador. Confírmela.</li>
+                            </ul>
+                            Haga clic en "Siguiente".
+                        </li>
+                        <li><strong>Actualización y Mantenimiento de DSM:</strong>
+                            <ul>
+                                <li>Elija cómo desea que se manejen las actualizaciones de DSM:
+                                    <ul>
+                                        <li>"Instalar actualizaciones importantes de DSM automáticamente (recomendado)"</li>
+                                        <li>"Instalar actualizaciones importantes de DSM y todas las actualizaciones de paquetes automáticamente"</li>
+                                        <li>"Notificarme y dejarme instalar las actualizaciones manualmente"</li>
+                                    </ul>
+                                </li>
+                                <li>También puede configurar un horario para las pruebas S.M.A.R.T. de sus unidades. Los valores predeterminados suelen estar bien para empezar.</li>
+                            </ul>
+                            Haga clic en "Siguiente".
+                        </li>
+                        <li><strong>Cuenta de Synology (Opcional pero Recomendado):</strong>
+                            <ul>
+                                <li>Se le pedirá que inicie sesión o cree una Cuenta de Synology.</li>
+                                <li>Una Cuenta de Synology habilita funciones como QuickConnect (acceso remoto fácil), soporte técnico, registro de garantía extendida y notificaciones.</li>
+                                <li>Puede "Iniciar sesión", "Crear una cuenta" o "Omitir este paso" (puede configurarlo más tarde).</li>
+                            </ul>
+                        </li>
+                        <li><strong>ID de QuickConnect (Si configura una Cuenta de Synology):</strong> Si opta por QuickConnect, cree una ID de QuickConnect única. Esto le permite acceder a su NAS de forma remota sin un reenvío de puertos complejo (por ejemplo, <code>http://QuickConnect.to/SuID</code>).</li>
+                        <li><strong>Análisis del Dispositivo (Opcional):</strong> Elija si desea compartir análisis anónimos del dispositivo con Synology para ayudar a mejorar los productos. Haga clic en "Enviar" u "Omitir".</li>
+                        <li><strong>Todo listo:</strong> Verá una página de confirmación. Haga clic en "Ir" para ser llevado al escritorio de DSM.</li>`,
+                    sec_storage_title: "6. Cree su Primer Grupo de Almacenamiento y Volumen",
+                    sec_storage_p1: "Después de la configuración inicial de DSM, necesita crear un grupo de almacenamiento y al menos un volumen para comenzar a almacenar datos.",
+                    sec_storage_p2_important: "El Administrador de almacenamiento probablemente se abrirá automáticamente en las nuevas configuraciones. Si no, ábralo desde el menú principal de DSM.",
+                    sec_storage_ol1: `
+                        <li>En el <strong>Administrador de almacenamiento</strong>, se le guiará para crear un grupo de almacenamiento.
+                            <ul>
+                                <li><strong>Elija un tipo de RAID:</strong>
+                                    <ul>
+                                        <li><strong>SHR (Synology Hybrid RAID):</strong> Recomendado para la mayoría de los usuarios domésticos y principiantes. Simplifica la expansión del almacenamiento y permite mezclar tamaños de unidades (con algunas advertencias). SHR-1 ofrece tolerancia a fallos de 1 unidad; SHR-2 ofrece tolerancia a fallos de 2 unidades (requiere más unidades).</li>
+                                        <li><strong>Básico:</strong> Una sola unidad, sin redundancia. No se recomienda a menos que tenga un plan de respaldo robusto.</li>
+                                        <li><strong>RAID 0 (Stripe):</strong> Combina unidades para rendimiento, sin redundancia. No recomendado para datos críticos.</li>
+                                        <li><strong>RAID 1 (Mirror):</strong> Duplica datos en dos unidades. Tolerancia a fallos de 1 unidad.</li>
+                                        <li><strong>RAID 5:</strong> Necesita al menos 3 unidades. Tolerancia a fallos de 1 unidad. Buen equilibrio entre capacidad y redundancia.</li>
+                                        <li><strong>RAID 6:</strong> Necesita al menos 4 unidades. Tolerancia a fallos de 2 unidades. Mayor redundancia que RAID 5.</li>
+                                        <li><strong>RAID 10 (Stripe of Mirrors):</strong> Necesita al menos 4 unidades (números pares). Buen rendimiento y redundancia.</li>
+                                    </ul>
+                                    Seleccione su tipo de RAID preferido según el número de unidades y sus necesidades.
+                                </li>
+                                <li><strong>Seleccionar Unidades:</strong> Elija las unidades que desea incluir en este grupo de almacenamiento.</li>
+                                <li><strong>Comprobación de Unidad (Opcional pero Recomendado):</strong> El asistente puede preguntarle si desea realizar una comprobación de la unidad. Esto puede llevar mucho tiempo pero ayuda a identificar unidades defectuosas tempranamente.</li>
+                                <li><strong>Confirmar Configuración:</strong> Revise el resumen y confirme.
+                                    <p class="warning">Las unidades seleccionadas serán formateadas y todos los datos en ellas serán borrados.</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Crear Volumen:</strong> Una vez creado el grupo de almacenamiento, se le pedirá que cree un volumen en él.
+                            <ul>
+                                <li><strong>Sistema de Archivos:</strong> Elija <strong>Btrfs</strong> (recomendado por funciones como la suma de comprobación de datos, instantáneas y cuotas de carpetas compartidas) o <strong>ext4</strong>. Btrfs es la opción predeterminada y preferida para la mayoría de las funciones modernas de Synology.</li>
+                                <li><strong>Asignar Tamaño:</strong> Puede asignar toda la capacidad del grupo a un volumen o crear múltiples volúmenes con tamaños específicos. Por simplicidad, es común usar el máximo espacio disponible para un volumen.</li>
+                            </ul>
+                        </li>
+                        <li>El Administrador de almacenamiento ahora creará y optimizará/sincronizará el grupo de almacenamiento y el volumen. Este proceso (especialmente la sincronización RAID o las comprobaciones de paridad) puede llevar muchas horas o incluso días dependiendo del tamaño de las unidades y el tipo de RAID. Aún puede usar DSM durante este tiempo, pero el rendimiento podría verse afectado. Supervise el progreso en el Administrador de almacenamiento.</li>`,
+                    sec_folders_title: "7. Crear Carpetas Compartidas",
+                    sec_folders_p1: "Las carpetas compartidas son los directorios de nivel superior donde almacenará sus datos y otorgará acceso a los usuarios.",
+                    sec_folders_ol1: `
+                        <li>Abra el <strong>Panel de Control</strong> desde el menú principal de DSM.</li>
+                        <li>Vaya a <strong>Carpeta Compartida</strong>.</li>
+                        <li>Haga clic en <strong>Crear</strong> > <strong>Crear Carpeta Compartida</strong>.</li>
+                        <li><strong>Información Básica:</strong>
+                            <ul>
+                                <li><strong>Nombre:</strong> Ingrese un nombre para la carpeta compartida (por ejemplo, <code>Documentos</code>, <code>Fotos</code>, <code>Copias</code>).</li>
+                                <li><strong>Descripción (Opcional):</strong> Agregue una descripción.</li>
+                                <li><strong>Ubicación:</strong> Seleccione el volumen donde residirá esta carpeta compartida.</li>
+                                <li><strong>Opciones:</strong>
+                                    <ul>
+                                        <li>Ocultar esta carpeta compartida en "Mis sitios de red".</li>
+                                        <li>Ocultar subcarpetas y archivos a usuarios sin permisos.</li>
+                                        <li><strong>Habilitar Papelera de Reciclaje:</strong> Muy recomendado. Puede restringir el acceso a los administradores.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            Haga clic en "Siguiente".
+                        </li>
+                        <li><strong>Cifrado (Opcional):</strong> Puede optar por cifrar la carpeta compartida para mayor seguridad. Si lo hace, deberá administrar una clave de cifrado. Haga clic en "Siguiente".</li>
+                        <li><strong>Integridad de Datos Avanzada (solo Btrfs, Opcional):</strong> Si usa Btrfs, puede habilitar "Habilitar suma de comprobación de datos para integridad de datos avanzada". Recomendado. Haga clic en "Siguiente".</li>
+                        <li><strong>Configurar Permisos de Usuario:</strong> Asigne permisos de lectura/escritura (RW), solo lectura (RO) o sin acceso (NA) para diferentes usuarios o grupos a esta carpeta compartida. Creará usuarios en el siguiente paso; puede volver para editar permisos más tarde. Por ahora, su cuenta de administrador tendrá acceso. Haga clic en "Aplicar" u "OK".</li>`,
+                    sec_folders_p2: "Repita para cualquier otra carpeta compartida de nivel superior que necesite.",
+                    sec_users_title: "8. Crear Cuentas de Usuario",
+                    sec_users_p1: "Es una buena práctica crear cuentas de usuario no administradoras para el acceso diario a los archivos.",
+                    sec_users_ol1: `
+                        <li>Abra el <strong>Panel de Control</strong>.</li>
+                        <li>Vaya a <strong>Usuario y Grupo</strong> (o solo "Usuario" en DSM más antiguo).</li>
+                        <li>En la pestaña "Usuario", haga clic en <strong>Crear</strong>.</li>
+                        <li><strong>Información del Usuario:</strong>
+                            <ul>
+                                <li><strong>Nombre (Nombre de usuario):</strong> El nombre de inicio de sesión.</li>
+                                <li><strong>Descripción (Opcional).</strong></li>
+                                <li><strong>Correo electrónico (Opcional):</strong> Para notificaciones de restablecimiento de contraseña.</li>
+                                <li><strong>Contraseña:</strong> Establezca una contraseña segura. Confírmela.</li>
+                                <li>Opciones como "No permitir que el usuario cambie la contraseña de la cuenta" o "La contraseña es siempre válida".</li>
+                            </ul>
+                            Haga clic en "Siguiente".
+                        </li>
+                        <li><strong>Unirse a Grupos:</strong> Agregue el usuario a los grupos relevantes (por ejemplo, <code>users</code> es el predeterminado). Puede crear grupos personalizados más tarde. Haga clic en "Siguiente".</li>
+                        <li><strong>Asignar Permisos de Carpeta Compartida:</strong> Para cada carpeta compartida, establezca permisos (Sin acceso, Solo lectura, Lectura/Escritura) para este nuevo usuario. Haga clic en "Siguiente".</li>
+                        <li><strong>Asignar Cuota (Opcional):</strong> Establezca cuotas de almacenamiento para el usuario en volúmenes específicos. Haga clic en "Siguiente".</li>
+                        <li><strong>Asignar Permisos de Aplicación:</strong> Controle el acceso a las aplicaciones instaladas (por ejemplo, File Station, Synology Photos). Haga clic en "Siguiente".</li>
+                        <li><strong>Límite de Velocidad del Usuario (Opcional):</strong> Establezca límites de velocidad de carga/descarga para varios servicios. Haga clic en "Siguiente".</li>
+                        <li><strong>Confirmar Configuración:</strong> Revise y haga clic en "Aplicar" o "Hecho".</li>`,
+                    sec_users_p2: "Cree cuentas para todas las personas que accederán al NAS.",
+                    sec_packages_title: "9. Instalar Paquetes Esenciales desde el Centro de Paquetes",
+                    sec_packages_p1: "El Centro de Paquetes es la tienda de aplicaciones de Synology. Instale paquetes para ampliar la funcionalidad de su NAS.",
+                    sec_packages_ol1: `
+                        <li>Abra el <strong>Centro de Paquetes</strong> desde el menú principal de DSM.</li>
+                        <li>Navegue o busque paquetes. Algunos esenciales o muy recomendados son:
+                            <ul>
+                                <li><strong>Synology Drive Server:</strong> Para sincronización y uso compartido de archivos en la nube privada (como Dropbox/Google Drive).</li>
+                                <li><strong>Synology Photos:</strong> Gestión de fotos, uso compartido y copia de seguridad móvil.</li>
+                                <li><strong>Hyper Backup:</strong> Solución de copia de seguridad robusta para respaldar los datos de su NAS en varios destinos (otro Synology NAS, unidad USB, servicios en la nube).</li>
+                                <li><strong>Snapshot Replication (solo Btrfs):</strong> Para crear instantáneas puntuales de carpetas compartidas y LUNs, y replicarlas.</li>
+                                <li><strong>Antivirus Essential</strong> o <strong>Antivirus by McAfee:</strong> Para el escaneo de virus en el NAS.</li>
+                                <li><strong>Universal Search:</strong> Para la búsqueda rápida de archivos y metadatos.</li>
+                                <li>Considere otros según sus necesidades: Plex Media Server, Docker, Virtual Machine Manager, Note Station, Calendar, etc.</li>
+                            </ul>
+                        </li>
+                        <li>Haga clic en "Instalar" para los paquetes deseados. Algunos pueden tener pasos de configuración adicionales después de la instalación.</li>`,
+                    sec_security_title: "10. Seguridad y Actualizaciones",
+                    sec_security_p1: "Mantener su NAS seguro y actualizado es crucial.",
+                    sec_security_ol1: `
+                        <li><strong>Actualizaciones de DSM:</strong>
+                            <ul>
+                                <li>Vaya a <strong>Panel de Control > Actualizar y Restaurar</strong>.</li>
+                                <li>Verifique su "Configuración de actualización" de la configuración de DSM. Asegúrese de que esté configurado para descargar/instalar automáticamente actualizaciones importantes o para notificarle.</li>
+                                <li>Verifique y aplique regularmente las actualizaciones de DSM.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Actualizaciones de Paquetes:</strong>
+                            <ul>
+                                <li>Abra el <strong>Centro de Paquetes</strong>. Vaya a la pestaña "Instalado".</li>
+                                <li>Actualice cualquier paquete que muestre un botón de "Actualizar". Puede habilitar las actualizaciones automáticas para los paquetes en la configuración del Centro de Paquetes.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Asesor de Seguridad:</strong>
+                            <ul>
+                                <li>Abra el <strong>Asesor de Seguridad</strong> desde el menú principal.</li>
+                                <li>Ejecute un escaneo. Verificará las vulnerabilidades de seguridad y ofrecerá recomendaciones (por ejemplo, contraseñas seguras, configuración del firewall, deshabilitación de servicios no utilizados). Aborde cualquier problema encontrado.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Firewall:</strong>
+                            <ul>
+                                <li>Vaya a <strong>Panel de Control > Seguridad > Firewall</strong>.</li>
+                                <li>Habilite el firewall y cree reglas para permitir solo los servicios y direcciones IP/regiones necesarios para acceder a su NAS. Comience con las reglas predeterminadas y refínelas.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Protección de Cuenta y Bloqueo Automático:</strong> (Panel de Control > Seguridad > Cuenta / Bloqueo Automático) Habilite estas funciones para protegerse contra ataques de inicio de sesión por fuerza bruta.</li>
+                        <li><strong>Autenticación de Dos Factores (2FA):</strong> (Icono de usuario de DSM > Personal > Cuenta / Seguridad) Habilite 2FA para sus cuentas de administrador y de usuario para una seguridad significativamente mejorada.</li>
+                        <li><strong>Deshabilitar Servicios no Utilizados:</strong> (Panel de Control > Servicios de Archivos / Privilegios de Aplicación) Deshabilite cualquier servicio o aplicación que no use para reducir la superficie de ataque.</li>`,
+                    sec_next_title: "Próximos Pasos y Recursos",
+                    sec_next_p1: "¡Su Synology NAS ahora está configurado con la configuración básica! Esto es lo que puede explorar a continuación:",
+                    sec_next_ul1: `
+                        <li><strong>Mapear Unidades de Red:</strong> Conéctese a sus carpetas compartidas desde ordenadores Windows, macOS o Linux.</li>
+                        <li><strong>Configurar Aplicaciones Móviles:</strong> Synology ofrece muchas aplicaciones móviles (DS file, Synology Photos, Synology Drive) para acceder a su NAS sobre la marcha.</li>
+                        <li><strong>Configurar Copias de Seguridad:</strong> Use Hyper Backup para hacer una copia de seguridad de los datos de su NAS. Además, haga una copia de seguridad de los dispositivos cliente importantes en el NAS.</li>
+                        <li><strong>Explorar el Centro de Paquetes:</strong> Descubra más aplicaciones que se adapten a sus necesidades.</li>
+                        <li><strong>Acceso Remoto:</strong> Si configuró QuickConnect o configuró DDNS y reenvío de puertos, explore el acceso remoto a su NAS.</li>
+                        <li><strong>Aprender Más:</strong>
+                            <ul>
+                                <li><a href="https://kb.synology.com/es-es" target="_blank">Base de conocimientos de Synology</a> (Artículos y tutoriales extensos).</li>
+                                <li><a href="https://community.synology.com/" target="_blank">Foro de la comunidad de Synology</a> (Discusiones y soporte de usuarios).</li>
+                                <li>La Guía del Usuario específica de su modelo de NAS desde el Centro de descargas de Synology.</li>
+                            </ul>
+                        </li>`,
+                    sec_disclaimer_title: "Descargo de Responsabilidad",
+                    sec_disclaimer_p1: "Esta guía se proporciona únicamente con fines informativos. Aunque su objetivo es cubrir los pasos de configuración comunes, los modelos específicos de Synology o las versiones de DSM pueden tener ligeras variaciones. Consulte siempre la documentación oficial de Synology para su dispositivo específico para obtener la información más precisa y actualizada.",
+                    sec_disclaimer_p2: "El autor de esta página web no es responsable de ninguna pérdida de datos, daño de hardware u otros problemas que puedan surgir al seguir esta guía. Proceda con cuidado, especialmente al tratar con el formateo de unidades y la gestión de datos.",
+                },
+            };
+
+            const languageSwitcher = document.getElementById('language-switcher');
+            const themeButtons = document.querySelectorAll('#theme-switcher button');
+            const htmlEl = document.documentElement;
+
+            
+            const setLanguage = (lang) => {
+                if (!translations[lang]) lang = 'en'; 
+                
+                htmlEl.setAttribute('lang', lang);
+                document.title = translations[lang].page_title;
+
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang][key]) {
+                       
+                        element.innerHTML = translations[lang][key];
+                    }
+                });
+                
+                languageSwitcher.value = lang;
+                localStorage.setItem('language', lang);
+            };
+
+            languageSwitcher.addEventListener('change', (event) => {
+                setLanguage(event.target.value);
+            });
+            
+            
+            const applyTheme = (theme) => {
+                htmlEl.classList.remove('light-theme', 'dark-theme');
+                if (theme === 'light' || theme === 'dark') {
+                    htmlEl.classList.add(`${theme}-theme`);
+                }
+
+                themeButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.theme === theme);
+                });
+
+                localStorage.setItem('theme', theme);
+            };
+
+            themeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    applyTheme(button.dataset.theme);
+                });
+            });
+
+           
+            const sections = document.querySelectorAll('#main-content section');
+            const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+            const updateActiveLink = () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 70) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', updateActiveLink);
+            
+            
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            applyTheme(savedTheme);
+
+            
+            const savedLang = localStorage.getItem('language');
+            const browserLang = navigator.language.split('-')[0];
+            const initialLang = savedLang || (translations[browserLang] ? browserLang : 'en');
+            setLanguage(initialLang);
+
+            
+            updateActiveLink();
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>macOS Dual Boot Guide for Windows PC</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c;
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+        }
+       
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#prerequisites">Prerequisites & Downloads</a></li>
+            <li><a href="#opcore-simplify">1. OpCore-Simplify (Build EFI)</a></li>
+            <li><a href="#usbtoolbox">2. USBToolBox (USB Mapping)</a></li>
+            <li><a href="#ocat">3. OCAT (OpenCore Configuration)</a></li>
+            <li><a href="#disk-prep">4. Disk Preparation (Windows)</a></li>
+            <li><a href="#diskgenius">5. DiskGenius (Partitioning & EFI Setup)</a></li>
+            <li><a href="#r-drive">6. R-Drive Image (Restore macOS)</a></li>
+            <li><a href="#diskgenius-boot">7. DiskGenius (Set Boot to BIOS)</a></li>
+            <li><a href="#bios-config">8. BIOS Configuration</a></li>
+            <li><a href="#macos-boot">9. First macOS Boot & Setup</a></li>
+            <li><a href="#disclaimer">Disclaimer</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>Guide: Dual Boot Windows & macOS on Your Windows PC/Laptop</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>This guide provides step-by-step instructions to help you set up a dual boot system with Windows and macOS on your compatible Windows PC or Laptop. This process is often referred to as creating a "Hackintosh."</p>
+            <p class="warning"><strong>Important:</strong> This process can be complex and carries risks, including data loss or system instability. Proceed at your own risk. Compatibility varies greatly between hardware components. This guide follows a specific method using pre-built tools and images.</p>
+        </section>
+
+        <section id="prerequisites">
+            <h2>Prerequisites & Downloads</h2>
+            <p>Before you begin, download the following tools and files:</p>
+            <ul>
+                <li><strong>OpCore-Simplify:</strong>
+                    <a href="https://github.com/lzhoang2801/OpCore-Simplify" target="_blank">Download OpCore-Simplify as ZIP from GitHub</a>
+                </li>
+                <li><strong>USBToolBox Kext:</strong>
+                    <a href="https://github.com/USBToolBox/kext/releases/download/1.1.1/USBToolBox-1.1.1-RELEASE.zip" target="_blank">USBToolBox.kext (v1.1.1-RELEASE.zip)</a>
+                </li>
+                <li><strong>USBToolBox Tool (Windows):</strong>
+                    <a href="https://github.com/USBToolBox/tool/releases" target="_blank">USBToolBox Windows Tool</a> (Download <code>Windows.exe</code> from the latest release)
+                </li>
+                <li><strong>OCAuxiliaryTools (OCAT):</strong>
+                    <a href="https://github.com/ic005k/OCAuxiliaryTools/releases" target="_blank">OCAuxiliaryTools (OCAT-Win64)</a> (Download the latest Win64 release)
+                </li>
+                <li><strong>R-Drive Image & Registry File:</strong>
+                    <a href="https://litemint09.mystrikingly.com/#programs" target="_blank">Download R-Drive Image and Registry File from litemint09's site</a>
+                </li>
+                <li><strong>DiskGenius:</strong>
+                    <a href="https://www.diskgenius.com/download.php" target="_blank">Download DiskGenius</a>
+                </li>
+                <li><strong>Python 3:</strong>
+                    <a href="https://www.python.org/downloads/" target="_blank">Download Python 3</a> (Ensure it's added to PATH during installation)
+                </li>
+            </ul>
+        </section>
+
+        <section id="opcore-simplify">
+            <h2>1. OpCore-Simplify (Build EFI)</h2>
+            <p>This step involves creating the base EFI (Extensible Firmware Interface) folder required for booting macOS.</p>
+            <ol>
+                <li>Extract the downloaded <code>OpCore-Simplify-main.zip</code>.</li>
+                <li><strong>Disable Windows Defender Real-Time Protection</strong> temporarily, as it might interfere with the script.</li>
+                <li>Install Python 3 if you haven't already. Make sure to check "Add Python to PATH" during installation.</li>
+                <li>Navigate to the extracted folder: <code class="path">...\OpCore-Simplify-main\OpCore-Simplify-main\</code></li>
+                <li>Run <code>OpCore-Simplify.bat</code>.</li>
+                <li>In the script, select option <code>1</code> (or the appropriate option for your system generation).</li>
+                <li>Type <code>E</code> to proceed.
+                    <p class="warning">If this step fails, double-check that Windows Defender Real-Time Protection is still disabled.</p>
+                </li>
+                <li>The script will check your CPU and GPU compatibility.
+                    <p class="important"><strong>Crucial:</strong> If you see any <strong>RED</strong> text indicating incompatibility for your CPU or GPU, your hardware is likely not suitable for this method. You may need to abandon the process or seek alternative solutions.</p>
+                </li>
+                <li>If there are no red warnings, press <code>Enter</code> to continue.</li>
+                <li>Select any additional options or kexts you might need based on your hardware (e.g., specific Wi-Fi or Ethernet kexts).</li>
+                <li>Press <code>6</code> to build the EFI.</li>
+                <li>The generated EFI folder will be located in: <code class="path">...\OpCore-Simplify-main\OpCore-Simplify-main\Results\EFI</code></li>
+            </ol>
+        </section>
+
+        <section id="usbtoolbox">
+            <h2>2. USBToolBox (USB Mapping)</h2>
+            <p>Proper USB port mapping is essential for macOS functionality.</p>
+            <ol>
+                <li>Extract the downloaded <code>USBToolBox-1.1.1-RELEASE.zip</code>. This will give you <code>USBToolBox.kext</code>.</li>
+                <li>Rename the downloaded <code>Windows.exe</code> (from USBToolBox/tool) to <code>USBToolBox.exe</code>.</li>
+                <li>Run <code>USBToolBox.exe</code>.</li>
+                <li>Press <code>D</code> to discover ports. (You may need to plug USB 2.0 and USB 3.0 devices into all your ports one by one for them to be detected).</li>
+                <li>Once all ports are mapped as desired, press <code>B</code> to go back to the main menu.</li>
+                <li>Press <code>S</code> to select ports you want to include in your map.</li>
+                <li>Press <code>K</code> to build the kext. This will generate <code>UTBMap.kext</code> in the same folder as <code>USBToolBox.exe</code>.</li>
+                <li>Copy both <code>USBToolBox.kext</code> (from the zip) and the newly generated <code>UTBMap.kext</code> into your EFI's kexts folder:
+                    <br><code class="path">...\OpCore-Simplify-main\OpCore-Simplify-main\Results\EFI\OC\Kexts\</code>
+                </li>
+            </ol>
+        </section>
+
+        <section id="ocat">
+            <h2>3. OCAT (OpenCore Configuration)</h2>
+            <p>OCAuxiliaryTools (OCAT) helps manage and update your OpenCore configuration.</p>
+            <ol>
+                <li>Extract the downloaded OCAT archive (e.g., <code>OCAT-Win64.zip</code>).</li>
+                <li>Run <code>OCAuxiliaryTools.exe</code> from the extracted folder.</li>
+                <li>Click the "Upgrade OpenCore and Kexts" button (often a cloud icon with an arrow) at the top.</li>
+                <li>Press "Get the latest version of OpenCore". Let it download and update.</li>
+                <li>Press "OK" when done.</li>
+                <li>Close OCAT, then reopen it. Go to <code>File > Open</code> and select your <code>config.plist</code> file located at:
+                    <br><code class="path">...\OpCore-Simplify-main\OpCore-Simplify-main\Results\EFI\OC\config.plist</code>
+                </li>
+                <li>
+                    <strong>Kernel Section:</strong>
+                    <ul>
+                        <li>In the left pane, click on <code>Kernel</code>.</li>
+                        <li>On the right, ensure that <code>UTBMap.kext</code> and <code>USBToolBox.kext</code> are listed and enabled (checkbox ticked).</li>
+                        <li>If they are not present, use the <code>+</code> button (usually at the bottom or under the "Add" tab) to browse and add them from your <code class="path">Kexts</code> folder.</li>
+                        <li>Do the same for any other essential kexts/drivers you added or that OpCore-Simplify included. Ensure their paths are correct and they are enabled.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>NVRAM Section:</strong>
+                    <ul>
+                        <li>In the left pane, click on <code>NVRAM</code>.</li>
+                        <li>Expand the UUIDs listed. Look for the one typically associated with boot arguments, which is often <code>4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14</code> or <code>7C436110-AB2A-4BBB-A880-FE41995C9F82</code> (the one containing <code>boot-args</code>).</li>
+                        <li>Find the <code>boot-args</code> entry (Key: <code>boot-args</code>, Type: <code>String</code>).</li>
+                        <li>To disable verbose boot logs (the text that scrolls by during startup), ensure its <strong>Value</strong> field is empty. If it contains text like <code>-v</code>, delete that text.
+                            <p class="important">Note: If you want to see boot logs for troubleshooting, you can add <code>-v</code> to this field.</p>
+                        </li>
+                    </ul>
+                </li>
+                <li>Click the "Save" icon (usually a floppy disk) in OCAT and then close it.</li>
+            </ol>
+        </section>
+
+        <section id="disk-prep">
+            <h2>4. Disk Preparation (Windows)</h2>
+            <ol>
+                <li>Double-click the downloaded Registry File (e.g., <code>*.reg</code> from litemint09) and confirm to merge it into your Windows Registry. This might be related to R-Drive Image functionality or system configuration.</li>
+                <li>Open Windows Disk Management:
+                    <ul>
+                        <li>Press <code>Win + X</code> and select "Disk Management".</li>
+                        <li>Or, search for "Create and format hard disk partitions" in the Start Menu.</li>
+                    </ul>
+                </li>
+                <li>Right-click on your main Windows partition (usually C:).</li>
+                <li>Select "Shrink Volume...".</li>
+                <li>Shrink it to create at least <strong>64GB</strong> (64000 MB) of unallocated space for macOS. More is recommended if you plan to install many applications (e.g., 100GB or 128GB).</li>
+                <li>Click "Shrink". You will now see "Unallocated" space.</li>
+            </ol>
+        </section>
+
+        <section id="diskgenius">
+            <h2>5. DiskGenius (Partitioning & EFI Setup)</h2>
+            <p>DiskGenius will be used to create the EFI partition for OpenCore and copy the files.</p>
+            <ol>
+                <li>Install DiskGenius and launch it.</li>
+                <li>
+                    <p class="important">Your target disk (where Windows is, and where macOS will be) <strong>must be a GPT disk</strong> (GUID Partition Table). DiskGenius can show you this information when you select the disk.</p>
+                </li>
+                <li>
+                    <strong>Create a new EFI System Partition (ESP) for OpenCore:</strong>
+                    <ul>
+                        <li>Select the disk (not a partition) where you want to install macOS.</li>
+                        <li>Right-click on an existing ESP (if you have one and want to use it, be careful) or, more commonly for a separate OpenCore EFI, find some unallocated space or shrink an existing partition slightly (if you don't want to use the main Windows ESP).
+                        <em>The original guide implies creating a *new* ESP.</em>
+                        </li>
+                        <li>Alternatively, if your main Windows disk already has an ESP, you *could* use that, but it's often safer to have a dedicated one or use a USB for initial testing. For this guide, we'll assume creating a new one on the main drive or using the existing one carefully. Let's follow the guide's intent of creating one named "OpenCORE".
+                        </li>
+                        <li>Select unallocated space (or make some by shrinking a non-OS partition if needed, or use the existing Windows ESP). For this guide, let's assume you are creating a *new dedicated ESP for OpenCore*.</li>
+                        <li>Right-click the unallocated space (or the disk itself if you plan to manage existing ESP) and select "Create New Partition".</li>
+                        <li>Set "File System Type" to <code>EFI system partition</code>.</li>
+                        <li>Set "Size": Change units to <code>MB</code> and enter <code>300</code>.</li>
+                        <li>Set "Partition Name / Volume Label" to <code>OpenCORE</code>.</li>
+                        <li>Click <code>OK</code>.</li>
+                    </ul>
+                </li>
+                <li>Click the <strong>"Save All"</strong> button (looks like a floppy disk with a checkmark) in the top toolbar to apply the partition changes. Confirm any warnings.</li>
+                <li>
+                    <strong>Copy EFI Folder:</strong>
+                    <ul>
+                        <li>In DiskGenius, find and double-click the newly created "OpenCORE" partition (or your target ESP). This should open it in the DiskGenius file browser.</li>
+                        <li>Drag and drop the entire <code>EFI</code> folder (from <code class="path">...\OpCore-Simplify-main\OpCore-Simplify-main\Results\</code>) into this "OpenCORE" partition.</li>
+                        <li>Once copying is complete, click "Complete" or close the file browser window for that partition.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p class="important"><strong>Note on New/Empty Drives:</strong> If you were setting up a completely new/empty drive (not dual-booting with existing Windows on the same drive), the original notes say: "if new drive delete all partitions and create a ESP and MSR partition and uncheck Create MSR partition and then ok and click save all button". This can be interpreted as: delete all partitions, then when creating the ESP, ensure an MSR partition is *not* automatically created if an option for it is presented (uncheck it). For our dual-boot scenario, this specific sub-step is less relevant as we are working with an existing Windows installation.</p>
+                </li>
+                <li>
+                    <strong>Set UEFI Boot Entry for OpenCore:</strong>
+                    <ul>
+                        <li>In DiskGenius, go to <code>Tools > Set UEFI BIOS Boot Entries</code>.</li>
+                        <li>Click the <code>Add</code> button.</li>
+                        <li>Browse to the <code>OpenCore.efi</code> file on your "OpenCORE" partition. The path will be something like <code class="path">YourDisk\EFI\OC\OpenCore.efi</code> (DiskGenius will help you find this under the ESP you prepared).</li>
+                        <li>Give the boot entry a name, e.g., <code>OC</code> or <code>OpenCore</code>.</li>
+                        <li>Select the newly added "OC" entry and use the <code>Up</code> button to move it to the <strong>top</strong> of the boot order list.</li>
+                        <li>Click <code>Save current boot entry settings</code> and then <code>Close</code>.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="r-drive">
+            <h2>6. R-Drive Image (Restore macOS)</h2>
+            <p>This step restores the macOS image to the unallocated space you created earlier.</p>
+            <ol>
+                <li>Install R-Drive Image (but don't open it yet from the installer).</li>
+                <li>Double-click the downloaded macOS image file, e.g., <code>macOS Monterey12.7.6 - litemint09.rdr</code>.</li>
+                <li>When prompted for a password, enter: <code>litemint09</code></li>
+                <li>R-Drive Image will launch.
+                    <ul>
+                        <li>The <code>.rdr</code> image file should be automatically selected as the <strong>Source</strong>.</li>
+                        <li>For the <strong>Destination</strong>, carefully select the 64GB (or larger) <strong>unallocated space</strong> you created in Windows Disk Management. Ensure you pick the correct unallocated space!</li>
+                        <li>Click <code>Next</code>.</li>
+                        <li>Review the summary and click <code>Start</code>.</li>
+                        <li>Wait for the restoration process to complete. This can take some time.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="diskgenius-boot">
+            <h2>7. DiskGenius (Set Boot to BIOS)</h2>
+            <p>This step configures the system to boot into BIOS/UEFI settings on the next restart.</p>
+            <ol>
+                <li>Open DiskGenius again.</li>
+                <li>Go to <code>Tools > Set UEFI BIOS Boot Entries</code>.</li>
+                <li>Check the box that says: <code>Enter UEFI BIOS configuration interface directly only at next boot time</code>.</li>
+                <li>Click <code>OK</code>.</li>
+                <li>A prompt will appear to restart. Click the <code>Restart now</code> button.</li>
+            </ol>
+        </section>
+
+        <section id="bios-config">
+            <h2>8. BIOS Configuration</h2>
+            <p>Your computer will restart into the BIOS/UEFI setup utility. Settings vary by motherboard manufacturer, but look for and configure the following (or their equivalents):</p>
+            <div class="important">
+                <strong>General Recommendations:</strong>
+                <ul>
+                    <li><strong>Secure Boot:</strong> Disable (may be under "Boot" or "Security" sections). Some systems might have "Standard" and "Custom" modes; ensure it's not in a mode that prevents unsigned bootloaders.</li>
+                    <li><strong>Legacy Boot / CSM (Compatibility Support Module):</strong> Disable. Ensure UEFI boot is enabled.</li>
+                    <li><strong>SATA Mode:</strong> AHCI (ensure it's not IDE or RAID for the macOS drive).</li>
+                    <li><strong>VT-d (Intel Virtualization Technology for Directed I/O):</strong> Enable. If it causes issues, you might try disabling it later and adding <code>dart=0</code> to boot-args. However, the guide says Enable.</li>
+                    <li><strong>VT-x (Intel Virtualization Technology):</strong> Enable.</li>
+                    <li><strong>XHCI Hand-off:</strong> Enable.</li>
+                    <li><strong>Above 4G Decoding:</strong> Enable (Crucial for many GPUs and systems).</li>
+                    <li><strong>Re-Size BAR Support:</strong> Disable (as per original guide, though sometimes enabled is fine or even preferred on newer systems if OpenCore is configured for it. Stick to Disable for this guide).</li>
+                </ul>
+                <strong>Disable Unnecessary Peripherals (if options exist):</strong>
+                <ul>
+                    <li><strong>Serial Port:</strong> Disable.</li>
+                    <li><strong>Parallel Port:</strong> Disable.</li>
+                </ul>
+                <strong>Other Settings:</strong>
+                <ul>
+                    <li><strong>Fast Boot:</strong> Disable (allows for proper device initialization).</li>
+                    <li><strong>PXE Boot (Network Boot):</strong> Disable.</li>
+                    <li><strong>Network Stack:</strong> Disabled (unless you need it for specific UEFI features before OS boot).</li>
+                    <li><strong>XMP (Extreme Memory Profile):</strong> Enable / Profile 1 (to run RAM at its rated speed).</li>
+                    <li><strong>DVMT Pre-Allocated / Integrated Graphics Video Memory Size:</strong> Set to 64MB or more (e.g., 128MB). The guide states "64MB".</li>
+                    <li><strong>Windows OS Configuration / Windows Features:</strong> Set to <code>Other OS</code> (instead of "Windows 8/10/11 UEFI Mode" if such an option exists). This tells the firmware to be less strict.</li>
+                </ul>
+                <strong>Boot Order:</strong>
+                <ul>
+                    <li>Ensure the primary boot device is set to the UEFI boot entry you created for OpenCore (e.g., "OC" or the disk containing your OpenCORE partition).</li>
+                </ul>
+            </div>
+            <p>Save changes and exit the BIOS. The system will restart.</p>
+        </section>
+
+        <section id="macos-boot">
+            <h2>9. First macOS Boot & Setup</h2>
+            <ol>
+                <li>If everything is configured correctly, you should see the OpenCore boot picker.</li>
+                <li>Select the macOS entry (it might be named "MontereySSD", "macOS Installer", or similar, corresponding to the partition where R-Drive restored the image).</li>
+                <li>
+                    <p class="warning"><strong>Be Patient:</strong> The first boot into macOS might take a while, and it might even restart a few times or appear stuck. The original guide notes: "try it more than one time, it won´t work at the first time." If it fails, reboot and try selecting the macOS entry again.</p>
+                </li>
+                <li>If successful, you will proceed through the macOS setup (language, keyboard, Apple ID, etc.).</li>
+                <li>
+                    <strong>Post-Installation Disk Utility (Optional - Resizing):</strong>
+                    <ul>
+                        <li>Once in macOS, if the restored macOS partition is smaller than the space you allocated and you want to use the remaining space:
+                            <ol>
+                                <li>Open <strong>Disk Utility</strong> (from Applications > Utilities).</li>
+                                <li>In the sidebar, select "Show All Devices" from the "View" menu if it's not already.</li>
+                                <li>Select your main macOS APFS container or the physical disk itself.</li>
+                                <li>Click the <strong>Partition</strong> button in the toolbar.</li>
+                                <li>You might see your macOS partition and "Free space". If you want to expand your macOS partition:
+                                    <ul>
+                                        <li>Select the macOS APFS container/partition. You might be able to drag its resize handle to encompass the free space.</li>
+                                        <li>Alternatively, if the "Free space" is listed as a separate block, you might need to select that "Free space" block and click the <code>-</code> (minus) button to remove it, making it truly unallocated. Then, try to expand your main macOS partition.</li>
+                                    </ul>
+                                </li>
+                                <li>Click <code>Apply</code>. Disk Utility will attempt to resize the partition.</li>
+                                <li class="warning">Be careful with partitioning. Incorrect operations can lead to data loss. If unsure, it's safer to leave it or seek specific advice for your partition layout.</li>
+                            </ol>
+                        </li>
+                    </ul>
+                </li>
+                <li>Enjoy your dual-boot system!</li>
+            </ol>
+        </section>
+
+        <section id="disclaimer">
+            <h2>Disclaimer</h2>
+            <p>This guide is provided for informational purposes only. Creating a Hackintosh can be complex and may violate software license agreements depending on your interpretation and region. There is no guarantee of success, and you proceed entirely at your own risk. The author of this webpage and the original note-taker are not responsible for any damage to your hardware, data loss, or other issues that may arise from following this guide.</p>
+            <p>Hardware compatibility is crucial. This specific method might not work for all systems.</p>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

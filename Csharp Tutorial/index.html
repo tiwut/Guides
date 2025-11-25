@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Beginner's Guide to C#</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code.inline-code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background-color: #2d2d2d; 
+            color: #f8f8f2; 
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Consolas", "Courier New", Courier, monospace;
+            font-size: 0.9em;
+            border: 1px solid #444;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+            color: inherit;
+        }
+         
+        pre code .cs-keyword { color: #569cd6; font-weight: bold; } 
+        pre code .cs-type { color: #4ec9b0; } 
+        pre code .cs-string { color: #d69d85; } 
+        pre code .cs-comment { color: #6a9955; } 
+        pre code .cs-number { color: #b5cea8; } 
+        pre code .cs-operator { color: #d4d4d4; } 
+        pre code .cs-method { color: #dcdcaa; } 
+        pre code .cs-preprocessor { color: #9b9b9b; } 
+        pre code .cs-class-name { color: #4ec9b0; font-weight: bold;}
+        pre code .cs-variable { color: #9cdcfe; } 
+
+
+        .warning, .important, .tip {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .tip {
+            background-color: #e2e3e5;
+            border-left: 5px solid #adb5bd;
+            color: #343a40;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>C# Guide</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to C#</a></li>
+            <li><a href="#setting-up">Setting Up Environment</a></li>
+            <li><a href="#first-program">Your First C# Program</a></li>
+            <li><a href="#basic-syntax">Basic Syntax & Structure</a></li>
+            <li><a href="#variables-datatypes">Variables & Data Types</a></li>
+            <li><a href="#type-conversion">Type Conversion</a></li>
+            <li><a href="#operators">Operators</a></li>
+            <li><a href="#input-output">Input and Output</a></li>
+            <li><a href="#control-flow">Control Flow</a></li>
+            <li><a href="#methods">Methods</a></li>
+            <li><a href="#arrays">Arrays</a></li>
+            <li><a href="#strings">Strings</a></li>
+            <li><a href="#oop-core">Object-Oriented Programming</a></li>
+            <li><a href="#namespaces">Namespaces</a></li>
+            <li><a href="#exception-handling">Exception Handling</a></li>
+            <li><a href="#collections-intro">Intro to Collections (List)</a></li>
+            <li><a href="#linq-intro">Intro to LINQ</a></li>
+            <li><a href="#async-await-intro">Intro to Async/Await</a></li>
+            <li><a href="#next-steps">Next Steps</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>A Comprehensive Beginner's Guide to C# Programming</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to C#</h2>
+            <p>C# (pronounced "C-sharp") is a modern, object-oriented, and type-safe programming language developed by Microsoft. It runs on the .NET Framework (and newer .NET Core / .NET 5+ platforms), enabling developers to build a wide variety of secure and robust applications.</p>
+            <p><strong>Key Features of C#:</strong></p>
+            <ul>
+                <li><strong>Object-Oriented:</strong> Fully supports OOP principles like encapsulation, inheritance, and polymorphism.</li>
+                <li><strong>Type-Safe:</strong> Helps prevent type errors at compile-time and runtime.</li>
+                <li><strong>Component-Oriented:</strong> C# is well-suited for building software components.</li>
+                <li><strong>Part of .NET Ecosystem:</strong> Provides access to the vast .NET Base Class Library (BCL) and Common Language Runtime (CLR) features like garbage collection and exception handling.</li>
+                <li><strong>Versatile:</strong> Used for web applications (ASP.NET Core), desktop applications (Windows Forms, WPF, MAUI), mobile apps (Xamarin, MAUI), cloud services, games (Unity), IoT, AI, and more.</li>
+                <li><strong>Modern Language Features:</strong> Includes features like LINQ (Language Integrated Query), asynchronous programming (<code class="inline-code">async</code>/<code class="inline-code">await</code>), lambda expressions, and more.</li>
+                <li><strong>Cross-Platform with .NET Core / .NET 5+:</strong> C# applications can run on Windows, macOS, and Linux.</li>
+            </ul>
+            <p>C# aims to combine the power of C++ with the simplicity of languages like Visual Basic.</p>
+        </section>
+
+        <section id="setting-up">
+            <h2>Setting Up Your Environment</h2>
+            <p>To start developing with C#, you'll need the .NET SDK and an IDE or code editor.</p>
+            <h3>1. .NET SDK (Software Development Kit)</h3>
+            <p>The .NET SDK includes everything you need to build and run .NET applications, including the C# compiler and the .NET runtime.</p>
+            <ol>
+                <li>Download the latest .NET SDK from the official Microsoft website: <a href="https://dotnet.microsoft.com/download" target="_blank">dotnet.microsoft.com/download</a>.
+                <br>(Choose the SDK, not just the Runtime. LTS versions are generally recommended for stability.)</li>
+                <li>Run the installer and follow the on-screen instructions.</li>
+                <li>To verify the installation, open your terminal or command prompt and type:
+<pre><code class="path">dotnet --version</code></pre>
+                    You should see the installed .NET SDK version.
+                </li>
+            </ol>
+
+            <h3>2. Integrated Development Environment (IDE) or Text Editor</h3>
+            <ul>
+                <li><strong>Visual Studio (Windows):</strong> The premier IDE for C# and .NET development. The Community Edition is free and highly recommended. Make sure to select the ".NET desktop development" and/or "ASP.NET and web development" workloads during installation.</li>
+                <li><strong>Visual Studio Code (Cross-platform):</strong> A lightweight, free, and very popular code editor. You'll need to install the "C#" extension from Microsoft for optimal C# development experience.</li>
+                <li><strong>JetBrains Rider (Cross-platform):</strong> A powerful, paid C# IDE from JetBrains (offers free licenses for students/educators).</li>
+            </ul>
+            <p>For this guide, examples will primarily focus on console applications that can be created and run using either Visual Studio or VS Code with the .NET SDK.</p>
+        </section>
+
+        <section id="first-program">
+            <h2>Your First C# Program: "Hello, World!"</h2>
+            <p>Let's create a simple console application.</p>
+            <h3>Using the .NET CLI (Command Line Interface):</h3>
+            <ol>
+                <li>Open your terminal or command prompt.</li>
+                <li>Create a new directory for your project and navigate into it:
+<pre><code class="path">mkdir MyFirstApp
+cd MyFirstApp</code></pre>
+                </li>
+                <li>Create a new console application project:
+<pre><code class="path">dotnet new console</code></pre>
+                    This command creates a new project with a <code class="path">Program.cs</code> file and a project file (<code class="path">.csproj</code>).
+                </li>
+                <li>Open <code class="path">Program.cs</code> in your code editor. It will contain something like this (for .NET 6+):
+<pre><code class="language-csharp"><span class="cs-comment">// Program.cs (for .NET 6+ with top-level statements)</span>
+Console.WriteLine(<span class="cs-string">"Hello, World!"</span>);
+</code></pre>
+                    Or, for older .NET versions or traditional structure:
+<pre><code class="language-csharp"><span class="cs-keyword">using</span> <span class="cs-type">System</span>;
+
+<span class="cs-keyword">namespace</span> MyFirstApp
+{
+    <span class="cs-keyword">class</span> <span class="cs-class-name">Program</span>
+    {
+        <span class="cs-keyword">static</span> <span class="cs-keyword">void</span> <span class="cs-method">Main</span>(<span class="cs-keyword">string</span>[] args)
+        {
+            <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Hello, World!"</span>);
+        }
+    }
+}
+</code></pre>
+                </li>
+                <li>To run the application, go back to your terminal in the project directory and type:
+<pre><code class="path">dotnet run</code></pre>
+                </li>
+            </ol>
+            <p>Output:</p>
+<pre><code>Hello, World!</code></pre>
+            <p>If using Visual Studio, you would typically create a new "Console App" project through its UI, and then click the "Start" button to run it.</p>
+        </section>
+
+        <section id="basic-syntax">
+            <h2>Basic Syntax & Structure</h2>
+            <ul>
+                <li><strong>Case Sensitivity:</strong> C# is case-sensitive (<code class="inline-code">myVariable</code> and <code class="inline-code">MyVariable</code> are different).</li>
+                <li><strong>Statements:</strong> End with a semicolon (<code class="inline-code">;</code>).</li>
+                <li><strong>Code Blocks:</strong> Enclosed in curly braces <code class="inline-code">{}</code> (e.g., for classes, methods, if statements).</li>
+                <li><strong>Comments:</strong>
+                    <ul>
+                        <li>Single-line: <code class="inline-code">// This is a comment</code></li>
+                        <li>Multi-line: <code class="inline-code">/* This is a comment */</code></li>
+                        <li>XML Documentation Comments: <code class="inline-code">/// &lt;summary&gt;...&lt;/summary&gt;</code> (used for generating documentation).</li>
+                    </ul>
+                </li>
+                <li><strong>`using` Directive:</strong> Imports namespaces, allowing you to use types without fully qualifying their names.
+<pre><code class="language-csharp"><span class="cs-keyword">using</span> <span class="cs-type">System</span>; <span class="cs-comment">// Allows using Console instead of System.Console</span></code></pre>
+                </li>
+                <li><strong>Namespaces:</strong> Organize code and prevent naming conflicts.
+<pre><code class="language-csharp"><span class="cs-keyword">namespace</span> MyProject.Utilities
+{
+    <span class="cs-keyword">class</span> <span class="cs-class-name">Helper</span> { <span class="cs-comment">/* ... */</span> }
+}</code></pre>
+                </li>
+                <li><strong>Main Method:</strong> The entry point of a C# console or desktop application.
+                    <br>Signature: <code class="inline-code">static void Main(string[] args)</code> or <code class="inline-code">static int Main(string[] args)</code>.
+                    <br>In .NET 6+ console apps, top-level statements can be used, effectively placing code directly in <code class="path">Program.cs</code> without an explicit `Main` method or class structure for simple programs.
+                </li>
+            </ul>
+        </section>
+
+        <section id="variables-datatypes">
+            <h2>Variables and Data Types</h2>
+            <p>Variables are named storage locations. In C#, you must declare a variable's type before using it.</p>
+            <p>Syntax: <code class="inline-code">type variableName = value;</code> or <code class="inline-code">type variableName;</code></p>
+            <h3>Value Types (store data directly)</h3>
+            <ul>
+                <li><strong>Integer Types:</strong>
+                    <ul>
+                        <li><code class="inline-code">sbyte</code>: 8-bit signed (-128 to 127)</li>
+                        <li><code class="inline-code">byte</code>: 8-bit unsigned (0 to 255)</li>
+                        <li><code class="inline-code">short</code>: 16-bit signed</li>
+                        <li><code class="inline-code">ushort</code>: 16-bit unsigned</li>
+                        <li><code class="inline-code">int</code>: 32-bit signed (most common)</li>
+                        <li><code class="inline-code">uint</code>: 32-bit unsigned</li>
+                        <li><code class="inline-code">long</code>: 64-bit signed</li>
+                        <li><code class="inline-code">ulong</code>: 64-bit unsigned</li>
+                    </ul>
+<pre><code class="language-csharp"><span class="cs-type">int</span> <span class="cs-variable">age</span> = <span class="cs-number">30</span>;</code></pre>
+                </li>
+                <li><strong>Floating-Point Types:</strong>
+                    <ul>
+                        <li><code class="inline-code">float</code>: Single-precision (suffix <code class="inline-code">F</code> or <code class="inline-code">f</code>, e.g., <code class="inline-code">3.14F</code>).</li>
+                        <li><code class="inline-code">double</code>: Double-precision (default for decimal literals, e.g., <code class="inline-code">3.14159</code>).</li>
+                        <li><code class="inline-code">decimal</code>: Higher precision for financial calculations (suffix <code class="inline-code">M</code> or <code class="inline-code">m</code>, e.g., <code class="inline-code">12.99M</code>).</li>
+                    </ul>
+<pre><code class="language-csharp"><span class="cs-type">double</span> <span class="cs-variable">pi</span> = <span class="cs-number">3.14159</span>;
+<span class="cs-type">decimal</span> <span class="cs-variable">price</span> = <span class="cs-number">29.95m</span>;</code></pre>
+                </li>
+                <li><strong>Character Type:</strong>
+                    <ul>
+                        <li><code class="inline-code">char</code>: Single 16-bit Unicode character (single quotes, e.g., <code class="inline-code">'A'</code>).</li>
+                    </ul>
+                </li>
+                <li><strong>Boolean Type:</strong>
+                    <ul>
+                        <li><code class="inline-code">bool</code>: <code class="inline-code">true</code> or <code class="inline-code">false</code>.</li>
+                    </ul>
+                </li>
+                <li><strong>Structs and Enums</strong> are also value types.</li>
+            </ul>
+            <h3>Reference Types (store a reference/address to data)</h3>
+            <ul>
+                <li><strong><code class="inline-code">string</code>:</strong> Sequence of characters (double quotes, e.g., <code class="inline-code">"Hello"</code>). Immutable.
+<pre><code class="language-csharp"><span class="cs-type">string</span> <span class="cs-variable">message</span> = <span class="cs-string">"Welcome to C#!"</span>;</code></pre>
+                </li>
+                <li><strong><code class="inline-code">object</code>:</strong> The ultimate base type for all types in C#.</li>
+                <li><strong>Arrays, Classes, Interfaces, Delegates, Records</strong> are reference types.</li>
+            </ul>
+            <h3>Type Inference (<code class="inline-code">var</code>)</h3>
+            <p>The compiler can infer the type of a variable from its initialization expression.</p>
+<pre><code class="language-csharp"><span class="cs-keyword">var</span> <span class="cs-variable">count</span> = <span class="cs-number">10</span>;         <span class="cs-comment">// Compiler infers int</span>
+<span class="cs-keyword">var</span> <span class="cs-variable">name</span> = <span class="cs-string">"Alice"</span>;    <span class="cs-comment">// Compiler infers string</span>
+<span class="cs-comment">// var something; // Error: var must be initialized</span></code></pre>
+            <h3>Constants (<code class="inline-code">const</code>)</h3>
+            <p>Values that cannot be changed after declaration. Must be initialized at declaration.</p>
+<pre><code class="language-csharp"><span class="cs-keyword">const</span> <span class="cs-type">double</span> <span class="cs-variable">PiValue</span> = <span class="cs-number">3.14159</span>;
+<span class="cs-comment">// PiValue = 3.14; // Error</span></code></pre>
+        </section>
+
+        <section id="type-conversion">
+            <h2>Type Conversion (Casting)</h2>
+            <ul>
+                <li><strong>Implicit Conversion:</strong> Safe conversions performed automatically by the compiler (e.g., <code class="inline-code">int</code> to <code class="inline-code">double</code>). No data loss.
+<pre><code class="language-csharp"><span class="cs-type">int</span> <span class="cs-variable">myInt</span> = <span class="cs-number">100</span>;
+<span class="cs-type">double</span> <span class="cs-variable">myDouble</span> = <span class="cs-variable">myInt</span>; <span class="cs-comment">// Implicit conversion</span></code></pre>
+                </li>
+                <li><strong>Explicit Conversion (Casting):</strong> Must be done manually if there's a risk of data loss or the conversion is not naturally compatible (e.g., <code class="inline-code">double</code> to <span class="cs-type">`int`</span>, object to a more specific type).
+<pre><code class="language-csharp"><span class="cs-type">double</span> <span class="cs-variable">anotherDouble</span> = <span class="cs-number">9.78</span>;
+<span class="cs-type">int</span> <span class="cs-variable">anotherInt</span> = (<span class="cs-type">int</span>)<span class="cs-variable">anotherDouble</span>; <span class="cs-comment">// Explicit cast, anotherInt is 9 (fractional part lost)</span>
+
+<span class="cs-type">object</span> <span class="cs-variable">obj</span> = <span class="cs-string">"Hello"</span>;
+<span class="cs-type">string</span> <span class="cs-variable">str</span> = (<span class="cs-type">string</span>)<span class="cs-variable">obj</span>; <span class="cs-comment">// Casting object to string</span></code></pre>
+                </li>
+                <li><strong>Using <code class="inline-code">Convert</code> Class and <code class="inline-code">Parse</code>/`TryParse` Methods:</strong> For converting strings to numeric types or other types.
+<pre><code class="language-csharp"><span class="cs-type">string</span> <span class="cs-variable">numStr</span> = <span class="cs-string">"123"</span>;
+<span class="cs-type">int</span> <span class="cs-variable">num1</span> = <span class="cs-type">Convert</span>.<span class="cs-method">ToInt32</span>(<span class="cs-variable">numStr</span>);
+<span class="cs-type">int</span> <span class="cs-variable">num2</span> = <span class="cs-type">int</span>.<span class="cs-method">Parse</span>(<span class="cs-variable">numStr</span>);
+
+<span class="cs-type">string</span> <span class="cs-variable">invalidStr</span> = <span class="cs-string">"abc"</span>;
+<span class="cs-type">int</span> <span class="cs-variable">num3</span>;
+<span class="cs-keyword">if</span> (<span class="cs-type">int</span>.<span class="cs-method">TryParse</span>(<span class="cs-variable">invalidStr</span>, <span class="cs-keyword">out</span> <span class="cs-variable">num3</span>)) {
+    <span class="cs-comment">// Conversion successful, num3 holds the value</span>
+} <span class="cs-keyword">else</span> {
+    <span class="cs-comment">// Conversion failed</span>
+    <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Invalid number format"</span>);
+}</code></pre>
+                <p><code class="inline-code">Parse()</code> throws an exception on failure, while <code class="inline-code">TryParse()</code> returns a boolean and uses an <code class="inline-code">out</code> parameter, making it safer for user input.</p>
+                </li>
+            </ul>
+        </section>
+
+        <section id="operators">
+            <h2>Operators</h2>
+            C# supports a rich set of operators:
+            <ul>
+                <li><strong>Arithmetic:</strong> <code class="inline-code">+</code>, <code class="inline-code">-</code>, <code class="inline-code">*</code>, <code class="inline-code">/</code>, <code class="inline-code">%</code> (modulus), <code class="inline-code">++</code> (increment), <code class="inline-code">--</code> (decrement).</li>
+                <li><strong>Relational (Comparison):</strong> <code class="inline-code">==</code>, <code class="inline-code">!=</code>, <code class="inline-code">></code>, <code class="inline-code"><</code>, <code class="inline-code">>=</code>, <code class="inline-code"><=</code>.</li>
+                <li><strong>Logical:</strong> <code class="inline-code">&&</code> (AND), <code class="inline-code">||</code> (OR), <code class="inline-code">!</code> (NOT).</li>
+                <li><strong>Bitwise:</strong> <code class="inline-code">&</code>, <code class="inline-code">|</code>, <code class="inline-code">^</code> (XOR), <code class="inline-code">~</code> (NOT), <code class="inline-code">&lt;&lt;</code> (left shift), <code class="inline-code">>></code> (right shift).</li>
+                <li><strong>Assignment:</strong> <code class="inline-code">=</code>, <code class="inline-code">+=</code>, <code class="inline-code">-=</code>, <code class="inline-code">*=</code>, <code class="inline-code">/=</code>, <code class="inline-code">%=</code>, etc.</li>
+                <li><strong>Ternary Operator:</strong> <code class="inline-code">condition ? expression1 : expression2</code>.</li>
+                <li><strong>Null-Coalescing Operator (<code class="inline-code">??</code>):</strong> <code class="inline-code">nullableValue ?? defaultValue</code> (returns <code class="inline-code">nullableValue</code> if not null, otherwise <code class="inline-code">defaultValue</code>).</li>
+                <li><strong>Null-Conditional Operator (<code class="inline-code">?.</code> and <code class="inline-code">?[]</code>):</strong> Safely access members or elements if an object or array is not null.</li>
+            </ul>
+        </section>
+
+        <section id="input-output">
+            <h2>Input and Output (Console)</h2>
+            <p>The <code class="inline-code">System.Console</code> class provides methods for console I/O.</p>
+            <h3>Output</h3>
+<pre><code class="language-csharp"><span class="cs-type">Console</span>.<span class="cs-method">Write</span>(<span class="cs-string">"This prints on one line. "</span>);
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"This prints on a new line."</span>);
+
+<span class="cs-type">string</span> <span class="cs-variable">name</span> = <span class="cs-string">"Alice"</span>;
+<span class="cs-type">int</span> <span class="cs-variable">age</span> = <span class="cs-number">30</span>;
+
+<span class="cs-comment">// Concatenation</span>
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Name: "</span> + <span class="cs-variable">name</span> + <span class="cs-string">", Age: "</span> + <span class="cs-variable">age</span>);
+
+<span class="cs-comment">// String interpolation (recommended)</span>
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"Name: {<span class="cs-variable">name</span>}, Age: {<span class="cs-variable">age</span>}"</span>);
+
+<span class="cs-comment">// Formatted output (older style)</span>
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Name: {0}, Age: {1}"</span>, <span class="cs-variable">name</span>, <span class="cs-variable">age</span>);
+</code></pre>
+            <h3>Input</h3>
+<pre><code class="language-csharp"><span class="cs-type">Console</span>.<span class="cs-method">Write</span>(<span class="cs-string">"Enter your name: "</span>);
+<span class="cs-type">string</span> <span class="cs-variable">userName</span> = <span class="cs-type">Console</span>.<span class="cs-method">ReadLine</span>(); <span class="cs-comment">// Reads a line of text as a string</span>
+
+<span class="cs-type">Console</span>.<span class="cs-method">Write</span>(<span class="cs-string">"Enter your age: "</span>);
+<span class="cs-type">string</span> <span class="cs-variable">ageInput</span> = <span class="cs-type">Console</span>.<span class="cs-method">ReadLine</span>();
+<span class="cs-type">int</span> <span class="cs-variable">userAge</span>;
+<span class="cs-keyword">if</span> (<span class="cs-type">int</span>.<span class="cs-method">TryParse</span>(<span class="cs-variable">ageInput</span>, <span class="cs-keyword">out</span> <span class="cs-variable">userAge</span>)) {
+    <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"Hello, {<span class="cs-variable">userName</span>}! You are {<span class="cs-variable">userAge</span>} years old."</span>);
+} <span class="cs-keyword">else</span> {
+    <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Invalid age input."</span>);
+}
+
+<span class="cs-comment">// Read a single key press</span>
+<span class="cs-comment">// ConsoleKeyInfo keyInfo = Console.ReadKey();</span>
+<span class="cs-comment">// Console.WriteLine($"\nYou pressed: {keyInfo.KeyChar}");</span>
+</code></pre>
+        </section>
+
+        <section id="control-flow">
+            <h2>Control Flow</h2>
+            <h3>1. Conditional Statements</h3>
+            <ul>
+                <li><strong><code class="inline-code">if-else if-else</code>:</strong>
+<pre><code class="language-csharp"><span class="cs-type">int</span> <span class="cs-variable">temp</span> = <span class="cs-number">25</span>;
+<span class="cs-keyword">if</span> (<span class="cs-variable">temp</span> &lt; <span class="cs-number">0</span>) { <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Freezing!"</span>); }
+<span class="cs-keyword">else</span> <span class="cs-keyword">if</span> (<span class="cs-variable">temp</span> &lt; <span class="cs-number">20</span>) { <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Cool."</span>); }
+<span class="cs-keyword">else</span> { <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Warm."</span>); }</code></pre>
+                </li>
+                <li><strong><code class="inline-code">switch</code> statement:</strong>
+<pre><code class="language-csharp"><span class="cs-type">char</span> <span class="cs-variable">grade</span> = <span class="cs-string">'B'</span>;
+<span class="cs-keyword">switch</span> (<span class="cs-variable">grade</span>)
+{
+    <span class="cs-keyword">case</span> <span class="cs-string">'A'</span>: <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Excellent!"</span>); <span class="cs-keyword">break</span>;
+    <span class="cs-keyword">case</span> <span class="cs-string">'B'</span>: <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Good!"</span>); <span class="cs-keyword">break</span>;
+    <span class="cs-keyword">default</span>: <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Keep trying!"</span>); <span class="cs-keyword">break</span>;
+}</code></pre>
+                </li>
+            </ul>
+            <h3>2. Looping Statements</h3>
+            <ul>
+                <li><strong><code class="inline-code">for</code> loop:</strong>
+<pre><code class="language-csharp"><span class="cs-keyword">for</span> (<span class="cs-type">int</span> <span class="cs-variable">i</span> = <span class="cs-number">0</span>; <span class="cs-variable">i</span> &lt; <span class="cs-number">5</span>; <span class="cs-variable">i</span>++) { <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">i</span>); }</code></pre>
+                </li>
+                <li><strong><code class="inline-code">while</code> loop:</strong>
+<pre><code class="language-csharp"><span class="cs-type">int</span> <span class="cs-variable">count</span> = <span class="cs-number">0</span>;
+<span class="cs-keyword">while</span> (<span class="cs-variable">count</span> &lt; <span class="cs-number">3</span>) { <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">count</span>); <span class="cs-variable">count</span>++; }</code></pre>
+                </li>
+                <li><strong><code class="inline-code">do...while</code> loop:</strong>
+<pre><code class="language-csharp"><span class="cs-type">int</span> <span class="cs-variable">n</span> = <span class="cs-number">0</span>;
+<span class="cs-keyword">do</span> { <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">n</span>); <span class="cs-variable">n</span>++; } <span class="cs-keyword">while</span> (<span class="cs-variable">n</span> &lt; <span class="cs-number">3</span>);</code></pre>
+                </li>
+                <li><strong><code class="inline-code">foreach</code> loop (for collections):</strong>
+<pre><code class="language-csharp"><span class="cs-type">string</span>[] <span class="cs-variable">names</span> = { <span class="cs-string">"Alice"</span>, <span class="cs-string">"Bob"</span>, <span class="cs-string">"Charlie"</span> };
+<span class="cs-keyword">foreach</span> (<span class="cs-type">string</span> <span class="cs-variable">name</span> <span class="cs-keyword">in</span> <span class="cs-variable">names</span>) { <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">name</span>); }</code></pre>
+                </li>
+            </ul>
+            <h3>3. Loop Control Statements</h3>
+            <ul>
+                <li><code class="inline-code">break</code>: Exits the current loop or switch statement.</li>
+                <li><code class="inline-code">continue</code>: Skips the rest of the current iteration and proceeds to the next.</li>
+            </ul>
+        </section>
+
+        <section id="methods">
+            <h2>Methods (Functions)</h2>
+            <p>Methods are blocks of code that perform a specific task. They help organize code into reusable units.</p>
+            <p>Syntax: <code class="inline-code">[access_modifier] [static] return_type MethodName([parameters]) { ... }</code></p>
+<pre><code class="language-csharp"><span class="cs-keyword">using</span> <span class="cs-type">System</span>;
+
+<span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">MathUtils</span>
+{
+    <span class="cs-comment">// Method with no return value and no parameters</span>
+    <span class="cs-keyword">public</span> <span class="cs-keyword">static</span> <span class="cs-keyword">void</span> <span class="cs-method">Greet</span>()
+    {
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Hello from MathUtils!"</span>);
+    }
+
+    <span class="cs-comment">// Method with parameters and a return value</span>
+    <span class="cs-keyword">public</span> <span class="cs-keyword">static</span> <span class="cs-type">int</span> <span class="cs-method">Add</span>(<span class="cs-type">int</span> <span class="cs-variable">a</span>, <span class="cs-type">int</span> <span class="cs-variable">b</span>)
+    {
+        <span class="cs-keyword">return</span> <span class="cs-variable">a</span> + <span class="cs-variable">b</span>;
+    }
+
+    <span class="cs-comment">// Method with default parameter value</span>
+    <span class="cs-keyword">public</span> <span class="cs-keyword">static</span> <span class="cs-keyword">void</span> <span class="cs-method">PrintMessage</span>(<span class="cs-type">string</span> <span class="cs-variable">message</span>, <span class="cs-type">string</span> <span class="cs-variable">prefix</span> = <span class="cs-string">"Info"</span>)
+    {
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"[{<span class="cs-variable">prefix</span>}]: {<span class="cs-variable">message</span>}"</span>);
+    }
+}
+
+<span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">Program</span>
+{
+    <span class="cs-keyword">static</span> <span class="cs-keyword">void</span> <span class="cs-method">Main</span>(<span class="cs-keyword">string</span>[] args)
+    {
+        <span class="cs-type">MathUtils</span>.<span class="cs-method">Greet</span>();
+        <span class="cs-type">int</span> <span class="cs-variable">sum</span> = <span class="cs-type">MathUtils</span>.<span class="cs-method">Add</span>(<span class="cs-number">5</span>, <span class="cs-number">3</span>);
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"Sum: {<span class="cs-variable">sum</span>}"</span>);
+        <span class="cs-type">MathUtils</span>.<span class="cs-method">PrintMessage</span>(<span class="cs-string">"System Normal"</span>);
+        <span class="cs-type">MathUtils</span>.<span class="cs-method">PrintMessage</span>(<span class="cs-string">"Major Error"</span>, <span class="cs-string">"ALERT"</span>);
+    }
+}
+</code></pre>
+            <h3>Method Overloading</h3>
+            <p>Creating multiple methods with the same name but different parameter lists (number or types of parameters).</p>
+            <h3>Passing Parameters</h3>
+            <ul>
+                <li><strong>Pass by Value (default for value types):</strong> A copy of the argument is passed.</li>
+                <li><strong>Pass by Reference (<code class="inline-code">ref</code> keyword):</strong> Passes a reference to the original variable. Changes in the method affect the original.
+<pre><code class="language-csharp"><span class="cs-keyword">void</span> <span class="cs-method">Increment</span>(<span class="cs-keyword">ref</span> <span class="cs-type">int</span> <span class="cs-variable">number</span>) { <span class="cs-variable">number</span>++; }</code></pre>
+                </li>
+                <li><strong>Output Parameters (<code class="inline-code">out</code> keyword):</strong> Similar to <code class="inline-code">ref</code>, but the variable doesn't need to be initialized before being passed. The method must assign a value to an <code class="inline-code">out</code> parameter.
+<pre><code class="language-csharp"><span class="cs-keyword">bool</span> <span class="cs-method">TryParseInt</span>(<span class="cs-type">string</span> <span class="cs-variable">s</span>, <span class="cs-keyword">out</span> <span class="cs-type">int</span> <span class="cs-variable">result</span>) { <span class="cs-comment">/* ... */</span> }</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="arrays">
+            <h2>Arrays</h2>
+            <p>Arrays store a fixed-size, sequential collection of elements of the same type.</p>
+            <h3>Single-Dimensional Arrays</h3>
+<pre><code class="language-csharp"><span class="cs-comment">// Declaration</span>
+<span class="cs-type">int</span>[] <span class="cs-variable">numbers</span>;
+
+<span class="cs-comment">// Initialization</span>
+<span class="cs-variable">numbers</span> = <span class="cs-keyword">new</span> <span class="cs-type">int</span>[<span class="cs-number">5</span>]; <span class="cs-comment">// Array of 5 integers, initialized to 0</span>
+<span class="cs-variable">numbers</span>[<span class="cs-number">0</span>] = <span class="cs-number">10</span>;
+<span class="cs-variable">numbers</span>[<span class="cs-number">1</span>] = <span class="cs-number">20</span>;
+
+<span class="cs-comment">// Declaration and initialization</span>
+<span class="cs-type">string</span>[] <span class="cs-variable">fruits</span> = { <span class="cs-string">"Apple"</span>, <span class="cs-string">"Banana"</span>, <span class="cs-string">"Orange"</span> };
+
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">fruits</span>[<span class="cs-number">1</span>]); <span class="cs-comment">// Banana</span>
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"Number of fruits: {<span class="cs-variable">fruits</span>.<span class="cs-keyword">Length</span>}"</span>);
+
+<span class="cs-keyword">for</span> (<span class="cs-type">int</span> <span class="cs-variable">i</span> = <span class="cs-number">0</span>; <span class="cs-variable">i</span> &lt; <span class="cs-variable">fruits</span>.<span class="cs-keyword">Length</span>; <span class="cs-variable">i</span>++) {
+    <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">fruits</span>[<span class="cs-variable">i</span>]);
+}
+</code></pre>
+            <h3>Multi-Dimensional Arrays (Rectangular)</h3>
+<pre><code class="language-csharp"><span class="cs-type">int</span>[,] <span class="cs-variable">matrix</span> = <span class="cs-keyword">new</span> <span class="cs-type">int</span>[<span class="cs-number">2</span>, <span class="cs-number">3</span>] { {<span class="cs-number">1</span>,<span class="cs-number">2</span>,<span class="cs-number">3</span>}, {<span class="cs-number">4</span>,<span class="cs-number">5</span>,<span class="cs-number">6</span>} };
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">matrix</span>[<span class="cs-number">1</span>, <span class="cs-number">1</span>]); <span class="cs-comment">// 5</span>
+</code></pre>
+            <h3>Jagged Arrays (Array of arrays)</h3>
+<pre><code class="language-csharp"><span class="cs-type">int</span>[][] <span class="cs-variable">jaggedArray</span> = <span class="cs-keyword">new</span> <span class="cs-type">int</span>[<span class="cs-number">3</span>][];
+<span class="cs-variable">jaggedArray</span>[<span class="cs-number">0</span>] = <span class="cs-keyword">new</span> <span class="cs-type">int</span>[] { <span class="cs-number">1</span>, <span class="cs-number">2</span> };
+<span class="cs-variable">jaggedArray</span>[<span class="cs-number">1</span>] = <span class="cs-keyword">new</span> <span class="cs-type">int</span>[] { <span class="cs-number">3</span>, <span class="cs-number">4</span>, <span class="cs-number">5</span> };
+<span class="cs-variable">jaggedArray</span>[<span class="cs-number">2</span>] = <span class="cs-keyword">new</span> <span class="cs-type">int</span>[] { <span class="cs-number">6</span> };
+</code></pre>
+        </section>
+
+        <section id="strings">
+            <h2>Strings</h2>
+            <p>The <code class="inline-code">System.String</code> (or <code class="inline-code">string</code> alias) type represents a sequence of characters. Strings are immutable in C# (operations that seem to modify a string actually create a new one).</p>
+            <h3>Common String Operations</h3>
+<pre><code class="language-csharp"><span class="cs-type">string</span> <span class="cs-variable">str1</span> = <span class="cs-string">"Hello"</span>;
+<span class="cs-type">string</span> <span class="cs-variable">str2</span> = <span class="cs-string">"World"</span>;
+
+<span class="cs-comment">// Concatenation</span>
+<span class="cs-type">string</span> <span class="cs-variable">greeting</span> = <span class="cs-variable">str1</span> + <span class="cs-string">" "</span> + <span class="cs-variable">str2</span> + <span class="cs-string">"!"</span>; <span class="cs-comment">// "Hello World!"</span>
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">greeting</span>);
+
+<span class="cs-comment">// Length</span>
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"Length: {<span class="cs-variable">greeting</span>.<span class="cs-keyword">Length</span>}"</span>);
+
+<span class="cs-comment">// ToUpper / ToLower</span>
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">greeting</span>.<span class="cs-method">ToUpper</span>()); <span class="cs-comment">// HELLO WORLD!</span>
+
+<span class="cs-comment">// Substring</span>
+<span class="cs-type">string</span> <span class="cs-variable">sub</span> = <span class="cs-variable">greeting</span>.<span class="cs-method">Substring</span>(<span class="cs-number">6</span>, <span class="cs-number">5</span>); <span class="cs-comment">// "World" (start index, length)</span>
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">sub</span>);
+
+<span class="cs-comment">// IndexOf</span>
+<span class="cs-type">int</span> <span class="cs-variable">indexOfWorld</span> = <span class="cs-variable">greeting</span>.<span class="cs-method">IndexOf</span>(<span class="cs-string">"World"</span>); <span class="cs-comment">// 6</span>
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"Index of 'World': {<span class="cs-variable">indexOfWorld</span>}"</span>);
+
+<span class="cs-comment">// Replace</span>
+<span class="cs-type">string</span> <span class="cs-variable">replaced</span> = <span class="cs-variable">greeting</span>.<span class="cs-method">Replace</span>(<span class="cs-string">"World"</span>, <span class="cs-string">"C#"</span>); <span class="cs-comment">// "Hello C#!"</span>
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">replaced</span>);
+
+<span class="cs-comment">// String Interpolation (preferred for building strings with variables)</span>
+<span class="cs-type">string</span> <span class="cs-variable">user</span> = <span class="cs-string">"Bob"</span>;
+<span class="cs-type">int</span> <span class="cs-variable">score</span> = <span class="cs-number">95</span>;
+<span class="cs-type">string</span> <span class="cs-variable">output</span> = <span class="cs-string">$"User: {<span class="cs-variable">user</span>}, Score: {<span class="cs-variable">score</span>}"</span>;
+<span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">output</span>);
+
+<span class="cs-comment">// Verbatim string literals (@ prefix) - useful for paths or multi-line strings</span>
+<span class="cs-type">string</span> <span class="cs-variable">filePath</span> = <span class="cs-string">@"C:\Users\MyUser\Documents\file.txt"</span>;
+<span class="cs-type">string</span> <span class="cs-variable">multiLine</span> = <span class="cs-string">@"This is
+a multi-line
+string."</span>;
+</code></pre>
+            <p><code class="inline-code">System.Text.StringBuilder</code> class is recommended for frequent string modifications in a loop, as it's more efficient than repeated string concatenation.</p>
+        </section>
+
+        <section id="oop-core">
+            <h2>Object-Oriented Programming (OOP)</h2>
+            <p>C# is a fully object-oriented language.</p>
+            <h3>Classes and Objects</h3>
+            <ul>
+                <li><strong>Class:</strong> A blueprint for creating objects. Defines data (fields/properties) and behavior (methods).</li>
+                <li><strong>Object:</strong> An instance of a class.</li>
+            </ul>
+<pre><code class="language-csharp"><span class="cs-keyword">using</span> <span class="cs-type">System</span>;
+
+<span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">Dog</span>
+{
+    <span class="cs-comment">// Fields (member variables) - often private</span>
+    <span class="cs-keyword">private</span> <span class="cs-type">string</span> <span class="cs-variable">name</span>;
+    <span class="cs-keyword">private</span> <span class="cs-type">int</span> <span class="cs-variable">age</span>;
+
+    <span class="cs-comment">// Properties (provide controlled access to fields)</span>
+    <span class="cs-keyword">public</span> <span class="cs-type">string</span> <span class="cs-variable">Name</span> { <span class="cs-keyword">get</span> { <span class="cs-keyword">return</span> <span class="cs-variable">name</span>; } <span class="cs-keyword">set</span> { <span class="cs-variable">name</span> = <span class="cs-variable">value</span>; } }
+    <span class="cs-keyword">public</span> <span class="cs-type">int</span> <span class="cs-variable">Age</span> 
+    {
+        <span class="cs-keyword">get</span> { <span class="cs-keyword">return</span> <span class="cs-variable">age</span>; }
+        <span class="cs-keyword">set</span> 
+        {
+            <span class="cs-keyword">if</span> (<span class="cs-variable">value</span> &gt;= <span class="cs-number">0</span>) <span class="cs-variable">age</span> = <span class="cs-variable">value</span>;
+            <span class="cs-keyword">else</span> <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Age cannot be negative."</span>);
+        }
+    }
+
+    <span class="cs-comment">// Constructor</span>
+    <span class="cs-keyword">public</span> <span class="cs-method">Dog</span>(<span class="cs-type">string</span> <span class="cs-variable">initialName</span>, <span class="cs-type">int</span> <span class="cs-variable">initialAge</span>)
+    {
+        <span class="cs-keyword">this</span>.<span class="cs-variable">Name</span> = <span class="cs-variable">initialName</span>; <span class="cs-comment">// 'this' refers to the current instance</span>
+        <span class="cs-keyword">this</span>.<span class="cs-variable">Age</span> = <span class="cs-variable">initialAge</span>;
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"Dog named {<span class="cs-keyword">this</span>.<span class="cs-variable">Name</span>} created."</span>);
+    }
+
+    <span class="cs-comment">// Method</span>
+    <span class="cs-keyword">public</span> <span class="cs-keyword">void</span> <span class="cs-method">Bark</span>()
+    {
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$" {<span class="cs-variable">Name</span>} says: Woof!"</span>);
+    }
+}
+
+<span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">Program</span>
+{
+    <span class="cs-keyword">static</span> <span class="cs-keyword">void</span> <span class="cs-method">Main</span>()
+    {
+        <span class="cs-type">Dog</span> <span class="cs-variable">myDog</span> = <span class="cs-keyword">new</span> <span class="cs-type">Dog</span>(<span class="cs-string">"Buddy"</span>, <span class="cs-number">3</span>);
+        <span class="cs-variable">myDog</span>.<span class="cs-method">Bark</span>();
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"My dog's age: {<span class="cs-variable">myDog</span>.<span class="cs-variable">Age</span>}"</span>);
+        <span class="cs-variable">myDog</span>.<span class="cs-variable">Age</span> = <span class="cs-number">4</span>;
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"My dog's new age: {<span class="cs-variable">myDog</span>.<span class="cs-variable">Age</span>}"</span>);
+    }
+}
+</code></pre>
+            <h3>Access Modifiers</h3>
+            <p><code class="inline-code">public</code>, <code class="inline-code">private</code>, <code class="inline-code">protected</code>, <code class="inline-code">internal</code>, <code class="inline-code">protected internal</code>, <code class="inline-code">private protected</code> control visibility.</p>
+            <h3>Inheritance</h3>
+            <p>A class can inherit from another class (base class) using <code class="inline-code">: BaseClassName</code>. C# supports single class inheritance but multiple interface inheritance.</p>
+<pre><code class="language-csharp"><span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">Animal</span> {
+    <span class="cs-keyword">public</span> <span class="cs-type">string</span> <span class="cs-variable">Name</span> { <span class="cs-keyword">get</span>; <span class="cs-keyword">set</span>; }
+    <span class="cs-keyword">public</span> <span class="cs-keyword">virtual</span> <span class="cs-keyword">void</span> <span class="cs-method">MakeSound</span>() { <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Generic sound"</span>); }
+}
+
+<span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">Cat</span> : <span class="cs-class-name">Animal</span> { <span class="cs-comment">// Cat inherits from Animal</span>
+    <span class="cs-keyword">public</span> <span class="cs-keyword">override</span> <span class="cs-keyword">void</span> <span class="cs-method">MakeSound</span>() { <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Meow!"</span>); } <span class="cs-comment">// Overriding base method</span>
+}</code></pre>
+            <h3>Polymorphism</h3>
+            <p>Allows treating objects of different classes through a common base class or interface reference. Achieved via method overriding (<code class="inline-code">virtual</code> and <code class="inline-code">override</code> keywords).</p>
+            <h3>Abstract Classes and Methods</h3>
+            <p>Abstract classes cannot be instantiated. Abstract methods have no implementation and must be implemented by derived concrete classes.</p>
+            <h3>Interfaces</h3>
+            <p>Define a contract (a set of methods, properties, events, indexers) that implementing classes or structs must provide. A class can implement multiple interfaces.</p>
+<pre><code class="language-csharp"><span class="cs-keyword">public</span> <span class="cs-keyword">interface</span> <span class="cs-class-name">IDrawable</span> { <span class="cs-keyword">void</span> <span class="cs-method">Draw</span>(); }
+<span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">Circle</span> : <span class="cs-class-name">IDrawable</span> { <span class="cs-keyword">public</span> <span class="cs-keyword">void</span> <span class="cs-method">Draw</span>() { <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Drawing a circle."</span>); } }
+</code></pre>
+        </section>
+
+        <section id="namespaces">
+            <h2>Namespaces</h2>
+            <p>Namespaces are used to organize code and prevent naming conflicts. They provide a way to group related classes, structs, interfaces, enums, and delegates.</p>
+<pre><code class="language-csharp"><span class="cs-keyword">using</span> <span class="cs-type">System</span>; <span class="cs-comment">// Imports the System namespace</span>
+
+<span class="cs-keyword">namespace</span> MyCompany.MyApp.Utilities
+{
+    <span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">StringHelper</span>
+    {
+        <span class="cs-keyword">public</span> <span class="cs-keyword">static</span> <span class="cs-type">bool</span> <span class="cs-method">IsNullOrEmpty</span>(<span class="cs-type">string</span> <span class="cs-variable">str</span>)
+        {
+            <span class="cs-keyword">return</span> <span class="cs-type">string</span>.<span class="cs-method">IsNullOrEmpty</span>(<span class="cs-variable">str</span>);
+        }
+    }
+}
+
+<span class="cs-comment">// To use it:</span>
+<span class="cs-comment">// MyCompany.MyApp.Utilities.StringHelper.IsNullOrEmpty("test");</span>
+<span class="cs-comment">// OR with a using directive:</span>
+<span class="cs-comment">// using MyCompany.MyApp.Utilities;</span>
+<span class="cs-comment">// StringHelper.IsNullOrEmpty("test");</span>
+</code></pre>
+        </section>
+
+        <section id="exception-handling">
+            <h2>Exception Handling</h2>
+            <p>C# uses <code class="inline-code">try-catch-finally</code> blocks to handle runtime errors (exceptions) gracefully.</p>
+<pre><code class="language-csharp"><span class="cs-keyword">try</span>
+{
+    <span class="cs-type">Console</span>.<span class="cs-method">Write</span>(<span class="cs-string">"Enter a number: "</span>);
+    <span class="cs-type">int</span> <span class="cs-variable">number</span> = <span class="cs-type">Convert</span>.<span class="cs-method">ToInt32</span>(<span class="cs-type">Console</span>.<span class="cs-method">ReadLine</span>());
+    <span class="cs-type">int</span> <span class="cs-variable">result</span> = <span class="cs-number">10</span> / <span class="cs-variable">number</span>;
+    <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"Result: {<span class="cs-variable">result</span>}"</span>);
+}
+<span class="cs-keyword">catch</span> (<span class="cs-type">FormatException</span> <span class="cs-variable">ex</span>)
+{
+    <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Error: Invalid number format. "</span> + <span class="cs-variable">ex</span>.<span class="cs-variable">Message</span>);
+}
+<span class="cs-keyword">catch</span> (<span class="cs-type">DivideByZeroException</span> <span class="cs-variable">ex</span>)
+{
+    <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Error: Cannot divide by zero. "</span> + <span class="cs-variable">ex</span>.<span class="cs-variable">Message</span>);
+}
+<span class="cs-keyword">catch</span> (<span class="cs-type">Exception</span> <span class="cs-variable">ex</span>) <span class="cs-comment">// General catch block for other exceptions</span>
+{
+    <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"An unexpected error occurred: "</span> + <span class="cs-variable">ex</span>.<span class="cs-variable">Message</span>);
+}
+<span class="cs-keyword">finally</span>
+{
+    <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"The 'finally' block always executes."</span>);
+}
+</code></pre>
+            <p>You can also <code class="inline-code">throw</code> exceptions manually: <code class="inline-code">throw new ArgumentNullException("paramName");</code></p>
+        </section>
+
+        <section id="collections-intro">
+            <h2>Introduction to Collections (e.g., <code class="inline-code">List&lt;T&gt;</code>)</h2>
+            <p>The .NET framework provides a rich set of collection classes in the <code class="inline-code">System.Collections.Generic</code> namespace for storing and managing groups of objects.</p>
+            <p><code class="inline-code">List&lt;T&gt;</code> is a commonly used generic collection representing a strongly-typed list of objects that can be accessed by index. It's like a dynamic array.</p>
+<pre><code class="language-csharp"><span class="cs-keyword">using</span> <span class="cs-type">System</span>;
+<span class="cs-keyword">using</span> <span class="cs-type">System.Collections.Generic</span>;
+
+<span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">CollectionsDemo</span>
+{
+    <span class="cs-keyword">static</span> <span class="cs-keyword">void</span> <span class="cs-method">Main</span>()
+    {
+        <span class="cs-type">List</span>&lt;<span class="cs-type">string</span>&gt; <span class="cs-variable">names</span> = <span class="cs-keyword">new</span> <span class="cs-type">List</span>&lt;<span class="cs-type">string</span>&gt;();
+        <span class="cs-variable">names</span>.<span class="cs-method">Add</span>(<span class="cs-string">"Alice"</span>);
+        <span class="cs-variable">names</span>.<span class="cs-method">Add</span>(<span class="cs-string">"Bob"</span>);
+        <span class="cs-variable">names</span>.<span class="cs-method">Add</span>(<span class="cs-string">"Charlie"</span>);
+
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"First name: {<span class="cs-variable">names</span>[<span class="cs-number">0</span>]}"</span>);
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"Count: {<span class="cs-variable">names</span>.<span class="cs-variable">Count</span>}"</span>);
+
+        <span class="cs-keyword">foreach</span> (<span class="cs-type">string</span> <span class="cs-variable">name</span> <span class="cs-keyword">in</span> <span class="cs-variable">names</span>)
+        {
+            <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">name</span>);
+        }
+
+        <span class="cs-variable">names</span>.<span class="cs-method">Remove</span>(<span class="cs-string">"Bob"</span>);
+    }
+}
+</code></pre>
+            <p>Other common collections include <code class="inline-code">Dictionary&lt;TKey, TValue&gt;</code>, <code class="inline-code">HashSet&lt;T&gt;</code>, <code class="inline-code">Queue&lt;T&gt;</code>, and <code class="inline-code">Stack&lt;T&gt;</code>.</p>
+        </section>
+
+        <section id="linq-intro">
+            <h2>Introduction to LINQ (Language Integrated Query)</h2>
+            <p>LINQ provides powerful query capabilities directly into the C# language. It allows you to query data from various sources (collections, databases, XML) using a consistent syntax.</p>
+<pre><code class="language-csharp"><span class="cs-keyword">using</span> <span class="cs-type">System</span>;
+<span class="cs-keyword">using</span> <span class="cs-type">System.Collections.Generic</span>;
+<span class="cs-keyword">using</span> <span class="cs-type">System.Linq</span>; <span class="cs-comment">// Required for LINQ extension methods</span>
+
+<span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">LinqDemo</span>
+{
+    <span class="cs-keyword">static</span> <span class="cs-keyword">void</span> <span class="cs-method">Main</span>()
+    {
+        <span class="cs-type">List</span>&lt;<span class="cs-type">int</span>&gt; <span class="cs-variable">numbers</span> = <span class="cs-keyword">new</span> <span class="cs-type">List</span>&lt;<span class="cs-type">int</span>&gt; { <span class="cs-number">1</span>, <span class="cs-number">5</span>, <span class="cs-number">3</span>, <span class="cs-number">8</span>, <span class="cs-number">2</span>, <span class="cs-number">7</span>, <span class="cs-number">4</span>, <span class="cs-number">10</span>, <span class="cs-number">6</span>, <span class="cs-number">9</span> };
+
+        <span class="cs-comment">// Query syntax</span>
+        <span class="cs-keyword">var</span> <span class="cs-variable">evenNumbersQuery</span> = <span class="cs-keyword">from</span> <span class="cs-variable">num</span> <span class="cs-keyword">in</span> <span class="cs-variable">numbers</span>
+                               <span class="cs-keyword">where</span> <span class="cs-variable">num</span> % <span class="cs-number">2</span> == <span class="cs-number">0</span>
+                               <span class="cs-keyword">orderby</span> <span class="cs-variable">num</span>
+                               <span class="cs-keyword">select</span> <span class="cs-variable">num</span>;
+        
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Even numbers (Query Syntax):"</span>);
+        <span class="cs-keyword">foreach</span> (<span class="cs-type">int</span> <span class="cs-variable">n</span> <span class="cs-keyword">in</span> <span class="cs-variable">evenNumbersQuery</span>) { <span class="cs-type">Console</span>.<span class="cs-method">Write</span>(<span class="cs-variable">n</span> + <span class="cs-string">" "</span>); }
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>();
+
+        <span class="cs-comment">// Method syntax (using Lambda expressions)</span>
+        <span class="cs-keyword">var</span> <span class="cs-variable">oddNumbersMethod</span> = <span class="cs-variable">numbers</span>.<span class="cs-method">Where</span>(<span class="cs-variable">num</span> <span class="cs-operator">=&gt;</span> <span class="cs-variable">num</span> % <span class="cs-number">2</span> != <span class="cs-number">0</span>)
+                                  .<span class="cs-method">OrderByDescending</span>(<span class="cs-variable">num</span> <span class="cs-operator">=&gt;</span> <span class="cs-variable">num</span>)
+                                  .<span class="cs-method">Select</span>(<span class="cs-variable">num</span> <span class="cs-operator">=&gt;</span> <span class="cs-variable">num</span>);
+
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"Odd numbers (Method Syntax, descending):"</span>);
+        <span class="cs-keyword">foreach</span> (<span class="cs-type">int</span> <span class="cs-variable">n</span> <span class="cs-keyword">in</span> <span class="cs-variable">oddNumbersMethod</span>) { <span class="cs-type">Console</span>.<span class="cs-method">Write</span>(<span class="cs-variable">n</span> + <span class="cs-string">" "</span>); }
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>();
+    }
+}
+</code></pre>
+        </section>
+
+        <section id="async-await-intro">
+            <h2>Introduction to Asynchronous Programming (<code class="inline-code">async</code>/`await`)</h2>
+            <p>C# provides powerful keywords <code class="inline-code">async</code> and <code class="inline-code">await</code> to simplify asynchronous programming. This is crucial for writing responsive applications (especially UI apps) and scalable server-side applications by avoiding blocking threads on long-running operations (like I/O).</p>
+<pre><code class="language-csharp"><span class="cs-keyword">using</span> <span class="cs-type">System</span>;
+<span class="cs-keyword">using</span> <span class="cs-type">System.Net.Http</span>;
+<span class="cs-keyword">using</span> <span class="cs-type">System.Threading.Tasks</span>;
+
+<span class="cs-keyword">public</span> <span class="cs-keyword">class</span> <span class="cs-class-name">AsyncDemo</span>
+{
+    <span class="cs-keyword">public</span> <span class="cs-keyword">static</span> <span class="cs-keyword">async</span> <span class="cs-type">Task</span> <span class="cs-method">Main</span>() <span class="cs-comment">// Main can be async in C# 7.1+</span>
+    {
+        <span class="cs-type">string</span> <span class="cs-variable">url</span> = <span class="cs-string">"https://jsonplaceholder.typicode.com/todos/1"</span>;
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">$"Fetching data from {<span class="cs-variable">url</span>}..."</span>);
+        
+        <span class="cs-type">string</span> <span class="cs-variable">result</span> = <span class="cs-keyword">await</span> <span class="cs-method">FetchDataAsync</span>(<span class="cs-variable">url</span>);
+        
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-string">"\nData received:"</span>);
+        <span class="cs-type">Console</span>.<span class="cs-method">WriteLine</span>(<span class="cs-variable">result</span>);
+    }
+
+    <span class="cs-keyword">public</span> <span class="cs-keyword">static</span> <span class="cs-keyword">async</span> <span class="cs-type">Task</span>&lt;<span class="cs-type">string</span>&gt; <span class="cs-method">FetchDataAsync</span>(<span class="cs-type">string</span> <span class="cs-variable">url</span>)
+    {
+        <span class="cs-keyword">using</span> (<span class="cs-type">HttpClient</span> <span class="cs-variable">client</span> = <span class="cs-keyword">new</span> <span class="cs-type">HttpClient</span>())
+        {
+            <span class="cs-comment">// await pauses execution here until the GetStringAsync task completes,</span>
+            <span class="cs-comment">// without blocking the main thread.</span>
+            <span class="cs-type">string</span> <span class="cs-variable">data</span> = <span class="cs-keyword">await</span> <span class="cs-variable">client</span>.<span class="cs-method">GetStringAsync</span>(<span class="cs-variable">url</span>);
+            <span class="cs-keyword">return</span> <span class="cs-variable">data</span>;
+        }
+    }
+}
+</code></pre>
+            <p>An <code class="inline-code">async</code> method typically returns a <code class="inline-code">Task</code> or <code class="inline-code">Task&lt;TResult&gt;</code>. The <code class="inline-code">await</code> keyword is used to pause execution until an awaited asynchronous operation completes.</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>Congratulations on completing this beginner's guide to C#! You've learned many fundamental concepts.</p>
+            <p>To continue your C# and .NET journey:</p>
+            <ul>
+                <li><strong>Practice Extensively:</strong> Work on coding challenges (e.g., HackerRank, LeetCode, Codewars) and build small projects.</li>
+                <li><strong>Deepen OOP Knowledge:</strong> Explore design patterns, SOLID principles, and advanced OOP features in C#.</li>
+                <li><strong>Master LINQ:</strong> LINQ is incredibly powerful for data manipulation. Practice with various LINQ operators.</li>
+                <li><strong>Explore the .NET Ecosystem:</strong>
+                    <ul>
+                        <li><strong>ASP.NET Core:</strong> For building modern web applications and APIs.</li>
+                        <li><strong>MAUI (Multi-platform App UI) / Xamarin:</strong> For cross-platform mobile and desktop app development.</li>
+                        <li><strong>WPF / Windows Forms:</strong> For traditional Windows desktop applications.</li>
+                        <li><strong>Unity:</strong> A popular game engine that uses C# for scripting.</li>
+                        <li><strong>Entity Framework Core:</strong> An Object-Relational Mapper (ORM) for working with databases.</li>
+                    </ul>
+                </li>
+                <li><strong>Asynchronous Programming:</strong> Get comfortable with <code class="inline-code">async</code> and <code class="inline-code">await</code> for building responsive and scalable applications.</li>
+                <li><strong>Dependency Injection:</strong> A crucial concept in modern .NET development, especially with ASP.NET Core.</li>
+                <li><strong>Unit Testing:</strong> Learn frameworks like MSTest, NUnit, or xUnit to write tests for your C# code.</li>
+                <li><strong>Read Books and Online Resources:</strong>
+                    <ul>
+                        <li>"C# in Depth" by Jon Skeet (for more advanced understanding).</li>
+                        <li>Official Microsoft .NET Documentation (<a href="https://docs.microsoft.com/dotnet/" target="_blank">docs.microsoft.com/dotnet/</a>).</li>
+                        <li>Pluralsight, Udemy, Coursera for C# and .NET courses.</li>
+                    </ul>
+                </li>
+                <li><strong>Contribute to Open Source:</strong> A great way to learn and collaborate.</li>
+            </ul>
+            <p class="important">C# and the .NET platform are continuously evolving. Keep learning and exploring new features!</p>
+            <p>Happy C# coding!</p>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        function activateInitialLink() {
+            const hash = window.location.hash;
+            let activeLinkFound = false;
+            if (hash) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                        activeLinkFound = true;
+                    }
+                });
+            }
+            if (!activeLinkFound && navLinks.length > 0) {
+                navLinks[0].classList.add('active');
+            }
+        }
+        activateInitialLink();
+        window.addEventListener('hashchange', activateInitialLink);
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

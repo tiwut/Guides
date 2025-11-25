@@ -1,0 +1,1114 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Beginner's Guide to Swift</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code.inline-code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background-color: #2d2d2d; 
+            color: #f8f8f2; 
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Menlo", "Monaco", "Consolas", "Courier New", Courier, monospace;
+            font-size: 0.9em;
+            border: 1px solid #444;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+            color: inherit;
+        }
+       
+        pre code .swift-keyword { color: #fc5fa3; font-weight: bold; } 
+        pre code .swift-type { color: #79c0ff; } 
+        pre code .swift-string { color: #a5d6ff; } 
+        pre code .swift-comment { color: #7f858e; } 
+        pre code .swift-number { color: #c9d1d9; } 
+        pre code .swift-operator { color: #f0f6fc; } 
+        pre code .swift-function-call { color: #d2a8ff; } 
+        pre code .swift-preprocessor { color: #7f858e; font-style: italic; } 
+        pre code .swift-property { color: #add8e6; } 
+        pre code .swift-class-name { color: #79c0ff; font-weight: bold;}
+        pre code .swift-attribute { color: #f69d50; } 
+
+
+        .warning, .important, .tip {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .tip {
+            background-color: #e2e3e5;
+            border-left: 5px solid #adb5bd;
+            color: #343a40;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Swift Guide</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to Swift</a></li>
+            <li><a href="#setting-up">Setting Up Environment</a></li>
+            <li><a href="#first-program">Your First Swift Program</a></li>
+            <li><a href="#basic-syntax">Basic Syntax</a></li>
+            <li><a href="#variables-constants">Variables & Constants</a></li>
+            <li><a href="#data-types">Data Types</a></li>
+            <li><a href="#optionals">Optionals & Null Safety</a></li>
+            <li><a href="#operators">Operators</a></li>
+            <li><a href="#control-flow">Control Flow</a></li>
+            <li><a href="#functions">Functions</a></li>
+            <li><a href="#closures">Closures</a></li>
+            <li><a href="#collections">Collections (Arrays, Sets, Dictionaries)</a></li>
+            <li><a href="#oop-core">Classes & Structures (OOP/POP)</a></li>
+            <li><a href="#properties">Properties</a></li>
+            <li><a href="#methods">Methods</a></li>
+            <li><a href="#inheritance">Inheritance</a></li>
+            <li><a href="#protocols">Protocols (Interfaces)</a></li>
+            <li><a href="#error-handling">Error Handling</a></li>
+            <li><a href="#generics-intro">Intro to Generics</a></li>
+            <li><a href="#memory-management-arc">ARC (Memory Management)</a></li>
+            <li><a href="#swiftui-uikit-intro">Intro to UI Frameworks</a></li>
+            <li><a href="#next-steps">Next Steps</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>A Comprehensive Beginner's Guide to Swift Programming</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to Swift</h2>
+            <p>Swift is a powerful and intuitive programming language created by Apple for building apps across all Apple platforms (iOS, macOS, watchOS, tvOS, visionOS). It's designed to be safe, fast, and expressive, making it a great choice for both beginners and experienced developers.</p>
+            <p><strong>Key Features of Swift:</strong></p>
+            <ul>
+                <li><strong>Safe:</strong> Designed to eliminate entire classes of common programming errors (e.g., null pointer dereferences via optionals).</li>
+                <li><strong>Fast:</strong> Performance is comparable to C-based languages for many common tasks.</li>
+                <li><strong>Modern:</strong> Incorporates modern programming paradigms and features like type inference, optionals, generics, closures, and robust error handling.</li>
+                <li><strong>Expressive and Readable:</strong> Clear and concise syntax makes code easier to write and understand.</li>
+                <li><strong>Open Source:</strong> Swift is open source and has an active community, with versions available for Linux and Windows for server-side and other applications.</li>
+                <li><strong>Automatic Reference Counting (ARC):</strong> Manages memory automatically.</li>
+                <li><strong>Protocol-Oriented Programming (POP):</strong> Encourages a powerful way of composing behavior using protocols.</li>
+                <li><strong>Playgrounds:</strong> Interactive coding environment within Xcode for experimenting with Swift code.</li>
+            </ul>
+            <p>While primarily used for Apple ecosystem development, Swift's capabilities are expanding to server-side development and other platforms.</p>
+        </section>
+
+        <section id="setting-up">
+            <h2>Setting Up Your Environment</h2>
+            <p>To develop with Swift, especially for Apple platforms, you'll primarily use Xcode on a Mac.</p>
+            <h3>1. macOS and Xcode</h3>
+            <ul>
+                <li><strong>macOS:</strong> Swift development for Apple platforms requires a Mac running a recent version of macOS.</li>
+                <li><strong>Xcode:</strong> Apple's official Integrated Development Environment (IDE). It includes the Swift compiler, SDKs for all Apple platforms, interface builders, debugging tools, and simulators.
+                    <ul>
+                        <li>Download Xcode from the Mac App Store (it's free).</li>
+                        <li>Xcode is a large download, so ensure you have enough disk space and a stable internet connection.</li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>2. Swift on Other Platforms (Linux, Windows)</h3>
+            <ul>
+                <li><strong>Swift.org:</strong> The official Swift website (<a href="https://www.swift.org/download/" target="_blank">swift.org/download/</a>) provides official toolchains (compiler, standard library, core libraries) for Ubuntu Linux and Windows.</li>
+                <li><strong>Text Editor/IDE:</strong> For Linux/Windows, you can use code editors like Visual Studio Code (with Swift extensions), CLion (with Swift plugin), or others.</li>
+                <li>Development on these platforms is more focused on server-side Swift or command-line tools rather than UI applications for Apple devices.</li>
+            </ul>
+            <p class="important">This guide will primarily assume development on macOS using Xcode, as it's the most common environment for Swift beginners targeting Apple platforms.</p>
+        </section>
+
+        <section id="first-program">
+            <h2>Your First Swift Program</h2>
+            <h3>Using Xcode Playgrounds (Easiest way to start):</h3>
+            <ol>
+                <li>Open Xcode.</li>
+                <li>From the welcome screen, choose "Get started with a playground" or go to <span class="menu-path">File > New > Playground...</span>.</li>
+                <li>Select the "Blank" template under the "iOS" or "macOS" tab. Click "Next."</li>
+                <li>Give your playground a name (e.g., <code class="path">MyFirstPlayground</code>) and choose a location to save it. Click "Create."</li>
+                <li>A playground window will open with some default code. Replace it with:
+<pre><code class="language-swift"><span class="swift-keyword">import</span> <span class="swift-type">UIKit</span> <span class="swift-comment">// Or import Cocoa for macOS playground</span>
+
+<span class="swift-keyword">var</span> <span class="swift-property">greeting</span> = <span class="swift-string">"Hello, playground"</span>
+<span class="swift-function-call">print</span>(<span class="swift-string">"Hello, Swift!"</span>)</code></pre>
+                </li>
+                <li>Xcode Playgrounds execute code automatically, and you'll see results in the sidebar or console. You should see "Hello, Swift!" printed.</li>
+            </ol>
+            <h3>Using an Xcode Project (for a Command Line Tool):</h3>
+            <ol>
+                <li>Open Xcode.</li>
+                <li>Choose "Create a new Xcode project."</li>
+                <li>Select the "macOS" tab and then choose the "Command Line Tool" template. Click "Next."</li>
+                <li>Enter a "Product Name" (e.g., <code class="inline-code">MyCLIApp</code>), choose "Swift" as the language. You can leave "Organization Identifier" as default for now. Click "Next."</li>
+                <li>Choose a location to save your project. Click "Create."</li>
+                <li>Xcode will open the project. Find the <code class="path">main.swift</code> file in the Project Navigator (left sidebar). It will contain:
+<pre><code class="language-swift"><span class="swift-keyword">import</span> <span class="swift-type">Foundation</span>
+
+<span class="swift-function-call">print</span>(<span class="swift-string">"Hello, World!"</span>)</code></pre>
+                </li>
+                <li>Click the "Play" button (or <span class="menu-path">Product > Run</span>, or <code class="inline-code">Cmd+R</code>) in the Xcode toolbar to build and run your application. The output "Hello, World!" will appear in the Xcode console (usually at the bottom).</li>
+            </ol>
+        </section>
+
+        <section id="basic-syntax">
+            <h2>Basic Swift Syntax</h2>
+            <ul>
+                <li><strong>Case Sensitivity:</strong> Swift is case-sensitive.</li>
+                <li><strong>Semicolons:</strong> Optional. Swift uses line breaks to separate statements. Semicolons are only required if you write multiple statements on a single line.</li>
+                <li><strong>Comments:</strong>
+                    <ul>
+                        <li>Single-line: <code class="inline-code">// This is a comment</code></li>
+                        <li>Multi-line: <code class="inline-code">/* This is a comment */</code> (can be nested)</li>
+                    </ul>
+                </li>
+                <li><strong>Import Statements:</strong> Used to import modules or frameworks (collections of code).
+<pre><code class="language-swift"><span class="swift-keyword">import</span> <span class="swift-type">SwiftUI</span> <span class="swift-comment">// Imports the SwiftUI framework</span>
+<span class="swift-keyword">import</span> <span class="swift-type">Foundation</span> <span class="swift-comment">// Core utility classes</span></code></pre>
+                </li>
+                <li><strong>Print Output:</strong> The <code class="inline-code">print()</code> function is used to display output.
+<pre><code class="language-swift"><span class="swift-function-call">print</span>(<span class="swift-string">"This is some output."</span>)</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="variables-constants">
+            <h2>Variables and Constants</h2>
+            <ul>
+                <li><strong>Constants (<code class="inline-code">let</code>):</strong> Used to declare values that cannot be changed after they are set. Prefer constants whenever a value doesn't need to change.
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">maximumLoginAttempts</span> = <span class="swift-number">10</span>
+<span class="swift-keyword">let</span> <span class="swift-property">welcomeMessage</span> = <span class="swift-string">"Hello!"</span>
+<span class="swift-comment">// maximumLoginAttempts = 5 // This would cause a compile-time error</span></code></pre>
+                </li>
+                <li><strong>Variables (<code class="inline-code">var</code>):</strong> Used to declare values that can be changed.
+<pre><code class="language-swift"><span class="swift-keyword">var</span> <span class="swift-property">currentLoginAttempt</span> = <span class="swift-number">0</span>
+<span class="swift-property">currentLoginAttempt</span> += <span class="swift-number">1</span>
+
+<span class="swift-keyword">var</span> <span class="swift-property">userName</span> = <span class="swift-string">"Alice"</span>
+<span class="swift-property">userName</span> = <span class="swift-string">"Bob"</span></code></pre>
+                </li>
+                <li><strong>Type Annotation (Explicit Type):</strong> You can explicitly specify the type of a constant or variable using a colon after its name.
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">explicitDouble</span>: <span class="swift-type">Double</span> = <span class="swift-number">70.0</span>
+<span class="swift-keyword">var</span> <span class="swift-property">age</span>: <span class="swift-type">Int</span> = <span class="swift-number">30</span></code></pre>
+                </li>
+                <li><strong>Type Inference:</strong> Swift is good at inferring types. If you provide an initial value, Swift can often determine the type automatically, so explicit type annotation is not always needed.
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">inferredInt</span> = <span class="swift-number">42</span> <span class="swift-comment">// Inferred as Int</span>
+<span class="swift-keyword">let</span> <span class="swift-property">inferredDouble</span> = <span class="swift-number">3.14159</span> <span class="swift-comment">// Inferred as Double</span>
+<span class="swift-keyword">let</span> <span class="swift-property">inferredString</span> = <span class="swift-string">"Swift"</span> <span class="swift-comment">// Inferred as String</span></code></pre>
+                </li>
+                <li><strong>Naming Conventions:</strong> Use camelCase for variable and constant names (e.g., <code class="inline-code">myVariable</code>, <code class="inline-code">userScore</code>). Type names (classes, structs, enums, protocols) typically use UpperCamelCase (e.g., <code class="inline-code">String</code>, <code class="inline-code">MyCustomClass</code>).</li>
+            </ul>
+        </section>
+
+        <section id="data-types">
+            <h2>Data Types</h2>
+            Swift provides a rich set of built-in data types.
+            <ul>
+                <li><strong>Integers:</strong>
+                    <ul>
+                        <li><code class="inline-code">Int</code>: General-purpose integer type. Its size depends on the platform (32-bit on 32-bit platforms, 64-bit on 64-bit platforms).</li>
+                        <li>Fixed-size integers: <code class="inline-code">Int8</code>, <code class="inline-code">Int16</code>, <code class="inline-code">Int32</code>, <code class="inline-code">Int64</code>.</li>
+                        <li>Unsigned integers: <code class="inline-code">UInt</code>, <code class="inline-code">UInt8</code>, <code class="inline-code">UInt16</code>, <code class="inline-code">UInt32</code>, <code class="inline-code">UInt64</code>.</li>
+                    </ul>
+                </li>
+                <li><strong>Floating-Point Numbers:</strong>
+                    <ul>
+                        <li><code class="inline-code">Float</code>: 32-bit floating-point number.</li>
+                        <li><code class="inline-code">Double</code>: 64-bit floating-point number (default for decimal literals).</li>
+                    </ul>
+                </li>
+                <li><strong>Booleans:</strong>
+                    <ul>
+                        <li><code class="inline-code">Bool</code>: Can be <code class="inline-code">true</code> or <code class="inline-code">false</code>.</li>
+                    </ul>
+                </li>
+                <li><strong>Strings:</strong>
+                    <ul>
+                        <li><code class="inline-code">String</code>: A sequence of characters. Strings in Swift are value types and are bridged to Foundation's <code class="inline-code">NSString</code>.
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">message</span>: <span class="swift-type">String</span> = <span class="swift-string">"Welcome!"</span></code></pre>
+                        <li><strong>String Interpolation:</strong> Embed constants, variables, literals, and expressions within string literals by wrapping them in <code class="inline-code">\(...)</code>.
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">name</span> = <span class="swift-string">"Taylor"</span>
+<span class="swift-keyword">let</span> <span class="swift-property">age</span> = <span class="swift-number">33</span>
+<span class="swift-keyword">let</span> <span class="swift-property">greeting</span> = <span class="swift-string">"Hello, my name is \(name) and I am \(age) years old."</span></code></pre>
+                        </li>
+                        <li><strong>Multiline String Literals:</strong> Enclosed in triple double quotes <code class="inline-code">"""..."""</code>.
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">poem</span> = <span class="swift-string">"""
+Roses are red,
+Violets are blue,
+Swift is fun,
+And so are you!
+"""</span></code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Characters:</strong>
+                    <ul>
+                        <li><code class="inline-code">Character</code>: A single character.
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">initial</span>: <span class="swift-type">Character</span> = <span class="swift-string">"J"</span></code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Tuples:</strong> Group multiple values into a single compound value. The values can be of any type and do not have to be of the same type.
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">httpError</span> = (<span class="swift-number">404</span>, <span class="swift-string">"Not Found"</span>)
+<span class="swift-function-call">print</span>(<span class="swift-string">"Error code: \(httpError.0), Message: \(httpError.1)"</span>)
+
+<span class="swift-keyword">let</span> <span class="swift-property">namedTuple</span> = (code: <span class="swift-number">200</span>, status: <span class="swift-string">"OK"</span>)
+<span class="swift-function-call">print</span>(<span class="swift-string">"Status: \(namedTuple.status)"</span>)</code></pre>
+                </li>
+                <li><strong>Type Aliases:</strong> Define an alternative name for an existing type using <code class="inline-code">typealias</code>.
+<pre><code class="language-swift"><span class="swift-keyword">typealias</span> <span class="swift-type">AudioSample</span> = <span class="swift-type">UInt16</span>
+<span class="swift-keyword">var</span> <span class="swift-property">maxAmplitude</span>: <span class="swift-type">AudioSample</span> = <span class="swift-type">AudioSample</span>.max</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="optionals">
+            <h2>Optionals and Null Safety</h2>
+            <p>Swift introduces optionals to handle the absence of a value. An optional type can either contain a value or be <code class="inline-code">nil</code> (meaning no value).</p>
+            <p>Declare an optional by appending a question mark (<code class="inline-code">?</code>) to the type.</p>
+<pre><code class="language-swift"><span class="swift-keyword">var</span> <span class="swift-property">optionalString</span>: <span class="swift-type">String</span>? = <span class="swift-string">"Hello"</span>
+<span class="swift-property">optionalString</span> = <span class="swift-keyword">nil</span> <span class="swift-comment">// Now it contains no value</span>
+
+<span class="swift-keyword">var</span> <span class="swift-property">ageInput</span>: <span class="swift-type">String</span> = <span class="swift-string">"25"</span>
+<span class="swift-keyword">var</span> <span class="swift-property">convertedAge</span>: <span class="swift-type">Int</span>? = <span class="swift-type">Int</span>(<span class="swift-property">ageInput</span>) <span class="swift-comment">// Int(String) returns an Int? because conversion might fail</span>
+</code></pre>
+            <h3>Unwrapping Optionals</h3>
+            <p>To use the value inside an optional, you need to "unwrap" it.</p>
+            <ul>
+                <li><strong>Forced Unwrapping (<code class="inline-code">!</code>):</strong> If you are certain an optional contains a value, you can force unwrap it using <code class="inline-code">!</code>.
+                    <p class="warning">If you force unwrap an optional that is <code class="inline-code">nil</code>, your program will crash. Use with extreme caution.</p>
+<pre><code class="language-swift"><span class="swift-keyword">if</span> <span class="swift-property">convertedAge</span> != <span class="swift-keyword">nil</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Age is \(convertedAge!)"</span>) <span class="swift-comment">// Forced unwrap</span>
+}</code></pre>
+                </li>
+                <li><strong>Optional Binding (<code class="inline-code">if let</code> or <code class="inline-code">guard let</code>):</strong> The recommended way to safely unwrap optionals.
+<pre><code class="language-swift"><span class="swift-keyword">if</span> <span class="swift-keyword">let</span> <span class="swift-property">actualAge</span> = <span class="swift-property">convertedAge</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Actual age is \(actualAge)"</span>) <span class="swift-comment">// actualAge is a non-optional Int here</span>
+} <span class="swift-keyword">else</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Could not convert age."</span>)
+}
+
+<span class="swift-keyword">func</span> <span class="swift-function-call">processAge</span>(<span class="swift-property">ageString</span>: <span class="swift-type">String</span>?) {
+    <span class="swift-keyword">guard</span> <span class="swift-keyword">let</span> <span class="swift-property">validAgeString</span> = <span class="swift-property">ageString</span>, <span class="swift-keyword">let</span> <span class="swift-property">age</span> = <span class="swift-type">Int</span>(<span class="swift-property">validAgeString</span>) <span class="swift-keyword">else</span> {
+        <span class="swift-function-call">print</span>(<span class="swift-string">"Invalid input for age processing."</span>)
+        <span class="swift-keyword">return</span> <span class="swift-comment">// guard requires exiting the current scope if condition is false</span>
+    }
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Processing age: \(age)"</span>)
+}</code></pre>
+                </li>
+                <li><strong>Nil-Coalescing Operator (<code class="inline-code">??</code>):</strong> Provides a default value if the optional is <code class="inline-code">nil</code>.
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">nickname</span>: <span class="swift-type">String</span>? = <span class="swift-keyword">nil</span>
+<span class="swift-keyword">let</span> <span class="swift-property">displayName</span> = <span class="swift-property">nickname</span> ?? <span class="swift-string">"Guest"</span> <span class="swift-comment">// displayName is "Guest"</span></code></pre>
+                </li>
+                <li><strong>Optional Chaining (<code class="inline-code">?.</code>):</strong> Safely access properties or methods of an optional. If the optional is <code class="inline-code">nil</code>, the chain fails gracefully and returns <code class="inline-code">nil</code>.
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">user</span>: <span class="swift-type">User</span>? = <span class="swift-comment">// ... some optional User object</span>
+<span class="swift-keyword">let</span> <span class="swift-property">streetName</span> = <span class="swift-property">user</span>?.address?.street <span class="swift-comment">// streetName is String?</span></code></pre>
+                </li>
+            </ul>
+            <h3>Implicitly Unwrapped Optionals (<code class="inline-code">!</code>)</h3>
+            <p>Declared with <code class="inline-code">!</code> instead of <code class="inline-code">?</code> (e.g., <code class="inline-code">var assumedString: String!</code>). These are optionals that are assumed to always have a value after initial setup. They are automatically unwrapped when accessed. If accessed when <code class="inline-code">nil</code>, the program crashes. Use sparingly, typically for things like UI outlets in iOS/macOS that are set up by the system.</p>
+        </section>
+
+        <section id="operators">
+            <h2>Operators</h2>
+            Swift supports a rich set of operators.
+            <ul>
+                <li><strong>Basic Arithmetic:</strong> <code class="inline-code">+</code>, <code class="inline-code">-</code>, <code class="inline-code">*</code>, <code class="inline-code">/</code>.
+                    <br>Swift does not allow overflow by default for arithmetic operations; it will cause a runtime error. Use overflow operators (<code class="inline-code">&+</code>, <code class="inline-code">&</code>, etc.) if overflow behavior is desired.
+                </li>
+                <li><strong>Remainder Operator:</strong> <code class="inline-code">%</code> (works with floating-point numbers too).</li>
+                <li><strong>Compound Assignment:</strong> <code class="inline-code">+=</code>, <code class="inline-code">-=</code>, etc.</li>
+                <li><strong>Comparison:</strong> <code class="inline-code">==</code>, <code class="inline-code">!=</code>, <code class="inline-code">></code>, <code class="inline-code"><</code>, <code class="inline-code">>=</code>, <code class="inline-code"><=</code>.
+                    <br>Identity operators (<code class="inline-code">===</code>, <code class="inline-code">!==</code>) check if two object references refer to the same instance.
+                </li>
+                <li><strong>Logical:</strong> <code class="inline-code">!</code> (NOT), <code class="inline-code">&&</code> (AND), <code class="inline-code">||</code> (OR).</li>
+                <li><strong>Ternary Conditional Operator:</strong> <code class="inline-code">question ? answer1 : answer2</code>.</li>
+                <li><strong>Nil-Coalescing Operator:</strong> <code class="inline-code">a ?? b</code> (covered in Optionals).</li>
+                <li><strong>Range Operators:</strong>
+                    <ul>
+                        <li>Closed Range: <code class="inline-code">a...b</code> (includes both a and b).</li>
+                        <li>Half-Open Range: <code class="inline-code">a..&lt;b</code> (includes a, up to but not including b).</li>
+                        <li>One-Sided Ranges: <code class="inline-code">a...</code>, <code class="inline-code">...a</code>, <code class="inline-code">..&lt;a</code>.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="control-flow">
+            <h2>Control Flow</h2>
+            <h3>1. Conditional Statements</h3>
+            <ul>
+                <li><strong><code class="inline-code">if-else if-else</code>:</strong>
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">temperature</span> = <span class="swift-number">22</span>
+<span class="swift-keyword">if</span> <span class="swift-property">temperature</span> &lt;= <span class="swift-number">0</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"It's freezing!"</span>)
+} <span class="swift-keyword">else</span> <span class="swift-keyword">if</span> <span class="swift-property">temperature</span> &lt; <span class="swift-number">20</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"It's cool."</span>)
+} <span class="swift-keyword">else</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"It's warm."</span>)
+}</code></pre>
+                </li>
+                <li><strong><code class="inline-code">switch</code> statement:</strong> Very powerful in Swift. It must be exhaustive (cover all possible values) or include a <code class="inline-code">default</code> case. Cases do not "fall through" by default (no <code class="inline-code">break</code> needed).
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">someChar</span>: <span class="swift-type">Character</span> = <span class="swift-string">"a"</span>
+<span class="swift-keyword">switch</span> <span class="swift-property">someChar</span> {
+<span class="swift-keyword">case</span> <span class="swift-string">"a"</span>, <span class="swift-string">"e"</span>, <span class="swift-string">"i"</span>, <span class="swift-string">"o"</span>, <span class="swift-string">"u"</span>:
+    <span class="swift-function-call">print</span>(<span class="swift-string">"\(someChar) is a vowel"</span>)
+<span class="swift-keyword">case</span> <span class="swift-string">"b"</span>, <span class="swift-string">"c"</span>, <span class="swift-string">"d"</span>:
+    <span class="swift-function-call">print</span>(<span class="swift-string">"\(someChar) is a consonant"</span>)
+<span class="swift-keyword">default</span>:
+    <span class="swift-function-call">print</span>(<span class="swift-string">"\(someChar) is something else"</span>)
+}
+
+<span class="swift-keyword">let</span> <span class="swift-property">approximateCount</span> = <span class="swift-number">62</span>
+<span class="swift-keyword">switch</span> <span class="swift-property">approximateCount</span> {
+<span class="swift-keyword">case</span> <span class="swift-number">0</span>:
+    <span class="swift-function-call">print</span>(<span class="swift-string">"none"</span>)
+<span class="swift-keyword">case</span> <span class="swift-number">1</span>..<span class="swift-number">5</span>: <span class="swift-comment">// Range matching</span>
+    <span class="swift-function-call">print</span>(<span class="swift-string">"a few"</span>)
+<span class="swift-keyword">case</span> <span class="swift-number">6</span>..<span class="swift-number">12</span>:
+    <span class="swift-function-call">print</span>(<span class="swift-string">"several"</span>)
+<span class="swift-keyword">default</span>:
+    <span class="swift-function-call">print</span>(<span class="swift-string">"many"</span>)
+}</code></pre>
+                <p>Switch can also match tuples and use value bindings (<code class="inline-code">let</code> or <code class="inline-code">var</code>) and <code class="inline-code">where</code> clauses.</p>
+                </li>
+            </ul>
+            <h3>2. Looping Statements</h3>
+            <ul>
+                <li><strong><code class="inline-code">for-in</code> loop:</strong> Iterates over a sequence (like a range, array, dictionary, string).
+<pre><code class="language-swift"><span class="swift-keyword">for</span> <span class="swift-property">index</span> <span class="swift-keyword">in</span> <span class="swift-number">1</span>...<span class="swift-number">5</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Number is \(index)"</span>)
+}
+
+<span class="swift-keyword">let</span> <span class="swift-property">names</span> = [<span class="swift-string">"Anna"</span>, <span class="swift-string">"Alex"</span>, <span class="swift-string">"Brian"</span>]
+<span class="swift-keyword">for</span> <span class="swift-property">name</span> <span class="swift-keyword">in</span> <span class="swift-property">names</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Hello, \(name)!"</span>)
+}
+
+<span class="swift-keyword">let</span> <span class="swift-property">animalLegs</span> = [<span class="swift-string">"spider"</span>: <span class="swift-number">8</span>, <span class="swift-string">"ant"</span>: <span class="swift-number">6</span>, <span class="swift-string">"cat"</span>: <span class="swift-number">4</span>]
+<span class="swift-keyword">for</span> (<span class="swift-property">animalName</span>, <span class="swift-property">legCount</span>) <span class="swift-keyword">in</span> <span class="swift-property">animalLegs</span> { <span class="swift-comment">// Iterating over a dictionary</span>
+    <span class="swift-function-call">print</span>(<span class="swift-string">"\(animalName) has \(legCount) legs."</span>)
+}</code></pre>
+                If you don't need the value from the sequence, use an underscore (<code class="inline-code">_</code>).
+                </li>
+                <li><strong><code class="inline-code">while</code> loop:</strong>
+<pre><code class="language-swift"><span class="swift-keyword">var</span> <span class="swift-property">count</span> = <span class="swift-number">0</span>
+<span class="swift-keyword">while</span> <span class="swift-property">count</span> &lt; <span class="swift-number">3</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Count is \(count)"</span>)
+    <span class="swift-property">count</span> += <span class="swift-number">1</span>
+}</code></pre>
+                </li>
+                <li><strong><code class="inline-code">repeat-while</code> loop:</strong> (Similar to do-while). The condition is evaluated at the end of each pass.
+<pre><code class="language-swift"><span class="swift-keyword">var</span> <span class="swift-property">num</span> = <span class="swift-number">0</span>
+<span class="swift-keyword">repeat</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Number is \(num)"</span>)
+    <span class="swift-property">num</span> += <span class="swift-number">1</span>
+} <span class="swift-keyword">while</span> <span class="swift-property">num</span> &lt; <span class="swift-number">3</span></code></pre>
+                </li>
+            </ul>
+            <h3>Control Transfer Statements</h3>
+            <ul>
+                <li><code class="inline-code">continue</code>: Tells a loop to stop what it is doing and start again at the beginning of the next iteration.</li>
+                <li><code class="inline-code">break</code>: Ends execution of an entire control flow statement (loop or switch) immediately.</li>
+                <li><code class="inline-code">fallthrough</code>: In a <code class="inline-code">switch</code> statement, explicitly causes execution to fall into the next case (Swift cases don't fall through by default).</li>
+                <li><code class="inline-code">return</code>: Exits a function and optionally returns a value.</li>
+                <li><code class="inline-code">throw</code>: Used for error handling (covered later).</li>
+                <li><strong>Labeled Statements:</strong> You can use labels with <code class="inline-code">break</code> and <code class="inline-code">continue</code> to specify which loop to affect in nested loops.</li>
+            </ul>
+        </section>
+
+        <section id="functions">
+            <h2>Functions</h2>
+            <p>Functions are self-contained blocks of code that perform a specific task. Declared with the <code class="inline-code">func</code> keyword.</p>
+<pre><code class="language-swift"><span class="swift-comment">// Function with no parameters and no return value</span>
+<span class="swift-keyword">func</span> <span class="swift-function-call">greet</span>() {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Hello!"</span>)
+}
+<span class="swift-function-call">greet</span>()
+
+<span class="swift-comment">// Function with parameters</span>
+<span class="swift-keyword">func</span> <span class="swift-function-call">greet</span>(<span class="swift-property">person</span>: <span class="swift-type">String</span>) {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Hello, \(person)!"</span>)
+}
+<span class="swift-function-call">greet</span>(person: <span class="swift-string">"Alice"</span>)
+
+<span class="swift-comment">// Function with a return value</span>
+<span class="swift-keyword">func</span> <span class="swift-function-call">addTwoInts</span>(<span class="swift-property">a</span>: <span class="swift-type">Int</span>, <span class="swift-property">b</span>: <span class="swift-type">Int</span>) <span class="swift-operator">-&gt;</span> <span class="swift-type">Int</span> {
+    <span class="swift-keyword">return</span> <span class="swift-property">a</span> + <span class="swift-property">b</span>
+}
+<span class="swift-keyword">let</span> <span class="swift-property">sum</span> = <span class="swift-function-call">addTwoInts</span>(a: <span class="swift-number">5</span>, b: <span class="swift-number">3</span>) <span class="swift-comment">// sum is 8</span>
+
+<span class="swift-comment">// Function with multiple return values (using a tuple)</span>
+<span class="swift-keyword">func</span> <span class="swift-function-call">minMax</span>(<span class="swift-property">array</span>: [<span class="swift-type">Int</span>]) <span class="swift-operator">-&gt;</span> (<min: <span class="swift-type">Int</span>, max: <span class="swift-type">Int</span>)? {
+    <span class="swift-keyword">if</span> <span class="swift-property">array</span>.isEmpty { <span class="swift-keyword">return</span> <span class="swift-keyword">nil</span> }
+    <span class="swift-keyword">var</span> <span class="swift-property">currentMin</span> = <span class="swift-property">array</span>[<span class="swift-number">0</span>]
+    <span class="swift-keyword">var</span> <span class="swift-property">currentMax</span> = <span class="swift-property">array</span>[<span class="swift-number">0</span>]
+    <span class="swift-keyword">for</span> <span class="swift-property">value</span> <span class="swift-keyword">in</span> <span class="swift-property">array</span>[<span class="swift-number">1</span>..&lt;<span class="swift-property">array</span>.count] {
+        <span class="swift-keyword">if</span> <span class="swift-property">value</span> &lt; <span class="swift-property">currentMin</span> { <span class="swift-property">currentMin</span> = <span class="swift-property">value</span> }
+        <span class="swift-keyword">else</span> <span class="swift-keyword">if</span> <span class="swift-property">value</span> &gt; <span class="swift-property">currentMax</span> { <span class="swift-property">currentMax</span> = <span class="swift-property">value</span> }
+    }
+    <span class="swift-keyword">return</span> (<span class="swift-property">currentMin</span>, <span class="swift-property">currentMax</span>)
+}
+<span class="swift-keyword">if</span> <span class="swift-keyword">let</span> <span class="swift-property">bounds</span> = <span class="swift-function-call">minMax</span>(array: [<span class="swift-number">8</span>, -<span class="swift-number">6</span>, <span class="swift-number">2</span>, <span class="swift-number">109</span>, <span class="swift-number">3</span>, <span class="swift-number">71</span>]) {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Min is \(bounds.min) and max is \(bounds.max)"</span>)
+}
+</code></pre>
+            <h3>Argument Labels and Parameter Names</h3>
+            <p>Each function parameter has both an argument label and a parameter name. The argument label is used when calling the function; the parameter name is used in the implementation of the function.</p>
+            <p>By default, parameters use their parameter name as their argument label. You can specify a custom argument label or omit it with an underscore (<code class="inline-code">_</code>).</p>
+<pre><code class="language-swift"><span class="swift-keyword">func</span> <span class="swift-function-call">someFunction</span>(<span class="swift-property">externalParameterName</span> <span class="swift-property">localParameterName</span>: <span class="swift-type">Int</span>) { <span class="swift-comment">/* ... */</span> }
+<span class="swift-keyword">func</span> <span class="swift-function-call">greet</span>(<span class="swift-property">_</span> <span class="swift-property">person</span>: <span class="swift-type">String</span>, <span class="swift-property">from</span> <span class="swift-property">hometown</span>: <span class="swift-type">String</span>) { <span class="swift-comment">// No argument label for first param</span>
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Hello \(person) from \(hometown)!"</span>)
+}
+<span class="swift-function-call">greet</span>(<span class="swift-string">"Bill"</span>, from: <span class="swift-string">"Cupertino"</span>)</code></pre>
+            <h3>Default Parameter Values</h3>
+<pre><code class="language-swift"><span class="swift-keyword">func</span> <span class="swift-function-call">power</span>(<span class="swift-property">base</span>: <span class="swift-type">Int</span>, <span class="swift-property">exponent</span>: <span class="swift-type">Int</span> = <span class="swift-number">2</span>) <span class="swift-operator">-&gt;</span> <span class="swift-type">Int</span> { <span class="swift-comment">/* ... */</span> <span class="swift-keyword">return</span> <span class="swift-type">Int</span>(<span class="swift-function-call">pow</span>(<span class="swift-type">Double</span>(<span class="swift-property">base</span>), <span class="swift-type">Double</span>(<span class="swift-property">exponent</span>))) }
+<span class="swift-function-call">power</span>(base: <span class="swift-number">3</span>) <span class="swift-comment">// Uses default exponent 2, result 9</span>
+<span class="swift-function-call">power</span>(base: <span class="swift-number">2</span>, exponent: <span class="swift-number">3</span>) <span class="swift-comment">// result 8</span></code></pre>
+            <h3>Variadic Parameters (Variable Number of Arguments)</h3>
+<pre><code class="language-swift"><span class="swift-keyword">func</span> <span class="swift-function-call">arithmeticMean</span>(<span class="swift-property">_</span> <span class="swift-property">numbers</span>: <span class="swift-type">Double</span>...) <span class="swift-operator">-&gt;</span> <span class="swift-type">Double</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">total</span>: <span class="swift-type">Double</span> = <span class="swift-number">0</span>
+    <span class="swift-keyword">for</span> <span class="swift-property">number</span> <span class="swift-keyword">in</span> <span class="swift-property">numbers</span> { <span class="swift-property">total</span> += <span class="swift-property">number</span> }
+    <span class="swift-keyword">return</span> <span class="swift-property">numbers</span>.isEmpty ? <span class="swift-number">0</span> : <span class="swift-property">total</span> / <span class="swift-type">Double</span>(<span class="swift-property">numbers</span>.count)
+}
+<span class="swift-function-call">arithmeticMean</span>(<span class="swift-number">1.0</span>, <span class="swift-number">2.0</span>, <span class="swift-number">3.0</span>, <span class="swift-number">4.0</span>, <span class="swift-number">5.0</span>) <span class="swift-comment">// result 3.0</span></code></pre>
+            <h3>In-Out Parameters</h3>
+            <p>Function parameters are constants by default. If you want a function to modify a parameter's value and have those changes persist after the function call, define it as an in-out parameter with <code class="inline-code">inout</code>. Pass the argument with an ampersand (<code class="inline-code">&</code>).</p>
+<pre><code class="language-swift"><span class="swift-keyword">func</span> <span class="swift-function-call">swapTwoInts</span>(<span class="swift-property">_</span> <span class="swift-property">a</span>: <span class="swift-keyword">inout</span> <span class="swift-type">Int</span>, <span class="swift-property">_</span> <span class="swift-property">b</span>: <span class="swift-keyword">inout</span> <span class="swift-type">Int</span>) {
+    <span class="swift-keyword">let</span> <span class="swift-property">temporaryA</span> = <span class="swift-property">a</span>
+    <span class="swift-property">a</span> = <span class="swift-property">b</span>
+    <span class="swift-property">b</span> = <span class="swift-property">temporaryA</span>
+}
+<span class="swift-keyword">var</span> <span class="swift-property">someInt</span> = <span class="swift-number">3</span>
+<span class="swift-keyword">var</span> <span class="swift-property">anotherInt</span> = <span class="swift-number">107</span>
+<span class="swift-function-call">swapTwoInts</span>(&amp;<span class="swift-property">someInt</span>, &amp;<span class="swift-property">anotherInt</span>) <span class="swift-comment">// someInt is now 107, anotherInt is now 3</span></code></pre>
+        </section>
+
+        <section id="closures">
+            <h2>Closures</h2>
+            <p>Closures are self-contained blocks of functionality that can be passed around and used in your code. They can capture and store references to any constants and variables from the context in which they are defined (closing over them).</p>
+            <p>Global functions are closures that have a name and do not capture any values. Nested functions are closures that have a name and can capture values from their enclosing function.</p>
+            <p>Closure expressions are unnamed closures written in a lightweight syntax.</p>
+            <h3>Closure Expression Syntax</h3>
+            <p>General form: <code class="inline-code">{ (parameters) -> return type in statements }</code></p>
+<pre><code class="language-swift"><span class="swift-keyword">let</span> <span class="swift-property">names</span> = [<span class="swift-string">"Chris"</span>, <span class="swift-string">"Alex"</span>, <span class="swift-string">"Ewa"</span>, <span class="swift-string">"Barry"</span>, <span class="swift-string">"Daniella"</span>]
+
+<span class="swift-comment">// Using a named function for sorting</span>
+<span class="swift-keyword">func</span> <span class="swift-function-call">backward</span>(<span class="swift-property">_</span> <span class="swift-property">s1</span>: <span class="swift-type">String</span>, <span class="swift-property">_</span> <span class="swift-property">s2</span>: <span class="swift-type">String</span>) <span class="swift-operator">-&gt;</span> <span class="swift-type">Bool</span> {
+    <span class="swift-keyword">return</span> <span class="swift-property">s1</span> &gt; <span class="swift-property">s2</span>
+}
+<span class="swift-keyword">var</span> <span class="swift-property">reversedNames</span> = <span class="swift-property">names</span>.<span class="swift-function-call">sorted</span>(by: backward)
+
+<span class="swift-comment">// Using a closure expression</span>
+<span class="swift-property">reversedNames</span> = <span class="swift-property">names</span>.<span class="swift-function-call">sorted</span>(by: { (<span class="swift-property">s1</span>: <span class="swift-type">String</span>, <span class="swift-property">s2</span>: <span class="swift-type">String</span>) <span class="swift-operator">-&gt;</span> <span class="swift-type">Bool</span> <span class="swift-keyword">in</span>
+    <span class="swift-keyword">return</span> <span class="swift-property">s1</span> &gt; <span class="swift-property">s2</span>
+})
+
+<span class="swift-comment">// Inferring Type From Context (shorter)</span>
+<span class="swift-property">reversedNames</span> = <span class="swift-property">names</span>.<span class="swift-function-call">sorted</span>(by: { <span class="swift-property">s1</span>, <span class="swift-property">s2</span> <span class="swift-keyword">in</span> <span class="swift-keyword">return</span> <span class="swift-property">s1</span> &gt; <span class="swift-property">s2</span> })
+
+<span class="swift-comment">// Implicit Returns from Single-Expression Closures</span>
+<span class="swift-property">reversedNames</span> = <span class="swift-property">names</span>.<span class="swift-function-call">sorted</span>(by: { <span class="swift-property">s1</span>, <span class="swift-property">s2</span> <span class="swift-keyword">in</span> <span class="swift-property">s1</span> &gt; <span class="swift-property">s2</span> })
+
+<span class="swift-comment">// Shorthand Argument Names ($0, $1, etc.)</span>
+<span class="swift-property">reversedNames</span> = <span class="swift-property">names</span>.<span class="swift-function-call">sorted</span>(by: { <span class="swift-property">$0</span> &gt; <span class="swift-property">$1</span> })
+
+<span class="swift-comment">// Operator Methods (if types are compatible with an operator)</span>
+<span class="swift-property">reversedNames</span> = <span class="swift-property">names</span>.<span class="swift-function-call">sorted</span>(by: &gt;)
+
+<span class="swift-comment">// Trailing Closures: If a closure is the last argument to a function, it can be written outside the parentheses.</span>
+<span class="swift-property">reversedNames</span> = <span class="swift-property">names</span>.<span class="swift-function-call">sorted</span>() { <span class="swift-property">$0</span> &gt; <span class="swift-property">$1</span> }
+<span class="swift-comment">// If it's the *only* argument, parentheses can be omitted entirely:</span>
+<span class="swift-property">reversedNames</span> = <span class="swift-property">names</span>.<span class="swift-function-call">sorted</span> { <span class="swift-property">$0</span> &gt; <span class="swift-property">$1</span> }
+
+<span class="swift-function-call">print</span>(<span class="swift-property">reversedNames</span>) <span class="swift-comment">// ["Ewa", "Daniella", "Chris", "Barry", "Alex"]</span>
+</code></pre>
+            <p>Closures are heavily used in Swift, especially with collection methods (<code class="inline-code">map</code>, <code class="inline-code">filter</code>, <code class="inline-code">reduce</code>) and for completion handlers in asynchronous operations.</p>
+        </section>
+
+        <section id="collections">
+            <h2>Collections (Arrays, Sets, Dictionaries)</h2>
+            <p>Swift provides three primary collection types:</p>
+            <h3>Arrays</h3>
+            <p>Ordered collections of values of the same type. Stored as value types.</p>
+<pre><code class="language-swift"><span class="swift-comment">// Creating an empty array</span>
+<span class="swift-keyword">var</span> <span class="swift-property">someInts</span>: [<span class="swift-type">Int</span>] = []
+<span class="swift-keyword">var</span> <span class="swift-property">anotherWay</span> = [<span class="swift-type">Int</span>]()
+
+<span class="swift-comment">// Creating an array with a default value</span>
+<span class="swift-keyword">var</span> <span class="swift-property">threeDoubles</span> = <span class="swift-type">Array</span>(repeating: <span class="swift-number">0.0</span>, count: <span class="swift-number">3</span>) <span class="swift-comment">// [0.0, 0.0, 0.0]</span>
+
+<span class="swift-comment">// Creating an array with an array literal</span>
+<span class="swift-keyword">var</span> <span class="swift-property">shoppingList</span>: [<span class="swift-type">String</span>] = [<span class="swift-string">"Eggs"</span>, <span class="swift-string">"Milk"</span>]
+
+<span class="swift-comment">// Accessing and Modifying</span>
+<span class="swift-function-call">print</span>(<span class="swift-string">"The shopping list contains \(shoppingList.count) items."</span>)
+<span class="swift-keyword">if</span> <span class="swift-property">shoppingList</span>.isEmpty { <span class="swift-function-call">print</span>(<span class="swift-string">"List is empty."</span>) }
+
+<span class="swift-property">shoppingList</span>.<span class="swift-function-call">append</span>(<span class="swift-string">"Flour"</span>)
+<span class="swift-property">shoppingList</span> += [<span class="swift-string">"Baking Powder"</span>]
+<span class="swift-keyword">var</span> <span class="swift-property">firstItem</span> = <span class="swift-property">shoppingList</span>[<span class="swift-number">0</span>] <span class="swift-comment">// Eggs</span>
+<span class="swift-property">shoppingList</span>[<span class="swift-number">0</span>] = <span class="swift-string">"Six eggs"</span>
+<span class="swift-property">shoppingList</span>.<span class="swift-function-call">insert</span>(<span class="swift-string">"Maple Syrup"</span>, at: <span class="swift-number">0</span>)
+<span class="swift-keyword">let</span> <span class="swift-property">mapleSyrup</span> = <span class="swift-property">shoppingList</span>.<span class="swift-function-call">remove</span>(at: <span class="swift-number">0</span>)
+
+<span class="swift-comment">// Iterating</span>
+<span class="swift-keyword">for</span> <span class="swift-property">item</span> <span class="swift-keyword">in</span> <span class="swift-property">shoppingList</span> { <span class="swift-function-call">print</span>(<span class="swift-property">item</span>) }
+<span class="swift-keyword">for</span> (<span class="swift-property">index</span>, <span class="swift-property">value</span>) <span class="swift-keyword">in</span> <span class="swift-property">shoppingList</span>.<span class="swift-function-call">enumerated</span>() {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"Item \(index + 1): \(value)"</span>)
+}
+</code></pre>
+            <h3>Sets</h3>
+            <p>Unordered collections of unique values of the same type. Stored as value types.</p>
+<pre><code class="language-swift"><span class="swift-keyword">var</span> <span class="swift-property">letters</span> = <span class="swift-type">Set</span>&lt;<span class="swift-type">Character</span>&gt;()
+<span class="swift-property">letters</span>.<span class="swift-function-call">insert</span>(<span class="swift-string">"a"</span>)
+<span class="swift-property">letters</span> = [] <span class="swift-comment">// letters is now an empty set, but still of type Set&lt;Character&gt;</span>
+
+<span class="swift-keyword">var</span> <span class="swift-property">favoriteGenres</span>: <span class="swift-type">Set</span>&lt;<span class="swift-type">String</span>&gt; = [<span class="swift-string">"Rock"</span>, <span class="swift-string">"Classical"</span>, <span class="swift-string">"Hip hop"</span>]
+<span class="swift-property">favoriteGenres</span>.<span class="swift-function-call">insert</span>(<span class="swift-string">"Jazz"</span>)
+<span class="swift-property">favoriteGenres</span>.<span class="swift-function-call">insert</span>(<span class="swift-string">"Rock"</span>) <span class="swift-comment">// No change, "Rock" is already there</span>
+<span class="swift-keyword">if</span> <span class="swift-property">favoriteGenres</span>.<span class="swift-function-call">contains</span>(<span class="swift-string">"Funk"</span>) { <span class="swift-comment">/* ... */</span> }
+
+<span class="swift-comment">// Set operations: union, intersection, subtracting, symmetricDifference</span>
+</code></pre>
+            <h3>Dictionaries</h3>
+            <p>Unordered collections of key-value associations. Keys must be unique and of the same hashable type. Values can be of any type. Stored as value types.</p>
+<pre><code class="language-swift"><span class="swift-comment">// Creating an empty dictionary</span>
+<span class="swift-keyword">var</span> <span class="swift-property">namesOfIntegers</span>: [<span class="swift-type">Int</span>: <span class="swift-type">String</span>] = [:]
+<span class="swift-keyword">var</span> <span class="swift-property">anotherWayDict</span> = [<span class="swift-type">String</span>: <span class="swift-type">Double</span>]()
+
+<span class="swift-comment">// Creating a dictionary with a dictionary literal</span>
+<span class="swift-keyword">var</span> <span class="swift-property">airports</span>: [<span class="swift-type">String</span>: <span class="swift-type">String</span>] = [<span class="swift-string">"YYZ"</span>: <span class="swift-string">"Toronto Pearson"</span>, <span class="swift-string">"DUB"</span>: <span class="swift-string">"Dublin"</span>]
+
+<span class="swift-function-call">print</span>(<span class="swift-string">"The airports dictionary contains \(airports.count) items."</span>)
+<span class="swift-property">airports</span>[<span class="swift-string">"LHR"</span>] = <span class="swift-string">"London Heathrow"</span> <span class="swift-comment">// Add or update</span>
+<span class="swift-keyword">if</span> <span class="swift-keyword">let</span> <span class="swift-property">oldValue</span> = <span class="swift-property">airports</span>.<span class="swift-function-call">updateValue</span>(<span class="swift-string">"Dublin Airport"</span>, forKey: <span class="swift-string">"DUB"</span>) {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"The old value for DUB was \(oldValue)."</span>)
+}
+<span class="swift-keyword">if</span> <span class="swift-keyword">let</span> <span class="swift-property">airportName</span> = <span class="swift-property">airports</span>[<span class="swift-string">"YYZ"</span>] { <span class="swift-comment">// Accessing returns an optional</span>
+    <span class="swift-function-call">print</span>(<span class="swift-string">"The name of the airport is \(airportName)."</span>)
+}
+<span class="swift-property">airports</span>[<span class="swift-string">"LHR"</span>] = <span class="swift-keyword">nil</span> <span class="swift-comment">// Remove an item</span>
+
+<span class="swift-comment">// Iterating</span>
+<span class="swift-keyword">for</span> (<span class="swift-property">airportCode</span>, <span class="swift-property">airportName</span>) <span class="swift-keyword">in</span> <span class="swift-property">airports</span> {
+    <span class="swift-function-call">print</span>(<span class="swift-string">"\(airportCode): \(airportName)"</span>)
+}
+<span class="swift-keyword">for</span> <span class="swift-property">airportCode</span> <span class="swift-keyword">in</span> <span class="swift-property">airports</span>.keys { <span class="swift-comment">/* ... */</span> }
+<span class="swift-keyword">for</span> <span class="swift-property">airportName</span> <span class="swift-keyword">in</span> <span class="swift-property">airports</span>.values { <span class="swift-comment">/* ... */</span> }
+</code></pre>
+        </section>
+
+        <section id="oop-core">
+            <h2>Classes and Structures (OOP/POP)</h2>
+            <p>Swift supports both classes (reference types) and structures (value types) for creating custom data types.</p>
+            <h3>Structures (<code class="inline-code">struct</code>) - Value Types</h3>
+            <p>When a struct instance is assigned to a new constant/variable or passed to a function, its value is copied.</p>
+<pre><code class="language-swift"><span class="swift-keyword">struct</span> <span class="swift-class-name">Resolution</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">width</span> = <span class="swift-number">0</span>
+    <span class="swift-keyword">var</span> <span class="swift-property">height</span> = <span class="swift-number">0</span>
+}
+<span class="swift-keyword">var</span> <span class="swift-property">hd</span> = <span class="swift-class-name">Resolution</span>(width: <span class="swift-number">1920</span>, height: <span class="swift-number">1080</span>) <span class="swift-comment">// Memberwise initializer for structs</span>
+<span class="swift-keyword">var</span> <span class="swift-property">cinema</span> = <span class="swift-property">hd</span> <span class="swift-comment">// cinema gets a *copy* of hd</span>
+<span class="swift-property">cinema</span>.<span class="swift-property">width</span> = <span class="swift-number">2048</span>
+<span class="swift-function-call">print</span>(<span class="swift-string">"hd width is still \(hd.width)"</span>) <span class="swift-comment">// Output: 1920</span></code></pre>
+            <h3>Classes (<code class="inline-code">class</code>) - Reference Types</h3>
+            <p>When a class instance is assigned or passed, a reference to the same existing instance is used (not a copy).</p>
+<pre><code class="language-swift"><span class="swift-keyword">class</span> <span class="swift-class-name">VideoMode</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">resolution</span> = <span class="swift-class-name">Resolution</span>()
+    <span class="swift-keyword">var</span> <span class="swift-property">interlaced</span> = <span class="swift-keyword">false</span>
+    <span class="swift-keyword">var</span> <span class="swift-property">frameRate</span>: <span class="swift-type">Double</span> = <span class="swift-number">0.0</span>
+    <span class="swift-keyword">var</span> <span class="swift-property">name</span>: <span class="swift-type">String</span>?
+}
+<span class="swift-keyword">let</span> <span class="swift-property">tenEighty</span> = <span class="swift-class-name">VideoMode</span>()
+<span class="swift-property">tenEighty</span>.<span class="swift-property">resolution</span> = <span class="swift-property">hd</span>
+<span class="swift-property">tenEighty</span>.<span class="swift-property">interlaced</span> = <span class="swift-keyword">true</span>
+<span class="swift-property">tenEighty</span>.<span class="swift-property">name</span> = <span class="swift-string">"1080i"</span>
+<span class="swift-property">tenEighty</span>.<span class="swift-property">frameRate</span> = <span class="swift-number">25.0</span>
+
+<span class="swift-keyword">let</span> <span class="swift-property">alsoTenEighty</span> = <span class="swift-property">tenEighty</span> <span class="swift-comment">// alsoTenEighty now refers to the *same* VideoMode instance</span>
+<span class="swift-property">alsoTenEighty</span>.<span class="swift-property">frameRate</span> = <span class="swift-number">30.0</span>
+<span class="swift-function-call">print</span>(<span class="swift-string">"The frameRate property of tenEighty is now \(tenEighty.frameRate)"</span>) <span class="swift-comment">// Output: 30.0</span></code></pre>
+            <p class="tip">Choose structs by default, especially for simple data types. Use classes when you need Objective-C interoperability, identity (<code class="inline-code">===</code>), or when you specifically need reference semantics (e.g., for shared mutable state).</p>
+        </section>
+
+        <section id="properties">
+            <h2>Properties</h2>
+            <p>Properties associate values with a particular class, structure, or enumeration.</p>
+            <ul>
+                <li><strong>Stored Properties:</strong> Store constant or variable values as part of an instance. (Seen in class/struct examples above).</li>
+                <li><strong>Computed Properties:</strong> Calculate a value rather than storing it. Must be <code class="inline-code">var</code>. Provide a getter and an optional setter.
+<pre><code class="language-swift"><span class="swift-keyword">struct</span> <span class="swift-class-name">Point</span> { <span class="swift-keyword">var</span> <span class="swift-property">x</span> = <span class="swift-number">0.0</span>, <span class="swift-property">y</span> = <span class="swift-number">0.0</span> }
+<span class="swift-keyword">struct</span> <span class="swift-class-name">Size</span> { <span class="swift-keyword">var</span> <span class="swift-property">width</span> = <span class="swift-number">0.0</span>, <span class="swift-property">height</span> = <span class="swift-number">0.0</span> }
+<span class="swift-keyword">struct</span> <span class="swift-class-name">Rect</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">origin</span> = <span class="swift-class-name">Point</span>()
+    <span class="swift-keyword">var</span> <span class="swift-property">size</span> = <span class="swift-class-name">Size</span>()
+    <span class="swift-keyword">var</span> <span class="swift-property">center</span>: <span class="swift-class-name">Point</span> {
+        <span class="swift-keyword">get</span> {
+            <span class="swift-keyword">let</span> <span class="swift-property">centerX</span> = <span class="swift-property">origin</span>.<span class="swift-property">x</span> + (<span class="swift-property">size</span>.<span class="swift-property">width</span> / <span class="swift-number">2</span>)
+            <span class="swift-keyword">let</span> <span class="swift-property">centerY</span> = <span class="swift-property">origin</span>.<span class="swift-property">y</span> + (<span class="swift-property">size</span>.<span class="swift-property">height</span> / <span class="swift-number">2</span>)
+            <span class="swift-keyword">return</span> <span class="swift-class-name">Point</span>(x: <span class="swift-property">centerX</span>, y: <span class="swift-property">centerY</span>)
+        }
+        <span class="swift-keyword">set</span>(<span class="swift-property">newCenter</span>) { <span class="swift-comment">// newValue is the default name if newCenter is omitted</span>
+            <span class="swift-property">origin</span>.<span class="swift-property">x</span> = <span class="swift-property">newCenter</span>.<span class="swift-property">x</span> - (<span class="swift-property">size</span>.<span class="swift-property">width</span> / <span class="swift-number">2</span>)
+            <span class="swift-property">origin</span>.<span class="swift-property">y</span> = <span class="swift-property">newCenter</span>.<span class="swift-property">y</span> - (<span class="swift-property">size</span>.<span class="swift-property">height</span> / <span class="swift-number">2</span>)
+        }
+    }
+}</code></pre>
+                </li>
+                <li><strong>Property Observers:</strong> Respond to changes in a property's value. <code class="inline-code">willSet</code> is called just before the value is stored, <code class="inline-code">didSet</code> is called immediately after.
+<pre><code class="language-swift"><span class="swift-keyword">class</span> <span class="swift-class-name">StepCounter</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">totalSteps</span>: <span class="swift-type">Int</span> = <span class="swift-number">0</span> {
+        <span class="swift-keyword">willSet</span>(<span class="swift-property">newTotalSteps</span>) {
+            <span class="swift-function-call">print</span>(<span class="swift-string">"About to set totalSteps to \(newTotalSteps)"</span>)
+        }
+        <span class="swift-keyword">didSet</span> {
+            <span class="swift-keyword">if</span> <span class="swift-property">totalSteps</span> &gt; <span class="swift-property">oldValue</span>  {
+                <span class="swift-function-call">print</span>(<span class="swift-string">"Added \(totalSteps - oldValue) steps"</span>)
+            }
+        }
+    }
+}</code></pre>
+                </li>
+                <li><strong>Type Properties (Static Properties):</strong> Properties that belong to the type itself, not to an instance. Declared with <code class="inline-code">static</code>.
+<pre><code class="language-swift"><span class="swift-keyword">struct</span> <span class="swift-class-name">AudioChannel</span> {
+    <span class="swift-keyword">static</span> <span class="swift-keyword">let</span> <span class="swift-property">thresholdLevel</span> = <span class="swift-number">10</span>
+    <span class="swift-keyword">static</span> <span class="swift-keyword">var</span> <span class="swift-property">maxInputLevelForAllChannels</span> = <span class="swift-number">0</span>
+}
+<span class="swift-function-call">print</span>(<span class="swift-class-name">AudioChannel</span>.<span class="swift-property">thresholdLevel</span>)</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="methods">
+            <h2>Methods</h2>
+            <p>Methods are functions associated with a particular type (class, struct, enum).</p>
+            <ul>
+                <li><strong>Instance Methods:</strong> Called on an instance of a type.
+<pre><code class="language-swift"><span class="swift-keyword">class</span> <span class="swift-class-name">Counter</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">count</span> = <span class="swift-number">0</span>
+    <span class="swift-keyword">func</span> <span class="swift-function-call">increment</span>() { <span class="swift-property">count</span> += <span class="swift-number">1</span> }
+    <span class="swift-keyword">func</span> <span class="swift-function-call">increment</span>(by <span class="swift-property">amount</span>: <span class="swift-type">Int</span>) { <span class="swift-property">count</span> += <span class="swift-property">amount</span> }
+    <span class="swift-keyword">func</span> <span class="swift-function-call">reset</span>() { <span class="swift-property">count</span> = <span class="swift-number">0</span> }
+}</code></pre>
+                </li>
+                <li><strong>Mutating Methods (for Structs and Enums):</strong> If a method modifies properties of a value type (struct, enum), it must be marked with the <code class="inline-code">mutating</code> keyword.
+<pre><code class="language-swift"><span class="swift-keyword">struct</span> <span class="swift-class-name">Point</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">x</span> = <span class="swift-number">0.0</span>, <span class="swift-property">y</span> = <span class="swift-number">0.0</span>
+    <span class="swift-keyword">mutating</span> <span class="swift-keyword">func</span> <span class="swift-function-call">moveBy</span>(x <span class="swift-property">deltaX</span>: <span class="swift-type">Double</span>, y <span class="swift-property">deltaY</span>: <span class="swift-type">Double</span>) {
+        <span class="swift-property">x</span> += <span class="swift-property">deltaX</span>
+        <span class="swift-property">y</span> += <span class="swift-property">deltaY</span>
+    }
+}</code></pre>
+                </li>
+                <li><strong>Type Methods (Static Methods):</strong> Called on the type itself, not an instance. Declared with <code class="inline-code">static</code> (or <code class="inline-code">class</code> for classes to allow overriding).
+<pre><code class="language-swift"><span class="swift-keyword">class</span> <span class="swift-class-name">SomeClass</span> {
+    <span class="swift-keyword">static</span> <span class="swift-keyword">func</span> <span class="swift-function-call">someTypeMethod</span>() {
+        <span class="swift-function-call">print</span>(<span class="swift-string">"Called a type method."</span>)
+    }
+}
+<span class="swift-class-name">SomeClass</span>.<span class="swift-function-call">someTypeMethod</span>()</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="inheritance">
+            <h2>Inheritance (for Classes)</h2>
+            <p>A class can inherit methods, properties, and other characteristics from another class (its superclass). Structs do not support inheritance.</p>
+<pre><code class="language-swift"><span class="swift-keyword">class</span> <span class="swift-class-name">Vehicle</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">currentSpeed</span> = <span class="swift-number">0.0</span>
+    <span class="swift-keyword">var</span> <span class="swift-property">description</span>: <span class="swift-type">String</span> {
+        <span class="swift-keyword">return</span> <span class="swift-string">"traveling at \(currentSpeed) miles per hour"</span>
+    }
+    <span class="swift-keyword">func</span> <span class="swift-function-call">makeNoise</span>() { <span class="swift-comment">// Base implementation</span> }
+}
+
+<span class="swift-keyword">class</span> <span class="swift-class-name">Bicycle</span>: <span class="swift-class-name">Vehicle</span> { <span class="swift-comment">// Bicycle inherits from Vehicle</span>
+    <span class="swift-keyword">var</span> <span class="swift-property">hasBasket</span> = <span class="swift-keyword">false</span>
+}
+
+<span class="swift-keyword">class</span> <span class="swift-class-name">Car</span>: <span class="swift-class-name">Vehicle</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">gear</span> = <span class="swift-number">1</span>
+    <span class="swift-keyword">override</span> <span class="swift-keyword">func</span> <span class="swift-function-call">makeNoise</span>() { <span class="swift-comment">// Overriding</span>
+        <span class="swift-function-call">print</span>(<span class="swift-string">"Vroom vroom"</span>)
+    }
+}
+
+<span class="swift-keyword">let</span> <span class="swift-property">someCar</span> = <span class="swift-class-name">Car</span>()
+<span class="swift-property">someCar</span>.<span class="swift-property">currentSpeed</span> = <span class="swift-number">55.0</span>
+<span class="swift-property">someCar</span>.<span class="swift-function-call">makeNoise</span>() <span class="swift-comment">// Vroom vroom</span>
+</code></pre>
+            <p>You can prevent overriding by marking a method, property, or subscript with <code class="inline-code">final</code>.</p>
+        </section>
+
+        <section id="protocols">
+            <h2>Protocols (Similar to Interfaces)</h2>
+            <p>A protocol defines a blueprint of methods, properties, and other requirements that suit a particular task or piece of functionality. Classes, structures, and enumerations can then <em>conform</em> to the protocol to provide an actual implementation of those requirements.</p>
+<pre><code class="language-swift"><span class="swift-keyword">protocol</span> <span class="swift-class-name">FullyNamed</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">fullName</span>: <span class="swift-type">String</span> { <span class="swift-keyword">get</span> } <span class="swift-comment">// Readable property requirement</span>
+}
+
+<span class="swift-keyword">struct</span> <span class="swift-class-name">Person</span>: <span class="swift-class-name">FullyNamed</span> { <span class="swift-comment">// Conforms to FullyNamed</span>
+    <span class="swift-keyword">var</span> <span class="swift-property">firstName</span>: <span class="swift-type">String</span>
+    <span class="swift-keyword">var</span> <span class="swift-property">lastName</span>: <span class="swift-type">String</span>
+    <span class="swift-keyword">var</span> <span class="swift-property">fullName</span>: <span class="swift-type">String</span> { <span class="swift-comment">// Implementation of the protocol requirement</span>
+        <span class="swift-keyword">return</span> <span class="swift-string">"\(firstName) \(lastName)"</span>
+    }
+}
+
+<span class="swift-keyword">let</span> <span class="swift-property">john</span> = <span class="swift-class-name">Person</span>(firstName: <span class="swift-string">"John"</span>, lastName: <span class="swift-string">"Doe"</span>)
+<span class="swift-function-call">print</span>(<span class="swift-property">john</span>.<span class="swift-property">fullName</span>) <span class="swift-comment">// John Doe</span>
+</code></pre>
+            <p>Protocols are central to Swift's design and enable Protocol-Oriented Programming (POP).</p>
+        </section>
+
+        <section id="error-handling">
+            <h2>Error Handling</h2>
+            <p>Swift provides first-class support for throwing, catching, propagating, and manipulating recoverable errors at runtime.</p>
+            <p>Errors are represented by values of types that conform to the <code class="inline-code">Error</code> protocol.</p>
+<pre><code class="language-swift"><span class="swift-keyword">enum</span> <span class="swift-class-name">VendingMachineError</span>: <span class="swift-type">Error</span> {
+    <span class="swift-keyword">case</span> invalidSelection
+    <span class="swift-keyword">case</span> insufficientFunds(<span class="swift-property">coinsNeeded</span>: <span class="swift-type">Int</span>)
+    <span class="swift-keyword">case</span> outOfStock
+}
+
+<span class="swift-keyword">struct</span> <span class="swift-class-name">Item</span> { <span class="swift-keyword">var</span> <span class="swift-property">price</span>: <span class="swift-type">Int</span>; <span class="swift-keyword">var</span> <span class="swift-property">count</span>: <span class="swift-type">Int</span> }
+
+<span class="swift-keyword">class</span> <span class="swift-class-name">VendingMachine</span> {
+    <span class="swift-keyword">var</span> <span class="swift-property">inventory</span> = [
+        <span class="swift-string">"Candy Bar"</span>: <span class="swift-class-name">Item</span>(price: <span class="swift-number">12</span>, count: <span class="swift-number">7</span>),
+        <span class="swift-string">"Chips"</span>: <span class="swift-class-name">Item</span>(price: <span class="swift-number">10</span>, count: <span class="swift-number">4</span>)
+    ]
+    <span class="swift-keyword">var</span> <span class="swift-property">coinsDeposited</span> = <span class="swift-number">0</span>
+
+    <span class="swift-keyword">func</span> <span class="swift-function-call">vend</span>(<span class="swift-property">itemNamed</span> <span class="swift-property">name</span>: <span class="swift-type">String</span>) <span class="swift-keyword">throws</span> { <span class="swift-comment">// Mark function as throwing</span>
+        <span class="swift-keyword">guard</span> <span class="swift-keyword">let</span> <span class="swift-property">item</span> = <span class="swift-property">inventory</span>[<span class="swift-property">name</span>] <span class="swift-keyword">else</span> {
+            <span class="swift-keyword">throw</span> <span class="swift-class-name">VendingMachineError</span>.invalidSelection
+        }
+        <span class="swift-keyword">guard</span> <span class="swift-property">item</span>.<span class="swift-property">count</span> &gt; <span class="swift-number">0</span> <span class="swift-keyword">else</span> {
+            <span class="swift-keyword">throw</span> <span class="swift-class-name">VendingMachineError</span>.outOfStock
+        }
+        <span class="swift-keyword">guard</span> <span class="swift-property">item</span>.<span class="swift-property">price</span> &lt;= <span class="swift-property">coinsDeposited</span> <span class="swift-keyword">else</span> {
+            <span class="swift-keyword">throw</span> <span class="swift-class-name">VendingMachineError</span>.insufficientFunds(coinsNeeded: <span class="swift-property">item</span>.<span class="swift-property">price</span> - <span class="swift-property">coinsDeposited</span>)
+        }
+        <span class="swift-property">coinsDeposited</span> -= <span class="swift-property">item</span>.<span class="swift-property">price</span>
+        <span class="swift-keyword">var</span> <span class="swift-property">newItem</span> = <span class="swift-property">item</span>
+        <span class="swift-property">newItem</span>.<span class="swift-property">count</span> -= <span class="swift-number">1</span>
+        <span class="swift-property">inventory</span>[<span class="swift-property">name</span>] = <span class="swift-property">newItem</span>
+        <span class="swift-function-call">print</span>(<span class="swift-string">"Dispensing \(name)"</span>)
+    }
+}
+
+<span class="swift-keyword">let</span> <span class="swift-property">favoriteSnacks</span> = [
+    <span class="swift-string">"Alice"</span>: <span class="swift-string">"Chips"</span>,
+    <span class="swift-string">"Bob"</span>: <span class="swift-string">"Candy Bar"</span>,
+    <span class="swift-string">"Eve"</span>: <span class="swift-string">"Pretzels"</span>
+]
+
+<span class="swift-keyword">func</span> <span class="swift-function-call">buyFavoriteSnack</span>(<span class="swift-property">person</span>: <span class="swift-type">String</span>, <span class="swift-property">vendingMachine</span>: <span class="swift-class-name">VendingMachine</span>) {
+    <span class="swift-keyword">let</span> <span class="swift-property">snackName</span> = <span class="swift-property">favoriteSnacks</span>[<span class="swift-property">person</span>] ?? <span class="swift-string">"Candy Bar"</span>
+    <span class="swift-keyword">do</span> {
+        <span class="swift-keyword">try</span> <span class="swift-property">vendingMachine</span>.<span class="swift-function-call">vend</span>(itemNamed: <span class="swift-property">snackName</span>)
+        <span class="swift-function-call">print</span>(<span class="swift-string">"Enjoy your \(snackName)!"</span>)
+    } <span class="swift-keyword">catch</span> <span class="swift-class-name">VendingMachineError</span>.invalidSelection {
+        <span class="swift-function-call">print</span>(<span class="swift-string">"Invalid selection."</span>)
+    } <span class="swift-keyword">catch</span> <span class="swift-class-name">VendingMachineError</span>.outOfStock {
+        <span class="swift-function-call">print</span>(<span class="swift-string">"Out of stock."</span>)
+    } <span class="swift-keyword">catch</span> <span class="swift-class-name">VendingMachineError</span>.insufficientFunds(<span class="swift-keyword">let</span> <span class="swift-property">coinsNeeded</span>) {
+        <span class="swift-function-call">print</span>(<span class="swift-string">"Insufficient funds. Please insert an additional \(coinsNeeded) coins."</span>)
+    } <span class="swift-keyword">catch</span> { <span class="swift-comment">// General catch</span>
+        <span class="swift-function-call">print</span>(<span class="swift-string">"An unexpected error occurred: \(error)"</span>)
+    }
+}
+<span class="swift-keyword">var</span> <span class="swift-property">machine</span> = <span class="swift-class-name">VendingMachine</span>()
+<span class="swift-property">machine</span>.<span class="swift-property">coinsDeposited</span> = <span class="swift-number">20</span>
+<span class="swift-function-call">buyFavoriteSnack</span>(person: <span class="swift-string">"Alice"</span>, vendingMachine: <span class="swift-property">machine</span>)
+</code></pre>
+            <p>Use <code class="inline-code">try?</code> to convert an error to an optional value (returns <code class="inline-code">nil</code> if an error is thrown). Use <code class="inline-code">try!</code> to assert that a throwing expression won't actually throw an error (crashes if it does).</p>
+        </section>
+
+        <section id="generics-intro">
+            <h2>Introduction to Generics</h2>
+            <p>Generics allow you to write flexible, reusable functions and types that can work with any type, subject to specified constraints, without losing type safety.</p>
+<pre><code class="language-swift"><span class="swift-keyword">func</span> <span class="swift-function-call">swapTwoValues</span>&lt;<span class="swift-type">T</span>&gt;(<span class="swift-property">_</span> <span class="swift-property">a</span>: <span class="swift-keyword">inout</span> <span class="swift-type">T</span>, <span class="swift-property">_</span> <span class="swift-property">b</span>: <span class="swift-keyword">inout</span> <span class="swift-type">T</span>) {
+    <span class="swift-keyword">let</span> <span class="swift-property">temporaryA</span> = <span class="swift-property">a</span>
+    <span class="swift-property">a</span> = <span class="swift-property">b</span>
+    <span class="swift-property">b</span> = <span class="swift-property">temporaryA</span>
+}
+<span class="swift-keyword">var</span> <span class="swift-property">someInt</span> = <span class="swift-number">3</span>
+<span class="swift-keyword">var</span> <span class="swift-property">anotherInt</span> = <span class="swift-number">107</span>
+<span class="swift-function-call">swapTwoValues</span>(&amp;<span class="swift-property">someInt</span>, &amp;<span class="swift-property">anotherInt</span>) <span class="swift-comment">// Works for Ints</span>
+
+<span class="swift-keyword">var</span> <span class="swift-property">someString</span> = <span class="swift-string">"hello"</span>
+<span class="swift-keyword">var</span> <span class="swift-property">anotherString</span> = <span class="swift-string">"world"</span>
+<span class="swift-function-call">swapTwoValues</span>(&amp;<span class="swift-property">someString</span>, &amp;<span class="swift-property">anotherString</span>) <span class="swift-comment">// Works for Strings</span>
+
+<span class="swift-keyword">struct</span> <span class="swift-class-name">Stack</span>&lt;<span class="swift-type">Element</span>&gt; { <span class="swift-comment">// Generic struct</span>
+    <span class="swift-keyword">var</span> <span class="swift-property">items</span>: [<span class="swift-type">Element</span>] = []
+    <span class="swift-keyword">mutating</span> <span class="swift-keyword">func</span> <span class="swift-function-call">push</span>(<span class="swift-property">_</span> <span class="swift-property">item</span>: <span class="swift-type">Element</span>) { <span class="swift-property">items</span>.<span class="swift-function-call">append</span>(<span class="swift-property">item</span>) }
+    <span class="swift-keyword">mutating</span> <span class="swift-keyword">func</span> <span class="swift-function-call">pop</span>() <span class="swift-operator">-&gt;</span> <span class="swift-type">Element</span> { <span class="swift-keyword">return</span> <span class="swift-property">items</span>.<span class="swift-function-call">removeLast</span>() }
+}
+<span class="swift-keyword">var</span> <span class="swift-property">stackOfStrings</span> = <span class="swift-class-name">Stack</span>&lt;<span class="swift-type">String</span>&gt;()
+<span class="swift-property">stackOfStrings</span>.<span class="swift-function-call">push</span>(<span class="swift-string">"uno"</span>)
+</code></pre>
+            <p>You can also define generic type constraints (e.g., <code class="inline-code">&lt;T: Equatable&gt;</code>) and use protocols with associated types.</p>
+        </section>
+
+        <section id="memory-management-arc">
+            <h2>Automatic Reference Counting (ARC)</h2>
+            <p>Swift uses Automatic Reference Counting (ARC) to track and manage your app's memory usage. In most cases, ARC "just works," meaning you don't need to think about memory management explicitly.</p>
+            <ul>
+                <li>ARC keeps track of how many properties, constants, and variables are currently referring to each class instance.</li>
+                <li>It deallocates an instance from memory when there are no longer any active references to it.</li>
+                <li>ARC does not apply to value types (structs, enums), as they are copied, not referenced.</li>
+                <li><strong>Strong Reference Cycles:</strong> Sometimes, two class instances can hold strong references to each other, preventing ARC from deallocating them (a memory leak). You can resolve strong reference cycles by defining one of the references as <code class="inline-code">weak</code> or <code class="inline-code">unowned</code>.
+                    <ul>
+                        <li><code class="inline-code">weak</code> references are always optional types and become <code class="inline-code">nil</code> when the instance they refer to is deallocated.</li>
+                        <li><code class="inline-code">unowned</code> references are assumed to always have a value. Accessing an unowned reference after its instance has been deallocated will cause a crash. Use when the other instance has the same or longer lifetime.</li>
+                    </ul>
+                </li>
+                <li>Closures can also capture and store references, potentially leading to reference cycles if not managed (e.g., using capture lists <code class="inline-code">[weak self]</code> or <code class="inline-code">[unowned self]</code>).</li>
+            </ul>
+        </section>
+
+         <section id="swiftui-uikit-intro">
+            <h2>Introduction to UI Frameworks (SwiftUI & UIKit/AppKit)</h2>
+            <p>Swift is primarily used for building applications on Apple platforms, which involves UI frameworks.</p>
+            <h3>SwiftUI</h3>
+            <ul>
+                <li>A modern, declarative framework for building user interfaces across all Apple platforms (iOS, macOS, watchOS, tvOS).</li>
+                <li>You describe what your UI should look like and how it should behave, and SwiftUI handles rendering and updates.</li>
+                <li>Uses a declarative Swift syntax.</li>
+                <li>Emphasizes state-driven UIs and reactive programming.</li>
+            </ul>
+<pre><code class="language-swift"><span class="swift-keyword">import</span> <span class="swift-type">SwiftUI</span>
+
+<span class="swift-keyword">struct</span> <span class="swift-class-name">ContentView</span>: <span class="swift-type">View</span> {
+    <span class="swift-attribute">@State</span> <span class="swift-keyword">private</span> <span class="swift-keyword">var</span> <span class="swift-property">name</span>: <span class="swift-type">String</span> = <span class="swift-string">""</span>
+
+    <span class="swift-keyword">var</span> <span class="swift-property">body</span>: <span class="swift-type">some</span> <span class="swift-type">View</span> {
+        <span class="swift-type">VStack</span> {
+            <span class="swift-type">Image</span>(systemName: <span class="swift-string">"globe"</span>)
+                .<span class="swift-function-call">imageScale</span>(.<span class="swift-property">large</span>)
+                .<span class="swift-property">foregroundStyle</span>(.<span class="swift-property">tint</span>)
+            <span class="swift-type">Text</span>(<span class="swift-string">"Hello, \(name.isEmpty ? "world" : name)!"</span>)
+            <span class="swift-type">TextField</span>(<span class="swift-string">"Enter your name"</span>, text: <span class="swift-property">$name</span>)
+                .<span class="swift-function-call">padding</span>()
+                .<span class="swift-function-call">textFieldStyle</span>(.<span class="swift-property">roundedBorder</span>)
+        }
+        .<span class="swift-function-call">padding</span>()
+    }
+}
+</code></pre>
+            <h3>UIKit (iOS) and AppKit (macOS)</h3>
+            <ul>
+                <li>Older, imperative frameworks for building UIs.</li>
+                <li>UIKit is for iOS and tvOS; AppKit is for macOS.</li>
+                <li>Still widely used and very powerful, especially for complex UIs or when needing features not yet fully supported by SwiftUI.</li>
+                <li>Often involve storyboards or XIB files for UI layout (though UI can also be built programmatically).</li>
+            </ul>
+            <p>For new projects, SwiftUI is often the recommended starting point, but understanding UIKit/AppKit can be beneficial for existing codebases or specific needs.</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>Congratulations on completing this beginner's guide to Swift!</p>
+            <p>To continue your Swift development journey:</p>
+            <ul>
+                <li><strong>Official Swift Documentation:</strong> "The Swift Programming Language" book available for free on <a href="https://docs.swift.org/swift-book/" target="_blank">swift.org</a> is the definitive guide.</li>
+                <li><strong>Apple Developer Documentation:</strong> Essential for learning about Apple frameworks like SwiftUI, UIKit, Core Data, etc.</li>
+                <li><strong>Practice in Playgrounds:</strong> Use Xcode Playgrounds to experiment with Swift syntax and concepts quickly.</li>
+                <li><strong>Build Small Apps:</strong> Start with simple iOS or macOS apps using SwiftUI or UIKit.
+                    <ul>
+                        <li>A To-Do list app.</li>
+                        <li>A simple calculator.</li>
+                        <li>A note-taking app.</li>
+                    </ul>
+                </li>
+                <li><strong>Explore SwiftUI or UIKit/AppKit:</strong> Choose a UI framework and dive deeper into its components and layout systems.</li>
+                <li><strong>Concurrency in Swift:</strong> Learn about Grand Central Dispatch (GCD), async/await (Swift 5.5+), and Actors for managing concurrent tasks.</li>
+                <li><strong>Data Persistence:</strong> Explore Core Data, Realm, or using JSONEncoder/Decoder with files for saving data.</li>
+                <li><strong>Networking:</strong> Learn to make API calls using URLSession.</li>
+                <li><strong>Testing:</strong> Learn XCTest for writing unit and UI tests.</li>
+                <li><strong>Online Courses and Communities:</strong> Hacking with Swift, Kodeco (formerly Ray Wenderlich), Stanford's iOS course (often available online), Udemy, Coursera.</li>
+            </ul>
+            <p class="important">Swift is a modern and enjoyable language. The best way to master it is by building things!</p>
+            <p>Happy Swift coding!</p>
+        </section>
+
+    </div>
+
+    <script>
+       
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        function activateInitialLink() {
+            const hash = window.location.hash;
+            let activeLinkFound = false;
+            if (hash) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                        activeLinkFound = true;
+                    }
+                });
+            }
+            if (!activeLinkFound && navLinks.length > 0) {
+                navLinks[0].classList.add('active'); 
+            }
+        }
+        activateInitialLink();
+        window.addEventListener('hashchange', activateInitialLink); 
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Guide</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #3498db;
+            --card-bg-color: #f8f9fa;
+            --border-color: #ecf0f1;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --nav-bg-color: rgba(255, 255, 255, 0.85);
+            --icon-stroke: #2c3e50;
+        }
+
+        body.dark-mode {
+            --bg-color: #1a1a1a;
+            --text-color: #ecf0f1;
+            --accent-color: #5dade2;
+            --card-bg-color: #2c2c2c;
+            --border-color: #3a3a3a;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --nav-bg-color: rgba(26, 26, 26, 0.85);
+            --icon-stroke: #ecf0f1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--nav-bg-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .controls-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .language-switcher button {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--text-color);
+            font-weight: 500;
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .language-switcher button.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .dark-mode-toggle {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dark-mode-toggle svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--text-color);
+            transition: stroke 0.3s ease;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        header {
+            padding-top: 150px;
+            text-align: center;
+            padding-bottom: 80px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .guide-section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .guide-section:last-child {
+            border-bottom: none;
+        }
+
+        .guide-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .guide-content.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .guide-sketch {
+            flex: 1;
+            text-align: center;
+        }
+
+        .guide-sketch svg {
+            max-width: 100%;
+            height: auto;
+            stroke-width: 1.5;
+            stroke: var(--icon-stroke);
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.3s ease;
+        }
+        
+        .guide-sketch svg .fill-accent {
+            fill: var(--accent-color);
+            stroke: none;
+            opacity: 0.15;
+        }
+
+        .guide-text {
+            flex: 1.2;
+        }
+
+        .guide-text h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .guide-text p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 50px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: var(--bg-color);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                transition: right 0.4s ease-in-out;
+                box-shadow: -5px 0 15px var(--shadow-color);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            
+            .nav-links a {
+                font-size: 1.2rem;
+            }
+            
+            .controls-container {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active .line1 {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+            .hamburger.active .line2 {
+                opacity: 0;
+            }
+            .hamburger.active .line3 {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+            
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .guide-content, .guide-content.reverse {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .guide-sketch {
+                margin-bottom: 20px;
+                max-width: 250px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo" data-lang-key="logo">CloudGuide</a>
+            <div class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#upload" data-lang-key="nav_upload">Hochladen</a></li>
+                    <li><a href="#share" data-lang-key="nav_share">Teilen</a></li>
+                    <li><a href="#access" data-lang-key="nav_access">Zugriff</a></li>
+                </ul>
+                <div class="controls-container">
+                    <div class="language-switcher">
+                        <button data-lang="de">DE</button>
+                        <button data-lang="en">EN</button>
+                        <button data-lang="es">ES</button>
+                    </div>
+                    <div class="dark-mode-toggle">
+                        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="container">
+        <h1 data-lang-key="main_title">Cloud-Speicher meistern</h1>
+        <p data-lang-key="main_subtitle">Ein moderner Guide zur effektiven Nutzung von Google Drive & OneDrive. Organisieren, teilen und greifen Sie von überall auf Ihre Dateien zu.</p>
+    </header>
+
+    <main class="container">
+        <section id="upload" class="guide-section">
+            <div class="guide-content">
+                <div class="guide-sketch">
+                    <svg viewBox="0 0 100 80">
+                        <path class="fill-accent" d="M85,50 C95,50 95,35 85,35 C85,25 75,25 70,30 C65,15 45,15 40,30 C35,25 25,25 25,35 C15,35 15,50 25,50 Z"/>
+                        <path d="M55 50 L55 70 M55 50 L65 60 M55 50 L45 60" />
+                        <path d="M85,50 C95,50 95,35 85,35 C85,25 75,25 70,30 C65,15 45,15 40,30 C35,25 25,25 25,35 C15,35 15,50 25,50 Z"/>
+                    </svg>
+                </div>
+                <div class="guide-text">
+                    <h2 data-lang-key="upload_title">1. Hochladen & Organisieren</h2>
+                    <p data-lang-key="upload_text">Ziehen Sie Dateien per Drag-and-drop direkt in Ihren Browser oder verwenden Sie die Upload-Schaltfläche. Erstellen Sie eine klare Ordnerstruktur mit aussagekräftigen Namen, um alles leicht wiederzufinden. Nutzen Sie Farben und Sterne, um wichtige Dateien zu markieren.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="share" class="guide-section">
+            <div class="guide-content reverse">
+                <div class="guide-sketch">
+                     <svg viewBox="0 0 100 80">
+                        <circle cx="25" cy="30" r="10"/>
+                        <path d="M25,40 C15,55 35,55 25,40"/>
+                        <circle cx="75" cy="30" r="10"/>
+                        <path d="M75,40 C65,55 85,55 75,40"/>
+                        <path d="M35,30 L65,30"/>
+                        <path d="M50 20 L50 70 M35 35 L65 55 M35 55 L65 35" stroke-width="1" opacity="0.5"/>
+                    </svg>
+                </div>
+                <div class="guide-text">
+                    <h2 data-lang-key="share_title">2. Teilen & Zusammenarbeiten</h2>
+                    <p data-lang-key="share_text">Teilen Sie Dateien oder ganze Ordner mit einem Klick. Sie können festlegen, ob andere Personen nur ansehen, kommentieren oder auch bearbeiten dürfen. Die Zusammenarbeit in Echtzeit an Dokumenten, Tabellen und Präsentationen ist ideal für Teamprojekte.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="access" class="guide-section">
+            <div class="guide-content">
+                <div class="guide-sketch">
+                    <svg viewBox="0 0 100 80">
+                        <path class="fill-accent" d="M85,25 C95,25 95,10 85,10 C85,0 75,0 70,5 C65,-10 45,-10 40,5 C35,0 25,0 25,10 C15,10 15,25 25,25 Z"/>
+                        <path d="M50,25 L50,45"/>
+                        <rect x="40" y="45" width="20" height="15" rx="2"/>
+                        <path d="M10,75 L30,75 L35,60 L5,60 Z"/>
+                        <path d="M50,40 L20,60"/>
+                        <rect x="65" y="55" width="30" height="20" rx="2"/>
+                        <path d="M70,55 L70,50 C70,45 60,45 60,50 L60,60"/>
+                        <path d="M55,35 L80,55"/>
+                    </svg>
+                </div>
+                <div class="guide-text">
+                    <h2 data-lang-key="access_title">3. Zugriff von überall</h2>
+                    <p data-lang-key="access_text">Installieren Sie die Desktop- und Mobil-Apps, um nahtlos auf Ihre Dateien zuzugreifen und sie zu synchronisieren. Änderungen, die Sie auf einem Gerät vornehmen, werden automatisch auf allen anderen Geräten aktualisiert. So haben Sie Ihr Büro immer dabei.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p data-lang-key="footer_text">Erstellt mit ♥ für effizientes Arbeiten in der Cloud.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const translations = {
+                de: {
+                    logo: "CloudLeitfaden",
+                    nav_upload: "Hochladen",
+                    nav_share: "Teilen",
+                    nav_access: "Zugriff",
+                    main_title: "Cloud-Speicher meistern",
+                    main_subtitle: "Ein moderner Guide zur effektiven Nutzung von Google Drive & OneDrive. Organisieren, teilen und greifen Sie von überall auf Ihre Dateien zu.",
+                    upload_title: "1. Hochladen & Organisieren",
+                    upload_text: "Ziehen Sie Dateien per Drag-and-drop direkt in Ihren Browser oder verwenden Sie die Upload-Schaltfläche. Erstellen Sie eine klare Ordnerstruktur mit aussagekräftigen Namen, um alles leicht wiederzufinden. Nutzen Sie Farben und Sterne, um wichtige Dateien zu markieren.",
+                    share_title: "2. Teilen & Zusammenarbeiten",
+                    share_text: "Teilen Sie Dateien oder ganze Ordner mit einem Klick. Sie können festlegen, ob andere Personen nur ansehen, kommentieren oder auch bearbeiten dürfen. Die Zusammenarbeit in Echtzeit an Dokumenten, Tabellen und Präsentationen ist ideal für Teamprojekte.",
+                    access_title: "3. Zugriff von überall",
+                    access_text: "Installieren Sie die Desktop- und Mobil-Apps, um nahtlos auf Ihre Dateien zuzugreifen und sie zu synchronisieren. Änderungen, die Sie auf einem Gerät vornehmen, werden automatisch auf allen anderen Geräten aktualisiert. So haben Sie Ihr Büro immer dabei.",
+                    footer_text: "Erstellt mit ♥ für effizientes Arbeiten in der Cloud."
+                },
+                en: {
+                    logo: "CloudGuide",
+                    nav_upload: "Upload",
+                    nav_share: "Share",
+                    nav_access: "Access",
+                    main_title: "Mastering Cloud Storage",
+                    main_subtitle: "A modern guide to effectively use Google Drive & OneDrive. Organize, share, and access your files from anywhere.",
+                    upload_title: "1. Upload & Organize",
+                    upload_text: "Drag and drop files directly into your browser or use the upload button. Create a clear folder structure with descriptive names to easily find everything. Use colors and stars to mark important files.",
+                    share_title: "2. Share & Collaborate",
+                    share_text: "Share files or entire folders with a single click. You can decide whether other people can only view, comment, or also edit. Real-time collaboration on documents, spreadsheets, and presentations is ideal for team projects.",
+                    access_title: "3. Access from Anywhere",
+                    access_text: "Install the desktop and mobile apps to seamlessly access and sync your files. Changes you make on one device are automatically updated on all other devices. This way, you always have your office with you.",
+                    footer_text: "Made with ♥ for efficient work in the cloud."
+                },
+                es: {
+                    logo: "GuíaNube",
+                    nav_upload: "Subir",
+                    nav_share: "Compartir",
+                    nav_access: "Acceso",
+                    main_title: "Dominando el Almacenamiento en la Nube",
+                    main_subtitle: "Una guía moderna para usar eficazmente Google Drive y OneDrive. Organiza, comparte y accede a tus archivos desde cualquier lugar.",
+                    upload_title: "1. Subir y Organizar",
+                    upload_text: "Arrastra y suelta archivos directamente en tu navegador o usa el botón de subir. Crea una estructura de carpetas clara con nombres descriptivos para encontrar todo fácilmente. Usa colores y estrellas para marcar archivos importantes.",
+                    share_title: "2. Compartir y Colaborar",
+                    share_text: "Comparte archivos o carpetas enteras con un solo clic. Puedes decidir si otras personas solo pueden ver, comentar o también editar. La colaboración en tiempo real en documentos, hojas de cálculo y presentaciones es ideal para proyectos de equipo.",
+                    access_title: "3. Acceso desde Cualquier Lugar",
+                    access_text: "Instala las aplicaciones de escritorio y móvil para acceder y sincronizar tus archivos sin problemas. Los cambios que realices en un dispositivo se actualizan automáticamente en todos los demás. Así, siempre tienes tu oficina contigo.",
+                    footer_text: "Hecho con ♥ para un trabajo eficiente en la nube."
+                }
+            };
+            
+            const languageSwitcher = document.querySelector('.language-switcher');
+            const langButtons = languageSwitcher.querySelectorAll('button');
+            const themeToggle = document.querySelector('.dark-mode-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const sunIcon = `<path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path><circle cx="12" cy="12" r="5"></circle>`;
+            const moonIcon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                localStorage.setItem('language', lang);
+                
+                const elements = document.querySelectorAll('[data-lang-key]');
+                elements.forEach(el => {
+                    const key = el.getAttribute('data-lang-key');
+                    if (translations[lang] && translations[lang][key]) {
+                        el.textContent = translations[lang][key];
+                    }
+                });
+
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+            };
+
+            const setTheme = (theme) => {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    themeIcon.innerHTML = sunIcon;
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    themeIcon.innerHTML = moonIcon;
+                    localStorage.setItem('theme', 'light');
+                }
+            };
+
+            languageSwitcher.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    setLanguage(e.target.dataset.lang);
+                }
+            });
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+                setTheme(currentTheme);
+            });
+
+            const userLang = localStorage.getItem('language') || (navigator.language || navigator.userLanguage).substring(0, 2);
+            const supportedLangs = ['de', 'en', 'es'];
+            setLanguage(supportedLangs.includes(userLang) ? userLang : 'en');
+            
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else {
+                setTheme(prefersDark ? 'dark' : 'light');
+            }
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('theme')) {
+                    setTheme(e.matches ? 'dark' : 'light');
+                }
+            });
+            
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

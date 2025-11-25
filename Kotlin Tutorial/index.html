@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Beginner's Guide to Kotlin</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code.inline-code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background-color: #2b2b2b; 
+            color: #a9b7c6; 
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "JetBrains Mono", "Consolas", "Courier New", Courier, monospace;
+            font-size: 0.9em;
+            border: 1px solid #3c3f41;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+            color: inherit;
+        }
+        
+        pre code .kt-keyword { color: #cc7832; font-weight: bold; } 
+        pre code .kt-type { color: #ffc66d; } 
+        pre code .kt-string { color: #6a8759; } 
+        pre code .kt-comment { color: #808080; } 
+        pre code .kt-number { color: #6897bb; } 
+        pre code .kt-operator { color: #a9b7c6; } 
+        pre code .kt-function-call { color: #ffc66d; } 
+        pre code .kt-annotation { color: #bbb529; } 
+        pre code .kt-variable { color: #a9b7c6; } 
+        pre code .kt-class-name { color: #ffc66d; font-weight: bold; }
+
+        .warning, .important, .tip {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .tip {
+            background-color: #e2e3e5;
+            border-left: 5px solid #adb5bd;
+            color: #343a40;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Kotlin Guide</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to Kotlin</a></li>
+            <li><a href="#setting-up">Setting Up Environment</a></li>
+            <li><a href="#first-program">Your First Kotlin Program</a></li>
+            <li><a href="#basic-syntax">Basic Syntax</a></li>
+            <li><a href="#variables-datatypes">Variables & Data Types</a></li>
+            <li><a href="#null-safety">Null Safety</a></li>
+            <li><a href="#operators">Operators</a></li>
+            <li><a href="#control-flow">Control Flow</a></li>
+            <li><a href="#functions">Functions</a></li>
+            <li><a href="#classes-objects">Classes & Objects</a></li>
+            <li><a href="#inheritance">Inheritance</a></li>
+            <li><a href="#interfaces">Interfaces</a></li>
+            <li><a href="#collections">Collections</a></li>
+            <li><a href="#lambda-hof">Lambdas & Higher-Order Functions</a></li>
+            <li><a href="#coroutines-intro">Intro to Coroutines</a></li>
+            <li><a href="#next-steps">Next Steps</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>A Comprehensive Beginner's Guide to Kotlin Programming</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to Kotlin</h2>
+            <p>Kotlin is a modern, statically-typed programming language developed by JetBrains (the creators of IntelliJ IDEA). It runs on the Java Virtual Machine (JVM) and can also be compiled to JavaScript (Kotlin/JS) or native code (Kotlin/Native). Kotlin is designed to be concise, safe, pragmatic, and 100% interoperable with Java.</p>
+            <p><strong>Key Features of Kotlin:</strong></p>
+            <ul>
+                <li><strong>Concise:</strong> Reduces boilerplate code significantly compared to Java.</li>
+                <li><strong>Null Safety:</strong> The type system helps eliminate the risk of null pointer exceptions (NPEs).</li>
+                <li><strong>Interoperable with Java:</strong> Kotlin code can seamlessly call Java code, and vice-versa. Existing Java libraries can be used in Kotlin projects.</li>
+                <li><strong>Functional Programming Features:</strong> Supports higher-order functions, lambda expressions, immutable collections, etc.</li>
+                <li><strong>Coroutines:</strong> Provides excellent support for asynchronous programming in a simpler way than traditional threads or callbacks.</li>
+                <li><strong>Extension Functions:</strong> Allows adding new functionality to existing classes without inheriting from them.</li>
+                <li><strong>Smart Casts:</strong> The compiler automatically casts types after an <code class="inline-code">is</code> check.</li>
+                <li><strong>Multiplatform:</strong> Can target JVM, Android, JavaScript, and Native (iOS, macOS, Windows, Linux).</li>
+            </ul>
+            <p>Kotlin is an official language for Android development and is also gaining popularity for server-side development (e.g., with Spring Boot, Ktor), web development (Kotlin/JS), and multiplatform mobile development (Kotlin Multiplatform Mobile - KMM).</p>
+        </section>
+
+        <section id="setting-up">
+            <h2>Setting Up Your Environment</h2>
+            <p>To start programming in Kotlin, you'll need the Kotlin compiler and usually an IDE.</p>
+            <h3>1. Kotlin Compiler / JDK</h3>
+            <p>Since Kotlin primarily targets the JVM, you'll need a Java Development Kit (JDK) installed (version 8 or higher is generally fine).</p>
+            <ul>
+                <li>If you don't have a JDK, download it from <a href="https://adoptium.net/" target="_blank">Adoptium (Temurin)</a> or Oracle.</li>
+            </ul>
+            <p>The Kotlin compiler can be installed manually, but it's often easier to use it through an IDE or a build tool like Gradle or Maven.</p>
+
+            <h3>2. Integrated Development Environment (IDE)</h3>
+            <p>JetBrains, the creator of Kotlin, also makes IntelliJ IDEA, which has excellent first-party support for Kotlin.</p>
+            <ul>
+                <li><strong>IntelliJ IDEA (Community or Ultimate Edition):</strong> This is the recommended IDE for Kotlin development. The Community Edition is free. Kotlin support is bundled. <a href="https://www.jetbrains.com/idea/download/" target="_blank">Download IntelliJ IDEA</a>.</li>
+                <li><strong>Android Studio:</strong> For Android development, Android Studio (based on IntelliJ IDEA) has full Kotlin support.</li>
+                <li><strong>Visual Studio Code:</strong> Can be used with Kotlin extensions, but the experience might not be as seamless as IntelliJ IDEA for JVM projects.</li>
+                <li><strong>Online Playgrounds:</strong> For quick experiments, you can use the official Kotlin Playground: <a href="https://play.kotlinlang.org/" target="_blank">play.kotlinlang.org</a>.</li>
+            </ul>
+            <h3>3. Using a Build Tool (Recommended for Projects)</h3>
+            <p>For any non-trivial project, you'll use a build tool like Gradle or Maven. These tools manage dependencies, compile your code, run tests, and package your application.</p>
+            <ul>
+                <li><strong>Gradle:</strong> The most common build tool for Kotlin projects, especially for Android and multiplatform projects.</li>
+                <li><strong>Maven:</strong> Another popular build tool that also supports Kotlin.</li>
+            </ul>
+            <p>When you create a new Kotlin project in IntelliJ IDEA, it will usually set up Gradle or Maven for you.</p>
+        </section>
+
+        <section id="first-program">
+            <h2>Your First Kotlin Program: "Hello, World!"</h2>
+            <p>Let's create a simple "Hello, World!" program.</p>
+            <h3>Using IntelliJ IDEA (Recommended):</h3>
+            <ol>
+                <li>Open IntelliJ IDEA.</li>
+                <li>Click on "New Project."</li>
+                <li>In the "New Project" dialog:
+                    <ul>
+                        <li>Select "Kotlin" from the left-hand language list (or search for Kotlin project types).</li>
+                        <li>Choose a project template. For a simple console app, "Console Application" or "Kotlin/JVM - Console Application" is suitable.</li>
+                        <li>Give your project a Name and choose a Location.</li>
+                        <li>Select your Project JDK.</li>
+                        <li>Choose a Build system (e.g., Gradle with Kotlin DSL or IntelliJ).</li>
+                    </ul>
+                </li>
+                <li>Click "Create."</li>
+                <li>IntelliJ IDEA will create a project structure. Typically, you'll find a <code class="path">src/main/kotlin</code> directory. Inside, there might be a file like <code class="path">Main.kt</code> or you can create one.</li>
+                <li>Open (or create) <code class="path">Main.kt</code> and add the following code:
+<pre><code class="language-kotlin"><span class="kt-keyword">fun</span> <span class="kt-function-call">main</span>() {
+    <span class="kt-function-call">println</span>(<span class="kt-string">"Hello, World!"</span>)
+}
+
+<span class="kt-comment">// Or, if your project template requires arguments for main:</span>
+<span class="kt-comment">// fun main(args: Array&lt;String&gt;) {</span>
+<span class="kt-comment">//     println("Hello, World!")</span>
+<span class="kt-comment">// }</span>
+</code></pre>
+                </li>
+                <li>To run the program, right-click on the `main` function (or the green play icon next to it in the gutter) and select "Run 'MainKt'." Or use the Run button in the toolbar.</li>
+            </ol>
+            <h3>Using the Kotlin Compiler Manually (More Advanced):</h3>
+            <ol>
+                <li>Create a file named <code class="path">hello.kt</code> with the code above.</li>
+                <li>Download the standalone Kotlin compiler from <a href="https://github.com/JetBrains/kotlin/releases/latest" target="_blank">GitHub</a> or install it via a package manager (like SDKMAN! or Homebrew).</li>
+                <li>Compile the code:
+<pre><code class="path">kotlinc hello.kt -include-runtime -d hello.jar</code></pre>
+                </li>
+                <li>Run the compiled JAR:
+<pre><code class="path">java -jar hello.jar</code></pre>
+                </li>
+            </ol>
+            <p>Output for both methods:</p>
+<pre><code>Hello, World!</code></pre>
+        </section>
+
+        <section id="basic-syntax">
+            <h2>Basic Kotlin Syntax</h2>
+            <ul>
+                <li><strong>Package Declaration:</strong> Optional, but good practice for organizing code. If present, must be the first statement.
+<pre><code class="language-kotlin"><span class="kt-keyword">package</span> com.example.myapp</code></pre>
+                </li>
+                <li><strong>Import Statements:</strong> Used to import classes or functions from other packages.
+<pre><code class="language-kotlin"><span class="kt-keyword">import</span> java.util.Date
+<span class="kt-keyword">import</span> kotlin.math.* <span class="kt-comment">// Imports all functions/properties from kotlin.math</span></code></pre>
+                </li>
+                <li><strong>Entry Point (`main` function):</strong> The program execution starts from the <code class="inline-code">main</code> function.
+<pre><code class="language-kotlin"><span class="kt-keyword">fun</span> <span class="kt-function-call">main</span>() { <span class="kt-comment">/* ... */</span> }
+<span class="kt-comment">// or</span>
+<span class="kt-keyword">fun</span> <span class="kt-function-call">main</span>(args: <span class="kt-type">Array</span>&lt;<span class="kt-type">String</span>&gt;) { <span class="kt-comment">/* ... */</span> }</code></pre>
+                </li>
+                <li><strong>Semicolons:</strong> Optional in Kotlin. They are generally omitted if statements are on separate lines or if the last token on a line clearly indicates the end of a statement.</li>
+                <li><strong>Comments:</strong>
+                    <ul>
+                        <li>Single-line: <code class="inline-code">// This is a comment</code></li>
+                        <li>Multi-line (block): <code class="inline-code">/* This is a comment */</code> (can be nested)</li>
+                        <li>Documentation comments (KDoc): <code class="inline-code">/** ... */</code></li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="variables-datatypes">
+            <h2>Variables and Data Types</h2>
+            <h3>Variables</h3>
+            <ul>
+                <li><strong><code class="inline-code">val</code> (Immutable/Read-only):</strong> Used for variables whose value cannot be changed after initialization (similar to <code class="inline-code">final</code> in Java).
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">pi</span>: <span class="kt-type">Double</span> = <span class="kt-number">3.14159</span>
+<span class="kt-keyword">val</span> <span class="kt-variable">name</span> = <span class="kt-string">"Alice"</span> <span class="kt-comment">// Type is inferred as String</span></code></pre>
+                </li>
+                <li><strong><code class="inline-code">var</code> (Mutable):</strong> Used for variables whose value can be changed.
+<pre><code class="language-kotlin"><span class="kt-keyword">var</span> <span class="kt-variable">score</span>: <span class="kt-type">Int</span> = <span class="kt-number">0</span>
+<span class="kt-variable">score</span> = <span class="kt-number">100</span>
+<span class="kt-keyword">var</span> <span class="kt-variable">age</span> = <span class="kt-number">25</span> <span class="kt-comment">// Type inferred as Int</span></code></pre>
+                </li>
+                <li><strong>Type Inference:</strong> Kotlin can often infer the type of a variable from the assigned value, so explicit type declaration is not always necessary.</li>
+            </ul>
+            <p class="tip">Prefer <code class="inline-code">val</code> over <code class="inline-code">var</code> whenever possible to promote immutability and make code safer and easier to reason about.</p>
+            <h3>Basic Data Types (Built-in)</h3>
+            <p>In Kotlin, all data types are objects. There are no primitive types like in Java, but the compiler often optimizes them to primitives for performance on the JVM.</p>
+            <ul>
+                <li><strong>Numbers:</strong>
+                    <ul>
+                        <li>Integers: <code class="inline-code">Byte</code> (8-bit), <code class="inline-code">Short</code> (16-bit), <code class="inline-code">Int</code> (32-bit, default for integers), <code class="inline-code">Long</code> (64-bit, use <code class="inline-code">L</code> suffix e.g., <code class="inline-code">100L</code>).</li>
+                        <li>Floating-point: <code class="inline-code">Float</code> (32-bit, use <code class="inline-code">F</code> or <code class="inline-code">f</code> suffix e.g., <code class="inline-code">3.14f</code>), <code class="inline-code">Double</code> (64-bit, default for decimals).</li>
+                    </ul>
+                </li>
+                <li><strong>Characters:</strong> <code class="inline-code">Char</code> (single quotes, e.g., <code class="inline-code">'A'</code>).</li>
+                <li><strong>Booleans:</strong> <code class="inline-code">Boolean</code> (<code class="inline-code">true</code> or <code class="inline-code">false</code>).</li>
+                <li><strong>Strings:</strong> <code class="inline-code">String</code> (double quotes for string literals).
+                    <ul>
+                        <li><strong>String Templates (Interpolation):</strong> Embed expressions in strings using <code class="inline-code">$variable</code> or <code class="inline-code">${expression}</code>.
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">username</span> = <span class="kt-string">"KotlinDev"</span>
+<span class="kt-keyword">val</span> <span class="kt-variable">message</span> = <span class="kt-string">"Hello, <span class="kt-variable">$username</span>! Length: <span class="kt-variable">${username.length}</span>"</span></code></pre>
+                        </li>
+                        <li><strong>Raw Strings (Triple Quotes):</strong> Can span multiple lines and contain arbitrary characters without escaping.
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">json</span> = <span class="kt-string">"""
+{
+    "name": "Example",
+    "value": 123
+}
+"""</span></code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Arrays:</strong> Represented by the <code class="inline-code">Array&lt;T&gt;</code> class and specialized classes for primitive types (e.g., <code class="inline-code">IntArray</code>, <code class="inline-code">ByteArray</code>).
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">numbers</span>: <span class="kt-type">Array</span>&lt;<span class="kt-type">Int</span>&gt; = <span class="kt-function-call">arrayOf</span>(<span class="kt-number">1</span>, <span class="kt-number">2</span>, <span class="kt-number">3</span>)
+<span class="kt-keyword">val</span> <span class="kt-variable">names</span> = <span class="kt-function-call">arrayOf</span>(<span class="kt-string">"Alice"</span>, <span class="kt-string">"Bob"</span>)
+<span class="kt-keyword">val</span> <span class="kt-variable">squares</span> = <span class="kt-type">Array</span>(<span class="kt-number">5</span>) { <span class="kt-variable">i</span> <span class="kt-operator">-&gt;</span> (<span class="kt-variable">i</span> + <span class="kt-number">1</span>) * (<span class="kt-variable">i</span> + <span class="kt-number">1</span>) } <span class="kt-comment">// [1, 4, 9, 16, 25]</span></code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="null-safety">
+            <h2>Null Safety</h2>
+            <p>Kotlin's type system aims to eliminate NullPointerExceptions. By default, types are non-nullable, meaning they cannot hold <code class="inline-code">null</code>.</p>
+            <ul>
+                <li><strong>Non-Nullable Types:</strong>
+<pre><code class="language-kotlin"><span class="kt-keyword">var</span> <span class="kt-variable">name</span>: <span class="kt-type">String</span> = <span class="kt-string">"Kotlin"</span>
+<span class="kt-comment">// name = null // Compilation error</span></code></pre>
+                </li>
+                <li><strong>Nullable Types:</strong> To allow a variable to hold <code class="inline-code">null</code>, append a question mark (<code class="inline-code">?</code>) to the type.
+<pre><code class="language-kotlin"><span class="kt-keyword">var</span> <span class="kt-variable">address</span>: <span class="kt-type">String</span>? = <span class="kt-string">"123 Main St"</span>
+<span class="kt-variable">address</span> = <span class="kt-keyword">null</span> <span class="kt-comment">// OK</span></code></pre>
+                </li>
+            </ul>
+            <h3>Working with Nullable Types:</h3>
+            <ul>
+                <li><strong>Safe Call Operator (<code class="inline-code">?.</code>):</strong> Accesses a property or calls a method only if the variable is not null. Returns <code class="inline-code">null</code> if the variable is null.
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">length</span> = <span class="kt-variable">address</span>?.length <span class="kt-comment">// length is Int? (nullable Int)</span></code></pre>
+                </li>
+                <li><strong>Elvis Operator (<code class="inline-code">?:</code>):</strong> Provides a default value if the expression on its left is null.
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">city</span>: <span class="kt-type">String</span>? = <span class="kt-keyword">null</span>
+<span class="kt-keyword">val</span> <span class="kt-variable">userCity</span> = <span class="kt-variable">city</span> <span class="kt-operator">?:</span> <span class="kt-string">"Unknown"</span> <span class="kt-comment">// userCity is "Unknown"</span></code></pre>
+                </li>
+                <li><strong>Not-Null Assertion Operator (<code class="inline-code">!!</code>):</strong> Converts any value to a non-null type and throws a <code class="inline-code">NullPointerException</code> if the value is null. Use with extreme caution when you are absolutely sure the value won't be null.
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">nameNotNull</span> = <span class="kt-variable">address</span>!!.<span class="kt-function-call">uppercase</span>() <span class="kt-comment">// Throws NPE if address is null</span></code></pre>
+                </li>
+                <li><strong>Safe Cast (<code class="inline-code">as?</code>):</strong> Tries to cast to a type and returns <code class="inline-code">null</code> if the cast is not possible, instead of throwing a <code class="inline-code">ClassCastException</code>.</li>
+                <li><strong>Checking for Null:</strong> Explicit <code class="inline-code">if (variable != null) { ... }</code> checks allow the compiler to smart-cast the variable to a non-nullable type within the block.</li>
+            </ul>
+        </section>
+
+        <section id="operators">
+            <h2>Operators</h2>
+            Kotlin supports standard arithmetic, comparison, logical, and bitwise operators similar to Java or C#.
+            <ul>
+                <li>Arithmetic: <code class="inline-code">+</code>, <code class="inline-code">-</code>, <code class="inline-code">*</code>, <code class="inline-code">/</code>, <code class="inline-code">%</code> (modulus/remainder).</li>
+                <li>Comparison: <code class="inline-code">==</code> (structural equality), <code class="inline-code">!=</code>, <code class="inline-code">></code>, <code class="inline-code"><</code>, <code class="inline-code">>=</code>, <code class="inline-code"><=</code>.
+                    <br>For referential equality (checking if two references point to the same object), use <code class="inline-code">===</code> and <code class="inline-code">!==</code>.
+                </li>
+                <li>Logical: <code class="inline-code">&&</code> (AND), <code class="inline-code">||</code> (OR), <code class="inline-code">!</code> (NOT).</li>
+                <li>Assignment: <code class="inline-code">=</code>, <code class="inline-code">+=</code>, <code class="inline-code">-=</code>, etc.</li>
+                <li>Increment/Decrement: <code class="inline-code">++</code>, <code class="inline-code">--</code>.</li>
+                <li>Range Operator: <code class="inline-code">..</code> (e.g., <code class="inline-code">1..5</code> creates a range from 1 to 5).
+                    <br>Also <code class="inline-code">until</code> (e.g., <code class="inline-code">1 until 5</code> for 1 to 4) and <code class="inline-code">downTo</code> with <code class="inline-code">step</code>.
+                </li>
+                <li><code class="inline-code">in</code> operator: Checks if a value is within a range or collection.</li>
+            </ul>
+        </section>
+
+        <section id="control-flow">
+            <h2>Control Flow</h2>
+            <h3>1. Conditional Statements</h3>
+            <ul>
+                <li><strong><code class="inline-code">if-else if-else</code>:</strong> Similar to other languages. In Kotlin, <code class="inline-code">if</code> can also be used as an expression (its value is the value of the executed block).
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">a</span> = <span class="kt-number">10</span>
+<span class="kt-keyword">val</span> <span class="kt-variable">b</span> = <span class="kt-number">20</span>
+<span class="kt-keyword">val</span> <span class="kt-variable">max</span> = <span class="kt-keyword">if</span> (<span class="kt-variable">a</span> &gt; <span class="kt-variable">b</span>) <span class="kt-variable">a</span> <span class="kt-keyword">else</span> <span class="kt-variable">b</span>
+<span class="kt-function-call">println</span>(<span class="kt-string">"Max is <span class="kt-variable">$max</span>"</span>) <span class="kt-comment">// Max is 20</span></code></pre>
+                </li>
+                <li><strong><code class="inline-code">when</code> expression (Kotlin's powerful switch):</strong>
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">day</span> = <span class="kt-number">3</span>
+<span class="kt-keyword">val</span> <span class="kt-variable">dayName</span> = <span class="kt-keyword">when</span> (<span class="kt-variable">day</span>) {
+    <span class="kt-number">1</span> <span class="kt-operator">-&gt;</span> <span class="kt-string">"Monday"</span>
+    <span class="kt-number">2</span> <span class="kt-operator">-&gt;</span> <span class="kt-string">"Tuesday"</span>
+    <span class="kt-number">3</span> <span class="kt-operator">-&gt;</span> <span class="kt-string">"Wednesday"</span>
+    <span class="kt-keyword">else</span> <span class="kt-operator">-&gt;</span> <span class="kt-string">"Other day"</span>
+}
+<span class="kt-function-call">println</span>(<span class="kt-variable">dayName</span>) <span class="kt-comment">// Wednesday</span>
+
+<span class="kt-keyword">val</span> <span class="kt-variable">obj</span>: <span class="kt-type">Any</span> = <span class="kt-string">"Hello"</span>
+<span class="kt-keyword">when</span> (<span class="kt-variable">obj</span>) {
+    <span class="kt-keyword">is</span> <span class="kt-type">String</span> <span class="kt-operator">-&gt;</span> <span class="kt-function-call">println</span>(<span class="kt-string">"It's a String of length <span class="kt-variable">${obj.length}</span>"</span>) <span class="kt-comment">// Smart cast</span>
+    <span class="kt-keyword">is</span> <span class="kt-type">Int</span> <span class="kt-operator">-&gt;</span> <span class="kt-function-call">println</span>(<span class="kt-string">"It's an Int"</span>)
+    <span class="kt-keyword">else</span> <span class="kt-operator">-&gt;</span> <span class="kt-function-call">println</span>(<span class="kt-string">"Unknown type"</span>)
+}</code></pre>
+                <p><code class="inline-code">when</code> can be used with or without an argument, and can check ranges, types, and arbitrary expressions.</p>
+                </li>
+            </ul>
+            <h3>2. Looping Statements</h3>
+            <ul>
+                <li><strong><code class="inline-code">for</code> loop (iterates over anything that provides an iterator):</strong>
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">items</span> = <span class="kt-function-call">listOf</span>(<span class="kt-string">"apple"</span>, <span class="kt-string">"banana"</span>, <span class="kt-string">"cherry"</span>)
+<span class="kt-keyword">for</span> (<span class="kt-variable">item</span> <span class="kt-keyword">in</span> <span class="kt-variable">items</span>) {
+    <span class="kt-function-call">println</span>(<span class="kt-variable">item</span>)
+}
+
+<span class="kt-keyword">for</span> (<span class="kt-variable">i</span> <span class="kt-keyword">in</span> <span class="kt-number">1</span>..<span class="kt-number">5</span>) { <span class="kt-comment">// Range including 5</span>
+    <span class="kt-function-call">print</span>(<span class="kt-string">"<span class="kt-variable">$i</span> "</span>) <span class="kt-comment">// 1 2 3 4 5</span>
+}
+<span class="kt-function-call">println</span>()
+
+<span class="kt-keyword">for</span> (<span class="kt-variable">i</span> <span class="kt-keyword">in</span> <span class="kt-number">1</span> <span class="kt-keyword">until</span> <span class="kt-number">5</span>) { <span class="kt-comment">// Range excluding 5</span>
+    <span class="kt-function-call">print</span>(<span class="kt-string">"<span class="kt-variable">$i</span> "</span>) <span class="kt-comment">// 1 2 3 4</span>
+}
+<span class="kt-function-call">println</span>()
+
+<span class="kt-keyword">for</span> (<span class="kt-variable">i</span> <span class="kt-keyword">in</span> <span class="kt-number">5</span> <span class="kt-keyword">downTo</span> <span class="kt-number">1</span> <span class="kt-keyword">step</span> <span class="kt-number">2</span>) {
+    <span class="kt-function-call">print</span>(<span class="kt-string">"<span class="kt-variable">$i</span> "</span>) <span class="kt-comment">// 5 3 1</span>
+}
+<span class="kt-function-call">println</span>()
+
+<span class="kt-keyword">val</span> <span class="kt-variable">map</span> = <span class="kt-function-call">mapOf</span>(<span class="kt-string">"a"</span> <span class="kt-operator">to</span> <span class="kt-number">1</span>, <span class="kt-string">"b"</span> <span class="kt-operator">to</span> <span class="kt-number">2</span>)
+<span class="kt-keyword">for</span> ((<span class="kt-variable">key</span>, <span class="kt-variable">value</span>) <span class="kt-keyword">in</span> <span class="kt-variable">map</span>) { <span class="kt-comment">// Destructuring declaration</span>
+    <span class="kt-function-call">println</span>(<span class="kt-string">"key=<span class="kt-variable">$key</span>, value=<span class="kt-variable">$value</span>"</span>)
+}</code></pre>
+                </li>
+                <li><strong><code class="inline-code">while</code> loop:</strong>
+<pre><code class="language-kotlin"><span class="kt-keyword">var</span> <span class="kt-variable">i</span> = <span class="kt-number">0</span>
+<span class="kt-keyword">while</span> (<span class="kt-variable">i</span> &lt; <span class="kt-number">3</span>) {
+    <span class="kt-function-call">println</span>(<span class="kt-variable">i</span>)
+    <span class="kt-variable">i</span>++
+}</code></pre>
+                </li>
+                <li><strong><code class="inline-code">do...while</code> loop:</strong>
+<pre><code class="language-kotlin"><span class="kt-keyword">var</span> <span class="kt-variable">j</span> = <span class="kt-number">0</span>
+<span class="kt-keyword">do</span> {
+    <span class="kt-function-call">println</span>(<span class="kt-variable">j</span>)
+    <span class="kt-variable">j</span>++
+} <span class="kt-keyword">while</span> (<span class="kt-variable">j</span> &lt; <span class="kt-number">3</span>)</code></pre>
+                </li>
+            </ul>
+            <h3>Loop Control (Labels, break, continue)</h3>
+            <p>Kotlin supports <code class="inline-code">break</code> and <code class="inline-code">continue</code>. You can also use labels to control which loop to break from or continue in nested loops.</p>
+        </section>
+
+        <section id="functions">
+            <h2>Functions</h2>
+            <p>Functions are declared using the <code class="inline-code">fun</code> keyword.</p>
+<pre><code class="language-kotlin"><span class="kt-keyword">fun</span> <span class="kt-function-call">greet</span>(<span class="kt-variable">name</span>: <span class="kt-type">String</span>): <span class="kt-type">Unit</span> { <span class="kt-comment">// Unit is like void, can be omitted if function returns nothing</span>
+    <span class="kt-function-call">println</span>(<span class="kt-string">"Hello, <span class="kt-variable">$name</span>!"</span>)
+}
+
+<span class="kt-keyword">fun</span> <span class="kt-function-call">add</span>(<span class="kt-variable">a</span>: <span class="kt-type">Int</span>, <span class="kt-variable">b</span>: <span class="kt-type">Int</span>): <span class="kt-type">Int</span> {
+    <span class="kt-keyword">return</span> <span class="kt-variable">a</span> + <span class="kt-variable">b</span>
+}
+
+<span class="kt-comment">// Single-expression function (return type inferred)</span>
+<span class="kt-keyword">fun</span> <span class="kt-function-call">multiply</span>(<span class="kt-variable">x</span>: <span class="kt-type">Int</span>, <span class="kt-variable">y</span>: <span class="kt-type">Int</span>) = <span class="kt-variable">x</span> * <span class="kt-variable">y</span>
+
+<span class="kt-keyword">fun</span> <span class="kt-function-call">main</span>() {
+    <span class="kt-function-call">greet</span>(<span class="kt-string">"Kotlin"</span>)
+    <span class="kt-keyword">val</span> <span class="kt-variable">sum</span> = <span class="kt-function-call">add</span>(<span class="kt-number">5</span>, <span class="kt-number">3</span>)
+    <span class="kt-function-call">println</span>(<span class="kt-string">"Sum: <span class="kt-variable">$sum</span>"</span>)
+    <span class="kt-function-call">println</span>(<span class="kt-string">"Product: <span class="kt-variable">${multiply(4, 6)}</span>"</span>)
+}
+</code></pre>
+            <h3>Function Parameters</h3>
+            <ul>
+                <li><strong>Default Arguments:</strong>
+<pre><code class="language-kotlin"><span class="kt-keyword">fun</span> <span class="kt-function-call">sendMessage</span>(<span class="kt-variable">message</span>: <span class="kt-type">String</span>, <span class="kt-variable">prefix</span>: <span class="kt-type">String</span> = <span class="kt-string">"[Info]"</span>) {
+    <span class="kt-function-call">println</span>(<span class="kt-string">"<span class="kt-variable">$prefix</span> <span class="kt-variable">$message</span>"</span>)
+}
+<span class="kt-function-call">sendMessage</span>(<span class="kt-string">"System update."</span>) <span class="kt-comment">// Uses default prefix</span>
+<span class="kt-function-call">sendMessage</span>(<span class="kt-string">"Error occurred."</span>, <span class="kt-string">"[Alert]"</span>)</code></pre>
+                </li>
+                <li><strong>Named Arguments:</strong> Improves readability when calling functions with many parameters.
+<pre><code class="language-kotlin"><span class="kt-function-call">sendMessage</span>(message = <span class="kt-string">"User logged in"</span>, prefix = <span class="kt-string">"[Auth]"</span>)
+<span class="kt-function-call">sendMessage</span>(prefix = <span class="kt-string">"[Debug]"</span>, message = <span class="kt-string">"Value is X"</span>) <span class="kt-comment">// Order can be changed</span></code></pre>
+                </li>
+                <li><strong>Varargs (Variable number of arguments):</strong>
+<pre><code class="language-kotlin"><span class="kt-keyword">fun</span> <span class="kt-function-call">printAll</span>(<span class="kt-keyword">vararg</span> <span class="kt-variable">messages</span>: <span class="kt-type">String</span>) {
+    <span class="kt-keyword">for</span> (<span class="kt-variable">m</span> <span class="kt-keyword">in</span> <span class="kt-variable">messages</span>) <span class="kt-function-call">println</span>(<span class="kt-variable">m</span>)
+}
+<span class="kt-function-call">printAll</span>(<span class="kt-string">"Hello"</span>, <span class="kt-string">"World"</span>, <span class="kt-string">"Kotlin"</span>)</code></pre>
+                </li>
+            </ul>
+            <h3>Extension Functions</h3>
+            <p>Kotlin allows adding new functions to existing classes without modifying their source code.</p>
+<pre><code class="language-kotlin"><span class="kt-keyword">fun</span> <span class="kt-type">String</span>.<span class="kt-function-call">shout</span>(): <span class="kt-type">String</span> {
+    <span class="kt-keyword">return</span> <span class="kt-keyword">this</span>.<span class="kt-function-call">uppercase</span>() + <span class="kt-string">"!!!"</span>
+}
+
+<span class="kt-keyword">fun</span> <span class="kt-function-call">main</span>() {
+    <span class="kt-keyword">val</span> <span class="kt-variable">message</span> = <span class="kt-string">"hello"</span>
+    <span class="kt-function-call">println</span>(<span class="kt-variable">message</span>.<span class="kt-function-call">shout</span>()) <span class="kt-comment">// Output: HELLO!!!</span>
+}</code></pre>
+        </section>
+
+        <section id="classes-objects">
+            <h2>Classes and Objects</h2>
+            <p>Kotlin is an object-oriented language.</p>
+            <h3>Defining Classes</h3>
+<pre><code class="language-kotlin"><span class="kt-keyword">class</span> <span class="kt-class-name">Person</span>(<span class="kt-keyword">val</span> <span class="kt-variable">name</span>: <span class="kt-type">String</span>, <span class="kt-keyword">var</span> <span class="kt-variable">age</span>: <span class="kt-type">Int</span>) { <span class="kt-comment">// Primary constructor with properties</span>
+    <span class="kt-keyword">fun</span> <span class="kt-function-call">greet</span>() {
+        <span class="kt-function-call">println</span>(<span class="kt-string">"Hello, my name is <span class="kt-variable">$name</span> and I am <span class="kt-variable">$age</span> years old."</span>)
+    }
+}
+
+<span class="kt-keyword">fun</span> <span class="kt-function-call">main</span>() {
+    <span class="kt-keyword">val</span> <span class="kt-variable">person1</span> = <span class="kt-class-name">Person</span>(<span class="kt-string">"Alice"</span>, <span class="kt-number">30</span>) <span class="kt-comment">// Creating an object (no 'new' keyword)</span>
+    <span class="kt-variable">person1</span>.<span class="kt-function-call">greet</span>()
+    <span class="kt-variable">person1</span>.<span class="kt-variable">age</span> = <span class="kt-number">31</span>
+    <span class="kt-variable">person1</span>.<span class="kt-function-call">greet</span>()
+}</code></pre>
+            <h3>Constructors</h3>
+            <ul>
+                <li><strong>Primary Constructor:</strong> Concise way to declare properties and initialize them. Part of the class header.</li>
+                <li><strong>Secondary Constructors:</strong> Declared with the <code class="inline-code">constructor</code> keyword. Must delegate to the primary constructor (if one exists) using <code class="inline-code">this(...)</code>.</li>
+                <li><strong>Initializer Blocks (<code class="inline-code">init</code>):</strong> Code inside <code class="inline-code">init</code> blocks is executed when an instance is created, after the primary constructor.</li>
+            </ul>
+            <h3>Properties</h3>
+            <p>Properties in Kotlin classes can be declared as mutable (<code class="inline-code">var</code>) or read-only (<code class="inline-code">val</code>). They implicitly have getters, and <code class="inline-code">var</code> properties also have setters. You can provide custom getter/setter logic.</p>
+            <h3>Data Classes</h3>
+            <p>Classes whose main purpose is to hold data. The compiler automatically generates <code class="inline-code">equals()</code>, <code class="inline-code">hashCode()</code>, <code class="inline-code">toString()</code>, <code class="inline-code">copy()</code>, and component functions.</p>
+<pre><code class="language-kotlin"><span class="kt-keyword">data</span> <span class="kt-keyword">class</span> <span class="kt-class-name">User</span>(<span class="kt-keyword">val</span> <span class="kt-variable">id</span>: <span class="kt-type">Int</span>, <span class="kt-keyword">val</span> <span class="kt-variable">username</span>: <span class="kt-type">String</span>)</code></pre>
+            <h3>Objects (Singleton)</h3>
+            <p>For creating singleton objects (only one instance exists).</p>
+<pre><code class="language-kotlin"><span class="kt-keyword">object</span> <span class="kt-class-name">MySingleton</span> {
+    <span class="kt-keyword">fun</span> <span class="kt-function-call">doSomething</span>() { <span class="kt-function-call">println</span>(<span class="kt-string">"Doing something..."</span>) }
+}
+<span class="kt-class-name">MySingleton</span>.<span class="kt-function-call">doSomething</span>()</code></pre>
+        </section>
+
+        <section id="inheritance">
+            <h2>Inheritance</h2>
+            <p>Kotlin classes can inherit from other classes. By default, classes are <code class="inline-code">final</code> (cannot be inherited from). To allow inheritance, mark a class with the <code class="inline-code">open</code> keyword.</p>
+<pre><code class="language-kotlin"><span class="kt-keyword">open</span> <span class="kt-keyword">class</span> <span class="kt-class-name">Animal</span>(<span class="kt-keyword">val</span> <span class="kt-variable">name</span>: <span class="kt-type">String</span>) {
+    <span class="kt-keyword">open</span> <span class="kt-keyword">fun</span> <span class="kt-function-call">makeSound</span>() { <span class="kt-comment">// Methods also need to be 'open' to be overridden</span>
+        <span class="kt-function-call">println</span>(<span class="kt-string">"Generic animal sound"</span>)
+    }
+}
+
+<span class="kt-keyword">class</span> <span class="kt-class-name">Dog</span>(<span class="kt-variable">dogName</span>: <span class="kt-type">String</span>) : <span class="kt-class-name">Animal</span>(<span class="kt-variable">dogName</span>) { <span class="kt-comment">// Dog inherits from Animal</span>
+    <span class="kt-keyword">override</span> <span class="kt-keyword">fun</span> <span class="kt-function-call">makeSound</span>() { <span class="kt-comment">// 'override' keyword is mandatory</span>
+        <span class="kt-function-call">println</span>(<span class="kt-string">"Woof!"</span>)
+    }
+}
+
+<span class="kt-keyword">fun</span> <span class="kt-function-call">main</span>() {
+    <span class="kt-keyword">val</span> <span class="kt-variable">myDog</span> = <span class="kt-class-name">Dog</span>(<span class="kt-string">"Buddy"</span>)
+    <span class="kt-variable">myDog</span>.<span class="kt-function-call">makeSound</span>() <span class="kt-comment">// Woof!</span>
+}</code></pre>
+            <p>If a derived class has a primary constructor, the base class must be initialized there using the parameters of the primary constructor.</p>
+        </section>
+
+        <section id="interfaces">
+            <h2>Interfaces</h2>
+            <p>Interfaces define a contract that classes can implement. They can contain declarations of abstract methods, as well as methods with default implementations (since Kotlin 1.0).</p>
+<pre><code class="language-kotlin"><span class="kt-keyword">interface</span> <span class="kt-class-name">Clickable</span> {
+    <span class="kt-keyword">fun</span> <span class="kt-function-call">click</span>() <span class="kt-comment">// Abstract method</span>
+    <span class="kt-keyword">fun</span> <span class="kt-function-call">showOff</span>() = <span class="kt-function-call">println</span>(<span class="kt-string">"I'm clickable!"</span>) <span class="kt-comment">// Method with default implementation</span>
+}
+
+<span class="kt-keyword">class</span> <span class="kt-class-name">Button</span> : <span class="kt-class-name">Clickable</span> {
+    <span class="kt-keyword">override</span> <span class="kt-keyword">fun</span> <span class="kt-function-call">click</span>() {
+        <span class="kt-function-call">println</span>(<span class="kt-string">"Button clicked!"</span>)
+    }
+    <span class="kt-comment">// showOff() is inherited with its default implementation</span>
+}
+
+<span class="kt-keyword">fun</span> <span class="kt-function-call">main</span>() {
+    <span class="kt-keyword">val</span> <span class="kt-variable">button</span> = <span class="kt-class-name">Button</span>()
+    <span class="kt-variable">button</span>.<span class="kt-function-call">click</span>()
+    <span class="kt-variable">button</span>.<span class="kt-function-call">showOff</span>()
+}</code></pre>
+            <p>A class can implement multiple interfaces.</p>
+        </section>
+
+        <section id="collections">
+            <h2>Collections (List, Set, Map)</h2>
+            <p>Kotlin distinguishes between read-only and mutable collections.</p>
+            <ul>
+                <li><strong><code class="inline-code">List&lt;T&gt;</code> (Read-only):</strong> Ordered collection.
+                    <br><code class="inline-code">MutableList&lt;T&gt;</code> (Mutable)
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">readOnlyList</span>: <span class="kt-type">List</span>&lt;<span class="kt-type">String</span>&gt; = <span class="kt-function-call">listOf</span>(<span class="kt-string">"a"</span>, <span class="kt-string">"b"</span>, <span class="kt-string">"c"</span>)
+<span class="kt-keyword">val</span> <span class="kt-variable">mutableList</span>: <span class="kt-type">MutableList</span>&lt;<span class="kt-type">Int</span>&gt; = <span class="kt-function-call">mutableListOf</span>(<span class="kt-number">1</span>, <span class="kt-number">2</span>, <span class="kt-number">3</span>)
+<span class="kt-variable">mutableList</span>.<span class="kt-function-call">add</span>(<span class="kt-number">4</span>)</code></pre>
+                </li>
+                <li><strong><code class="inline-code">Set&lt;T&gt;</code> (Read-only):</strong> Collection of unique elements.
+                    <br><code class="inline-code">MutableSet&lt;T&gt;</code> (Mutable)
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">numberSet</span> = <span class="kt-function-call">setOf</span>(<span class="kt-number">1</span>, <span class="kt-number">2</span>, <span class="kt-number">3</span>, <span class="kt-number">2</span>) <span class="kt-comment">// Contains 1, 2, 3</span></code></pre>
+                </li>
+                <li><strong><code class="inline-code">Map&lt;K, V&gt;</code> (Read-only):</strong> Collection of key-value pairs. Keys are unique.
+                    <br><code class="inline-code">MutableMap&lt;K, V&gt;</code> (Mutable)
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">userAges</span> = <span class="kt-function-call">mapOf</span>(<span class="kt-string">"Alice"</span> <span class="kt-operator">to</span> <span class="kt-number">30</span>, <span class="kt-string">"Bob"</span> <span class="kt-operator">to</span> <span class="kt-number">25</span>)
+<span class="kt-keyword">val</span> <span class="kt-variable">mutableUserAges</span> = <span class="kt-function-call">mutableMapOf</span>(<span class="kt-string">"Charlie"</span> <span class="kt-operator">to</span> <span class="kt-number">40</span>)
+<span class="kt-variable">mutableUserAges</span>[<span class="kt-string">"David"</span>] = <span class="kt-number">22</span></code></pre>
+                </li>
+            </ul>
+            <p>Kotlin collections offer many useful extension functions (e.g., <code class="inline-code">filter</code>, <code class="inline-code">map</code>, <code class="inline-code">forEach</code>).</p>
+        </section>
+
+        <section id="lambda-hof">
+            <h2>Lambdas and Higher-Order Functions</h2>
+            <p>Kotlin is a functional programming friendly language.</p>
+            <ul>
+                <li><strong>Lambda Expressions:</strong> Anonymous functions that can be treated as values (passed as arguments, returned, stored in variables).
+                    <br>Syntax: <code class="inline-code">{ parameters -> body }</code>
+<pre><code class="language-kotlin"><span class="kt-keyword">val</span> <span class="kt-variable">sum</span>: (<span class="kt-type">Int</span>, <span class="kt-type">Int</span>) <span class="kt-operator">-&gt;</span> <span class="kt-type">Int</span> = { <span class="kt-variable">a</span>, <span class="kt-variable">b</span> <span class="kt-operator">-&gt;</span> <span class="kt-variable">a</span> + <span class="kt-variable">b</span> }
+<span class="kt-function-call">println</span>(<span class="kt-variable">sum</span>(<span class="kt-number">5</span>, <span class="kt-number">10</span>)) <span class="kt-comment">// 15</span>
+
+<span class="kt-keyword">val</span> <span class="kt-variable">numbers</span> = <span class="kt-function-call">listOf</span>(<span class="kt-number">1</span>, <span class="kt-number">2</span>, <span class="kt-number">3</span>, <span class="kt-number">4</span>, <span class="kt-number">5</span>)
+<span class="kt-variable">numbers</span>.<span class="kt-function-call">forEach</span> { <span class="kt-function-call">println</span>(<span class="kt-string">"Item: <span class="kt-variable">$it</span>"</span>) } <span class="kt-comment">// 'it' is implicit name for single param lambda</span></code></pre>
+                </li>
+                <li><strong>Higher-Order Functions:</strong> Functions that take other functions as parameters or return functions. Many Kotlin standard library functions are higher-order (e.g., <code class="inline-code">filter</code>, <code class="inline-code">map</code>, <code class="inline-code">reduce</code>).
+<pre><code class="language-kotlin"><span class="kt-keyword">fun</span> <span class="kt-function-call">operate</span>(<span class="kt-variable">x</span>: <span class="kt-type">Int</span>, <span class="kt-variable">y</span>: <span class="kt-type">Int</span>, <span class="kt-variable">operation</span>: (<span class="kt-type">Int</span>, <span class="kt-type">Int</span>) <span class="kt-operator">-&gt;</span> <span class="kt-type">Int</span>): <span class="kt-type">Int</span> {
+    <span class="kt-keyword">return</span> <span class="kt-variable">operation</span>(<span class="kt-variable">x</span>, <span class="kt-variable">y</span>)
+}
+<span class="kt-keyword">val</span> <span class="kt-variable">result</span> = <span class="kt-function-call">operate</span>(<span class="kt-number">10</span>, <span class="kt-number">5</span>) { <span class="kt-variable">a</span>, <span class="kt-variable">b</span> <span class="kt-operator">-&gt;</span> <span class="kt-variable">a</span> * <span class="kt-variable">b</span> } <span class="kt-comment">// result is 50</span>
+<span class="kt-function-call">println</span>(<span class="kt-variable">result</span>)</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="coroutines-intro">
+            <h2>Introduction to Coroutines</h2>
+            <p>Coroutines are a Kotlin feature for simplifying asynchronous programming, making it look sequential. They are lightweight "threads" managed by the Kotlin runtime, not the OS.</p>
+            <p>Coroutines are essential for non-blocking operations in Android, server-side applications, and more.</p>
+            <p>Requires adding the <code class="inline-code">kotlinx.coroutines</code> library.</p>
+<pre><code class="language-kotlin"><span class="kt-keyword">import</span> kotlinx.coroutines.*
+
+<span class="kt-keyword">fun</span> <span class="kt-function-call">main</span>() = <span class="kt-function-call">runBlocking</span> { <span class="kt-comment">// Starts a coroutine and blocks current thread until completion (for main func)</span>
+    <span class="kt-function-call">launch</span> { <span class="kt-comment">// Launch a new coroutine without blocking current coroutine</span>
+        <span class="kt-function-call">delay</span>(<span class="kt-number">1000L</span>) <span class="kt-comment">// Non-blocking delay for 1 second (suspending function)</span>
+        <span class="kt-function-call">println</span>(<span class="kt-string">"World!"</span>)
+    }
+    <span class="kt-function-call">println</span>(<span class="kt-string">"Hello,"</span>) <span class="kt-comment">// Main coroutine continues while launch coroutine is delayed</span>
+    <span class="kt-comment">// Output (after 1 sec delay for "World!"):</span>
+    <span class="kt-comment">// Hello,</span>
+    <span class="kt-comment">// World!</span>
+}
+
+<span class="kt-keyword">suspend</span> <span class="kt-keyword">fun</span> <span class="kt-function-call">fetchData</span>(): <span class="kt-type">String</span> {
+    <span class="kt-function-call">delay</span>(<span class="kt-number">500L</span>) <span class="kt-comment">// Simulate network request</span>
+    <span class="kt-keyword">return</span> <span class="kt-string">"Data from server"</span>
+}
+</code></pre>
+            <p>Key concepts: <code class="inline-code">suspend</code> functions (can be paused and resumed), coroutine builders (<code class="inline-code">launch</code>, <code class="inline-code">async</code>), <code class="inline-code">Dispatchers</code> (control which thread coroutines run on).</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>Congratulations on completing this beginner's guide to Kotlin!</p>
+            <p>To continue your Kotlin journey:</p>
+            <ul>
+                <li><strong>Practice:</strong> Solve problems on platforms like Kotlin Koans, HackerRank, LeetCode.</li>
+                <li><strong>Official Kotlin Documentation:</strong> The (<a href="https://kotlinlang.org/docs/home.html" target="_blank">kotlinlang.org/docs</a>) is an excellent resource.</li>
+                <li><strong>Android Development:</strong> If interested, start building Android apps with Kotlin. It's the preferred language.</li>
+                <li><strong>Server-Side Kotlin:</strong> Explore frameworks like Spring Boot (with Kotlin support), Ktor, or Micronaut.</li>
+                <li><strong>Kotlin Multiplatform (KMP):</strong> Investigate building shared logic for iOS, Android, Web, and Desktop.</li>
+                <li><strong>Advanced Coroutines:</strong> Dive deeper into structured concurrency, channels, flows, and different dispatchers.</li>
+                <li><strong>Advanced Functional Programming:</strong> Explore more complex functional patterns and libraries like Arrow.</li>
+                <li><strong>Build Projects:</strong> The best way to learn is by building real applications.</li>
+                <li><strong>Join the Community:</strong> Engage with the Kotlin community on forums, Slack, Reddit, etc.</li>
+            </ul>
+            <p class="important">Kotlin is a modern and evolving language with a bright future. Keep learning and experimenting!</p>
+            <p>Happy Kotlin coding!</p>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        function activateInitialLink() {
+            const hash = window.location.hash;
+            let activeLinkFound = false;
+            if (hash) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                        activeLinkFound = true;
+                    }
+                });
+            }
+            if (!activeLinkFound && navLinks.length > 0) {
+                navLinks[0].classList.add('active'); 
+            }
+        }
+        activateInitialLink();
+        window.addEventListener('hashchange', activateInitialLink); 
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

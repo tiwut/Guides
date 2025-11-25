@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Android Device Setup Guide</title>
+    <style>
+        
+        :root {
+            --bg-color: #f4f4f4;
+            --main-bg-color: #fff;
+            --text-color: #333;
+            --sidebar-bg: #2a3e52; 
+            --sidebar-text: #fff;
+            --sidebar-link-text: #ddd;
+            --sidebar-border-color: #444;
+            --primary-color: #3DDC84;
+            --primary-color-dark: #00A453; 
+            --code-bg: #e9ecef;
+            --code-text: #c7254e;
+            --border-color-light: #eee;
+            --border-color-dark: #ddd;
+            --warning-bg: #fff3cd;
+            --warning-border: #ffeeba;
+            --warning-text: #856404;
+            --important-bg: #d1ecf1;
+            --important-border: #bee5eb;
+            --important-text: #0c5460;
+        }
+
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --main-bg-color: #1e1e1e;
+                --text-color: #e0e0e0;
+                --sidebar-bg: #1a1a1a;
+                --sidebar-text: #e0e0e0;
+                --sidebar-link-text: #b0b0b0;
+                --sidebar-border-color: #333;
+                --primary-color: #3DDC84;
+                --primary-color-dark: #45f893;
+                --code-bg: #2c2c2c;
+                --code-text: #ff759f;
+                --border-color-light: #333;
+                --border-color-dark: #444;
+                --warning-bg: #4d3c00;
+                --warning-border: #856404;
+                --warning-text: #ffeeba;
+                --important-bg: #032b31;
+                --important-border: #0c5460;
+                --important-text: #bee5eb;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        #main-content {
+            margin-left: 280px; 
+            padding: 20px 40px;
+            width: calc(100% - 280px);
+            background-color: var(--main-bg-color);
+            min-height: 100vh;
+        }
+
+        
+        #sidebar-lang-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--sidebar-border-color);
+        }
+        #sidebar-lang-switcher button {
+            background-color: transparent;
+            border: 1px solid var(--sidebar-link-text);
+            color: var(--sidebar-link-text);
+            padding: 5px 15px;
+            border-radius: 20px; 
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+        #sidebar-lang-switcher button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+            color: #fff;
+        }
+        #sidebar-lang-switcher button.active {
+            background-color: var(--primary-color);
+            color: var(--sidebar-bg);
+            font-weight: bold;
+            border-color: var(--primary-color);
+        }
+
+        #sidebar h2 {
+            color: var(--sidebar-text);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: var(--sidebar-link-text);
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: var(--primary-color);
+            color: var(--sidebar-bg);
+        }
+        
+        
+        header {
+            border-bottom: 1px solid var(--border-color-dark);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: var(--text-color);
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: var(--primary-color-dark);
+        }
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: var(--code-text);
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: var(--warning-bg);
+            border-left: 5px solid var(--warning-border);
+            color: var(--warning-text);
+        }
+        .important {
+            background-color: var(--important-bg);
+            border-left: 5px solid var(--important-border);
+            color: var(--important-text);
+        }
+        
+        
+        @media (max-width: 800px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+                padding: 15px; 
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+    <nav id="sidebar">
+        <div id="sidebar-lang-switcher">
+            <button data-lang="en">EN</button>
+            <button data-lang="de">DE</button>
+            <button data-lang="es">ES</button>
+        </div>
+        <h2 data-key="nav_title">Navigation</h2>
+        <ul>
+            <li><a href="#welcome" data-key="nav_welcome">Welcome</a></li>
+            <li><a href="#prerequisites" data-key="nav_prerequisites">Before You Start</a></li>
+            <li><a href="#power-on" data-key="nav_power_on">1. Power On & SIM Card</a></li>
+            <li><a href="#language-region" data-key="nav_language_region">2. Language & Region</a></li>
+            <li><a href="#network" data-key="nav_network">3. Connect to Network</a></li>
+            <li><a href="#data-transfer" data-key="nav_data_transfer">4. Copy Apps & Data</a></li>
+            <li><a href="#google-account" data-key="nav_google_account">5. Google Account</a></li>
+            <li><a href="#google-services" data-key="nav_google_services">6. Google Services</a></li>
+            <li><a href="#security" data-key="nav_security">7. Set Up Security</a></li>
+            <li><a href="#final-steps" data-key="nav_final_steps">8. Final Steps</a></li>
+            <li><a href="#home-screen" data-key="nav_home_screen">9. First Look at Home Screen</a></li>
+            <li><a href="#post-setup" data-key="nav_post_setup">10. After Setup</a></li>
+            <li><a href="#troubleshooting" data-key="nav_troubleshooting">Troubleshooting</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1 data-key="main_title">Android Device Setup Guide</h1>
+        </header>
+
+        
+
+        <section id="welcome">
+            <h2 data-key="welcome_title">Welcome to Android</h2>
+            <p data-key="welcome_p1">Welcome! This guide will walk you through the process of setting up your new Android smartphone or tablet. Android is a versatile and customizable mobile operating system developed by Google, powering billions of devices worldwide.</p>
+            <p class="important" data-key="welcome_p2">The setup process may vary slightly depending on your device manufacturer (e.g., Samsung, Google Pixel, Xiaomi) and the version of Android. However, the core steps are very similar across all devices.</p>
+        </section>
+
+        <section id="prerequisites">
+            <h2 data-key="prereq_title">Before You Start</h2>
+            <p data-key="prereq_p1">Having these things ready will make the setup process much smoother:</p>
+            <ul>
+                <li data-key="prereq_li1"><strong>Fully Charged Device:</strong> Ensure your new device has at least 50% battery or is connected to a charger.</li>
+                <li data-key="prereq_li2"><strong>Wi-Fi Network:</strong> You will need the name (SSID) and password for your Wi-Fi network to download updates and apps.</li>
+                <li data-key="prereq_li3"><strong>Google Account:</strong> Your Google Account (e.g., your @gmail.com address) and its password. This is essential for accessing the Google Play Store, Gmail, and other services. If you don't have one, you can create it during setup.</li>
+                <li data-key="prereq_li4"><strong>SIM Card:</strong> If you plan to use cellular data and make calls, have your SIM card ready. You may also need a SIM ejector tool (often included in the box).</li>
+            </ul>
+            <p class="warning" data-key="prereq_p2"><strong>Migrating from an old phone?</strong> Back up your data on your old device first! Most manufacturers offer tools to transfer data, but having a separate backup is always a safe bet.</p>
+        </section>
+
+        <section id="power-on">
+            <h2 data-key="poweron_title">1. Power On & Insert SIM Card</h2>
+            <ol>
+                <li data-key="poweron_li1"><strong>Insert your SIM Card:</strong> It's usually easiest to do this before you power on the device. Use the SIM ejector tool to open the SIM tray, place the card in correctly, and slide the tray back in.</li>
+                <li data-key="poweron_li2"><strong>Power On:</strong> Press and hold the power button until the device vibrates and you see the manufacturer's logo. The device will then boot into the initial welcome screen.</li>
+            </ol>
+        </section>
+
+        <section id="language-region">
+            <h2 data-key="lang_region_title">2. Select Language and Region</h2>
+            <p data-key="lang_region_p1">The very first screen you'll see is the Welcome screen. Here you will be prompted to select your preferred language and, in some cases, your country or region. This sets the default language for the entire operating system.</p>
+            <p data-key="lang_region_p2">You may also find accessibility options on this screen (e.g., for vision or hearing impairments).</p>
+        </section>
+
+        <section id="network">
+            <h2 data-key="network_title">3. Connect to a Network</h2>
+            <p data-key="network_p1">Next, you'll be asked to connect to the internet. You have two options:</p>
+            <ul>
+                <li data-key="network_li1"><strong>Wi-Fi (Recommended):</strong> Select your Wi-Fi network from the list and enter the password. A Wi-Fi connection is generally faster and doesn't use your mobile data, which is ideal for downloading system updates and your apps.</li>
+                <li data-key="network_li2"><strong>Mobile Data:</strong> If a SIM card is inserted and active, the device may use your mobile data plan. You can also choose to "Set up offline," but this is not recommended as you will miss key steps.</li>
+            </ul>
+        </section>
+
+        <section id="data-transfer">
+            <h2 data-key="transfer_title">4. Copy Apps & Data</h2>
+            <p data-key="transfer_p1">This is one of the most useful steps. The system will ask if you want to copy your apps, photos, contacts, and Google Account from an old device. You will typically see an option like "Copy your data".</p>
+            <h3>Options for copying data:</h3>
+            <ul>
+                <li data-key="transfer_li1"><strong>From an old Android phone:</strong> You can often connect the two phones with a cable (USB-C to USB-C) or transfer wirelessly. Follow the on-screen instructions.</li>
+                <li data-key="transfer_li2"><strong>From a cloud backup:</strong> If your old phone was backed up to your Google Account, you can restore from that backup.</li>
+                <li data-key="transfer_li3"><strong>From an iPhone®:</strong> Many Android devices now provide instructions to transfer contacts, photos, and calendars from an iPhone, often using a cable.</li>
+                <li data-key="transfer_li4"><strong>Don't copy (Start Fresh):</strong> Choose this if you want a completely clean start.</li>
+            </ul>
+        </section>
+
+        <section id="google-account">
+            <h2 data-key="g_account_title">5. Sign in to your Google Account</h2>
+            <p data-key="g_account_p1">Enter your Google Account email and password. This is crucial for:</p>
+            <ul>
+                <li data-key="g_account_li1">Downloading apps from the <strong>Google Play Store</strong>.</li>
+                <li data-key="g_account_li2">Syncing your <strong>Gmail, Calendar, and Contacts</strong>.</li>
+                <li data-key="g_account_li3">Using <strong>Google Maps, Photos, and Drive</strong>.</li>
+                <li data-key="g_account_li4">Backing up your device settings and data.</li>
+            </ul>
+            <p data-key="g_account_p2">You will also be asked to agree to Google's Terms of Service.</p>
+        </section>
+        
+        <section id="google-services">
+            <h2 data-key="g_services_title">6. Review Google Services</h2>
+            <p data-key="g_services_p1">On this screen, you can enable or disable various Google services. Read each one carefully. Common options include:</p>
+            <ul>
+                <li data-key="g_services_li1"><strong>Use location:</strong> Allows apps like Google Maps and weather services to know your location. Highly recommended to leave on.</li>
+                <li data-key="g_services_li2"><strong>Allow scanning:</strong> Allows apps and services to scan for Wi-Fi networks and Bluetooth devices even when they are turned off, which can improve location accuracy.</li>
+                <li data-key="g_services_li3"><strong>Send usage and diagnostic data:</strong> Shares anonymous data with Google to help them improve Android. This is optional.</li>
+            </ul>
+            <p data-key="g_services_p2">You can change these settings later in your device's Settings app.</p>
+        </section>
+        
+        <section id="security">
+            <h2 data-key="security_title">7. Set Up Device Security</h2>
+            <p class="important" data-key="security_p1">Do not skip this step! Securing your device protects your personal information. You'll be asked to set a screen lock. Your options typically are:</p>
+            <ul>
+                <li data-key="security_li1"><strong>Fingerprint:</strong> Register one or more fingerprints to unlock your phone.</li>
+                <li data-key="security_li2"><strong>Face Recognition:</strong> Use your face to unlock the device.</li>
+                <li data-key="security_li3"><strong>PIN:</strong> A numeric code (recommended).</li>
+                <li data-key="security_li4"><strong>Pattern:</strong> A pattern you draw on a grid of dots.</li>
+                <li data-key="security_li5"><strong>Password:</strong> A full alphanumeric password.</li>
+            </ul>
+             <p data-key="security_p2">Most biometric options (fingerprint, face) require a backup PIN, pattern, or password.</p>
+        </section>
+
+        <section id="final-steps">
+            <h2 data-key="final_steps_title">8. Final Steps</h2>
+            <p data-key="final_steps_p1">The last few screens may ask you to set up additional features:</p>
+            <ul>
+                <li data-key="final_steps_li1"><strong>Google Assistant:</strong> Set up the "Hey Google" or "Ok Google" voice command.</li>
+                <li data-key="final_steps_li2"><strong>Google Pay:</strong> Add a credit or debit card for contactless payments.</li>
+                <li data-key="final_steps_li3"><strong>Review additional apps:</strong> Some manufacturers suggest a list of extra apps to install. You can usually uncheck any you don't want.</li>
+            </ul>
+        </section>
+
+        <section id="home-screen">
+            <h2 data-key="home_screen_title">9. All Set! Your Home Screen</h2>
+            <p data-key="home_screen_p1">After the final step, you'll see a message like "All set!" and you'll be taken to your new device's home screen. Congratulations!</p>
+            <p data-key="home_screen_p2">While the setup is complete, your device might still be downloading your apps and data in the background. You can check the progress in the notification shade (swipe down from the top of the screen).</p>
+        </section>
+
+        <section id="post-setup">
+            <h2 data-key="post_setup_title">10. What to Do After Setup</h2>
+            <ol>
+                <li data-key="post_setup_li1"><strong>Check for System Updates:</strong> Go to <code>Settings > System > System update</code> (or similar path) to see if there are any pending OS updates.</li>
+                <li data-key="post_setup_li2"><strong>Update Your Apps:</strong> Open the Google Play Store, tap your profile icon, and go to "Manage apps & device". Install any available updates for your apps.</li>
+                <li data-key="post_setup_li3"><strong>Customize:</strong> Change your wallpaper, arrange your app icons, and add widgets to your home screen. Dive into the Settings app to explore all the options.</li>
+                <li data-key-key="post_setup_li4"><strong>Set Up Backups:</strong> Ensure your device is set to back up automatically. Go to <code>Settings > Google > Backup</code> and make sure it's turned on.</li>
+            </ol>
+        </section>
+        
+        <section id="troubleshooting">
+            <h2 data-key="trouble_title">Troubleshooting</h2>
+            <ul>
+                <li data-key="trouble_li1"><strong>Can't connect to Wi-Fi:</strong> Double-check the password. Try restarting your phone and your router.</li>
+                <li data-key="trouble_li2"><strong>Google login fails:</strong> Ensure you have the correct password. Check if you have two-factor authentication (2FA) enabled, which might require an extra step.</li>
+                <li data-key="trouble_li3"><strong>Data transfer is slow or fails:</strong> A wired connection is usually more reliable than wireless. Ensure both phones stay on and unlocked during the process.</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const translations = {
+            en: {
+                page_title: "Android Device Setup Guide",
+                nav_title: "Navigation",
+                nav_welcome: "Welcome",
+                nav_prerequisites: "Before You Start",
+                nav_power_on: "1. Power On & SIM Card",
+                nav_language_region: "2. Language & Region",
+                nav_network: "3. Connect to Network",
+                nav_data_transfer: "4. Copy Apps & Data",
+                nav_google_account: "5. Google Account",
+                nav_google_services: "6. Google Services",
+                nav_security: "7. Set Up Security",
+                nav_final_steps: "8. Final Steps",
+                nav_home_screen: "9. First Look at Home Screen",
+                nav_post_setup: "10. After Setup",
+                nav_troubleshooting: "Troubleshooting",
+                main_title: "Android Device Setup Guide",
+                welcome_title: "Welcome to Android",
+                welcome_p1: "Welcome! This guide will walk you through the process of setting up your new Android smartphone or tablet. Android is a versatile and customizable mobile operating system developed by Google, powering billions of devices worldwide.",
+                welcome_p2: "The setup process may vary slightly depending on your device manufacturer (e.g., Samsung, Google Pixel, Xiaomi) and the version of Android. However, the core steps are very similar across all devices.",
+                prereq_title: "Before You Start",
+                prereq_p1: "Having these things ready will make the setup process much smoother:",
+                prereq_li1: "<strong>Fully Charged Device:</strong> Ensure your new device has at least 50% battery or is connected to a charger.",
+                prereq_li2: "<strong>Wi-Fi Network:</strong> You will need the name (SSID) and password for your Wi-Fi network to download updates and apps.",
+                prereq_li3: "<strong>Google Account:</strong> Your Google Account (e.g., your @gmail.com address) and its password. This is essential for accessing the Google Play Store, Gmail, and other services. If you don't have one, you can create it during setup.",
+                prereq_li4: "<strong>SIM Card:</strong> If you plan to use cellular data and make calls, have your SIM card ready. You may also need a SIM ejector tool (often included in the box).",
+                prereq_p2: "<strong>Migrating from an old phone?</strong> Back up your data on your old device first! Most manufacturers offer tools to transfer data, but having a separate backup is always a safe bet.",
+                poweron_title: "1. Power On & Insert SIM Card",
+                poweron_li1: "<strong>Insert your SIM Card:</strong> It's usually easiest to do this before you power on the device. Use the SIM ejector tool to open the SIM tray, place the card in correctly, and slide the tray back in.",
+                poweron_li2: "<strong>Power On:</strong> Press and hold the power button until the device vibrates and you see the manufacturer's logo. The device will then boot into the initial welcome screen.",
+                lang_region_title: "2. Select Language and Region",
+                lang_region_p1: "The very first screen you'll see is the Welcome screen. Here you will be prompted to select your preferred language and, in some cases, your country or region. This sets the default language for the entire operating system.",
+                lang_region_p2: "You may also find accessibility options on this screen (e.g., for vision or hearing impairments).",
+                network_title: "3. Connect to a Network",
+                network_p1: "Next, you'll be asked to connect to the internet. You have two options:",
+                network_li1: "<strong>Wi-Fi (Recommended):</strong> Select your Wi-Fi network from the list and enter the password. A Wi-Fi connection is generally faster and doesn't use your mobile data, which is ideal for downloading system updates and your apps.",
+                network_li2: "<strong>Mobile Data:</strong> If a SIM card is inserted and active, the device may use your mobile data plan. You can also choose to \"Set up offline,\" but this is not recommended as you will miss key steps.",
+                transfer_title: "4. Copy Apps & Data",
+                transfer_p1: "This is one of the most useful steps. The system will ask if you want to copy your apps, photos, contacts, and Google Account from an old device. You will typically see an option like \"Copy your data\".",
+                transfer_li1: "<strong>From an old Android phone:</strong> You can often connect the two phones with a cable (USB-C to USB-C) or transfer wirelessly. Follow the on-screen instructions.",
+                transfer_li2: "<strong>From a cloud backup:</strong> If your old phone was backed up to your Google Account, you can restore from that backup.",
+                transfer_li3: "<strong>From an iPhone®:</strong> Many Android devices now provide instructions to transfer contacts, photos, and calendars from an iPhone, often using a cable.",
+                transfer_li4: "<strong>Don't copy (Start Fresh):</strong> Choose this if you want a completely clean start.",
+                g_account_title: "5. Sign in to your Google Account",
+                g_account_p1: "Enter your Google Account email and password. This is crucial for:",
+                g_account_li1: "Downloading apps from the <strong>Google Play Store</strong>.",
+                g_account_li2: "Syncing your <strong>Gmail, Calendar, and Contacts</strong>.",
+                g_account_li3: "Using <strong>Google Maps, Photos, and Drive</strong>.",
+                g_account_li4: "Backing up your device settings and data.",
+                g_account_p2: "You will also be asked to agree to Google's Terms of Service.",
+                g_services_title: "6. Review Google Services",
+                g_services_p1: "On this screen, you can enable or disable various Google services. Read each one carefully. Common options include:",
+                g_services_li1: "<strong>Use location:</strong> Allows apps like Google Maps and weather services to know your location. Highly recommended to leave on.",
+                g_services_li2: "<strong>Allow scanning:</strong> Allows apps and services to scan for Wi-Fi networks and Bluetooth devices even when they are turned off, which can improve location accuracy.",
+                g_services_li3: "<strong>Send usage and diagnostic data:</strong> Shares anonymous data with Google to help them improve Android. This is optional.",
+                g_services_p2: "You can change these settings later in your device's Settings app.",
+                security_title: "7. Set Up Device Security",
+                security_p1: "Do not skip this step! Securing your device protects your personal information. You'll be asked to set a screen lock. Your options typically are:",
+                security_li1: "<strong>Fingerprint:</strong> Register one or more fingerprints to unlock your phone.",
+                security_li2: "<strong>Face Recognition:</strong> Use your face to unlock the device.",
+                security_li3: "<strong>PIN:</strong> A numeric code (recommended).",
+                security_li4: "<strong>Pattern:</strong> A pattern you draw on a grid of dots.",
+                security_li5: "<strong>Password:</strong> A full alphanumeric password.",
+                security_p2: "Most biometric options (fingerprint, face) require a backup PIN, pattern, or password.",
+                final_steps_title: "8. Final Steps",
+                final_steps_p1: "The last few screens may ask you to set up additional features:",
+                final_steps_li1: "<strong>Google Assistant:</strong> Set up the \"Hey Google\" or \"Ok Google\" voice command.",
+                final_steps_li2: "<strong>Google Pay:</strong> Add a credit or debit card for contactless payments.",
+                final_steps_li3: "<strong>Review additional apps:</strong> Some manufacturers suggest a list of extra apps to install. You can usually uncheck any you don't want.",
+                home_screen_title: "9. All Set! Your Home Screen",
+                home_screen_p1: "After the final step, you'll see a message like \"All set!\" and you'll be taken to your new device's home screen. Congratulations!",
+                home_screen_p2: "While the setup is complete, your device might still be downloading your apps and data in the background. You can check the progress in the notification shade (swipe down from the top of the screen).",
+                post_setup_title: "10. What to Do After Setup",
+                post_setup_li1: "<strong>Check for System Updates:</strong> Go to <code>Settings > System > System update</code> (or similar path) to see if there are any pending OS updates.",
+                post_setup_li2: "<strong>Update Your Apps:</strong> Open the Google Play Store, tap your profile icon, and go to \"Manage apps & device\". Install any available updates for your apps.",
+                post_setup_li3: "<strong>Customize:</strong> Change your wallpaper, arrange your app icons, and add widgets to your home screen. Dive into the Settings app to explore all the options.",
+                post_setup_li4: "<strong>Set Up Backups:</strong> Ensure your device is set to back up automatically. Go to <code>Settings > Google > Backup</code> and make sure it's turned on.",
+                trouble_title: "Troubleshooting",
+                trouble_li1: "<strong>Can't connect to Wi-Fi:</strong> Double-check the password. Try restarting your phone and your router.",
+                trouble_li2: "<strong>Google login fails:</strong> Ensure you have the correct password. Check if you have two-factor authentication (2FA) enabled, which might require an extra step.",
+                trouble_li3: "<strong>Data transfer is slow or fails:</strong> A wired connection is usually more reliable than wireless. Ensure both phones stay on and unlocked during the process."
+            },
+            de: {
+                page_title: "Anleitung zur Einrichtung eines Android-Geräts",
+                nav_title: "Navigation",
+                nav_welcome: "Willkommen",
+                nav_prerequisites: "Bevor Sie beginnen",
+                nav_power_on: "1. Einschalten & SIM-Karte",
+                nav_language_region: "2. Sprache & Region",
+                nav_network: "3. Mit Netzwerk verbinden",
+                nav_data_transfer: "4. Apps & Daten kopieren",
+                nav_google_account: "5. Google-Konto",
+                nav_google_services: "6. Google-Dienste",
+                nav_security: "7. Sicherheit einrichten",
+                nav_final_steps: "8. Letzte Schritte",
+                nav_home_screen: "9. Erster Blick auf den Startbildschirm",
+                nav_post_setup: "10. Nach der Einrichtung",
+                nav_troubleshooting: "Fehlerbehebung",
+                main_title: "Anleitung zur Einrichtung eines Android-Geräts",
+                welcome_title: "Willkommen bei Android",
+                welcome_p1: "Willkommen! Diese Anleitung führt Sie durch die Einrichtung Ihres neuen Android-Smartphones oder -Tablets. Android ist ein vielseitiges und anpassbares mobiles Betriebssystem, das von Google entwickelt wurde und Milliarden von Geräten weltweit antreibt.",
+                welcome_p2: "Der Einrichtungsprozess kann je nach Gerätehersteller (z.B. Samsung, Google Pixel, Xiaomi) und Android-Version leicht variieren. Die Kernschritte sind jedoch auf allen Geräten sehr ähnlich.",
+                prereq_title: "Bevor Sie beginnen",
+                prereq_p1: "Wenn Sie diese Dinge bereithalten, wird die Einrichtung wesentlich reibungsloser verlaufen:",
+                prereq_li1: "<strong>Vollständig geladenes Gerät:</strong> Stellen Sie sicher, dass Ihr neues Gerät zu mindestens 50 % aufgeladen oder an ein Ladegerät angeschlossen ist.",
+                prereq_li2: "<strong>WLAN-Netzwerk:</strong> Sie benötigen den Namen (SSID) und das Passwort für Ihr WLAN-Netzwerk, um Updates und Apps herunterzuladen.",
+                prereq_li3: "<strong>Google-Konto:</strong> Ihr Google-Konto (z.B. Ihre @gmail.com-Adresse) und das zugehörige Passwort. Dies ist unerlässlich für den Zugriff auf den Google Play Store, Gmail und andere Dienste. Wenn Sie keines haben, können Sie es während der Einrichtung erstellen.",
+                prereq_li4: "<strong>SIM-Karte:</strong> Wenn Sie mobile Daten nutzen und telefonieren möchten, halten Sie Ihre SIM-Karte bereit. Möglicherweise benötigen Sie auch ein SIM-Auswurfwerkzeug (oft im Lieferumfang enthalten).",
+                prereq_p2: "<strong>Wechsel von einem alten Telefon?</strong> Sichern Sie zuerst Ihre Daten auf Ihrem alten Gerät! Die meisten Hersteller bieten Tools zur Datenübertragung an, aber ein separates Backup ist immer eine sichere Sache.",
+                poweron_title: "1. Einschalten & SIM-Karte einlegen",
+                poweron_li1: "<strong>SIM-Karte einlegen:</strong> Am einfachsten ist es, dies vor dem Einschalten des Geräts zu tun. Verwenden Sie das SIM-Auswurfwerkzeug, um das SIM-Fach zu öffnen, legen Sie die Karte korrekt ein und schieben Sie das Fach wieder hinein.",
+                poweron_li2: "<strong>Einschalten:</strong> Halten Sie die Ein-/Aus-Taste gedrückt, bis das Gerät vibriert und Sie das Logo des Herstellers sehen. Das Gerät startet dann in den ersten Willkommensbildschirm.",
+                lang_region_title: "2. Sprache und Region auswählen",
+                lang_region_p1: "Der allererste Bildschirm, den Sie sehen, ist der Willkommensbildschirm. Hier werden Sie aufgefordert, Ihre bevorzugte Sprache und in einigen Fällen Ihr Land oder Ihre Region auszuwählen. Dies legt die Standardsprache für das gesamte Betriebssystem fest.",
+                lang_region_p2: "Auf diesem Bildschirm finden Sie möglicherweise auch Bedienungshilfen (z.B. für Seh- oder Hörbehinderungen).",
+                network_title: "3. Mit einem Netzwerk verbinden",
+                network_p1: "Als Nächstes werden Sie aufgefordert, eine Verbindung zum Internet herzustellen. Sie haben zwei Möglichkeiten:",
+                network_li1: "<strong>WLAN (Empfohlen):</strong> Wählen Sie Ihr WLAN-Netzwerk aus der Liste aus und geben Sie das Passwort ein. Eine WLAN-Verbindung ist in der Regel schneller und verbraucht keine mobilen Daten, was ideal für das Herunterladen von Systemupdates und Ihren Apps ist.",
+                network_li2: "<strong>Mobile Daten:</strong> Wenn eine SIM-Karte eingelegt und aktiv ist, kann das Gerät Ihren mobilen Datentarif verwenden. Sie können auch „Offline einrichten“ wählen, dies wird jedoch nicht empfohlen, da Sie wichtige Schritte verpassen.",
+                transfer_title: "4. Apps & Daten kopieren",
+                transfer_p1: "Dies ist einer der nützlichsten Schritte. Das System fragt Sie, ob Sie Ihre Apps, Fotos, Kontakte und Ihr Google-Konto von einem alten Gerät kopieren möchten. Normalerweise sehen Sie eine Option wie „Daten kopieren“.",
+                transfer_li1: "<strong>Von einem alten Android-Telefon:</strong> Sie können die beiden Telefone oft mit einem Kabel (USB-C zu USB-C) verbinden oder drahtlos übertragen. Folgen Sie den Anweisungen auf dem Bildschirm.",
+                transfer_li2: "<strong>Aus einem Cloud-Backup:</strong> Wenn Ihr altes Telefon in Ihrem Google-Konto gesichert wurde, können Sie aus diesem Backup wiederherstellen.",
+                transfer_li3: "<strong>Von einem iPhone®:</strong> Viele Android-Geräte bieten jetzt Anleitungen zum Übertragen von Kontakten, Fotos und Kalendern von einem iPhone, oft über ein Kabel.",
+                transfer_li4: "<strong>Nicht kopieren (Neu anfangen):</strong> Wählen Sie dies, wenn Sie einen komplett sauberen Start wünschen.",
+                g_account_title: "5. Bei Ihrem Google-Konto anmelden",
+                g_account_p1: "Geben Sie Ihre Google-Konto-E-Mail und Ihr Passwort ein. Dies ist entscheidend für:",
+                g_account_li1: "Das Herunterladen von Apps aus dem <strong>Google Play Store</strong>.",
+                g_account_li2: "Das Synchronisieren von <strong>Gmail, Kalender und Kontakten</strong>.",
+                g_account_li3: "Die Nutzung von <strong>Google Maps, Fotos und Drive</strong>.",
+                g_account_li4: "Die Sicherung Ihrer Geräteeinstellungen und Daten.",
+                g_account_p2: "Sie werden auch gebeten, den Nutzungsbedingungen von Google zuzustimmen.",
+                g_services_title: "6. Google-Dienste überprüfen",
+                g_services_p1: "Auf diesem Bildschirm können Sie verschiedene Google-Dienste aktivieren oder deaktivieren. Lesen Sie jeden Punkt sorgfältig durch. Gängige Optionen sind:",
+                g_services_li1: "<strong>Standort verwenden:</strong> Ermöglicht Apps wie Google Maps und Wetterdiensten, Ihren Standort zu ermitteln. Es wird dringend empfohlen, dies eingeschaltet zu lassen.",
+                g_services_li2: "<strong>Scannen zulassen:</strong> Ermöglicht Apps und Diensten, nach WLAN-Netzwerken und Bluetooth-Geräten zu suchen, auch wenn diese ausgeschaltet sind, was die Standortgenauigkeit verbessern kann.",
+                g_services_li3: "<strong>Nutzungs- und Diagnosedaten senden:</strong> Teilt anonyme Daten mit Google, um ihnen bei der Verbesserung von Android zu helfen. Dies ist optional.",
+                g_services_p2: "Sie können diese Einstellungen später in der Einstellungs-App Ihres Geräts ändern.",
+                security_title: "7. Gerätesicherheit einrichten",
+                security_p1: "Überspringen Sie diesen Schritt nicht! Die Sicherung Ihres Geräts schützt Ihre persönlichen Daten. Sie werden aufgefordert, eine Bildschirmsperre einzurichten. Ihre Optionen sind normalerweise:",
+                security_li1: "<strong>Fingerabdruck:</strong> Registrieren Sie einen oder mehrere Fingerabdrücke, um Ihr Telefon zu entsperren.",
+                security_li2: "<strong>Gesichtserkennung:</strong> Verwenden Sie Ihr Gesicht, um das Gerät zu entsperren.",
+                security_li3: "<strong>PIN:</strong> Ein numerischer Code (empfohlen).",
+                security_li4: "<strong>Muster:</strong> Ein Muster, das Sie auf einem Gitter von Punkten zeichnen.",
+                security_li5: "<strong>Passwort:</strong> Ein vollständiges alphanumerisches Passwort.",
+                security_p2: "Die meisten biometrischen Optionen (Fingerabdruck, Gesicht) erfordern eine Backup-PIN, ein Muster oder ein Passwort.",
+                final_steps_title: "8. Letzte Schritte",
+                final_steps_p1: "In den letzten Bildschirmen werden Sie möglicherweise aufgefordert, zusätzliche Funktionen einzurichten:",
+                final_steps_li1: "<strong>Google Assistant:</strong> Richten Sie den Sprachbefehl „Hey Google“ oder „Ok Google“ ein.",
+                final_steps_li2: "<strong>Google Pay:</strong> Fügen Sie eine Kredit- oder Debitkarte für kontaktlose Zahlungen hinzu.",
+                final_steps_li3: "<strong>Zusätzliche Apps überprüfen:</strong> Einige Hersteller schlagen eine Liste zusätzlicher Apps zur Installation vor. Sie können normalerweise alle abwählen, die Sie nicht möchten.",
+                home_screen_title: "9. Fertig! Ihr Startbildschirm",
+                home_screen_p1: "Nach dem letzten Schritt sehen Sie eine Meldung wie „Alles klar!“ und Sie werden zum Startbildschirm Ihres neuen Geräts weitergeleitet. Herzlichen Glückwunsch!",
+                home_screen_p2: "Obwohl die Einrichtung abgeschlossen ist, lädt Ihr Gerät möglicherweise im Hintergrund noch Ihre Apps und Daten herunter. Sie können den Fortschritt in der Benachrichtigungsleiste überprüfen (vom oberen Bildschirmrand nach unten wischen).",
+                post_setup_title: "10. Was nach der Einrichtung zu tun ist",
+                post_setup_li1: "<strong>Nach Systemupdates suchen:</strong> Gehen Sie zu <code>Einstellungen > System > Systemupdate</code> (oder einem ähnlichen Pfad), um zu sehen, ob Betriebssystem-Updates anstehen.",
+                post_setup_li2: "<strong>Ihre Apps aktualisieren:</strong> Öffnen Sie den Google Play Store, tippen Sie auf Ihr Profilsymbol und gehen Sie zu „Apps und Gerät verwalten“. Installieren Sie alle verfügbaren Updates für Ihre Apps.",
+                post_setup_li3: "<strong>Anpassen:</strong> Ändern Sie Ihr Hintergrundbild, ordnen Sie Ihre App-Symbole an und fügen Sie Widgets zu Ihrem Startbildschirm hinzu. Tauchen Sie in die Einstellungs-App ein, um alle Optionen zu erkunden.",
+                post_setup_li4: "<strong>Backups einrichten:</strong> Stellen Sie sicher, dass Ihr Gerät so eingestellt ist, dass es automatisch Backups erstellt. Gehen Sie zu <code>Einstellungen > Google > Sicherung</code> und stellen Sie sicher, dass es eingeschaltet ist.",
+                trouble_title: "Fehlerbehebung",
+                trouble_li1: "<strong>Keine WLAN-Verbindung möglich:</strong> Überprüfen Sie das Passwort. Versuchen Sie, Ihr Telefon und Ihren Router neu zu starten.",
+                trouble_li2: "<strong>Google-Login schlägt fehl:</strong> Stellen Sie sicher, dass Sie das richtige Passwort haben. Prüfen Sie, ob Sie die Zwei-Faktor-Authentifizierung (2FA) aktiviert haben, was einen zusätzlichen Schritt erfordern könnte.",
+                trouble_li3: "<strong>Datenübertragung ist langsam oder schlägt fehl:</strong> Eine Kabelverbindung ist normalerweise zuverlässiger als eine drahtlose. Stellen Sie sicher, dass beide Telefone während des Vorgangs eingeschaltet und entsperrt bleiben."
+            },
+            es: {
+                page_title: "Guía de Configuración de Dispositivo Android",
+                nav_title: "Navegación",
+                nav_welcome: "Bienvenida",
+                nav_prerequisites: "Antes de Empezar",
+                nav_power_on: "1. Encendido y Tarjeta SIM",
+                nav_language_region: "2. Idioma y Región",
+                nav_network: "3. Conectar a la Red",
+                nav_data_transfer: "4. Copiar Apps y Datos",
+                nav_google_account: "5. Cuenta de Google",
+                nav_google_services: "6. Servicios de Google",
+                nav_security: "7. Configurar Seguridad",
+                nav_final_steps: "8. Pasos Finales",
+                nav_home_screen: "9. Primer Vistazo a la Pantalla de Inicio",
+                nav_post_setup: "10. Después de la Configuración",
+                nav_troubleshooting: "Solución de Problemas",
+                main_title: "Guía de Configuración de Dispositivo Android",
+                welcome_title: "Bienvenido a Android",
+                welcome_p1: "¡Bienvenido! Esta guía te acompañará en el proceso de configuración de tu nuevo smartphone o tablet Android. Android es un sistema operativo móvil versátil y personalizable desarrollado por Google, que impulsa miles de millones de dispositivos en todo el mundo.",
+                welcome_p2: "El proceso de configuración puede variar ligeramente dependiendo del fabricante de tu dispositivo (por ejemplo, Samsung, Google Pixel, Xiaomi) y la versión de Android. Sin embargo, los pasos principales son muy similares en todos los dispositivos.",
+                prereq_title: "Antes de Empezar",
+                prereq_p1: "Tener estas cosas listas hará que el proceso de configuración sea mucho más fluido:",
+                prereq_li1: "<strong>Dispositivo Completamente Cargado:</strong> Asegúrate de que tu nuevo dispositivo tenga al menos un 50% de batería o esté conectado a un cargador.",
+                prereq_li2: "<strong>Red Wi-Fi:</strong> Necesitarás el nombre (SSID) y la contraseña de tu red Wi-Fi para descargar actualizaciones y aplicaciones.",
+                prereq_li3: "<strong>Cuenta de Google:</strong> Tu cuenta de Google (por ejemplo, tu dirección @gmail.com) y su contraseña. Es esencial para acceder a la Google Play Store, Gmail y otros servicios. Si no tienes una, puedes crearla durante la configuración.",
+                prereq_li4: "<strong>Tarjeta SIM:</strong> Si planeas usar datos móviles y hacer llamadas, ten lista tu tarjeta SIM. También podrías necesitar una herramienta de expulsión de SIM (a menudo incluida en la caja).",
+                prereq_p2: "<strong>¿Migrando desde un teléfono antiguo?</strong> ¡Haz una copia de seguridad de tus datos en tu antiguo dispositivo primero! La mayoría de los fabricantes ofrecen herramientas para transferir datos, pero tener una copia de seguridad separada siempre es una apuesta segura.",
+                poweron_title: "1. Encender e Insertar Tarjeta SIM",
+                poweron_li1: "<strong>Inserta tu Tarjeta SIM:</strong> Generalmente es más fácil hacerlo antes de encender el dispositivo. Usa la herramienta de expulsión de SIM para abrir la bandeja SIM, coloca la tarjeta correctamente y vuelve a deslizar la bandeja hacia adentro.",
+                poweron_li2: "<strong>Encender:</strong> Mantén presionado el botón de encendido hasta que el dispositivo vibre y veas el logo del fabricante. El dispositivo se iniciará en la pantalla de bienvenida inicial.",
+                lang_region_title: "2. Seleccionar Idioma y Región",
+                lang_region_p1: "La primera pantalla que verás es la de Bienvenida. Aquí se te pedirá que selecciones tu idioma preferido y, en algunos casos, tu país o región. Esto establece el idioma predeterminado para todo el sistema operativo.",
+                lang_region_p2: "También puedes encontrar opciones de accesibilidad en esta pantalla (por ejemplo, para discapacidades visuales o auditivas).",
+                network_title: "3. Conectar a una Red",
+                network_p1: "A continuación, se te pedirá que te conectes a Internet. Tienes dos opciones:",
+                network_li1: "<strong>Wi-Fi (Recomendado):</strong> Selecciona tu red Wi-Fi de la lista e introduce la contraseña. Una conexión Wi-Fi es generalmente más rápida y no utiliza tus datos móviles, lo cual es ideal para descargar actualizaciones del sistema y tus aplicaciones.",
+                network_li2: "<strong>Datos Móviles:</strong> Si hay una tarjeta SIM insertada y activa, el dispositivo puede usar tu plan de datos móviles. También puedes optar por \"Configurar sin conexión\", pero no se recomienda ya que te perderás pasos clave.",
+                transfer_title: "4. Copiar Aplicaciones y Datos",
+                transfer_p1: "Este es uno de los pasos más útiles. El sistema te preguntará si quieres copiar tus aplicaciones, fotos, contactos y cuenta de Google desde un dispositivo antiguo. Normalmente verás una opción como \"Copiar tus datos\".",
+                transfer_li1: "<strong>Desde un teléfono Android antiguo:</strong> A menudo puedes conectar los dos teléfonos con un cable (USB-C a USB-C) o transferir de forma inalámbrica. Sigue las instrucciones en pantalla.",
+                transfer_li2: "<strong>Desde una copia de seguridad en la nube:</strong> Si tu teléfono antiguo estaba respaldado en tu cuenta de Google, puedes restaurar desde esa copia de seguridad.",
+                transfer_li3: "<strong>Desde un iPhone®:</strong> Muchos dispositivos Android ahora proporcionan instrucciones para transferir contactos, fotos y calendarios desde un iPhone, a menudo usando un cable.",
+                transfer_li4: "<strong>No copiar (Empezar de cero):</strong> Elige esto si quieres un comienzo completamente limpio.",
+                g_account_title: "5. Iniciar sesión en tu Cuenta de Google",
+                g_account_p1: "Introduce el correo electrónico y la contraseña de tu cuenta de Google. Esto es crucial para:",
+                g_account_li1: "Descargar aplicaciones de la <strong>Google Play Store</strong>.",
+                g_account_li2: "Sincronizar tu <strong>Gmail, Calendario y Contactos</strong>.",
+                g_account_li3: "Usar <strong>Google Maps, Fotos y Drive</strong>.",
+                g_account_li4: "Hacer copias de seguridad de la configuración y los datos de tu dispositivo.",
+                g_account_p2: "También se te pedirá que aceptes los Términos de Servicio de Google.",
+                g_services_title: "6. Revisar los Servicios de Google",
+                g_services_p1: "En esta pantalla, puedes activar o desactivar varios servicios de Google. Lee cada uno con atención. Las opciones comunes incluyen:",
+                g_services_li1: "<strong>Usar ubicación:</strong> Permite que aplicaciones como Google Maps y servicios meteorológicos conozcan tu ubicación. Se recomienda encarecidamente dejarlo activado.",
+                g_services_li2: "<strong>Permitir búsqueda:</strong> Permite que las aplicaciones y los servicios busquen redes Wi-Fi y dispositivos Bluetooth incluso cuando están desactivados, lo que puede mejorar la precisión de la ubicación.",
+                g_services_li3: "<strong>Enviar datos de uso y diagnóstico:</strong> Comparte datos anónimos con Google para ayudarles a mejorar Android. Esto es opcional.",
+                g_services_p2: "Puedes cambiar estos ajustes más tarde en la aplicación de Ajustes de tu dispositivo.",
+                security_title: "7. Configurar la Seguridad del Dispositivo",
+                security_p1: "¡No te saltes este paso! Asegurar tu dispositivo protege tu información personal. Se te pedirá que establezcas un bloqueo de pantalla. Tus opciones suelen ser:",
+                security_li1: "<strong>Huella dactilar:</strong> Registra una o más huellas dactilares para desbloquear tu teléfono.",
+                security_li2: "<strong>Reconocimiento facial:</strong> Usa tu rostro para desbloquear el dispositivo.",
+                security_li3: "<strong>PIN:</strong> Un código numérico (recomendado).",
+                security_li4: "<strong>Patrón:</strong> Un patrón que dibujas en una cuadrícula de puntos.",
+                security_li5: "<strong>Contraseña:</strong> Una contraseña alfanumérica completa.",
+                security_p2: "La mayoría de las opciones biométricas (huella, rostro) requieren un PIN, patrón o contraseña de respaldo.",
+                final_steps_title: "8. Pasos Finales",
+                final_steps_p1: "Las últimas pantallas pueden pedirte que configures funciones adicionales:",
+                final_steps_li1: "<strong>Asistente de Google:</strong> Configura el comando de voz \"Hey Google\" u \"Ok Google\".",
+                final_steps_li2: "<strong>Google Pay:</strong> Agrega una tarjeta de crédito o débito para pagos sin contacto.",
+                final_steps_li3: "<strong>Revisar aplicaciones adicionales:</strong> Algunos fabricantes sugieren una lista de aplicaciones adicionales para instalar. Normalmente puedes desmarcar las que no quieras.",
+                home_screen_title: "9. ¡Todo Listo! Tu Pantalla de Inicio",
+                home_screen_p1: "Después del último paso, verás un mensaje como \"¡Todo listo!\" y serás llevado a la pantalla de inicio de tu nuevo dispositivo. ¡Felicidades!",
+                home_screen_p2: "Aunque la configuración está completa, es posible que tu dispositivo todavía esté descargando tus aplicaciones y datos en segundo plano. Puedes comprobar el progreso en el panel de notificaciones (desliza hacia abajo desde la parte superior de la pantalla).",
+                post_setup_title: "10. Qué Hacer Después de la Configuración",
+                post_setup_li1: "<strong>Buscar actualizaciones del sistema:</strong> Ve a <code>Ajustes > Sistema > Actualización del sistema</code> (o una ruta similar) para ver si hay actualizaciones del sistema operativo pendientes.",
+                post_setup_li2: "<strong>Actualizar tus aplicaciones:</strong> Abre la Google Play Store, toca el ícono de tu perfil y ve a \"Gestionar apps y dispositivo\". Instala las actualizaciones disponibles para tus aplicaciones.",
+                post_setup_li3: "<strong>Personalizar:</strong> Cambia tu fondo de pantalla, organiza los íconos de tus aplicaciones y agrega widgets a tu pantalla de inicio. Sumérgete en la aplicación de Ajustes para explorar todas las opciones.",
+                post_setup_li4: "<strong>Configurar copias de seguridad:</strong> Asegúrate de que tu dispositivo esté configurado para hacer copias de seguridad automáticamente. Ve a <code>Ajustes > Google > Copia de seguridad</code> y asegúrate de que esté activado.",
+                trouble_title: "Solución de Problemas",
+                trouble_li1: "<strong>No se puede conectar a Wi-Fi:</strong> Verifica la contraseña. Intenta reiniciar tu teléfono y tu router.",
+                trouble_li2: "<strong>El inicio de sesión de Google falla:</strong> Asegúrate de tener la contraseña correcta. Comprueba si tienes activada la autenticación de dos factores (2FA), lo que podría requerir un paso adicional.",
+                trouble_li3: "<strong>La transferencia de datos es lenta o falla:</strong> Una conexión por cable suele ser más fiable que una inalámbrica. Asegúrate de que ambos teléfonos permanezcan encendidos y desbloqueados durante el proceso."
+            }
+        };
+
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const langSwitcher = document.getElementById('sidebar-lang-switcher');
+            const sections = document.querySelectorAll('#main-content section');
+            const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+            
+            const switchLanguage = (lang) => {
+                if (!translations[lang]) {
+                    lang = 'en'; 
+                }
+                document.documentElement.lang = lang;
+                document.querySelectorAll('[data-key]').forEach(elem => {
+                    const key = elem.dataset.key;
+                    if (translations[lang][key]) {
+                        elem.innerHTML = translations[lang][key];
+                    }
+                });
+                document.title = translations[lang]['page_title'] || 'Android Device Setup Guide';
+                langSwitcher.querySelectorAll('button').forEach(button => {
+                    button.classList.remove('active');
+                    if (button.dataset.lang === lang) {
+                        button.classList.add('active');
+                    }
+                });
+                localStorage.setItem('preferredLanguage', lang);
+            };
+
+            
+            langSwitcher.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    const lang = e.target.dataset.lang;
+                    switchLanguage(lang);
+                }
+            });
+
+            
+            const preferredLanguage = localStorage.getItem('preferredLanguage');
+            const browserLanguage = navigator.language.split('-')[0];
+            
+            if (preferredLanguage && translations[preferredLanguage]) {
+                switchLanguage(preferredLanguage);
+            } else if (translations[browserLanguage]) {
+                switchLanguage(browserLanguage);
+            } else {
+                switchLanguage('en'); 
+            }
+
+           
+            const onScroll = () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 70) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+                if (!current && navLinks.length > 0 && pageYOffset < sections[0].offsetTop - 70) {
+                     navLinks[0].classList.add('active');
+                }
+            };
+            
+            window.addEventListener('scroll', onScroll);
+            onScroll(); 
+        });
+    </script>
+</body>
+</html>

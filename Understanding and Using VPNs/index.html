@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-de="VPN Guide" data-lang-en="VPN Guide" data-lang-es="Guía de VPN"></title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        :root {
+            --bg-color: #f4f7f9;
+            --card-bg-color: #ffffff;
+            --text-color: #2c3e50;
+            --primary-color: #3498db;
+            --primary-color-hover: #2980b9;
+            --border-color: #e0e6ed;
+            --shadow-color: rgba(44, 62, 80, 0.1);
+            --svg-stroke-color: #95a5a6;
+            --svg-fill-color: #ecf0f1;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1d21;
+                --card-bg-color: #252a30;
+                --text-color: #e0e6ed;
+                --primary-color: #3498db;
+                --primary-color-hover: #5dade2;
+                --border-color: #3e444c;
+                --shadow-color: rgba(0, 0, 0, 0.2);
+                --svg-stroke-color: #7f8c8d;
+                --svg-fill-color: #3e444c;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--card-bg-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle svg rect {
+            fill: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--primary-color-hover);
+            color: white;
+            border-color: var(--primary-color-hover);
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--svg-stroke-color);
+        }
+
+        .content-card {
+            background-color: var(--card-bg-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+
+        .content-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-icon {
+            display: inline-block;
+            background-color: var(--bg-color);
+            border-radius: 50%;
+            padding: 0.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--primary-color);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .card-sketch {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .card-sketch svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .svg-text { fill: var(--text-color); font-size: 12px; font-weight: bold; }
+        .svg-text-light { fill: var(--bg-color); font-size: 12px; font-weight: bold; }
+        .svg-path { stroke: var(--primary-color); stroke-width: 2; fill: none; }
+        .svg-path-direct { stroke: var(--svg-stroke-color); stroke-width: 2; fill: none; stroke-dasharray: 2, 2; }
+        .svg-tunnel { fill: var(--primary-color); opacity: 0.8; }
+
+        .process-sketch { display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap; gap: 1rem; }
+        .step { text-align: center; }
+        .step-label { font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 0.5rem; }
+        .step svg { width: 60px; height: 60px; }
+        .arrow { font-size: 2rem; color: var(--primary-color); }
+
+        .svg-device { fill: var(--svg-fill-color); stroke: var(--svg-stroke-color); stroke-width: 2; }
+        .svg-device-line { stroke: var(--svg-stroke-color); }
+        .svg-lock-path { stroke: var(--svg-stroke-color); fill: none; stroke-width: 5; }
+        .svg-lock-top { fill: var(--svg-stroke-color); }
+        .svg-server { fill: var(--svg-fill-color); stroke: var(--svg-stroke-color); stroke-width: 2; }
+        .svg-server-light { fill: var(--primary-color); }
+        .svg-globe { fill: var(--svg-fill-color); stroke: var(--svg-stroke-color); stroke-width: 2; }
+        .svg-globe-lines { fill: none; stroke: var(--svg-stroke-color); stroke-width: 1; opacity: 0.7; }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--svg-stroke-color);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .main-nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background-color: var(--card-bg-color);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                box-shadow: -5px 0 15px var(--shadow-color);
+            }
+            
+            .main-nav.active {
+                right: 0;
+            }
+
+            .language-switcher {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .lang-btn {
+                font-size: 1.2rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .hero h1 { font-size: 2.2rem; }
+            main { padding: 7rem 1rem 1rem; }
+            .content-card { padding: 1.5rem; }
+            .process-sketch { flex-direction: column; }
+            .arrow { transform: rotate(90deg); margin: 0.5rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="logo" data-lang-de="VPN Guide" data-lang-en="VPN Guide" data-lang-es="Guía de VPN"></div>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <svg viewBox="0 0 100 80" width="30" height="30">
+                <rect width="100" height="15" rx="8"></rect>
+                <rect y="30" width="100" height="15" rx="8"></rect>
+                <rect y="60" width="100" height="15" rx="8"></rect>
+            </svg>
+        </button>
+        <nav class="main-nav">
+            <div class="language-switcher">
+                <button class="lang-btn" data-lang="de">DE</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="es">ES</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1 data-lang-de="VPNs verstehen und nutzen" data-lang-en="Understanding and Using VPNs" data-lang-es="Entender y usar las VPNs"></h1>
+            <p data-lang-de="Ihr Leitfaden für mehr Privatsphäre und Sicherheit im Internet." data-lang-en="Your guide to more privacy and security on the internet." data-lang-es="Su guía para más privacidad y seguridad en internet."></p>
+        </section>
+
+        <section class="content-card">
+            <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M12 14c-1.93 0-3.68.73-5 2"></path></svg>
+            </div>
+            <h2 data-lang-de="Was ist ein VPN?" data-lang-en="What is a VPN?" data-lang-es="¿Qué es una VPN?"></h2>
+            <p data-lang-de="Ein VPN (Virtuelles Privates Netzwerk) ist wie ein sicherer, verschlüsselter Tunnel für Ihren Internetverkehr. Anstatt direkt auf Webseiten zuzugreifen, leitet das VPN Ihre Verbindung über einen seiner Server um. Das verbirgt Ihre IP-Adresse und schützt Ihre Daten vor neugierigen Blicken." data-lang-en="A VPN (Virtual Private Network) is like a secure, encrypted tunnel for your internet traffic. Instead of accessing websites directly, the VPN reroutes your connection through one of its servers. This hides your IP address and protects your data from prying eyes." data-lang-es="Una VPN (Red Privada Virtual) es como un túnel seguro y cifrado para su tráfico de internet. En lugar de acceder a los sitios web directamente, la VPN redirige su conexión a través de uno de sus servidores. Esto oculta su dirección IP y protege sus datos de miradas indiscretas."></p>
+            <div class="card-sketch">
+                <svg viewBox="0 0 300 100">
+                    <text x="15" y="55" class="svg-text">You</text>
+                    <path d="M50 50 C 125 20, 175 80, 250 50" class="svg-path" stroke-dasharray="5,5"/>
+                    <path d="M50 50 Q 150 50 250 50" class="svg-path-direct"/>
+                    <rect x="110" y="5" width="80" height="90" rx="10" class="svg-tunnel"/>
+                    <text x="120" y="55" class="svg-text-light">VPN Tunnel</text>
+                    <text x="255" y="55" class="svg-text">Internet</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="content-card">
+             <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle><path d="m21.5 21.5-19-19"></path></svg>
+            </div>
+            <h2 data-lang-de="Warum ein VPN nutzen?" data-lang-en="Why use a VPN?" data-lang-es="¿Por qué usar una VPN?"></h2>
+            <ul class="feature-list">
+                <li data-lang-de="<strong>Privatsphäre:</strong> Verhindert, dass Ihr Internetanbieter, Werbetreibende oder Hacker Ihre Online-Aktivitäten verfolgen." data-lang-en="<strong>Privacy:</strong> Prevents your ISP, advertisers, or hackers from tracking your online activities." data-lang-es="<strong>Privacidad:</strong> Evita que su proveedor de internet, anunciantes o hackers rastreen sus actividades en línea."></li>
+                <li data-lang-de="<strong>Sicherheit:</strong> Verschlüsselt Ihre Daten, was besonders in öffentlichen WLAN-Netzen (Flughafen, Café) wichtig ist." data-lang-en="<strong>Security:</strong> Encrypts your data, which is especially important on public Wi-Fi networks (airport, café)." data-lang-es="<strong>Seguridad:</strong> Cifra sus datos, lo cual es especialmente importante en redes Wi-Fi públicas (aeropuerto, cafetería)."></li>
+                <li data-lang-de="<strong>Freiheit:</strong> Ermöglicht den Zugriff auf geografisch blockierte Inhalte (Geoblocking), z. B. Streaming-Dienste aus anderen Ländern." data-lang-en="<strong>Freedom:</strong> Allows access to geographically blocked content (geoblocking), e.g., streaming services from other countries." data-lang-es="<strong>Libertad:</strong> Permite el acceso a contenido bloqueado geográficamente (geobloqueo), como servicios de streaming de otros países."></li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+             <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h.01"></path><path d="M12 14h.01"></path><path d="M12 8h.01"></path><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path></svg>
+            </div>
+            <h2 data-lang-de="Wie funktioniert es?" data-lang-en="How does it work?" data-lang-es="¿Cómo funciona?"></h2>
+             <p data-lang-de="Wenn Sie sich mit einem VPN verbinden, passiert Folgendes:" data-lang-en="When you connect to a VPN, this is what happens:" data-lang-es="Cuando se conecta a una VPN, esto es lo que sucede:"></p>
+            <div class="card-sketch process-sketch">
+                <div class="step">
+                    <span class="step-label" data-lang-de="1. Ihr Gerät" data-lang-en="1. Your Device" data-lang-es="1. Su Dispositivo"></span>
+                    <svg viewBox="0 0 100 100"><rect x="10" y="20" width="80" height="60" rx="10" class="svg-device" /><line x1="10" y1="85" x2="90" y2="85" stroke-width="3" class="svg-device-line"/></svg>
+                </div>
+                <div class="arrow">&rarr;</div>
+                <div class="step">
+                    <span class="step-label" data-lang-de="2. Verschlüsselung" data-lang-en="2. Encryption" data-lang-es="2. Cifrado"></span>
+                    <svg viewBox="0 0 100 100"><path d="M25,50 a25,25 0 1,1 50,0 a25,25 0 1,1 -50,0" class="svg-lock-path"/><rect x="40" y="15" width="20" height="25" rx="5" class="svg-lock-top"/></svg>
+                </div>
+                <div class="arrow">&rarr;</div>
+                <div class="step">
+                    <span class="step-label" data-lang-de="3. VPN-Server" data-lang-en="3. VPN Server" data-lang-es="3. Servidor VPN"></span>
+                    <svg viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" rx="5" class="svg-server"/><circle cx="50" cy="35" r="4" class="svg-server-light"/><circle cx="50" cy="50" r="4" class="svg-server-light"/><circle cx="50" cy="65" r="4" class="svg-server-light"/></svg>
+                </div>
+                 <div class="arrow">&rarr;</div>
+                <div class="step">
+                    <span class="step-label" data-lang-de="4. Internet" data-lang-en="4. Internet" data-lang-es="4. Internet"></span>
+                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" class="svg-globe"/><path d="M50 15 V 85 M 15 50 H 85 M 25 25 Q 50 40 75 25 M 25 75 Q 50 60 75 75" class="svg-globe-lines"/></svg>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-card">
+             <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <h2 data-lang-de="Worauf bei der Wahl achten?" data-lang-en="What to look for when choosing?" data-lang-es="¿Qué buscar al elegir?"></h2>
+            <ul class="feature-list">
+                <li data-lang-de="<strong>No-Logs-Richtlinie:</strong> Der Anbieter sollte keine Protokolle über Ihre Aktivitäten speichern. Das ist der wichtigste Punkt für die Privatsphäre." data-lang-en="<strong>No-Logs Policy:</strong> The provider should not keep any logs of your activities. This is the most important point for privacy." data-lang-es="<strong>Política de no registros:</strong> El proveedor no debe guardar ningún registro de sus actividades. Este es el punto más importante para la privacidad."></li>
+                <li data-lang-de="<strong>Starke Verschlüsselung:</strong> Suchen Sie nach AES-256-Verschlüsselung, dem Industriestandard." data-lang-en="<strong>Strong Encryption:</strong> Look for AES-256 encryption, the industry standard." data-lang-es="<strong>Cifrado fuerte:</strong> Busque el cifrado AES-256, el estándar de la industria."></li>
+                <li data-lang-de="<strong>Geschwindigkeit & Serverstandorte:</strong> Ein gutes VPN verlangsamt Ihre Verbindung nur minimal. Viele Server weltweit bieten mehr Flexibilität." data-lang-en="<strong>Speed & Server Locations:</strong> A good VPN will only minimally slow down your connection. Many servers worldwide offer more flexibility." data-lang-es="<strong>Velocidad y ubicaciones de servidores:</strong> Una buena VPN solo ralentizará mínimamente su conexión. Muchos servidores en todo el mundo ofrecen más flexibilidad."></li>
+                <li data-lang-de="<strong>Benutzerfreundlichkeit:</strong> Die Software sollte einfach zu installieren und zu bedienen sein." data-lang-en="<strong>Ease of Use:</strong> The software should be easy to install and operate." data-lang-es="<strong>Facilidad de uso:</strong> El software debe ser fácil de instalar y manejar."></li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <p data-lang-de="Ein moderner Guide. Erstellt für Sie." data-lang-en="A modern guide. Created for you." data-lang-es="Una guía moderna. Creada para usted."></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const translatableElements = document.querySelectorAll('[data-lang-de]');
+
+            const supportedLangs = ['de', 'en', 'es'];
+            
+            menuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+            });
+
+            const setLanguage = (lang) => {
+                translatableElements.forEach(el => {
+                    const key = `lang${lang.charAt(0).toUpperCase() + lang.slice(1)}`;
+                    if (el.dataset[key]) {
+                        el.innerHTML = el.dataset[key];
+                    } else if (el.dataset['lang' + lang]) {
+                        el.innerHTML = el.dataset['lang' + lang];
+                    }
+                });
+
+                document.documentElement.lang = lang;
+                localStorage.setItem('userLanguage', lang);
+                
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+            };
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    setLanguage(button.dataset.lang);
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                    }
+                });
+            });
+
+            const getInitialLanguage = () => {
+                const savedLang = localStorage.getItem('userLanguage');
+                if (savedLang && supportedLangs.includes(savedLang)) {
+                    return savedLang;
+                }
+
+                const browserLang = navigator.language.split('-')[0];
+                if (supportedLangs.includes(browserLang)) {
+                    return browserLang;
+                }
+
+                return 'de'; 
+            };
+
+            setLanguage(getInitialLanguage());
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

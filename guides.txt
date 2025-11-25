@@ -1,0 +1,63 @@
+MacOS DualBoot;MacOS DualBoot;macOS Dual-Boot;Arranque Dual en macOS
+ATX PC Building;ATX PC Building;ATX PC bauen;Montaje de PC ATX
+Python Tutorial;Python Tutorial;Python-Tutorial;Tutorial de Python
+Java Tutorial;Java Tutorial;Java-Tutorial;Tutorial de Java
+HTML Tutorial;HTML Tutorial;HTML-Tutorial;Tutorial de HTML
+C++ Tutorial;C++ Tutorial;C++ Tutorial;Tutorial de C++
+CSS Tutorial;CSS Tutorial;CSS-Tutorial;Tutorial de CSS
+PHP Tutorial;PHP Tutorial;PHP-Tutorial;Tutorial de PHP
+ASM Tutorial;Assembly Tutorial;Assembler-Tutorial;Tutorial de Ensamblador
+Visual Studio Tutorial;Visual Studio Tutorial;Visual Studio-Tutorial;Tutorial de Visual Studio
+Csharp Tutorial;C# Tutorial;C#-Tutorial;Tutorial de C#
+Unreal Engine 5 Tutorial;Unreal Engine 5 Tutorial;Unreal Engine 5-Tutorial;Tutorial de Unreal Engine 5
+Kotlin Tutorial;Kotlin Tutorial;Kotlin-Tutorial;Tutorial de Kotlin
+Swift Tutorial;Swift Tutorial;Swift-Tutorial;Tutorial de Swift
+Unity Tutorial;Unity Tutorial;Unity-Tutorial;Tutorial de Unity
+CryEngine Tutorial;CryEngine Tutorial;CryEngine-Tutorial;Tutorial de CryEngine
+Setting Up Your Raspberry Pi;Setting Up Your Raspberry Pi;Deinen Raspberry Pi einrichten;Configurando tu Raspberry Pi
+Installing Windows;Installing Windows;Windows installieren;Instalando Windows
+Installing Linux;Installing Linux;Linux installieren;Instalando Linux
+Installing FreeBSD;Installing FreeBSD;FreeBSD installieren;Instalando FreeBSD
+TrueNAS CORE & SCALE Installation;TrueNAS CORE & SCALE Installation;TrueNAS CORE & SCALE Installation;Instalación de TrueNAS CORE & SCALE
+Ubuntu Desktop Installation;Ubuntu Desktop Installation;Ubuntu Desktop-Installation;Instalación de Ubuntu Desktop
+Linux Mint Installation;Linux Mint Installation;Linux Mint-Installation;Instalación de Linux Mint
+Proxmox VE (Virtual Environment) Installation;Proxmox VE Installation;Proxmox VE-Installation;Instalación de Proxmox VE
+ReviOS (Custom Windows) Installation;ReviOS (Custom Windows) Installation;ReviOS (Custom Windows) Installation;Instalación de ReviOS (Custom Windows)
+Tiny Windows Installation;Tiny Windows Installation;Tiny Windows-Installation;Instalación de Tiny Windows
+Bootloader Installation & Management;Bootloader Installation & Management;Bootloader Installation & Verwaltung;Instalación y Gestión de Bootloader
+Synology NAS Initial Setup & Configuration;Synology NAS Setup;Synology NAS Einrichtung;Configuración de Synology NAS
+Android Setup;Android Setup;Android-Einrichtung;Configuración de Android
+Apple device setup;Apple device setup;Apple Geräte Einrichtung;Configuración del dispositivo Apple
+macOS Productivity;macOS Productivity;macOS Produktivität;Productividad en macOS
+MacBook Maintenance Guide;MacBook Maintenance Guide;MacBook Wartungs-Guide;Guía de Mantenimiento para MacBook
+First Steps with UbuntuLinux Mint;First Steps with Ubuntu/Linux Mint;Erste Schritte mit Ubuntu/Linux Mint;Primeros Pasos con Ubuntu/Linux Mint
+Linux Terminal Commands;Linux Terminal Commands;Linux Terminal Befehle;Terminal de Linux Comandos
+CloudGuide;CloudGuide;CloudLeitfaden;GuíaNube
+Cloud Security Guide;Cloud Security Guide;Cloud-Sicherheitsleitfaden;Guía de Seguridad en la Nube
+Windows CMD Commands;Windows CMD Commands;Windows CMD Befehle;CMD de Windows Comandos
+Nextcloud on TrueNAS Scale;Nextcloud on TrueNAS Scale;Nextcloud auf TrueNAS Scale;Nextcloud en TrueNAS Scale
+What is AI;What is AI?;Was ist KI?;¿Qué es la IA?
+First Steps with Machine Learning;First Steps with Machine Learning;Erste Schritte mit maschinellem Lernen;Primeros Pasos con el Aprendizaje Automático
+Nextcloud on TrueNAS Core;Nextcloud on TrueNAS Core;Nextcloud auf TrueNAS Core;Nextcloud en TrueNAS Core
+Prompt Engineering;Prompt Engineering;Prompt Engineering;Ingeniería de Prompts
+Understanding Git & GitHub;Understanding Git & GitHub;Git & GitHub verstehen;Entendiendo Git & GitHub
+Advanced Git Guide;Advanced Git Guide;Git Guide für Fortgeschrittene;Guía Avanzada de Git
+x86 Computer Anatomy;x86 Computer Anatomy;x86 Computer Anatomie;Anatomía del Ordenador x86
+Windows Power-Tips;Windows Power-Tips;Windows Power-Tipps;Super-Trucos de Windows
+Windows Performance Guide;Windows Performance Guide;Windows Leistungs-Guide;Guía de Rendimiento de Windows
+Optimize Windows 11;Optimize Windows 11;Windows 11 optimieren;Optimizar Windows 11
+Firewall Configuration for Better Security;Firewall Configuration for Better Security;Firewall-Konfiguration für mehr Sicherheit;Configuración del Firewall para una Mayor Seguridad
+Using Antivirus Correctly;Using Antivirus Correctly;Richtiger Einsatz von Antivirus;Uso Correcto del Antivirus
+Privacy Guide;Privacy Guide;Privacy Guide;Privacy Guide
+Cybersecurity;Cybersecurity;Cybersicherheit;Ciberseguridad
+Arduino Guide;Arduino Guide;Arduino Guide;Arduino Guide
+Understanding and Using VPNs;Understanding and Using VPNs;VPNs verstehen und nutzen;Entender y usar las VPNs
+Wi-Fi Security Guide;Wi-Fi Security Guide;WLAN-Sicherheit Guide;Guía de Seguridad Wi-Fi
+Build Your Own Smart Home Solutions;Build Your Own Smart Home Solutions;Smart-Home-Lösungen selbst bauen;Construye tus Propias Soluciones de Hogar Inteligente
+Network Guide;Network Guide;Netzwerk-Guide;Guía de Red
+AutoSheets;AutoSheets;AutoSheets;AutoSheets
+Automate your tasks with PowerShell & Bash;Automate your tasks with PowerShell & Bash;Automatisiere deine Aufgaben mit PowerShell & Bash;Automatiza tus tareas con PowerShell y Bash
+Introduction to NoSQL;Introduction to NoSQL;Einführung in NoSQL;Introducción a NoSQL
+SQL Basics A Visual Guide;SQL Basics A Visual Guide;SQL-Grundlagen Ein visueller Guide;Fundamentos de SQL Una Guía Visual
+Firebase Guide;Firebase Guide;Firebase Anleitung;Guía de Firebase
+Anatomy of an ARM Computer;Anatomy of an ARM Computer;Anatomie eines ARM Computers;Anatomía de un Ordenador ARM

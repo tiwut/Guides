@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Beginner's Guide to CSS</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c;
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code.inline-code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background-color: #f8f9fa; 
+            color: #212529; 
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Consolas", "Courier New", Courier, monospace;
+            font-size: 0.9em;
+            border: 1px solid #dee2e6;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+            color: inherit;
+        }
+        
+        pre code .css-selector { color: #d9480f; font-weight: bold;} 
+        pre code .css-property { color: #1c7ed6; }
+        pre code .css-value { color: #5c940d; } 
+        pre code .css-comment { color: #868e96; font-style: italic; } 
+        pre code .css-keyword { color: #e67700; } 
+        pre code .css-string { color: #ae3ec9; } 
+        pre code .css-number { color: #0b7285; } 
+        pre code .css-unit { color: #0b7285; } 
+
+
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>CSS Guide</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to CSS</a></li>
+            <li><a href="#ways-to-use">Ways to Use CSS</a></li>
+            <li><a href="#syntax">Basic Syntax</a></li>
+            <li><a href="#selectors">Selectors</a></li>
+            <li><a href="#comments-css">Comments in CSS</a></li>
+            <li><a href="#colors">Colors</a></li>
+            <li><a href="#backgrounds">Backgrounds</a></li>
+            <li><a href="#borders">Borders</a></li>
+            <li><a href="#margins-padding">Margins & Padding</a></li>
+            <li><a href="#height-width">Height & Width</a></li>
+            <li><a href="#box-model">The Box Model</a></li>
+            <li><a href="#text-styling">Text Styling</a></li>
+            <li><a href="#fonts">Fonts</a></li>
+            <li><a href="#links-styling">Styling Links</a></li>
+            <li><a href="#lists-styling">Styling Lists</a></li>
+            <li><a href="#display-property">The Display Property</a></li>
+            <li><a href="#positioning">Positioning</a></li>
+            <li><a href="#specificity">Specificity</a></li>
+            <li><a href="#units">Units</a></li>
+            <li><a href="#pseudo-classes-elements">Pseudo-classes & Elements</a></li>
+            <li><a href="#responsive-intro">Intro to Responsive Design</a></li>
+            <li><a href="#next-steps">Next Steps</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>A Comprehensive Beginner's Guide to CSS</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to CSS</h2>
+            <p>CSS stands for <strong>Cascading Style Sheets</strong>. It is a stylesheet language used to describe the presentation of a document written in a markup language like HTML. CSS describes how HTML elements should be rendered on screen, on paper, in speech, or on other media.</p>
+            <p><strong>Key Roles of CSS:</strong></p>
+            <ul>
+                <li><strong>Separation of Concerns:</strong> CSS allows you to separate the content structure (HTML) from its visual presentation. This makes code cleaner, easier to maintain, and more flexible.</li>
+                <li><strong>Visual Styling:</strong> Controls colors, fonts, spacing, layout, and many other visual aspects of a web page.</li>
+                <li><strong>Responsiveness:</strong> Enables the creation of web pages that adapt their layout to different screen sizes and devices (e.g., desktops, tablets, mobile phones).</li>
+                <li><strong>Consistency:</strong> A single stylesheet can be used to style multiple web pages, ensuring a consistent look and feel across a website.</li>
+            </ul>
+            <p>HTML provides the structure (the skeleton), while CSS provides the style (the clothes and appearance). They are fundamental technologies for building web pages, along with JavaScript for interactivity.</p>
+        </section>
+
+        <section id="ways-to-use">
+            <h2>Ways to Use CSS</h2>
+            <p>There are three primary ways to include CSS in an HTML document:</p>
+            <h3>1. External Stylesheet</h3>
+            <p>This is the most common and recommended method. Styles are defined in a separate <code class="path">.css</code> file, which is then linked to the HTML document(s) using the <code class="inline-code">&lt;link&gt;</code> tag inside the <code class="inline-code">&lt;head&gt;</code> section.</p>
+            <p><strong>Example HTML (<code class="path">index.html</code>):</strong></p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My Styled Page&lt;/title&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt; &lt;!-- Link to external CSS file --&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, CSS!&lt;/h1&gt;
+    &lt;p&gt;This page is styled using an external stylesheet.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <p><strong>Example CSS (<code class="path">styles.css</code>):</strong></p>
+<pre><code class="language-css"><span class="css-selector">body</span> {
+    <span class="css-property">font-family</span>: <span class="css-value">Arial, sans-serif</span>;
+    <span class="css-property">background-color</span>: <span class="css-value">#f0f0f0</span>;
+}
+
+<span class="css-selector">h1</span> {
+    <span class="css-property">color</span>: <span class="css-value">navy</span>;
+    <span class="css-property">text-align</span>: <span class="css-value">center</span>;
+}
+
+<span class="css-selector">p</span> {
+    <span class="css-property">color</span>: <span class="css-value">#333</span>;
+}
+</code></pre>
+            <p><strong>Advantages:</strong> Cleaner HTML, reusability across multiple pages, easier maintenance.</p>
+
+            <h3>2. Internal Stylesheet (Embedded CSS)</h3>
+            <p>CSS rules are placed directly within the HTML document inside a <code class="inline-code">&lt;style&gt;</code> tag, usually within the <code class="inline-code">&lt;head&gt;</code> section.</p>
+            <p><strong>Example HTML:</strong></p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Internal CSS Example&lt;/title&gt;
+    &lt;style&gt;
+        <span class="css-selector">body</span> {
+            <span class="css-property">font-family</span>: <span class="css-value">Verdana, sans-serif</span>;
+            <span class="css-property">background-color</span>: <span class="css-value">lightyellow</span>;
+        }
+        <span class="css-selector">h1</span> {
+            <span class="css-property">color</span>: <span class="css-value">green</span>;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Internal Styles&lt;/h1&gt;
+    &lt;p&gt;This page uses internal CSS.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <p><strong>Use Cases:</strong> Useful for single HTML pages or when you need unique styles for a specific page that won't be reused.</p>
+
+            <h3>3. Inline Styles</h3>
+            <p>CSS rules are applied directly to individual HTML elements using the <code class="inline-code">style</code> attribute.</p>
+            <p><strong>Example HTML:</strong></p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;title&gt;Inline CSS Example&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1 style="<span class="css-property">color</span>: <span class="css-value">blue</span>; <span class="css-property">text-align</span>: <span class="css-value">right</span>;"&gt;Inline Styled Heading&lt;/h1&gt;
+    &lt;p style="<span class="css-property">font-size</span>: <span class="css-number">18</span><span class="css-unit">px</span>; <span class="css-property">color</span>: <span class="css-value">darkred</span>;"&gt;This paragraph has inline styles.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <p class="warning"><strong>Disadvantages:</strong> Mixes presentation with structure, makes maintenance difficult, has high specificity (can override other styles), and is generally discouraged for anything more than very specific, minor styling needs.</p>
+        </section>
+
+        <section id="syntax">
+            <h2>Basic CSS Syntax</h2>
+            <p>A CSS rule consists of a <strong>selector</strong> and a <strong>declaration block</strong>.</p>
+            <ul>
+                <li><strong>Selector:</strong> Points to the HTML element(s) you want to style.</li>
+                <li><strong>Declaration Block:</strong> Contains one or more declarations separated by semicolons (<code class="inline-code">;</code>). It is enclosed in curly braces <code class="inline-code">{}</code>.</li>
+                <li><strong>Declaration:</strong> Consists of a CSS <strong>property name</strong> and a <strong>value</strong>, separated by a colon (<code class="inline-code">:</code>).</li>
+            </ul>
+            <p><strong>Structure:</strong></p>
+<pre><code class="language-css"><span class="css-selector">selector</span> {
+    <span class="css-property">property1</span>: <span class="css-value">value1</span>;
+    <span class="css-property">property2</span>: <span class="css-value">value2</span>;
+    <span class="css-comment">/* ... more declarations ... */</span>
+}
+</code></pre>
+            <p><strong>Example:</strong></p>
+<pre><code class="language-css"><span class="css-selector">p</span> { <span class="css-comment">/* Selector targeting all &lt;p&gt; elements */</span>
+    <span class="css-property">color</span>: <span class="css-value">red</span>;          <span class="css-comment">/* Declaration: property 'color', value 'red' */</span>
+    <span class="css-property">font-size</span>: <span class="css-number">16</span><span class="css-unit">px</span>;     <span class="css-comment">/* Another declaration */</span>
+}
+</code></pre>
+        </section>
+
+        <section id="selectors">
+            <h2>CSS Selectors</h2>
+            <p>Selectors are patterns used to select the HTML element(s) you want to style.</p>
+            <h3>Basic Selectors</h3>
+            <ul>
+                <li><strong>Element Selector (Type Selector):</strong> Selects all elements of a specific type.
+<pre><code class="language-css"><span class="css-selector">h2</span> { <span class="css-property">color</span>: <span class="css-value">green</span>; } <span class="css-comment">/* Styles all &lt;h2&gt; elements */</span></code></pre>
+                </li>
+                <li><strong>Class Selector:</strong> Selects all elements with a specific class attribute. Preceded by a period (<code class="inline-code">.</code>).
+<pre><code class="language-html">&lt;p class="highlight"&gt;This is highlighted.&lt;/p&gt;
+&lt;div class="highlight"&gt;This is also highlighted.&lt;/div&gt;</code></pre>
+<pre><code class="language-css"><span class="css-selector">.highlight</span> { <span class="css-property">background-color</span>: <span class="css-value">yellow</span>; }</code></pre>
+                </li>
+                <li><strong>ID Selector:</strong> Selects a single element with a specific id attribute. Preceded by a hash (<code class="inline-code">#</code>). IDs must be unique within an HTML document.
+<pre><code class="language-html">&lt;div id="main-header"&gt;Site Title&lt;/div&gt;</code></pre>
+<pre><code class="language-css"><span class="css-selector">#main-header</span> { <span class="css-property">font-size</span>: <span class="css-number">24</span><span class="css-unit">px</span>; <span class="css-property">font-weight</span>: <span class="css-value">bold</span>; }</code></pre>
+                </li>
+                <li><strong>Attribute Selector:</strong> Selects elements based on the presence or value of an attribute.
+<pre><code class="language-css"><span class="css-comment">/* Selects all &lt;input&gt; elements with a type="text" attribute */</span>
+<span class="css-selector">input[type="text"]</span> { <span class="css-property">border</span>: <span class="css-number">1</span><span class="css-unit">px</span> <span class="css-value">solid #ccc</span>; }
+
+<span class="css-comment">/* Selects all elements with a target="_blank" attribute */</span>
+<span class="css-selector">[target="_blank"]</span> { <span class="css-property">background-color</span>: <span class="css-value">lightcyan</span>; }</code></pre>
+                </li>
+                <li><strong>Universal Selector (<code class="inline-code">*</code>):</strong> Selects all HTML elements on the page. Use with caution as it can have performance implications and is often too broad.
+<pre><code class="language-css"><span class="css-selector">*</span> { <span class="css-property">margin</span>: <span class="css-number">0</span>; <span class="css-property">padding</span>: <span class="css-number">0</span>; <span class="css-property">box-sizing</span>: <span class="css-value">border-box</span>; } <span class="css-comment">/* A common reset */</span></code></pre>
+                </li>
+            </ul>
+            <h3>Grouping Selectors</h3>
+            <p>To apply the same styles to multiple selectors, you can group them using commas (<code class="inline-code">,</code>).</p>
+<pre><code class="language-css"><span class="css-selector">h1, h2, h3</span> {
+    <span class="css-property">font-family</span>: <span class="css-value">'Georgia', serif</span>;
+    <span class="css-property">color</span>: <span class="css-value">#444</span>;
+}</code></pre>
+            <h3>Combinators</h3>
+            <p>Combinators define the relationship between selectors.</p>
+            <ul>
+                <li><strong>Descendant Selector (space):</strong> Selects elements that are descendants of a specified element.
+<pre><code class="language-css"><span class="css-selector">div p</span> { <span class="css-property">color</span>: <span class="css-value">blue</span>; } <span class="css-comment">/* Selects all &lt;p&gt; elements inside any &lt;div&gt; */</span></code></pre>
+                </li>
+                <li><strong>Child Selector (<code class="inline-code">></code>):</strong> Selects elements that are direct children of a specified element.
+<pre><code class="language-css"><span class="css-selector">ul > li</span> { <span class="css-property">list-style-type</span>: <span class="css-value">square</span>; } <span class="css-comment">/* Selects &lt;li&gt; that are direct children of &lt;ul&gt; */</span></code></pre>
+                </li>
+                <li><strong>Adjacent Sibling Selector (<code class="inline-code">+</code>):</strong> Selects an element that is immediately preceded by a specified element (they must share the same parent).
+<pre><code class="language-css"><span class="css-selector">h2 + p</span> { <span class="css-property">margin-top</span>: <span class="css-number">5</span><span class="css-unit">px</span>; } <span class="css-comment">/* Selects a &lt;p&gt; immediately following an &lt;h2&gt; */</span></code></pre>
+                </li>
+                <li><strong>General Sibling Selector (<code class="inline-code">~</code>):</strong> Selects all elements that are siblings of a specified element and appear after it (they must share the same parent).
+<pre><code class="language-css"><span class="css-selector">h2 ~ p</span> { <span class="css-property">font-style</span>: <span class="css-value">italic</span>; } <span class="css-comment">/* Selects all &lt;p&gt; siblings that come after an &lt;h2&gt; */</span></code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="comments-css">
+            <h2>Comments in CSS</h2>
+            <p>CSS comments are used to explain your code and can help when you edit the source code at a later date. Comments are ignored by browsers.</p>
+            <p>A CSS comment starts with <code class="inline-code">/*</code> and ends with <code class="inline-code">*/</code>.</p>
+<pre><code class="language-css"><span class="css-comment">/* This is a single-line comment */</span>
+<span class="css-selector">p</span> {
+    <span class="css-property">color</span>: <span class="css-value">navy</span>;
+}
+
+<span class="css-comment">/*
+This is a
+multi-line comment.
+It explains the following rule.
+*/</span>
+<span class="css-selector">.container</span> {
+    <span class="css-property">width</span>: <span class="css-number">90</span><span class="css-unit">%</span>;
+    <span class="css-property">margin</span>: <span class="css-number">0</span> <span class="css-value">auto</span>; <span class="css-comment">/* Center the container */</span>
+}
+</code></pre>
+        </section>
+
+        <section id="colors">
+            <h2>Colors</h2>
+            <p>CSS colors can be specified in several ways:</p>
+            <ul>
+                <li><strong>Named Colors:</strong> Predefined color names (e.g., <code class="inline-code">red</code>, <code class="inline-code">blue</code>, <code class="inline-code">lightgray</code>). There are about 140+ named colors.
+<pre><code class="language-css"><span class="css-selector">body</span> { <span class="css-property">background-color</span>: <span class="css-value">lightcyan</span>; }
+<span class="css-selector">h1</span> { <span class="css-property">color</span>: <span class="css-value">darkblue</span>; }</code></pre>
+                </li>
+                <li><strong>HEX (Hexadecimal) Colors:</strong> Specified as <code class="inline-code">#RRGGBB</code>, where RR, GG, BB are hexadecimal values (00-FF) for Red, Green, and Blue. A shorthand <code class="inline-code">#RGB</code> can be used if each pair is the same (e.g., <code class="inline-code">#F00</code> is <code class="inline-code">#FF0000</code>).
+<pre><code class="language-css"><span class="css-selector">.header</span> { <span class="css-property">background-color</span>: <span class="css-value">#336699</span>; }
+<span class="css-selector">.title</span> { <span class="css-property">color</span>: <span class="css-value">#FFF</span>; } <span class="css-comment">/* White */</span></code></pre>
+                </li>
+                <li><strong>RGB Colors:</strong> Specified using the <code class="inline-code">rgb(red, green, blue)</code> function. Each parameter defines the intensity of the color (0-255).
+<pre><code class="language-css"><span class="css-selector">p</span> { <span class="css-property">color</span>: <span class="css-value">rgb(</span><span class="css-number">255</span>, <span class="css-number">0</span>, <span class="css-number">0</span><span class="css-value">)</span>; } <span class="css-comment">/* Red */</span>
+<span class="css-selector">.subtle-text</span> { <span class="css-property">color</span>: <span class="css-value">rgb(</span><span class="css-number">100</span>, <span class="css-number">100</span>, <span class="css-number">100</span><span class="css-value">)</span>; }</code></pre>
+                </li>
+                <li><strong>RGBA Colors:</strong> An extension of RGB with an Alpha channel (opacity). <code class="inline-code">rgba(red, green, blue, alpha)</code>. Alpha is a number between 0.0 (fully transparent) and 1.0 (fully opaque).
+<pre><code class="language-css"><span class="css-selector">.overlay</span> { <span class="css-property">background-color</span>: <span class="css-value">rgba(</span><span class="css-number">0</span>, <span class="css-number">0</span>, <span class="css-number">0</span>, <span class="css-number">0.5</span><span class="css-value">)</span>; } <span class="css-comment">/* Semi-transparent black */</span></code></pre>
+                </li>
+                <li><strong>HSL Colors:</strong> Hue, Saturation, Lightness. <code class="inline-code">hsl(hue, saturation%, lightness%)</code>.
+                    <ul>
+                        <li>Hue: Degree on the color wheel (0-360). 0 is red, 120 is green, 240 is blue.</li>
+                        <li>Saturation: Intensity of the color (0%-100%). 0% is gray, 100% is full color.</li>
+                        <li>Lightness: Brightness (0%-100%). 0% is black, 50% is normal, 100% is white.</li>
+                    </ul>
+<pre><code class="language-css"><span class="css-selector">.vibrant</span> { <span class="css-property">color</span>: <span class="css-value">hsl(</span><span class="css-number">120</span>, <span class="css-number">100</span><span class="css-unit">%</span>, <span class="css-number">50</span><span class="css-unit">%</span><span class="css-value">)</span>; } <span class="css-comment">/* Pure green */</span></code></pre>
+                </li>
+                <li><strong>HSLA Colors:</strong> HSL with an Alpha channel. <code class="inline-code">hsla(hue, saturation%, lightness%, alpha)</code>.
+<pre><code class="language-css"><span class="css-selector">.translucent-blue</span> { <span class="css-property">background-color</span>: <span class="css-value">hsla(</span><span class="css-number">240</span>, <span class="css-number">100</span><span class="css-unit">%</span>, <span class="css-number">50</span><span class="css-unit">%</span>, <span class="css-number">0.7</span><span class="css-value">)</span>; }</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="backgrounds">
+            <h2>Backgrounds</h2>
+            <p>CSS background properties are used to define the background effects for elements.</p>
+            <ul>
+                <li><code class="inline-code">background-color</code>: Sets the background color of an element.
+<pre><code class="language-css"><span class="css-selector">body</span> { <span class="css-property">background-color</span>: <span class="css-value">#EAEAEA</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">background-image</code>: Sets an image as the background.
+<pre><code class="language-css"><span class="css-selector">.hero</span> { <span class="css-property">background-image</span>: <span class="css-value">url("images/hero-banner.jpg")</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">background-repeat</code>: Specifies if/how a background image will be repeated. Values: <code class="inline-code">repeat</code> (default), <code class="inline-code">repeat-x</code>, <code class="inline-code">repeat-y</code>, <code class="inline-code">no-repeat</code>.
+<pre><code class="language-css"><span class="css-selector">.pattern</span> { <span class="css-property">background-image</span>: <span class="css-value">url("pattern.png")</span>; <span class="css-property">background-repeat</span>: <span class="css-value">repeat</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">background-position</code>: Sets the starting position of a background image. Values like <code class="inline-code">center</code>, <code class="inline-code">top left</code>, percentages, or pixel values.
+<pre><code class="language-css"><span class="css-selector">.logo-bg</span> { <span class="css-property">background-image</span>: <span class="css-value">url("logo.svg")</span>; <span class="css-property">background-repeat</span>: <span class="css-value">no-repeat</span>; <span class="css-property">background-position</span>: <span class="css-value">center top</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">background-attachment</code>: Specifies whether a background image scrolls with the rest of the page or is fixed. Values: <code class="inline-code">scroll</code> (default), <code class="inline-code">fixed</code>.
+<pre><code class="language-css"><span class="css-selector">body</span> { <span class="css-property">background-image</span>: <span class="css-value">url("sky.jpg")</span>; <span class="css-property">background-attachment</span>: <span class="css-value">fixed</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">background-size</code>: Specifies the size of the background images. Values like <code class="inline-code">auto</code>, <code class="inline-code">cover</code>, <code class="inline-code">contain</code>, or specific dimensions.
+<pre><code class="language-css"><span class="css-selector">.full-bg</span> { <span class="css-property">background-image</span>: <span class="css-value">url("large-image.jpg")</span>; <span class="css-property">background-size</span>: <span class="css-value">cover</span>; <span class="css-property">background-position</span>: <span class="css-value">center</span>; }</code></pre>
+                </li>
+            </ul>
+            <h3>Background Shorthand Property</h3>
+            <p>You can set multiple background properties in one declaration using the <code class="inline-code">background</code> shorthand.</p>
+<pre><code class="language-css"><span class="css-selector">.hero-section</span> {
+    <span class="css-property">background</span>: <span class="css-value">lightgray url("banner.png") no-repeat center center / cover</span>;
+    <span class="css-comment">/* equivalent to:
+    background-color: lightgray;
+    background-image: url("banner.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover; (Note: size needs / before it in shorthand if position is also set)
+    */</span>
+}
+</code></pre>
+        </section>
+
+        <section id="borders">
+            <h2>Borders</h2>
+            <p>CSS border properties allow you to specify the style, width, and color of an element's border.</p>
+            <ul>
+                <li><code class="inline-code">border-width</code>: Sets the width of the four borders. Can be thin, medium, thick, or a specific length (e.g., <code class="inline-code">5px</code>).
+<pre><code class="language-css"><span class="css-selector">div</span> { <span class="css-property">border-width</span>: <span class="css-number">2</span><span class="css-unit">px</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">border-style</code>: Sets the style of the four borders. Common values: <code class="inline-code">none</code>, <code class="inline-code">solid</code>, <code class="inline-code">dotted</code>, <code class="inline-code">dashed</code>, <code class="inline-code">double</code>, <code class="inline-code">groove</code>, <code class="inline-code">ridge</code>, <code class="inline-code">inset</code>, <code class="inline-code">outset</code>.
+<pre><code class="language-css"><span class="css-selector">p</span> { <span class="css-property">border-style</span>: <span class="css-value">solid</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">border-color</code>: Sets the color of the four borders.
+<pre><code class="language-css"><span class="css-selector">.box</span> { <span class="css-property">border-color</span>: <span class="css-value">#007bff</span>; }</code></pre>
+                </li>
+            </ul>
+            <p>You can also specify properties for individual sides (e.g., <code class="inline-code">border-top-style</code>, <code class="inline-code">border-left-width</code>, <code class="inline-code">border-bottom-color</code>).</p>
+            <h3>Border Shorthand Property</h3>
+            <p>The <code class="inline-code">border</code> property is a shorthand for <code class="inline-code">border-width</code>, <code class="inline-code">border-style</code>, and <code class="inline-code">border-color</code>.</p>
+<pre><code class="language-css"><span class="css-selector">.container</span> {
+    <span class="css-property">border</span>: <span class="css-number">1</span><span class="css-unit">px</span> <span class="css-value">solid gray</span>;
+}
+
+<span class="css-selector">.alert</span> {
+    <span class="css-property">border-left</span>: <span class="css-number">5</span><span class="css-unit">px</span> <span class="css-value">solid red</span>; <span class="css-comment">/* Only a left border */</span>
+}</code></pre>
+            <h3><code class="inline-code">border-radius</code></h3>
+            <p>Used to create rounded corners.</p>
+<pre><code class="language-css"><span class="css-selector">.rounded-box</span> {
+    <span class="css-property">border</span>: <span class="css-number">2</span><span class="css-unit">px</span> <span class="css-value">solid green</span>;
+    <span class="css-property">border-radius</span>: <span class="css-number">10</span><span class="css-unit">px</span>; <span class="css-comment">/* All corners 10px radius */</span>
+}
+
+<span class="css-selector">.pill-button</span> {
+    <span class="css-property">border-radius</span>: <span class="css-number">50</span><span class="css-unit">px</span>; <span class="css-comment">/* Often used for pill shapes if height is less than 100px */</span>
+    <span class="css-property">border-radius</span>: <span class="css-number">9999</span><span class="css-unit">px</span>; <span class="css-comment">/* A common trick for fully rounded ends */</span>
+}
+</code></pre>
+        </section>
+
+        <section id="margins-padding">
+            <h2>Margins and Padding</h2>
+            <p>These properties are used to create space around and within elements, respectively. They are core to the CSS Box Model.</p>
+            <h3>Padding</h3>
+            <p><code class="inline-code">padding</code> is the space between an element's content and its border. It clears an area around the content.</p>
+<pre><code class="language-css"><span class="css-selector">.padded-box</span> {
+    <span class="css-property">background-color</span>: <span class="css-value">lightblue</span>;
+    <span class="css-property">border</span>: <span class="css-number">1</span><span class="css-unit">px</span> <span class="css-value">solid blue</span>;
+    <span class="css-property">padding</span>: <span class="css-number">20</span><span class="css-unit">px</span>; <span class="css-comment">/* 20px padding on all four sides */</span>
+}</code></pre>
+            <p>Padding properties can be set for individual sides: <code class="inline-code">padding-top</code>, <code class="inline-code">padding-right</code>, <code class="inline-code">padding-bottom</code>, <code class="inline-code">padding-left</code>.</p>
+            <p>Shorthand for <code class="inline-code">padding</code>:</p>
+            <ul>
+                <li><code class="inline-code">padding: 20px;</code> (all four sides)</li>
+                <li><code class="inline-code">padding: 10px 20px;</code> (top/bottom 10px, left/right 20px)</li>
+                <li><code class="inline-code">padding: 5px 10px 15px;</code> (top 5px, left/right 10px, bottom 15px)</li>
+                <li><code class="inline-code">padding: 5px 10px 15px 20px;</code> (top, right, bottom, left - clockwise)</li>
+            </ul>
+
+            <h3>Margin</h3>
+            <p><code class="inline-code">margin</code> is the space outside the border of an element. It clears an area around the element, creating space between adjacent elements.</p>
+<pre><code class="language-css"><span class="css-selector">.spaced-box</span> {
+    <span class="css-property">background-color</span>: <span class="css-value">lightgreen</span>;
+    <span class="css-property">border</span>: <span class="css-number">1</span><span class="css-unit">px</span> <span class="css-value">solid green</span>;
+    <span class="css-property">margin</span>: <span class="css-number">15</span><span class="css-unit">px</span>; <span class="css-comment">/* 15px margin on all four sides */</span>
+    <span class="css-property">width</span>: <span class="css-number">200</span><span class="css-unit">px</span>;
+}</code></pre>
+            <p>Margin properties can be set for individual sides: <code class="inline-code">margin-top</code>, <code class="inline-code">margin-right</code>, <code class="inline-code">margin-bottom</code>, <code class="inline-code">margin-left</code>.</p>
+            <p>Shorthand for <code class="inline-code">margin</code> works the same way as for <code class="inline-code">padding</code>.</p>
+            <p><strong>Centering Block Elements:</strong> To horizontally center a block-level element with a specified width, set its left and right margins to <code class="inline-code">auto</code>.</p>
+<pre><code class="language-css"><span class="css-selector">.centered-div</span> {
+    <span class="css-property">width</span>: <span class="css-number">50</span><span class="css-unit">%</span>;
+    <span class="css-property">margin</span>: <span class="css-number">0</span> <span class="css-value">auto</span>; <span class="css-comment">/* 0 margin top/bottom, auto left/right */</span>
+    <span class="css-property">background-color</span>: <span class="css-value">gold</span>;
+}</code></pre>
+            <p><strong>Margin Collapsing:</strong> Top and bottom margins of adjacent block-level elements can sometimes collapse into a single margin whose size is the largest of the individual margins. This doesn't happen for left and right margins.</p>
+        </section>
+
+        <section id="height-width">
+            <h2>Height and Width</h2>
+            <p>The <code class="inline-code">height</code> and <code class="inline-code">width</code> properties are used to set the height and width of an element's content area.</p>
+<pre><code class="language-css"><span class="css-selector">div.box</span> {
+    <span class="css-property">height</span>: <span class="css-number">100</span><span class="css-unit">px</span>;
+    <span class="css-property">width</span>: <span class="css-number">300</span><span class="css-unit">px</span>;
+    <span class="css-property">background-color</span>: <span class="css-value">coral</span>;
+}</code></pre>
+            <p>Common units for height and width include:</p>
+            <ul>
+                <li><code class="inline-code">px</code> (pixels): Fixed size.</li>
+                <li><code class="inline-code">%</code> (percentage): Relative to the containing block's width or height.</li>
+                <li><code class="inline-code">em</code>: Relative to the font-size of the element.</li>
+                <li><code class="inline-code">rem</code>: Relative to the font-size of the root (html) element.</li>
+                <li><code class="inline-code">vw</code> (viewport width): 1vw = 1% of viewport width.</li>
+                <li><code class="inline-code">vh</code> (viewport height): 1vh = 1% of viewport height.</li>
+                <li><code class="inline-code">auto</code>: Default. Browser calculates height/width.</li>
+            </ul>
+            <h3><code class="inline-code">max-width</code> and <code class="inline-code">min-width</code></h3>
+            <ul>
+                <li><code class="inline-code">max-width</code>: Sets the maximum width of an element. Useful for responsive design to prevent elements from becoming too wide on large screens while allowing them to shrink on smaller screens.</li>
+                <li><code class="inline-code">min-width</code>: Sets the minimum width of an element.</li>
+            </ul>
+<pre><code class="language-css"><span class="css-selector">.content-area</span> {
+    <span class="css-property">width</span>: <span class="css-number">80</span><span class="css-unit">%</span>;         <span class="css-comment">/* Tries to be 80% of parent */</span>
+    <span class="css-property">max-width</span>: <span class="css-number">960</span><span class="css-unit">px</span>;    <span class="css-comment">/* But not wider than 960px */</span>
+    <span class="css-property">min-width</span>: <span class="css-number">300</span><span class="css-unit">px</span>;    <span class="css-comment">/* And not narrower than 300px */</span>
+    <span class="css-property">margin</span>: <span class="css-number">0</span> <span class="css-value">auto</span>;
+}</code></pre>
+            <p>Similar properties <code class="inline-code">max-height</code> and <code class="inline-code">min-height</code> exist.</p>
+        </section>
+
+        <section id="box-model">
+            <h2>The CSS Box Model</h2>
+            <p>All HTML elements can be considered as boxes. The CSS box model is a box that wraps around every HTML element. It consists of: margins, borders, padding, and the actual content.</p>
+            <img src="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model/box-model-standard.png" alt="CSS Box Model Diagram" style="max-width:400px; display:block; margin:10px auto;">
+            <p style="text-align:center; font-size:0.9em;"><em>(Image from MDN Web Docs)</em></p>
+            <ul>
+                <li><strong>Content:</strong> The actual content of the box, where text and images appear. Its dimensions are defined by <code class="inline-code">width</code> and <code class="inline-code">height</code>.</li>
+                <li><strong>Padding:</strong> Clears an area around the content. The padding is transparent.</li>
+                <li><strong>Border:</strong> A border that goes around the padding and content.</li>
+                <li><strong>Margin:</strong> Clears an area outside the border. The margin is transparent.</li>
+            </ul>
+            <p>When you set the <code class="inline-code">width</code> and <code class="inline-code">height</code> of an element, these properties define the width and height of the <strong>content area</strong> by default.</p>
+            <p>The total width of an element is: <code class="inline-code">content width + left padding + right padding + left border + right border + left margin + right margin</code>.</p>
+            <h3><code class="inline-code">box-sizing</code> Property</h3>
+            <p>The <code class="inline-code">box-sizing</code> property allows you to change how the total width and height of an element are calculated.</p>
+            <ul>
+                <li><code class="inline-code">content-box</code> (default): The <code class="inline-code">width</code> and <code class="inline-code">height</code> properties apply only to the content of the element. Padding and border are added on top of this.</li>
+                <li><code class="inline-code">border-box</code>: The <code class="inline-code">width</code> and <code class="inline-code">height</code> properties include the content, padding, and border, but not the margin. This often makes sizing elements more intuitive.
+<pre><code class="language-css"><span class="css-selector">div</span> {
+    <span class="css-property">box-sizing</span>: <span class="css-value">border-box</span>;
+    <span class="css-property">width</span>: <span class="css-number">300</span><span class="css-unit">px</span>;
+    <span class="css-property">padding</span>: <span class="css-number">20</span><span class="css-unit">px</span>;
+    <span class="css-property">border</span>: <span class="css-number">5</span><span class="css-unit">px</span> <span class="css-value">solid black</span>;
+    <span class="css-comment">/* Total width of the element (excluding margin) will be 300px.
+       Content area will be 300px - (2*20px padding) - (2*5px border) = 250px. */</span>
+}</code></pre>
+                </li>
+            </ul>
+            <p class="important">Many developers prefer to set <code class="inline-code">box-sizing: border-box;</code> globally for all elements for easier layout management:</p>
+<pre><code class="language-css"><span class="css-selector">html</span> {
+  <span class="css-property">box-sizing</span>: <span class="css-value">border-box</span>;
+}
+<span class="css-selector">*, *::before, *::after</span> { <span class="css-comment">/* Apply to all elements and pseudo-elements */</span>
+  <span class="css-property">box-sizing</span>: <span class="css-value">inherit</span>; <span class="css-comment">/* Inherit from html element */</span>
+}
+</code></pre>
+        </section>
+
+        <section id="text-styling">
+            <h2>Text Styling</h2>
+            <p>CSS provides many properties for formatting text.</p>
+            <ul>
+                <li><code class="inline-code">color</code>: Sets the color of the text. (Already covered in Colors section).</li>
+                <li><code class="inline-code">text-align</code>: Specifies the horizontal alignment of text. Values: <code class="inline-code">left</code>, <code class="inline-code">right</code>, <code class="inline-code">center</code>, <code class="inline-code">justify</code>.
+<pre><code class="language-css"><span class="css-selector">p.center</span> { <span class="css-property">text-align</span>: <span class="css-value">center</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">text-decoration</code>: Adds decoration lines to text. Values: <code class="inline-code">none</code>, <code class="inline-code">underline</code>, <code class="inline-code">overline</code>, <code class="inline-code">line-through</code>.
+<pre><code class="language-css"><span class="css-selector">a</span> { <span class="css-property">text-decoration</span>: <span class="css-value">none</span>; } <span class="css-comment">/* Common to remove underline from links */</span>
+<span class="css-selector">.strikethrough</span> { <span class="css-property">text-decoration</span>: <span class="css-value">line-through</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">text-transform</code>: Controls the capitalization of text. Values: <code class="inline-code">none</code>, <code class="inline-code">capitalize</code>, <code class="inline-code">uppercase</code>, <code class="inline-code">lowercase</code>.
+<pre><code class="language-css"><span class="css-selector">h1</span> { <span class="css-property">text-transform</span>: <span class="css-value">uppercase</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">line-height</code>: Sets the distance between lines of text. Can use unitless numbers (multiplied by current font size), lengths, or percentages.
+<pre><code class="language-css"><span class="css-selector">p</span> { <span class="css-property">line-height</span>: <span class="css-number">1.6</span>; } <span class="css-comment">/* 1.6 times the normal line height */</span></code></pre>
+                </li>
+                <li><code class="inline-code">letter-spacing</code>: Increases or decreases the space between characters.
+<pre><code class="language-css"><span class="css-selector">.wide-letters</span> { <span class="css-property">letter-spacing</span>: <span class="css-number">2</span><span class="css-unit">px</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">word-spacing</code>: Increases or decreases the space between words.
+<pre><code class="language-css"><span class="css-selector">.spaced-words</span> { <span class="css-property">word-spacing</span>: <span class="css-number">10</span><span class="css-unit">px</span>; }</code></pre>
+                </li>
+                 <li><code class="inline-code">text-indent</code>: Indents the first line of text in a block.
+<pre><code class="language-css"><span class="css-selector">p.indent</span> { <span class="css-property">text-indent</span>: <span class="css-number">30</span><span class="css-unit">px</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">text-shadow</code>: Adds shadow to text. <code class="inline-code">text-shadow: h-shadow v-shadow blur-radius color;</code>
+<pre><code class="language-css"><span class="css-selector">h1.fancy</span> { <span class="css-property">text-shadow</span>: <span class="css-number">2</span><span class="css-unit">px</span> <span class="css-number">2</span><span class="css-unit">px</span> <span class="css-number">5</span><span class="css-unit">px</span> <span class="css-value">gray</span>; }</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="fonts">
+            <h2>Fonts</h2>
+            <p>CSS font properties define the typeface, size, weight, and style of text.</p>
+            <ul>
+                <li><code class="inline-code">font-family</code>: Specifies a prioritized list of font family names and/or generic family names. If the first font is not available, the browser tries the next one.
+                    <ul>
+                        <li>Generic families: <code class="inline-code">serif</code> (e.g., Times New Roman), <code class="inline-code">sans-serif</code> (e.g., Arial), <code class="inline-code">monospace</code> (e.g., Courier New), <code class="inline-code">cursive</code>, <code class="inline-code">fantasy</code>.</li>
+                    </ul>
+<pre><code class="language-css"><span class="css-selector">body</span> { <span class="css-property">font-family</span>: <span class="css-value">"Helvetica Neue", Arial, sans-serif</span>; }
+<span class="css-selector">code</span> { <span class="css-property">font-family</span>: <span class="css-value">"Consolas", "Lucida Console", monospace</span>; }</code></pre>
+                    <p class="important">Font names containing spaces should be enclosed in quotes.</p>
+                </li>
+                <li><code class="inline-code">font-size</code>: Sets the size of the font. Common units: <code class="inline-code">px</code>, <code class="inline-code">em</code>, <code class="inline-code">rem</code>, <code class="inline-code">%</code>, keywords (<code class="inline-code">small</code>, <code class="inline-code">medium</code>, <code class="inline-code">large</code>).
+<pre><code class="language-css"><span class="css-selector">p</span> { <span class="css-property">font-size</span>: <span class="css-number">16</span><span class="css-unit">px</span>; }
+<span class="css-selector">h1</span> { <span class="css-property">font-size</span>: <span class="css-number">2.5</span><span class="css-unit">rem</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">font-weight</code>: Sets the weight (boldness) of the font. Values: <code class="inline-code">normal</code>, <code class="inline-code">bold</code>, <code class="inline-code">bolder</code>, <code class="inline-code">lighter</code>, or numeric values (100-900).
+<pre><code class="language-css"><span class="css-selector">.important-text</span> { <span class="css-property">font-weight</span>: <span class="css-value">bold</span>; }
+<span class="css-selector">.sub-heading</span> { <span class="css-property">font-weight</span>: <span class="css-number">700</span>; } <span class="css-comment">/* Equivalent to bold for many fonts */</span></code></pre>
+                </li>
+                <li><code class="inline-code">font-style</code>: Sets the style of the font. Values: <code class="inline-code">normal</code>, <code class="inline-code">italic</code>, <code class="inline-code">oblique</code>.
+<pre><code class="language-css"><span class="css-selector">.emphasis</span> { <span class="css-property">font-style</span>: <span class="css-value">italic</span>; }</code></pre>
+                </li>
+            </ul>
+            <h3>Font Shorthand Property</h3>
+            <p>The <code class="inline-code">font</code> property can be used as a shorthand for setting multiple font properties. Order matters: <code class="inline-code">font-style font-variant font-weight font-size/line-height font-family</code>. At least <code class="inline-code">font-size</code> and <code class="inline-code">font-family</code> are required.</p>
+<pre><code class="language-css"><span class="css-selector">body</span> {
+    <span class="css-property">font</span>: <span class="css-value">italic bold</span> <span class="css-number">16</span><span class="css-unit">px</span><span class="css-operator">/</span><span class="css-number">1.5</span> <span class="css-value">Arial, sans-serif</span>;
+}</code></pre>
+            <h3>Web Fonts (<code class="inline-code">@font-face</code>)</h3>
+            <p>Allows you to use fonts that are not installed on the user's computer by linking to font files on a web server.</p>
+<pre><code class="language-css"><span class="css-keyword">@font-face</span> {
+  <span class="css-property">font-family</span>: <span class="css-string">'MyCustomFont'</span>;
+  <span class="css-property">src</span>: <span class="css-value">url('fonts/mycustomfont.woff2') format('woff2')</span>,
+       <span class="css-value">url('fonts/mycustomfont.woff') format('woff')</span>;
+  <span class="css-property">font-weight</span>: <span class="css-value">normal</span>;
+  <span class="css-property">font-style</span>: <span class="css-value">normal</span>;
+}
+
+<span class="css-selector">body</span> {
+  <span class="css-property">font-family</span>: <span class="css-string">'MyCustomFont'</span>, <span class="css-value">sans-serif</span>;
+}
+</code></pre>
+            <p>Alternatively, services like Google Fonts provide an easy way to use a wide variety of web fonts by linking to their stylesheet.</p>
+        </section>
+
+        <section id="links-styling">
+            <h2>Styling Links</h2>
+            <p>Links (<code class="inline-code">&lt;a&gt;</code> tags) can be styled differently depending on their state using pseudo-classes:</p>
+            <ul>
+                <li><code class="inline-code">a:link</code>: A normal, unvisited link.</li>
+                <li><code class="inline-code">a:visited</code>: A link the user has visited.</li>
+                <li><code class="inline-code">a:hover</code>: A link when the user mouses over it.</li>
+                <li><code class="inline-code">a:active</code>: A link the moment it is clicked.</li>
+            </ul>
+            <p class="important">The order matters for these pseudo-classes (LVHA order: Link, Visited, Hover, Active) if you define all of them, due to specificity.</p>
+<pre><code class="language-css"><span class="css-comment">/* Unvisited link */</span>
+<span class="css-selector">a:link</span> {
+  <span class="css-property">color</span>: <span class="css-value">blue</span>;
+  <span class="css-property">text-decoration</span>: <span class="css-value">underline</span>;
+}
+
+<span class="css-comment">/* Visited link */</span>
+<span class="css-selector">a:visited</span> {
+  <span class="css-property">color</span>: <span class="css-value">purple</span>;
+}
+
+<span class="css-comment">/* Mouse over link */</span>
+<span class="css-selector">a:hover</span> {
+  <span class="css-property">color</span>: <span class="css-value">red</span>;
+  <span class="css-property">text-decoration</span>: <span class="css-value">none</span>;
+}
+
+<span class="css-comment">/* Selected link */</span>
+<span class="css-selector">a:active</span> {
+  <span class="css-property">color</span>: <span class="css-value">orange</span>;
+}
+</code></pre>
+        </section>
+
+        <section id="lists-styling">
+            <h2>Styling Lists</h2>
+            <p>CSS can be used to style HTML lists (<code class="inline-code">&lt;ul&gt;</code> and <code class="inline-code">&lt;ol&gt;</code>).</p>
+            <ul>
+                <li><code class="inline-code">list-style-type</code>: Changes the marker of list items.
+                    <ul>
+                        <li>For <code class="inline-code">&lt;ul&gt;</code>: <code class="inline-code">none</code>, <code class="inline-code">disc</code> (default), <code class="inline-code">circle</code>, <code class="inline-code">square</code>.</li>
+                        <li>For <code class="inline-code">&lt;ol&gt;</code>: <code class="inline-code">decimal</code> (default), <code class="inline-code">decimal-leading-zero</code>, <code class="inline-code">lower-roman</code>, <code class="inline-code">upper-roman</code>, <code class="inline-code">lower-alpha</code>, <code class="inline-code">upper-alpha</code>, <code class="inline-code">none</code>.</li>
+                    </ul>
+<pre><code class="language-css"><span class="css-selector">ul.checks</span> { <span class="css-property">list-style-type</span>: <span class="css-value">square</span>; }
+<span class="css-selector">ol.letters</span> { <span class="css-property">list-style-type</span>: <span class="css-value">lower-alpha</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">list-style-image</code>: Sets an image as the list item marker.
+<pre><code class="language-css"><span class="css-selector">ul.custom-marker</span> { <span class="css-property">list-style-image</span>: <span class="css-value">url('custom-bullet.png')</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">list-style-position</code>: Specifies whether the list-item markers should appear inside or outside the content flow. Values: <code class="inline-code">inside</code>, <code class="inline-code">outside</code> (default).
+<pre><code class="language-css"><span class="css-selector">ul</span> { <span class="css-property">list-style-position</span>: <span class="css-value">inside</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">list-style</code>: Shorthand property for all list style properties.
+<pre><code class="language-css"><span class="css-selector">ul</span> { <span class="css-property">list-style</span>: <span class="css-value">circle inside url('marker.gif')</span>; }</code></pre>
+                </li>
+            </ul>
+            <p class="important">To completely remove default list styling (bullets/numbers and padding/margin), you often need:</p>
+<pre><code class="language-css"><span class="css-selector">ul.no-style</span> {
+    <span class="css-property">list-style-type</span>: <span class="css-value">none</span>;
+    <span class="css-property">padding</span>: <span class="css-number">0</span>;
+    <span class="css-property">margin</span>: <span class="css-number">0</span>;
+}</code></pre>
+        </section>
+
+        <section id="display-property">
+            <h2>The Display Property</h2>
+            <p>The <code class="inline-code">display</code> property is one of the most important CSS properties for controlling layout. It specifies how an element is displayed.</p>
+            <p>Every HTML element has a default display value depending on its type.</p>
+            <h3>Common Display Values</h3>
+            <ul>
+                <li><code class="inline-code">block</code>:
+                    <ul>
+                        <li>Starts on a new line.</li>
+                        <li>Takes up the full width available (stretches out to the left and right as far as it can).</li>
+                        <li>Respects <code class="inline-code">width</code>, <code class="inline-code">height</code>, <code class="inline-code">margin</code> (top/bottom and left/right), and <code class="inline-code">padding</code>.</li>
+                        <li>Examples: <code class="inline-code">&lt;div&gt;</code>, <code class="inline-code">&lt;h1&gt;</code>-<code>&lt;h6&gt;</code>, <code class="inline-code">&lt;p&gt;</code>, <code class="inline-code">&lt;ul&gt;</code>, <code class="inline-code">&lt;li&gt;</code>, <code class="inline-code">&lt;form&gt;</code>.</li>
+                    </ul>
+                </li>
+                <li><code class="inline-code">inline</code>:
+                    <ul>
+                        <li>Does not start on a new line; flows along with surrounding text/content.</li>
+                        <li>Only takes up as much width as necessary for its content.</li>
+                        <li>Ignores <code class="inline-code">width</code> and <code class="inline-code">height</code> properties.</li>
+                        <li>Vertical padding and margin (top/bottom) may not behave as expected or might overlap other elements. Horizontal padding and margin work.</li>
+                        <li>Examples: <code class="inline-code">&lt;span&gt;</code>, <code class="inline-code">&lt;a&gt;</code>, <code class="inline-code">&lt;img&gt;</code> (though <code class="inline-code">&lt;img&gt;</code> is a bit special, often called a replaced inline element and can have width/height).</li>
+                    </ul>
+                </li>
+                <li><code class="inline-code">inline-block</code>:
+                    <ul>
+                        <li>Flows like an inline element (doesn't start on a new line).</li>
+                        <li>But, like a block element, it respects <code class="inline-code">width</code>, <code class="inline-code">height</code>, vertical/horizontal <code class="inline-code">margin</code>, and <code class="inline-code">padding</code>.</li>
+                    </ul>
+<pre><code class="language-css"><span class="css-selector">span.button-like</span> {
+    <span class="css-property">display</span>: <span class="css-value">inline-block</span>;
+    <span class="css-property">padding</span>: <span class="css-number">10</span><span class="css-unit">px</span> <span class="css-number">15</span><span class="css-unit">px</span>;
+    <span class="css-property">background-color</span>: <span class="css-value">dodgerblue</span>;
+    <span class="css-property">color</span>: <span class="css-value">white</span>;
+    <span class="css-property">border-radius</span>: <span class="css-number">5</span><span class="css-unit">px</span>;
+}</code></pre>
+                </li>
+                <li><code class="inline-code">none</code>:
+                    <ul>
+                        <li>The element is completely removed from the page layout. It will not be visible, and it will not take up any space.</li>
+                    </ul>
+<pre><code class="language-css"><span class="css-selector">.hidden</span> { <span class="css-property">display</span>: <span class="css-value">none</span>; }</code></pre>
+                    <p>(Contrast with <code class="inline-code">visibility: hidden;</code> which hides the element but still reserves its space in the layout).</p>
+                </li>
+            </ul>
+            <h3>Modern Layout Systems (Brief Introduction)</h3>
+            <ul>
+                <li><code class="inline-code">flex</code>: Enables Flexbox layout, a one-dimensional layout model for arranging items in rows or columns. Excellent for component layout.
+<pre><code class="language-css"><span class="css-selector">.flex-container</span> { <span class="css-property">display</span>: <span class="css-value">flex</span>; <span class="css-property">justify-content</span>: <span class="css-value">space-around</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">grid</code>: Enables CSS Grid layout, a two-dimensional layout system for dividing a page into major regions or defining the relationship in terms of size, position, and layer between parts of a control built from HTML primitives.
+<pre><code class="language-css"><span class="css-selector">.grid-container</span> { <span class="css-property">display</span>: <span class="css-value">grid</span>; <span class="css-property">grid-template-columns</span>: <span class="css-value">auto auto auto</span>; }</code></pre>
+                </li>
+            </ul>
+            <p>Flexbox and Grid are powerful tools for modern web layout and are covered in more advanced CSS topics.</p>
+        </section>
+
+        <section id="positioning">
+            <h2>Positioning</h2>
+            <p>The <code class="inline-code">position</code> property specifies the type of positioning method used for an element. It works in conjunction with the offset properties: <code class="inline-code">top</code>, <code class="inline-code">right</code>, <code class="inline-code">bottom</code>, <code class="inline-code">left</code>, and <code class="inline-code">z-index</code>.</p>
+            <ul>
+                <li><code class="inline-code">static</code> (default): Elements render in order, as they appear in the document flow. Offset properties have no effect.</li>
+                <li><code class="inline-code">relative</code>: The element is positioned relative to its normal position. Setting offset properties will cause it to move from its normal spot, but the space it would have occupied in the normal flow is preserved.
+<pre><code class="language-css"><span class="css-selector">.offset-box</span> { <span class="css-property">position</span>: <span class="css-value">relative</span>; <span class="css-property">left</span>: <span class="css-number">20</span><span class="css-unit">px</span>; <span class="css-property">top</span>: <span class="css-number">10</span><span class="css-unit">px</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">absolute</code>: The element is positioned relative to its nearest <strong>positioned ancestor</strong> (an ancestor with a <code class="inline-code">position</code> value other than <code class="inline-code">static</code>). If no positioned ancestor exists, it is positioned relative to the initial containing block (usually the <code class="inline-code">&lt;body&gt;</code> or viewport). Absolute positioned elements are removed from the normal document flow.
+<pre><code class="language-css"><span class="css-selector">.parent</span> { <span class="css-property">position</span>: <span class="css-value">relative</span>; <span class="css-comment">/* Establishes positioning context */</span> }
+<span class="css-selector">.child-absolute</span> { <span class="css-property">position</span>: <span class="css-value">absolute</span>; <span class="css-property">top</span>: <span class="css-number">0</span>; <span class="css-property">right</span>: <span class="css-number">0</span>; <span class="css-property">width</span>: <span class="css-number">50</span><span class="css-unit">px</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">fixed</code>: The element is positioned relative to the browser viewport. It stays in the same place even if the page is scrolled. Fixed positioned elements are removed from the normal document flow.
+<pre><code class="language-css"><span class="css-selector">.fixed-header</span> { <span class="css-property">position</span>: <span class="css-value">fixed</span>; <span class="css-property">top</span>: <span class="css-number">0</span>; <span class="css-property">left</span>: <span class="css-number">0</span>; <span class="css-property">width</span>: <span class="css-number">100</span><span class="css-unit">%</span>; <span class="css-property">background-color</span>: <span class="css-value">white</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">sticky</code>: A hybrid of relative and fixed positioning. The element is treated as relatively positioned until it scrolls to a specified offset, at which point it becomes "stuck" (like fixed positioning) relative to its nearest scrolling ancestor or the viewport.
+<pre><code class="language-css"><span class="css-selector">.sticky-nav</span> { <span class="css-property">position</span>: <span class="css-value">sticky</span>; <span class="css-property">top</span>: <span class="css-number">0</span>; <span class="css-property">background-color</span>: <span class="css-value">#333</span>; <span class="css-property">color</span>: <span class="css-value">white</span>; }</code></pre>
+                </li>
+            </ul>
+            <h3><code class="inline-code">z-index</code></h3>
+            <p>The <code class="inline-code">z-index</code> property specifies the stack order of a positioned element. An element with a greater stack order is always in front of an element with a lower stack order. <code class="inline-code">z-index</code> only works on positioned elements (position other than <code class="inline-code">static</code>).</p>
+<pre><code class="language-css"><span class="css-selector">.box1</span> { <span class="css-property">position</span>: <span class="css-value">absolute</span>; <span class="css-property">left</span>: <span class="css-number">10</span><span class="css-unit">px</span>; <span class="css-property">top</span>: <span class="css-number">10</span><span class="css-unit">px</span>; <span class="css-property">z-index</span>: <span class="css-number">1</span>; <span class="css-property">background</span>: <span class="css-value">red</span>; }
+<span class="css-selector">.box2</span> { <span class="css-property">position</span>: <span class="css-value">absolute</span>; <span class="css-property">left</span>: <span class="css-number">20</span><span class="css-unit">px</span>; <span class="css-property">top</span>: <span class="css-number">20</span><span class="css-unit">px</span>; <span class="css-property">z-index</span>: <span class="css-number">2</span>; <span class="css-property">background</span>: <span class="css-value">blue</span>; } <span class="css-comment">/* box2 will be on top */</span></code></pre>
+        </section>
+
+        <section id="specificity">
+            <h2>CSS Specificity</h2>
+            <p>Specificity determines which CSS rule is applied by the browser if multiple rules target the same element and set the same property. More specific rules override less specific ones.</p>
+            <p>Specificity is usually calculated based on a combination of ID selectors, class selectors (or attribute/pseudo-class selectors), and element selectors.</p>
+            <p><strong>General Order of Specificity (Highest to Lowest):</strong></p>
+            <ol>
+                <li><strong>Inline styles</strong> (e.g., <code class="inline-code">&lt;p style="color: red;"&gt;</code>) - Highest specificity.</li>
+                <li><strong>ID selectors</strong> (e.g., <code class="inline-code">#myElement</code>)</li>
+                <li><strong>Class selectors</strong> (e.g., <code class="inline-code">.myClass</code>), <strong>attribute selectors</strong> (e.g., <code class="inline-code">[type="text"]</code>), and <strong>pseudo-classes</strong> (e.g., <code class="inline-code">:hover</code>)</li>
+                <li><strong>Element selectors</strong> (e.g., <code class="inline-code">p</code>) and <strong>pseudo-elements</strong> (e.g., <code class="inline-code">::before</code>)</li>
+                <li>Universal selector (<code class="inline-code">*</code>), inherited styles, and combinators have no specificity value themselves but contribute based on the selectors they combine.</li>
+            </ol>
+            <p>If two selectors have the same specificity, the one that appears later in the CSS (or in a later stylesheet if multiple are linked) wins.</p>
+            <p>The <code class="inline-code">!important</code> rule can be added to a CSS property value to override any other declaration, regardless of specificity. However, using <code class="inline-code">!important</code> is generally discouraged as it makes debugging harder and breaks the natural cascade.</p>
+<pre><code class="language-css"><span class="css-selector">p</span> { <span class="css-property">color</span>: <span class="css-value">blue</span>; }                          <span class="css-comment">/* Specificity: 0,0,0,1 */</span>
+<span class="css-selector">.content</span> { <span class="css-property">color</span>: <span class="css-value">green</span>; }                   <span class="css-comment">/* Specificity: 0,0,1,0 */</span>
+<span class="css-selector">#intro</span> { <span class="css-property">color</span>: <span class="css-value">red</span>; }                      <span class="css-comment">/* Specificity: 0,1,0,0 */</span>
+<span class="css-selector">p.content#intro</span> { <span class="css-property">color</span>: <span class="css-value">purple</span>; }           <span class="css-comment">/* Specificity: 0,1,1,1 (purple wins for &lt;p class="content" id="intro"&gt;) */</span>
+
+<span class="css-selector">.important-text</span> { <span class="css-property">color</span>: <span class="css-value">black</span> <span class="css-keyword">!important</span>; } <span class="css-comment">/* Overrides others */</span></code></pre>
+            <p>Understanding specificity is crucial for managing complex stylesheets and troubleshooting CSS conflicts.</p>
+        </section>
+
+        <section id="units">
+            <h2>CSS Units</h2>
+            <p>CSS has various units for expressing lengths and sizes.</p>
+            <h3>Absolute Units</h3>
+            <p>Fixed and will appear as exactly that size, regardless of other elements or screen size. Not ideal for responsive design.</p>
+            <ul>
+                <li><code class="inline-code">px</code> (pixels): The most common absolute unit. 1px = 1/96th of an inch.</li>
+                <li><code class="inline-code">pt</code> (points): 1pt = 1/72 of an inch. Often used for print.</li>
+                <li><code class="inline-code">cm</code>, <code class="inline-code">mm</code>, <code class="inline-code">in</code>: Centimeters, millimeters, inches.</li>
+            </ul>
+            <h3>Relative Units</h3>
+            <p>Relative to another length property. Better for responsive and accessible design.</p>
+            <ul>
+                <li><code class="inline-code">em</code>: Relative to the font-size of the parent element (if used for font-size itself) or the font-size of the element itself (for other properties like padding, margin).
+<pre><code class="language-css"><span class="css-selector">.parent</span> { <span class="css-property">font-size</span>: <span class="css-number">16</span><span class="css-unit">px</span>; }
+<span class="css-selector">.child</span> { <span class="css-property">font-size</span>: <span class="css-number">1.2</span><span class="css-unit">em</span>; <span class="css-property">padding</span>: <span class="css-number">1</span><span class="css-unit">em</span>; } <span class="css-comment">/* font-size: 19.2px, padding: 19.2px */</span></code></pre>
+                </li>
+                <li><code class="inline-code">rem</code> (root em): Relative to the font-size of the root (<code class="inline-code">&lt;html&gt;</code>) element. More predictable than <code class="inline-code">em</code> for font sizing across nested elements.
+<pre><code class="language-css"><span class="css-selector">html</span> { <span class="css-property">font-size</span>: <span class="css-number">10</span><span class="css-unit">px</span>; } <span class="css-comment">/* Makes 1rem = 10px, for easier calculations */</span>
+<span class="css-selector">h1</span> { <span class="css-property">font-size</span>: <span class="css-number">2.4</span><span class="css-unit">rem</span>; } <span class="css-comment">/* 24px */</span></code></pre>
+                </li>
+                <li><code class="inline-code">%</code> (percentage): Relative to the value of the same property on the parent element (e.g., <code class="inline-code">width: 50%;</code> means 50% of parent's width). For font-size, it's relative to parent's font-size.</li>
+                <li><code class="inline-code">vw</code> (viewport width): 1vw = 1% of the viewport's width.</li>
+                <li><code class="inline-code">vh</code> (viewport height): 1vh = 1% of the viewport's height.</li>
+                <li><code class="inline-code">vmin</code>: 1vmin = 1% of the viewport's smaller dimension (width or height).</li>
+                <li><code class="inline-code">vmax</code>: 1vmax = 1% of the viewport's larger dimension.</li>
+            </ul>
+        </section>
+
+        <section id="pseudo-classes-elements">
+            <h2>Pseudo-classes and Pseudo-elements</h2>
+            <h3>Pseudo-classes</h3>
+            <p>A pseudo-class is a keyword added to a selector that specifies a special state of the selected element(s). They start with a single colon (<code class="inline-code">:</code>).</p>
+            <p>Common pseudo-classes:</p>
+            <ul>
+                <li><code class="inline-code">:link</code>, <code class="inline-code">:visited</code>, <code class="inline-code">:hover</code>, <code class="inline-code">:active</code>: For styling link states (covered earlier).</li>
+                <li><code class="inline-code">:focus</code>: Applies when an element (like an input field or button) has focus.
+<pre><code class="language-css"><span class="css-selector">input:focus</span> { <span class="css-property">border-color</span>: <span class="css-value">dodgerblue</span>; <span class="css-property">outline</span>: <span class="css-value">none</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">:first-child</code>: Selects the first child element of its parent.</li>
+                <li><code class="inline-code">:last-child</code>: Selects the last child element of its parent.</li>
+                <li><code class="inline-code">:nth-child(n)</code>: Selects elements based on their position among siblings. <code class="inline-code">n</code> can be a number, keyword (<code class="inline-code">odd</code>, <code class="inline-code">even</code>), or a formula (<code class="inline-code">2n+1</code>).
+<pre><code class="language-css"><span class="css-selector">li:nth-child(odd)</span> { <span class="css-property">background-color</span>: <span class="css-value">#f9f9f9</span>; } <span class="css-comment">/* Styles odd list items */</span></code></pre>
+                </li>
+                <li><code class="inline-code">:not(selector)</code>: Selects elements that do not match the provided selector.
+<pre><code class="language-css"><span class="css-selector">p:not(.special)</span> { <span class="css-property">color</span>: <span class="css-value">gray</span>; } <span class="css-comment">/* Styles paragraphs without class 'special' */</span></code></pre>
+                </li>
+            </ul>
+            <h3>Pseudo-elements</h3>
+            <p>A pseudo-element is a keyword added to a selector that lets you style a specific part of the selected element(s). They start with a double colon (<code class="inline-code">::</code>) in modern CSS (though single colon is often supported for backward compatibility for some).</p>
+            <p>Common pseudo-elements:</p>
+            <ul>
+                <li><code class="inline-code">::before</code>: Inserts some content before the content of an element. Requires the <code class="inline-code">content</code> property.</li>
+                <li><code class="inline-code">::after</code>: Inserts some content after the content of an element. Requires the <code class="inline-code">content</code> property.
+<pre><code class="language-css"><span class="css-selector">.important-note::before</span> {
+    <span class="css-property">content</span>: <span class="css-string">"Note: "</span>;
+    <span class="css-property">font-weight</span>: <span class="css-value">bold</span>;
+}
+<span class="css-selector">q::before</span> { <span class="css-property">content</span>: <span class="css-string">open-quote</span>; }
+<span class="css-selector">q::after</span> { <span class="css-property">content</span>: <span class="css-string">close-quote</span>; }</code></pre>
+                </li>
+                <li><code class="inline-code">::first-letter</code>: Styles the first letter of a block-level element.</li>
+                <li><code class="inline-code">::first-line</code>: Styles the first line of a block-level element.</li>
+                <li><code class="inline-code">::selection</code>: Styles the portion of a document that has been highlighted by the user.
+<pre><code class="language-css"><span class="css-selector">::selection</span> { <span class="css-property">background</span>: <span class="css-value">gold</span>; <span class="css-property">color</span>: <span class="css-value">black</span>; }</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="responsive-intro">
+            <h2>Introduction to Responsive Web Design</h2>
+            <p>Responsive Web Design (RWD) is an approach to web design that makes web pages render well on a variety of devices and window or screen sizes. Content, design, and performance are necessary across all devices to ensure usability and satisfaction.</p>
+            <p>Key techniques for RWD include:</p>
+            <ul>
+                <li><strong>Fluid Grids:</strong> Using relative units like percentages for layout widths, rather than fixed pixel widths.</li>
+                <li><strong>Flexible Images/Media:</strong> Using <code class="inline-code">max-width: 100%;</code> on images and other media to ensure they scale down within their container but don't exceed their original size.
+<pre><code class="language-css"><span class="css-selector">img, video</span> { <span class="css-property">max-width</span>: <span class="css-number">100</span><span class="css-unit">%</span>; <span class="css-property">height</span>: <span class="css-value">auto</span>; }</code></pre>
+                </li>
+                <li><strong>Media Queries:</strong> CSS3 module that allows content rendering to adapt to conditions such as screen resolution (e.g., smartphone vs. desktop).</li>
+            </ul>
+            <h3>Media Queries</h3>
+            <p>Media queries use the <code class="inline-code">@media</code> rule to apply different styles for different media types/devices or specific characteristics (like viewport width).</p>
+<pre><code class="language-css"><span class="css-comment">/* Default styles for all screen sizes (often mobile-first) */</span>
+<span class="css-selector">.container</span> {
+    <span class="css-property">width</span>: <span class="css-number">95</span><span class="css-unit">%</span>;
+    <span class="css-property">margin</span>: <span class="css-number">0</span> <span class="css-value">auto</span>;
+}
+
+<span class="css-selector">.sidebar</span> {
+    <span class="css-property">display</span>: <span class="css-value">none</span>; <span class="css-comment">/* Hide sidebar on small screens */</span>
+}
+
+<span class="css-comment">/* Styles for screens wider than 768px (e.g., tablets and desktops) */</span>
+<span class="css-keyword">@media</span> <span class="css-value">screen and (min-width: </span><span class="css-number">768</span><span class="css-unit">px</span><span class="css-value">)</span> {
+    <span class="css-selector">.container</span> {
+        <span class="css-property">width</span>: <span class="css-number">80</span><span class="css-unit">%</span>;
+        <span class="css-property">max-width</span>: <span class="css-number">960</span><span class="css-unit">px</span>;
+    }
+    <span class="css-selector">.sidebar</span> {
+        <span class="css-property">display</span>: <span class="css-value">block</span>; <span class="css-comment">/* Show sidebar */</span>
+        <span class="css-property">float</span>: <span class="css-value">right</span>; <span class="css-comment">/* Example old layout technique */</span>
+        <span class="css-property">width</span>: <span class="css-number">200</span><span class="css-unit">px</span>;
+    }
+}
+
+<span class="css-comment">/* Styles for screens wider than 1200px (e.g., large desktops) */</span>
+<span class="css-keyword">@media</span> <span class="css-value">(min-width: </span><span class="css-number">1200</span><span class="css-unit">px</span><span class="css-value">)</span> {
+    <span class="css-selector">body</span> {
+        <span class="css-property">font-size</span>: <span class="css-number">18</span><span class="css-unit">px</span>; <span class="css-comment">/* Increase base font size */</span>
+    }
+}
+</code></pre>
+            <p>Remember to include the viewport meta tag in your HTML <code class="inline-code">&lt;head&gt;</code> for responsive design to work correctly:</p>
+<pre><code class="language-html">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>Congratulations on learning the fundamentals of CSS! You now have the tools to style web pages.</p>
+            <p>To continue your CSS and web development journey:</p>
+            <ul>
+                <li><strong>Practice Extensively:</strong> Recreate layouts of websites you like. Experiment with different properties and selectors.</li>
+                <li><strong>Master Layout Techniques:</strong>
+                    <ul>
+                        <li><strong>Flexbox:</strong> For one-dimensional layouts (rows or columns). Essential for component layout.</li>
+                        <li><strong>CSS Grid:</strong> For two-dimensional page layouts (rows and columns simultaneously).</li>
+                    </ul>
+                </li>
+                <li><strong>Deepen Responsive Design Skills:</strong> Practice mobile-first design, advanced media queries, and responsive images/typography.</li>
+                <li><strong>Learn about CSS Variables (Custom Properties):</strong> For more maintainable and dynamic stylesheets.
+<pre><code class="language-css"><span class="css-selector">:root</span> { <span class="css-property">--main-color</span>: <span class="css-value">blue</span>; }
+<span class="css-selector">h1</span> { <span class="css-property">color</span>: <span class="css-value">var(--main-color)</span>; }</code></pre>
+                </li>
+                <li><strong>Explore CSS Transitions and Animations:</strong> To add smooth visual effects and motion to your pages.</li>
+                <li><strong>CSS Preprocessors:</strong> Learn Sass (SCSS) or Less. They add features like variables, nesting, mixins, and functions to CSS, making it more powerful and easier to manage large projects.</li>
+                <li><strong>CSS Frameworks:</strong>
+                    <ul>
+                        <li><strong>Bootstrap:</strong> A popular front-end framework with pre-styled components and a responsive grid system.</li>
+                        <li><strong>Tailwind CSS:</strong> A utility-first CSS framework that provides low-level utility classes to build custom designs directly in your HTML.</li>
+                        <li><strong>Materialize, Bulma, Foundation:</strong> Other notable frameworks.</li>
+                    </ul>
+                </li>
+                <li><strong>Understand Browser Developer Tools:</strong> Become proficient in using your browser's dev tools (Inspector) to inspect elements, debug CSS, and experiment with styles live.</li>
+                <li><strong>Web Performance:</strong> Learn how to write efficient CSS and optimize assets for faster page loads.</li>
+                <li><strong>Accessibility (a11y):</strong> Ensure your CSS choices (e.g., color contrast, focus indicators) contribute to an accessible user experience.</li>
+                <li><strong>Stay Updated:</strong> CSS is an evolving language. Follow blogs, MDN Web Docs, and other resources to learn about new features.</li>
+            </ul>
+            <p class="important">The combination of HTML, CSS, and JavaScript forms the core of front-end web development. Keep practicing and building!</p>
+            <p>Happy styling!</p>
+        </section>
+
+    </div>
+
+    <script>
+       
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        function activateInitialLink() {
+            const hash = window.location.hash;
+            let activeLinkFound = false;
+            if (hash) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                        activeLinkFound = true;
+                    }
+                });
+            }
+            if (!activeLinkFound && navLinks.length > 0) {
+                navLinks[0].classList.add('active'); 
+            }
+        }
+        activateInitialLink();
+        window.addEventListener('hashchange', activateInitialLink); 
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

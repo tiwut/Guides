@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-en="Cloud Security Guide" data-lang-de="Cloud-Sicherheitsleitfaden" data-lang-es="Guía de Seguridad en la Nube"></title>
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --card-bg-color: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #3498db;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --svg-stroke-color: #34495e;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --card-bg-color: #2c2c2c;
+                --text-color: #ecf0f1;
+                --accent-color: #5dade2;
+                --border-color: #444444;
+                --shadow-color: rgba(0, 0, 0, 0.2);
+                --svg-stroke-color: #bdc3c7;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            background-color: var(--card-bg-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 110;
+        }
+
+        .menu-toggle .icon-menu,
+        .menu-toggle .icon-close {
+            display: none;
+            width: 30px;
+            height: 30px;
+            stroke: var(--text-color);
+        }
+        
+        .menu-toggle .icon-menu {
+            display: block;
+        }
+
+        .nav-menu {
+            list-style: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100vh;
+            background-color: var(--card-bg-color);
+            padding-top: 6rem;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: -5px 0 15px var(--shadow-color);
+        }
+
+        .nav-menu.active {
+            transform: translateX(0);
+        }
+        
+        .nav-menu.active + .menu-toggle .icon-menu {
+            display: none;
+        }
+        .nav-menu.active + .menu-toggle .icon-close {
+            display: block;
+        }
+
+        .nav-item {
+            padding: 0.5rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .nav-item-title {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .lang-switcher {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .lang-btn {
+            background-color: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+        }
+
+        main {
+            padding: 8rem 5% 2rem 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .main-subtitle {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .guide-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .guide-card {
+            background-color: var(--card-bg-color);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-color);
+        }
+
+        .card-sketch {
+            width: 100%;
+            height: 180px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-sketch svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--svg-stroke-color);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-text {
+            font-size: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .guide-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .main-title {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">CloudSafe</div>
+        <ul class="nav-menu" id="nav-menu">
+            <li class="nav-item nav-item-title" data-lang-en="Language" data-lang-de="Sprache" data-lang-es="Idioma"></li>
+            <li class="nav-item">
+                <div class="lang-switcher">
+                    <button class="lang-btn" data-lang="de">Deutsch</button>
+                    <button class="lang-btn" data-lang="en">English</button>
+                    <button class="lang-btn" data-lang="es">Español</button>
+                </div>
+            </li>
+        </ul>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
+            <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+    </header>
+
+    <main>
+        <h1 class="main-title" data-lang-en="Cloud Security Guide" data-lang-de="Cloud-Sicherheitsleitfaden" data-lang-es="Guía de Seguridad en la Nube"></h1>
+        <p class="main-subtitle" data-lang-en="Understand and manage your security and sharing settings visually." data-lang-de="Verstehen und verwalten Sie Ihre Sicherheits- und Freigabeeinstellungen visuell." data-lang-es="Comprenda y gestione su configuración de seguridad y uso compartido de forma visual."></p>
+
+        <div class="guide-grid">
+
+            <div class="guide-card">
+                <div class="card-sketch">
+                    <svg viewBox="0 0 100 60">
+                        <rect x="30" y="10" width="40" height="40" rx="5" stroke-dasharray="2 2" />
+                        <path d="M50 20 v-5 a5,5 0 0 1 10,0 v5" />
+                        <circle cx="50" cy="35" r="3" fill="var(--svg-stroke-color)" />
+                        <path d="M 68,30 h5 a2,2 0 0 1 2,2 v10 a2,2 0 0 1 -2,2 h-5" />
+                        <rect x="70" y="25" width="15" height="25" rx="2" />
+                        <circle cx="77.5" cy="45" r="1" fill="var(--svg-stroke-color)" />
+                        <path d="M 60 35 h 10" />
+                        <polyline points="63,32 60,35 63,38" />
+                    </svg>
+                </div>
+                <h2 class="card-title" data-lang-en="Two-Factor Authentication (2FA)" data-lang-de="Zwei-Faktor-Authentisierung (2FA)" data-lang-es="Autenticación de Dos Factores (2FA)"></h2>
+                <p class="card-text" data-lang-en="Add an extra layer of security. Besides your password, you need a second code, usually from your phone." data-lang-de="Fügen Sie eine zusätzliche Sicherheitsebene hinzu. Neben Ihrem Passwort benötigen Sie einen zweiten Code, meist von Ihrem Smartphone." data-lang-es="Añada una capa extra de seguridad. Además de su contraseña, necesita un segundo código, generalmente de su teléfono."></p>
+            </div>
+
+            <div class="guide-card">
+                <div class="card-sketch">
+                    <svg viewBox="0 0 100 60">
+                        <rect x="15" y="15" width="70" height="10" rx="5" />
+                        <text x="50" y="23" font-size="7" text-anchor="middle" fill="var(--text-color)" stroke="none">123456</text>
+                        <line x1="10" y1="10" x2="90" y2="50" stroke="red" stroke-width="2" />
+                        <line x1="10" y1="50" x2="90" y2="10" stroke="red" stroke-width="2" />
+                        <rect x="15" y="35" width="70" height="10" rx="5" />
+                        <text x="50" y="43" font-size="7" text-anchor="middle" fill="var(--text-color)" stroke="none">§xY!z9@K#</text>
+                        <circle cx="88" cy="40" r="8" fill="none" stroke="green" stroke-width="2"/>
+                        <path d="M 85 40 l 3 3 l 5 -5" stroke="green" stroke-width="2" />
+                    </svg>
+                </div>
+                <h2 class="card-title" data-lang-en="Strong Passwords" data-lang-de="Starke Passwörter" data-lang-es="Contraseñas Seguras"></h2>
+                <p class="card-text" data-lang-en="Use a mix of upper/lower case letters, numbers, and symbols. Avoid common words or personal information." data-lang-de="Verwenden Sie eine Mischung aus Groß-/Kleinbuchstaben, Zahlen und Symbolen. Vermeiden Sie gebräuchliche Wörter oder persönliche Informationen." data-lang-es="Use una mezcla de mayúsculas, minúsculas, números y símbolos. Evite palabras comunes o información personal."></p>
+            </div>
+
+            <div class="guide-card">
+                <div class="card-sketch">
+                     <svg viewBox="0 0 100 60">
+                        <path d="M20,50 C25,40 35,40 40,50" />
+                        <circle cx="30" cy="35" r="4" />
+                        <path d="M10,25 h15 a2,2 0 0 1 2,2 v10 a2,2 0 0 1 -2,2 h-15 z" />
+                        <path d="M28,30 h 20" />
+                        <path d="M50 20 v-5" />
+                        <circle cx="50" cy="12" r="2" />
+                        <path d="M50 20 l 8 8" />
+                        <path d="M58 28 l 8 -8" />
+                        <path d="M66 20 l 8 8" />
+                        <g transform="translate(60, 40)">
+                            <circle cx="10" cy="10" r="10" />
+                            <circle cx="10" cy="7" r="3.5" />
+                            <path d="M4,15 a6,6 0 0 1 12,0" />
+                        </g>
+                        <g transform="translate(80, 40)">
+                            <circle cx="10" cy="10" r="10" />
+                            <circle cx="10" cy="7" r="3.5" />
+                            <path d="M4,15 a6,6 0 0 1 12,0" />
+                        </g>
+                    </svg>
+                </div>
+                <h2 class="card-title" data-lang-en="Private vs. Public Sharing" data-lang-de="Private vs. Öffentliche Freigabe" data-lang-es="Compartir Privado vs. Público"></h2>
+                <p class="card-text" data-lang-en="Share directly with specific people for high security. Public links can be accessed by anyone who has them." data-lang-de="Teilen Sie für hohe Sicherheit direkt mit bestimmten Personen. Öffentliche Links können von jedem aufgerufen werden, der sie hat." data-lang-es="Comparta directamente con personas específicas para mayor seguridad. Cualquiera con el enlace público puede acceder."></p>
+            </div>
+
+            <div class="guide-card">
+                <div class="card-sketch">
+                    <svg viewBox="0 0 100 60">
+                        <rect x="35" y="5" width="30" height="40" rx="3" />
+                        <line x1="40" y1="15" x2="60" y2="15" />
+                        <line x1="40" y1="25" x2="60" y2="25" />
+                        <line x1="40" y1="35" x2="55" y2="35" />
+                        
+                        <g transform="translate(10, 30)">
+                            <circle cx="10" cy="10" r="5" fill="var(--accent-color)" stroke="none" />
+                            <path d="M 5,20 a 5,5 0 0 1 10,0 z" fill="var(--accent-color)" stroke="none" />
+                            <circle cx="10" cy="28" r="7" />
+                            <path d="M 10 21 v 14" />
+                            <path d="M 3 28 h 14" />
+                        </g>
+                        
+                        <g transform="translate(80, 30)">
+                            <circle cx="10" cy="10" r="5" fill="var(--accent-color)" stroke="none" />
+                            <path d="M 5,20 a 5,5 0 0 1 10,0 z" fill="var(--accent-color)" stroke="none" />
+                            <path d="M5,25 h10 v10 h-10 z" />
+                            <path d="M 7,28 l 4,-4 l 8,8" />
+                        </g>
+                        
+                        <path d="M30,40 L35,30" />
+                        <path d="M70,30 L75,40" />
+                    </svg>
+                </div>
+                <h2 class="card-title" data-lang-en="Permission Levels" data-lang-de="Berechtigungsstufen" data-lang-es="Niveles de Permiso"></h2>
+                <p class="card-text" data-lang-en="Control what others can do. 'View' lets them only see the file. 'Edit' gives them full control to change it." data-lang-de="Kontrollieren Sie, was andere tun können. 'Anzeigen' erlaubt nur das Ansehen der Datei. 'Bearbeiten' gibt volle Kontrolle zur Veränderung." data-lang-es="Controle lo que otros pueden hacer. 'Ver' solo les permite ver el archivo. 'Editar' les da control total para modificarlo."></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const translatableElements = document.querySelectorAll('[data-lang-de]');
+
+            const toggleMenu = () => {
+                navMenu.classList.toggle('active');
+            };
+
+            menuToggle.addEventListener('click', toggleMenu);
+
+            const setLanguage = (lang) => {
+                translatableElements.forEach(el => {
+                    const text = el.getAttribute(`data-lang-${lang}`);
+                    if (text) {
+                        if (el.tagName === 'TITLE') {
+                            document.title = text;
+                        } else {
+                           el.innerText = text;
+                        }
+                    }
+                });
+
+                document.documentElement.lang = lang;
+                
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+
+                localStorage.setItem('user-lang', lang);
+                if (navMenu.classList.contains('active')) {
+                    toggleMenu();
+                }
+            };
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    setLanguage(button.dataset.lang);
+                });
+            });
+
+            const getInitialLanguage = () => {
+                const savedLang = localStorage.getItem('user-lang');
+                if (savedLang && ['de', 'en', 'es'].includes(savedLang)) {
+                    return savedLang;
+                }
+
+                const browserLang = navigator.language.split('-')[0];
+                if (['de', 'en', 'es'].includes(browserLang)) {
+                    return browserLang;
+                }
+
+                return 'en';
+            };
+
+            setLanguage(getInitialLanguage());
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

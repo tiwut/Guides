@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Beginner's Guide to PHP</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #5cb85c; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #17a2b8;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code.inline-code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background-color: #2d2d2d; 
+            color: #f8f8f2; 
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Consolas", "Courier New", Courier, monospace;
+            font-size: 0.9em;
+            border: 1px solid #444;
+        }
+        pre code {
+            padding: 0;
+            background-color: transparent;
+            border-radius: 0;
+            color: inherit;
+        }
+        
+        pre code .php-tag { color: #f92672; font-weight: bold; } 
+        pre code .php-keyword { color: #66d9ef; font-weight: bold; } 
+        pre code .php-variable { color: #fd971f; } 
+        pre code .php-string { color: #e6db74; } 
+        pre code .php-comment { color: #75715e; } 
+        pre code .php-number { color: #ae81ff; } 
+        pre code .php-operator { color: #f92672; } 
+        pre code .php-function-call { color: #a6e22e; } 
+        pre code .php-constant { color: #ae81ff; font-style: italic; }
+
+
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>PHP Guide</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to PHP</a></li>
+            <li><a href="#setting-up">Setting Up Environment</a></li>
+            <li><a href="#basic-syntax">Basic Syntax</a></li>
+            <li><a href="#variables-datatypes">Variables & Data Types</a></li>
+            <li><a href="#operators">Operators</a></li>
+            <li><a href="#echo-print">Echo & Print</a></li>
+            <li><a href="#control-flow">Control Flow</a></li>
+            <li><a href="#functions">Functions</a></li>
+            <li><a href="#arrays">Arrays</a></li>
+            <li><a href="#superglobals">Superglobals</a></li>
+            <li><a href="#form-handling">Form Handling</a></li>
+            <li><a href="#include-require">Include & Require</a></li>
+            <li><a href="#oop-intro">Intro to OOP</a></li>
+            <li><a href="#error-handling-basic">Basic Error Handling</a></li>
+            <li><a href="#file-handling-intro">Intro to File Handling</a></li>
+            <li><a href="#next-steps">Next Steps</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>A Comprehensive Beginner's Guide to PHP</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to PHP</h2>
+            <p>PHP (Hypertext Preprocessor) is a widely-used open source general-purpose scripting language that is especially suited for web development and can be embedded into HTML. PHP code is executed on the server, and the result (often HTML) is sent back to the client's browser.</p>
+            <p><strong>Key Features of PHP:</strong></p>
+            <ul>
+                <li><strong>Server-Side Scripting:</strong> PHP scripts are processed on the web server before the page is sent to the user.</li>
+                <li><strong>Widely Used:</strong> Powers a significant portion of the web, including popular Content Management Systems (CMS) like WordPress, Drupal, and Joomla.</li>
+                <li><strong>Database Integration:</strong> Excellent support for various databases like MySQL, PostgreSQL, SQLite, etc.</li>
+                <li><strong>Cross-Platform:</strong> Can run on various operating systems (Windows, Linux, macOS).</li>
+                <li><strong>Easy to Learn:</strong> PHP has a relatively gentle learning curve for beginners familiar with C-like syntax.</li>
+                <li><strong>Large Community & Documentation:</strong> Extensive resources and a large community provide ample support.</li>
+            </ul>
+            <p>PHP is used for creating dynamic web pages, handling forms, working with databases, managing sessions and cookies, file manipulation, and much more.</p>
+        </section>
+
+        <section id="setting-up">
+            <h2>Setting Up Your Environment</h2>
+            <p>To run PHP scripts, you need a web server with PHP installed and usually a database server like MySQL.</p>
+            <h3>1. Local Development Environment (Recommended)</h3>
+            <p>The easiest way to get started is by installing a software stack that includes Apache (web server), PHP, and MySQL. Popular choices:</p>
+            <ul>
+                <li><strong>XAMPP:</strong> Cross-platform (Windows, macOS, Linux). <a href="https://www.apachefriends.org/" target="_blank">Download XAMPP</a></li>
+                <li><strong>MAMP:</strong> Primarily for macOS, but also available for Windows. <a href="https://www.mamp.info/" target="_blank">Download MAMP</a></li>
+                <li><strong>WAMP (WampServer):</strong> For Windows. <a href="https://www.wampserver.com/en/" target="_blank">Download WampServer</a></li>
+                <li><strong>Laragon (Windows):</strong> A modern, fast, and easy-to-use universal development environment. <a href="https://laragon.org/" target="_blank">Download Laragon</a></li>
+            </ul>
+            <p>After installing one of these, you'll typically place your PHP files in a specific web root directory (e.g., <code class="path">htdocs</code> for XAMPP, <code class="path">www</code> for WampServer/Laragon) and access them via your browser using a local URL like <code class="inline-code">http://localhost/your-file.php</code>.</p>
+
+            <h3>2. Text Editor or IDE</h3>
+            <p>You'll need a code editor to write your PHP scripts.</p>
+            <ul>
+                <li><strong>Visual Studio Code (VS Code):</strong> Excellent PHP support with extensions like "PHP Intelephense" or "PHP IntelliSense".</li>
+                <li><strong>PhpStorm:</strong> A powerful, paid IDE specifically for PHP development by JetBrains (free for students/educators).</li>
+                <li><strong>Sublime Text, Atom, Notepad++:</strong> Good general-purpose code editors with PHP syntax highlighting.</li>
+            </ul>
+
+            <h3>3. Running PHP from Command Line (CLI)</h3>
+            <p>If PHP is installed and in your system's PATH, you can also run PHP scripts directly from the command line (terminal):</p>
+<pre><code class="path">php your_script.php</code></pre>
+            <p>To check your PHP installation and version from the command line:</p>
+<pre><code class="path">php -v</code></pre>
+        </section>
+
+        <section id="basic-syntax">
+            <h2>Basic PHP Syntax</h2>
+            <p>PHP scripts are typically embedded within HTML documents, but they can also exist as standalone files.</p>
+            <h3>PHP Tags</h3>
+            <p>PHP code is enclosed in special start and end tags that allow you to jump into and out of "PHP mode."</p>
+            <ul>
+                <li>Standard tags: <code class="inline-code">&lt;?php ... ?&gt;</code> (Recommended)</li>
+                <li>Short echo tag: <code class="inline-code">&lt;?= ... ?&gt;</code> (Equivalent to <code class="inline-code">&lt;?php echo ... ?&gt;</code>. Usually enabled.)</li>
+                <li>Short tags: <code class="inline-code">&lt;? ... ?&gt;</code> (Discouraged, may not be enabled by default.)</li>
+            </ul>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My PHP Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome!&lt;/h1&gt;
+    <span class="php-tag">&lt;?php</span>
+        <span class="php-keyword">echo</span> <span class="php-string">"&lt;p&gt;This text is generated by PHP.&lt;/p&gt;"</span>;
+    <span class="php-tag">?&gt;</span>
+
+    &lt;p&gt;Today's date is: <span class="php-tag">&lt;?=</span> <span class="php-function-call">date</span>(<span class="php-string">'Y-m-d'</span>) <span class="php-tag">?&gt;</span>&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+            <h3>Statements and Semicolons</h3>
+            <p>Like C or Java, PHP statements are terminated with a semicolon (<code class="inline-code">;</code>).</p>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$message</span> = <span class="php-string">"Hello"</span>; <span class="php-comment">// A statement</span>
+    <span class="php-keyword">echo</span> <span class="php-variable">$message</span>;     <span class="php-comment">// Another statement</span>
+<span class="php-tag">?&gt;</span>
+</code></pre>
+            <p>The closing PHP tag <code class="inline-code">?&gt;</code> automatically implies a semicolon for the last statement, but it's good practice to include it.</p>
+
+            <h3>Comments</h3>
+            <ul>
+                <li>Single-line comments: <code class="inline-code">// ...</code> or <code class="inline-code"># ...</code></li>
+                <li>Multi-line comments: <code class="inline-code">/* ... */</code></li>
+            </ul>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-comment">// This is a single-line comment</span>
+    <span class="php-variable">$name</span> = <span class="php-string">"Alice"</span>; <span class="php-comment"># This is also a single-line comment</span>
+
+    <span class="php-comment">/*
+    This is a
+    multi-line comment block.
+    */</span>
+    <span class="php-keyword">echo</span> <span class="php-variable">$name</span>;
+<span class="php-tag">?&gt;</span>
+</code></pre>
+
+            <h3>Case Sensitivity</h3>
+            <ul>
+                <li>Variable names are case-sensitive (<code class="inline-code">$name</code> and <code class="inline-code">$Name</code> are different).</li>
+                <li>Function names, class names, and keywords (e.g., <code class="inline-code">echo</code>, <code class="inline-code">if</code>, <code class="inline-code">while</code>) are generally NOT case-sensitive. However, it's good practice to stick to a consistent casing (usually lowercase for keywords, camelCase or PascalCase for functions/classes).</li>
+            </ul>
+        </section>
+
+        <section id="variables-datatypes">
+            <h2>Variables and Data Types</h2>
+            <h3>Variables</h3>
+            <p>Variables in PHP start with a dollar sign (<code class="inline-code">$</code>) followed by the variable name.</p>
+            <ul>
+                <li>A variable name must start with a letter or an underscore (<code class="inline-code">_</code>).</li>
+                <li>It can only contain alpha-numeric characters and underscores (A-z, 0-9, and _).</li>
+                <li>It is case-sensitive.</li>
+                <li>PHP is a loosely typed language, meaning you don't need to declare the data type of a variable in advance. The type is determined at runtime based on the value assigned.</li>
+            </ul>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$text</span> = <span class="php-string">"Hello PHP!"</span>;
+    <span class="php-variable">$number</span> = <span class="php-number">123</span>;
+    <span class="php-variable">$float_number</span> = <span class="php-number">10.5</span>;
+    <span class="php-variable">$_myVariable</span> = <span class="php-constant">true</span>;
+
+    <span class="php-keyword">echo</span> <span class="php-variable">$text</span>;
+    <span class="php-keyword">echo</span> <span class="php-string">"&lt;br&gt;"</span>;
+    <span class="php-keyword">echo</span> <span class="php-variable">$number</span>;
+<span class="php-tag">?&gt;</span>
+</code></pre>
+
+            <h3>Data Types</h3>
+            PHP supports several data types:
+            <ul>
+                <li><strong>String:</strong> Sequence of characters. Enclosed in single (<code class="inline-code">''</code>) or double (<code class="inline-code">""</code>) quotes. Double quotes allow variable interpolation and escape sequences (e.g., <code class="inline-code">\n</code>).
+<pre><code class="language-php"><span class="php-variable">$name</span> = <span class="php-string">"Alice"</span>;
+<span class="php-variable">$greeting</span> = <span class="php-string">"Hello, <span class="php-variable">$name</span>!"</span>; <span class="php-comment">// $name is interpolated</span>
+<span class="php-variable">$message</span> = <span class="php-string">'Hello, $name!'</span>; <span class="php-comment">// $name is treated literally</span></code></pre>
+                </li>
+                <li><strong>Integer:</strong> Whole numbers (e.g., <code class="inline-code">-5</code>, <code class="inline-code">0</code>, <code class="inline-code">100</code>).</li>
+                <li><strong>Float (Floating-point numbers, also called double):</strong> Numbers with a decimal point (e.g., <code class="inline-code">3.14</code>, <code class="inline-code">-0.5</code>).</li>
+                <li><strong>Boolean:</strong> Can be either <code class="inline-code">true</code> or <code class="inline-code">false</code> (case-insensitive keywords).
+<pre><code class="language-php"><span class="php-variable">$is_active</span> = <span class="php-constant">true</span>;
+<span class="php-variable">$is_admin</span> = <span class="php-constant">FALSE</span>;</code></pre>
+                </li>
+                <li><strong>Array:</strong> An ordered map that can hold multiple values of different types.
+<pre><code class="language-php"><span class="php-variable">$colors</span> = [<span class="php-string">"Red"</span>, <span class="php-string">"Green"</span>, <span class="php-string">"Blue"</span>];
+<span class="php-variable">$person</span> = [<span class="php-string">"name"</span> <span class="php-operator">=&gt;</span> <span class="php-string">"Bob"</span>, <span class="php-string">"age"</span> <span class="php-operator">=&gt;</span> <span class="php-number">30</span>];</code></pre>
+                </li>
+                <li><strong>Object:</strong> An instance of a class.</li>
+                <li><strong>NULL:</strong> A special data type representing a variable with no value. A variable can be set to <code class="inline-code">NULL</code>.
+<pre><code class="language-php"><span class="php-variable">$var</span> = <span class="php-constant">null</span>;</code></pre>
+                </li>
+                <li><strong>Resource:</strong> A special variable holding a reference to an external resource (e.g., a database connection, file handle).</li>
+            </ul>
+            <p>You can use <code class="inline-code">var_dump($variable)</code> to display structured information about a variable, including its type and value. This is useful for debugging.</p>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$value</span> = <span class="php-number">10.5</span>;
+    <span class="php-function-call">var_dump</span>(<span class="php-variable">$value</span>); <span class="php-comment">// Output: float(10.5)</span>
+<span class="php-tag">?&gt;</span>
+</code></pre>
+        </section>
+
+        <section id="operators">
+            <h2>Operators</h2>
+            PHP supports various operators:
+            <h3>1. Arithmetic Operators</h3>
+            <ul>
+                <li><code class="inline-code">+</code> (Addition), <code class="inline-code">-</code> (Subtraction), <code class="inline-code">*</code> (Multiplication), <code class="inline-code">/</code> (Division)</li>
+                <li><code class="inline-code">%</code> (Modulus - remainder), <code class="inline-code">**</code> (Exponentiation - PHP 5.6+)</li>
+            </ul>
+            <h3>2. Assignment Operators</h3>
+            <ul>
+                <li><code class="inline-code">=</code> (Assign), <code class="inline-code">+=</code>, <code class="inline-code">-=</code>, <code class="inline-code">*=</code>, <code class="inline-code">/=</code>, <code class="inline-code">%=</code></li>
+                <li><code class="inline-code">.=</code> (String concatenation assignment)
+<pre><code class="language-php"><span class="php-variable">$str</span> = <span class="php-string">"Hello"</span>;
+<span class="php-variable">$str</span> <span class="php-operator">.=</span> <span class="php-string">" World!"</span>; <span class="php-comment">// $str is now "Hello World!"</span></code></pre>
+                </li>
+            </ul>
+            <h3>3. Comparison Operators</h3>
+            <ul>
+                <li><code class="inline-code">==</code> (Equal), <code class="inline-code">===</code> (Identical - equal value and same type)</li>
+                <li><code class="inline-code">!=</code> or <code class="inline-code">&lt;&gt;</code> (Not equal), <code class="inline-code">!==</code> (Not identical)</li>
+                <li><code class="inline-code">></code> (Greater than), <code class="inline-code"><</code> (Less than), <code class="inline-code">>=</code>, <code class="inline-code"><=</code></li>
+                <li><code class="inline-code"><=></code> (Spaceship operator - PHP 7+. Returns -1, 0, or 1 for less than, equal, or greater than)</li>
+            </ul>
+            <h3>4. Logical Operators</h3>
+            <ul>
+                <li><code class="inline-code">&&</code> or <code class="inline-code">and</code> (Logical AND)</li>
+                <li><code class="inline-code">||</code> or <code class="inline-code">or</code> (Logical OR)</li>
+                <li><code class="inline-code">!</code> (Logical NOT)</li>
+                <li><code class="inline-code">xor</code> (Logical XOR)</li>
+            </ul>
+            <p class="important">The <code class="inline-code">and</code> and <code class="inline-code">or</code> operators have lower precedence than <code class="inline-code">&&</code> and <code class="inline-code">||</code>. It's often safer to use <code class="inline-code">&&</code> and <code class="inline-code">||</code> or parentheses to ensure correct order of operations.</p>
+            <h3>5. Increment/Decrement Operators</h3>
+            <ul>
+                <li><code class="inline-code">++$var</code> (Pre-increment), <code class="inline-code">$var++</code> (Post-increment)</li>
+                <li><code class="inline-code">--$var</code> (Pre-decrement), <code class="inline-code">$var--</code> (Post-decrement)</li>
+            </ul>
+            <h3>6. String Concatenation Operator</h3>
+            <ul>
+                <li><code class="inline-code">.</code> (Dot)
+<pre><code class="language-php"><span class="php-variable">$firstName</span> = <span class="php-string">"John"</span>;
+<span class="php-variable">$lastName</span> = <span class="php-string">"Doe"</span>;
+<span class="php-variable">$fullName</span> = <span class="php-variable">$firstName</span> <span class="php-operator">.</span> <span class="php-string">" "</span> <span class="php-operator">.</span> <span class="php-variable">$lastName</span>; <span class="php-comment">// "John Doe"</span></code></pre>
+                </li>
+            </ul>
+            <h3>7. Ternary Operator</h3>
+            <p><code class="inline-code">(condition) ? value_if_true : value_if_false;</code></p>
+            <h3>8. Null Coalescing Operator (PHP 7+)</h3>
+            <p><code class="inline-code">$variable = $value_to_check ?? $default_value;</code> (Assigns <code class="inline-code">$value_to_check</code> if it's not null, otherwise assigns <code class="inline-code">$default_value</code>).</p>
+        </section>
+
+        <section id="echo-print">
+            <h2>Echo and Print</h2>
+            <p><code class="inline-code">echo</code> and <code class="inline-code">print</code> are language constructs (not functions, though they can be used with parentheses) used to output data to the browser/console.</p>
+            <ul>
+                <li><strong><code class="inline-code">echo</code>:</strong>
+                    <ul>
+                        <li>Can output one or more strings.</li>
+                        <li>Slightly faster than <code class="inline-code">print</code> (marginally).</li>
+                        <li>Does not return a value.</li>
+                    </ul>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-keyword">echo</span> <span class="php-string">"Hello"</span>, <span class="php-string">" "</span>, <span class="php-string">"World!"</span>, <span class="php-string">"&lt;br&gt;"</span>;
+    <span class="php-variable">$name</span> = <span class="php-string">"Alice"</span>;
+    <span class="php-keyword">echo</span> <span class="php-string">"My name is "</span> <span class="php-operator">.</span> <span class="php-variable">$name</span> <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+    <span class="php-keyword">echo</span> <span class="php-string">"This is a "</span>, <span class="php-string">"test."</span>;
+<span class="php-tag">?&gt;</span></code></pre>
+                </li>
+                <li><strong><code class="inline-code">print</code>:</strong>
+                    <ul>
+                        <li>Can only output one string.</li>
+                        <li>Returns <code class="inline-code">1</code> (so it can be used in expressions, though rarely practical).</li>
+                    </ul>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-keyword">print</span> <span class="php-string">"Hello from print!&lt;br&gt;"</span>;
+    <span class="php-keyword">if</span> (<span class="php-keyword">print</span>(<span class="php-string">""</span>)) { <span class="php-comment">// print returns 1, which evaluates to true</span>
+        <span class="php-comment">// ...</span>
+    }
+<span class="php-tag">?&gt;</span></code></pre>
+                </li>
+            </ul>
+            <p>For most cases, <code class="inline-code">echo</code> is preferred due to its slight performance edge and ability to take multiple arguments (though concatenation is more common for multiple items).</p>
+        </section>
+
+        <section id="control-flow">
+            <h2>Control Flow</h2>
+            <h3>1. Conditional Statements</h3>
+            <h4>a) <code class="inline-code">if, else if (or elseif), else</code></h4>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$age</span> = <span class="php-number">20</span>;
+    <span class="php-keyword">if</span> (<span class="php-variable">$age</span> <span class="php-operator">&lt;</span> <span class="php-number">18</span>) {
+        <span class="php-keyword">echo</span> <span class="php-string">"You are a minor.&lt;br&gt;"</span>;
+    } <span class="php-keyword">elseif</span> (<span class="php-variable">$age</span> <span class="php-operator">&gt;=</span> <span class="php-number">18</span> <span class="php-operator">&amp;&amp;</span> <span class="php-variable">$age</span> <span class="php-operator">&lt;</span> <span class="php-number">65</span>) {
+        <span class="php-keyword">echo</span> <span class="php-string">"You are an adult.&lt;br&gt;"</span>; <span class="php-comment">// This will be printed</span>
+    } <span class="php-keyword">else</span> {
+        <span class="php-keyword">echo</span> <span class="php-string">"You are a senior.&lt;br&gt;"</span>;
+    }
+<span class="php-tag">?&gt;</span></code></pre>
+            <h4>b) <code class="inline-code">switch</code> statement</h4>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$favColor</span> = <span class="php-string">"red"</span>;
+    <span class="php-keyword">switch</span> (<span class="php-variable">$favColor</span>) {
+        <span class="php-keyword">case</span> <span class="php-string">"red"</span>:
+            <span class="php-keyword">echo</span> <span class="php-string">"Your favorite color is red!&lt;br&gt;"</span>;
+            <span class="php-keyword">break</span>;
+        <span class="php-keyword">case</span> <span class="php-string">"blue"</span>:
+            <span class="php-keyword">echo</span> <span class="php-string">"Your favorite color is blue!&lt;br&gt;"</span>;
+            <span class="php-keyword">break</span>;
+        <span class="php-keyword">default</span>:
+            <span class="php-keyword">echo</span> <span class="php-string">"Your favorite color is neither red nor blue.&lt;br&gt;"</span>;
+    }
+<span class="php-tag">?&gt;</span></code></pre>
+
+            <h3>2. Looping Statements</h3>
+            <h4>a) <code class="inline-code">for</code> loop</h4>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-keyword">for</span> (<span class="php-variable">$i</span> = <span class="php-number">0</span>; <span class="php-variable">$i</span> <span class="php-operator">&lt;</span> <span class="php-number">5</span>; <span class="php-variable">$i</span><span class="php-operator">++</span>) {
+        <span class="php-keyword">echo</span> <span class="php-string">"The number is: "</span> <span class="php-operator">.</span> <span class="php-variable">$i</span> <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+    }
+<span class="php-tag">?&gt;</span></code></pre>
+            <h4>b) <code class="inline-code">while</code> loop</h4>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$count</span> = <span class="php-number">1</span>;
+    <span class="php-keyword">while</span> (<span class="php-variable">$count</span> <span class="php-operator">&lt;=</span> <span class="php-number">3</span>) {
+        <span class="php-keyword">echo</span> <span class="php-string">"While count is: "</span> <span class="php-operator">.</span> <span class="php-variable">$count</span> <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+        <span class="php-variable">$count</span><span class="php-operator">++</span>;
+    }
+<span class="php-tag">?&gt;</span></code></pre>
+            <h4>c) <code class="inline-code">do...while</code> loop</h4>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$x</span> = <span class="php-number">6</span>;
+    <span class="php-keyword">do</span> {
+        <span class="php-keyword">echo</span> <span class="php-string">"Do-while x is: "</span> <span class="php-operator">.</span> <span class="php-variable">$x</span> <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>; <span class="php-comment">// Executes at least once</span>
+        <span class="php-variable">$x</span><span class="php-operator">++</span>;
+    } <span class="php-keyword">while</span> (<span class="php-variable">$x</span> <span class="php-operator">&lt;=</span> <span class="php-number">5</span>);
+<span class="php-tag">?&gt;</span></code></pre>
+            <h4>d) <code class="inline-code">foreach</code> loop (for arrays and objects)</h4>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$colors</span> = [<span class="php-string">"red"</span>, <span class="php-string">"green"</span>, <span class="php-string">"blue"</span>];
+    <span class="php-keyword">foreach</span> (<span class="php-variable">$colors</span> <span class="php-keyword">as</span> <span class="php-variable">$color</span>) {
+        <span class="php-keyword">echo</span> <span class="php-variable">$color</span> <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+    }
+
+    <span class="php-variable">$person</span> = [<span class="php-string">"name"</span> <span class="php-operator">=&gt;</span> <span class="php-string">"Bob"</span>, <span class="php-string">"age"</span> <span class="php-operator">=&gt;</span> <span class="php-number">30</span>];
+    <span class="php-keyword">foreach</span> (<span class="php-variable">$person</span> <span class="php-keyword">as</span> <span class="php-variable">$key</span> <span class="php-operator">=&gt;</span> <span class="php-variable">$value</span>) {
+        <span class="php-keyword">echo</span> <span class="php-variable">$key</span> <span class="php-operator">.</span> <span class="php-string">": "</span> <span class="php-operator">.</span> <span class="php-variable">$value</span> <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+    }
+<span class="php-tag">?&gt;</span></code></pre>
+            <h3>3. Loop Control Statements</h3>
+            <ul>
+                <li><code class="inline-code">break</code>: Exits the current loop.</li>
+                <li><code class="inline-code">continue</code>: Skips the rest of the current iteration and proceeds to the next.</li>
+            </ul>
+        </section>
+
+        <section id="functions">
+            <h2>Functions</h2>
+            <p>A function is a block of reusable code that performs a specific task.</p>
+            <h3>Defining and Calling Functions</h3>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-comment">// Defining a function</span>
+    <span class="php-keyword">function</span> <span class="php-function-call">greetUser</span>(<span class="php-variable">$name</span>) {
+        <span class="php-keyword">echo</span> <span class="php-string">"Hello, "</span> <span class="php-operator">.</span> <span class="php-variable">$name</span> <span class="php-operator">.</span> <span class="php-string">"!&lt;br&gt;"</span>;
+    }
+
+    <span class="php-comment">// Calling the function</span>
+    <span class="php-function-call">greetUser</span>(<span class="php-string">"Alice"</span>);
+    <span class="php-function-call">greetUser</span>(<span class="php-string">"Bob"</span>);
+
+    <span class="php-comment">// Function with a return value</span>
+    <span class="php-keyword">function</span> <span class="php-function-call">addNumbers</span>(<span class="php-variable">$num1</span>, <span class="php-variable">$num2</span>) {
+        <span class="php-variable">$sum</span> = <span class="php-variable">$num1</span> <span class="php-operator">+</span> <span class="php-variable">$num2</span>;
+        <span class="php-keyword">return</span> <span class="php-variable">$sum</span>;
+    }
+
+    <span class="php-variable">$result</span> = <span class="php-function-call">addNumbers</span>(<span class="php-number">5</span>, <span class="php-number">7</span>);
+    <span class="php-keyword">echo</span> <span class="php-string">"Sum: "</span> <span class="php-operator">.</span> <span class="php-variable">$result</span> <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+<span class="php-tag">?&gt;</span></code></pre>
+
+            <h3>Function Arguments</h3>
+            <ul>
+                <li><strong>Default Argument Values:</strong>
+<pre><code class="language-php"><span class="php-keyword">function</span> <span class="php-function-call">showMessage</span>(<span class="php-variable">$message</span> = <span class="php-string">"Default message"</span>) {
+    <span class="php-keyword">echo</span> <span class="php-variable">$message</span> <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+}
+<span class="php-function-call">showMessage</span>(); <span class="php-comment">// Outputs "Default message"</span>
+<span class="php-function-call">showMessage</span>(<span class="php-string">"Custom message"</span>);</code></pre>
+                </li>
+                <li><strong>Type Hinting (PHP 5+, enhanced in PHP 7+):</strong> You can specify the expected data type for parameters and return values.
+<pre><code class="language-php"><span class="php-comment">// PHP 7+ return type declaration and scalar type hints</span>
+<span class="php-keyword">function</span> <span class="php-function-call">multiply</span>(<span class="php-keyword">int</span> <span class="php-variable">$a</span>, <span class="php-keyword">int</span> <span class="php-variable">$b</span>): <span class="php-keyword">int</span> {
+    <span class="php-keyword">return</span> <span class="php-variable">$a</span> <span class="php-operator">*</span> <span class="php-variable">$b</span>;
+}</code></pre>
+                </li>
+            </ul>
+            <h3>Variable Scope</h3>
+            <ul>
+                <li><strong>Local Scope:</strong> Variables declared inside a function are only accessible within that function.</li>
+                <li><strong>Global Scope:</strong> Variables declared outside any function. To access a global variable inside a function, use the <code class="inline-code">global</code> keyword or the <code class="inline-code">$GLOBALS</code> array.
+<pre><code class="language-php"><span class="php-variable">$globalVar</span> = <span class="php-string">"I am global"</span>;
+<span class="php-keyword">function</span> <span class="php-function-call">myFunction</span>() {
+    <span class="php-keyword">global</span> <span class="php-variable">$globalVar</span>;
+    <span class="php-keyword">echo</span> <span class="php-variable">$globalVar</span>; <span class="php-comment">// Accesses global variable</span>
+    <span class="php-comment">// OR echo $GLOBALS['globalVar'];</span>
+}</code></pre>
+                </li>
+                <li><strong>Static Scope:</strong> A static variable inside a function retains its value between function calls.
+<pre><code class="language-php"><span class="php-keyword">function</span> <span class="php-function-call">counter</span>() {
+    <span class="php-keyword">static</span> <span class="php-variable">$count</span> = <span class="php-number">0</span>;
+    <span class="php-variable">$count</span><span class="php-operator">++</span>;
+    <span class="php-keyword">echo</span> <span class="php-variable">$count</span> <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+}
+<span class="php-function-call">counter</span>(); <span class="php-comment">// 1</span>
+<span class="php-function-call">counter</span>(); <span class="php-comment">// 2</span></code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="arrays">
+            <h2>Arrays</h2>
+            <p>Arrays in PHP can store multiple values in one single variable.</p>
+            <h3>Types of Arrays</h3>
+            <ul>
+                <li><strong>Indexed Arrays:</strong> Arrays with numeric indices (starting from 0 by default).
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-comment">// Method 1:</span>
+    <span class="php-variable">$cars</span> = <span class="php-keyword">array</span>(<span class="php-string">"Volvo"</span>, <span class="php-string">"BMW"</span>, <span class="php-string">"Toyota"</span>);
+    <span class="php-comment">// Method 2 (short array syntax, PHP 5.4+):</span>
+    <span class="php-variable">$fruits</span> = [<span class="php-string">"Apple"</span>, <span class="php-string">"Banana"</span>, <span class="php-string">"Orange"</span>];
+
+    <span class="php-keyword">echo</span> <span class="php-variable">$cars</span>[<span class="php-number">0</span>]; <span class="php-comment">// Volvo</span>
+    <span class="php-keyword">echo</span> <span class="php-string">"&lt;br&gt;"</span>;
+    <span class="php-variable">$fruits</span>[] = <span class="php-string">"Mango"</span>; <span class="php-comment">// Adds "Mango" to the end</span>
+    <span class="php-function-call">print_r</span>(<span class="php-variable">$fruits</span>); <span class="php-comment">// print_r is useful for displaying arrays</span>
+<span class="php-tag">?&gt;</span></code></pre>
+                </li>
+                <li><strong>Associative Arrays:</strong> Arrays that use named keys (strings) that you assign to them.
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$age</span> = [<span class="php-string">"Peter"</span> <span class="php-operator">=&gt;</span> <span class="php-number">35</span>, <span class="php-string">"Ben"</span> <span class="php-operator">=&gt;</span> <span class="php-number">37</span>, <span class="php-string">"Joe"</span> <span class="php-operator">=&gt;</span> <span class="php-number">43</span>];
+    <span class="php-keyword">echo</span> <span class="php-string">"Peter is "</span> <span class="php-operator">.</span> <span class="php-variable">$age</span>[<span class="php-string">'Peter'</span>] <span class="php-operator">.</span> <span class="php-string">" years old.&lt;br&gt;"</span>;
+
+    <span class="php-variable">$person</span> = [
+        <span class="php-string">'name'</span> <span class="php-operator">=&gt;</span> <span class="php-string">'Alice'</span>,
+        <span class="php-string">'city'</span> <span class="php-operator">=&gt;</span> <span class="php-string">'New York'</span>
+    ];
+    <span class="php-keyword">echo</span> <span class="php-variable">$person</span>[<span class="php-string">'city'</span>];
+<span class="php-tag">?&gt;</span></code></pre>
+                </li>
+                <li><strong>Multidimensional Arrays:</strong> Arrays containing other arrays.
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$students</span> = [
+        [<span class="php-string">"name"</span> <span class="php-operator">=&gt;</span> <span class="php-string">"Alice"</span>, <span class="php-string">"grade"</span> <span class="php-operator">=&gt;</span> <span class="php-string">"A"</span>],
+        [<span class="php-string">"name"</span> <span class="php-operator">=&gt;</span> <span class="php-string">"Bob"</span>, <span class="php-string">"grade"</span> <span class="php-operator">=&gt;</span> <span class="php-string">"B"</span>],
+        [<span class="php-string">"name"</span> <span class="php-operator">=&gt;</span> <span class="php-string">"Charlie"</span>, <span class="php-string">"grade"</span> <span class="php-operator">=&gt;</span> <span class="php-string">"A"</span>]
+    ];
+    <span class="php-keyword">echo</span> <span class="php-variable">$students</span>[<span class="php-number">1</span>][<span class="php-string">'name'</span>]; <span class="php-comment">// Bob</span>
+<span class="php-tag">?&gt;</span></code></pre>
+                </li>
+            </ul>
+            <h3>Common Array Functions</h3>
+            PHP has a rich set of built-in array functions:
+            <ul>
+                <li><code class="inline-code">count($array)</code>: Returns the number of elements in an array.</li>
+                <li><code class="inline-code">sort($array)</code> / <code class="inline-code">rsort($array)</code>: Sorts indexed arrays (ascending/descending).</li>
+                <li><code class="inline-code">asort($array)</code> / <code class="inline-code">arsort($array)</code>: Sorts associative arrays by values (ascending/descending), preserving keys.</li>
+                <li><code class="inline-code">ksort($array)</code> / <code class="inline-code">krsort($array)</code>: Sorts associative arrays by keys (ascending/descending).</li>
+                <li><code class="inline-code">print_r($array)</code> / <code class="inline-code">var_dump($array)</code>: For displaying array contents for debugging.</li>
+                <li><code class="inline-code">array_push($array, $value1, ...)</code>: Adds elements to the end.</li>
+                <li><code class="inline-code">array_pop($array)</code>: Removes and returns the last element.</li>
+                <li><code class="inline-code">array_merge($array1, $array2)</code>: Merges arrays.</li>
+                <li><code class="inline-code">in_array($needle, $haystack)</code>: Checks if a value exists in an array.</li>
+                <li><code class="inline-code">array_key_exists($key, $array)</code>: Checks if a key exists in an array.</li>
+            </ul>
+        </section>
+
+        <section id="superglobals">
+            <h2>Superglobals</h2>
+            <p>Superglobals are built-in variables that are always accessible, regardless of scope. You can access them from any function, class, or file without having to do anything special.</p>
+            Common Superglobals:
+            <ul>
+                <li><code class="inline-code">$_GET</code>: An associative array of variables passed to the current script via the URL parameters (query string).
+                    <br>Example URL: <code class="path">script.php?name=Alice&age=30</code>
+<pre><code class="language-php"><span class="php-variable">$name</span> = <span class="php-variable">$_GET</span>[<span class="php-string">'name'</span>]; <span class="php-comment">// "Alice"</span>
+<span class="php-variable">$age</span> = <span class="php-variable">$_GET</span>[<span class="php-string">'age'</span>];  <span class="php-comment">// "30" (as string)</span></code></pre>
+                </li>
+                <li><code class="inline-code">$_POST</code>: An associative array of variables passed to the current script via the HTTP POST method (typically from HTML forms).</li>
+                <li><code class="inline-code">$_REQUEST</code>: An associative array containing contents of <code class="inline-code">$_GET</code>, <code class="inline-code">$_POST</code>, and <code class="inline-code">$_COOKIE</code>. (Order depends on <code class="path">request_order</code> in <code class="path">php.ini</code>).</li>
+                <li><code class="inline-code">$_SERVER</code>: An array containing information such as headers, paths, and script locations.
+<pre><code class="language-php"><span class="php-keyword">echo</span> <span class="php-variable">$_SERVER</span>[<span class="php-string">'PHP_SELF'</span>];      <span class="php-comment">// Filename of the currently executing script</span>
+<span class="php-keyword">echo</span> <span class="php-variable">$_SERVER</span>[<span class="php-string">'SERVER_NAME'</span>];   <span class="php-comment">// Name of the host server</span>
+<span class="php-keyword">echo</span> <span class="php-variable">$_SERVER</span>[<span class="php-string">'REQUEST_METHOD'</span>]; <span class="php-comment">// Which request method was used (e.g., GET, POST)</span></code></pre>
+                </li>
+                <li><code class="inline-code">$_SESSION</code>: An associative array used to store session variables (data that persists across multiple pages for a user). Requires <code class="inline-code">session_start()</code>.</li>
+                <li><code class="inline-code">$_COOKIE</code>: An associative array of variables passed to the current script via HTTP Cookies.</li>
+                <li><code class="inline-code">$_FILES</code>: An associative array of items uploaded to the current script via HTTP POST.</li>
+                <li><code class="inline-code">$GLOBALS</code>: An associative array containing references to all variables which are currently defined in the global scope of the script.</li>
+            </ul>
+            <p class="warning">When accessing data from superglobals like <code class="inline-code">$_GET</code> or <code class="inline-code">$_POST</code>, always validate and sanitize the input to prevent security vulnerabilities (e.g., XSS, SQL injection).</p>
+        </section>
+
+        <section id="form-handling">
+            <h2>Form Handling</h2>
+            <p>PHP is commonly used to process HTML form data submitted by users.</p>
+            <h3>Example HTML Form (<code class="path">myform.html</code>)</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;PHP Form&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action="process_form.php" method="post"&gt;
+        Name: &lt;input type="text" name="username"&gt;&lt;br&gt;
+        Email: &lt;input type="email" name="email"&gt;&lt;br&gt;
+        &lt;input type="submit" value="Submit"&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <h3>PHP Script to Process Form Data (<code class="path">process_form.php</code>)</h3>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-keyword">if</span> (<span class="php-variable">$_SERVER</span>[<span class="php-string">"REQUEST_METHOD"</span>] == <span class="php-string">"POST"</span>) {
+        <span class="php-comment">// Collect value of input fields</span>
+        <span class="php-comment">// It's important to validate and sanitize user input!</span>
+        <span class="php-variable">$name</span> = <span class="php-keyword">isset</span>(<span class="php-variable">$_POST</span>[<span class="php-string">'username'</span>]) <span class="php-operator">?</span> <span class="php-function-call">htmlspecialchars</span>(<span class="php-variable">$_POST</span>[<span class="php-string">'username'</span>]) <span class="php-operator">:</span> <span class="php-string">''</span>;
+        <span class="php-variable">$email</span> = <span class="php-keyword">isset</span>(<span class="php-variable">$_POST</span>[<span class="php-string">'email'</span>]) <span class="php-operator">?</span> <span class="php-function-call">filter_var</span>(<span class="php-variable">$_POST</span>[<span class="php-string">'email'</span>], FILTER_SANITIZE_EMAIL) <span class="php-operator">:</span> <span class="php-string">''</span>;
+
+        <span class="php-keyword">if</span> (<span class="php-keyword">empty</span>(<span class="php-variable">$name</span>)) {
+            <span class="php-keyword">echo</span> <span class="php-string">"Name is empty&lt;br&gt;"</span>;
+        } <span class="php-keyword">else</span> {
+            <span class="php-keyword">echo</span> <span class="php-string">"Welcome, "</span> <span class="php-operator">.</span> <span class="php-variable">$name</span> <span class="php-operator">.</span> <span class="php-string">"!&lt;br&gt;"</span>;
+        }
+
+        <span class="php-keyword">if</span> (<span class="php-keyword">empty</span>(<span class="php-variable">$email</span>)) {
+            <span class="php-keyword">echo</span> <span class="php-string">"Email is empty&lt;br&gt;"</span>;
+        } <span class="php-keyword">elseif</span> (<span class="php-operator">!</span><span class="php-function-call">filter_var</span>(<span class="php-variable">$email</span>, FILTER_VALIDATE_EMAIL)) {
+            <span class="php-keyword">echo</span> <span class="php-string">"Invalid email format&lt;br&gt;"</span>;
+        } <span class="php-keyword">else</span> {
+            <span class="php-keyword">echo</span> <span class="php-string">"Your email is: "</span> <span class="php-operator">.</span> <span class="php-variable">$email</span> <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+        }
+    } <span class="php-keyword">else</span> {
+        <span class="php-keyword">echo</span> <span class="php-string">"Form not submitted using POST method."</span>;
+    }
+<span class="php-tag">?&gt;</span></code></pre>
+            <p>Key functions used:</p>
+            <ul>
+                <li><code class="inline-code">isset()</code>: Checks if a variable is set and not null.</li>
+                <li><code class="inline-code">empty()</code>: Checks if a variable is empty (e.g., "", 0, "0", null, false, array()).</li>
+                <li><code class="inline-code">htmlspecialchars()</code>: Converts special characters to HTML entities (prevents XSS).</li>
+                <li><code class="inline-code">filter_var()</code> with <code class="inline-code">FILTER_SANITIZE_EMAIL</code> and <code class="inline-code">FILTER_VALIDATE_EMAIL</code>: For sanitizing and validating email addresses.</li>
+            </ul>
+        </section>
+
+        <section id="include-require">
+            <h2>Include and Require</h2>
+            <p>You can include the content of one PHP file into another PHP file before the server executes it.</p>
+            <ul>
+                <li><strong><code class="inline-code">include 'filename.php';</code></strong>
+                    <ul>
+                        <li>If the file is not found, a warning is generated, but the script continues execution.</li>
+                    </ul>
+                </li>
+                <li><strong><code class="inline-code">require 'filename.php';</code></strong>
+                    <ul>
+                        <li>If the file is not found, a fatal error is generated, and the script stops execution.</li>
+                        <li>Use this for essential files (e.g., database connections, core functions).</li>
+                    </ul>
+                </li>
+                <li><strong><code class="inline-code">include_once 'filename.php';</code></strong></li>
+                <li><strong><code class="inline-code">require_once 'filename.php';</code></strong>
+                    <ul>
+                        <li>These ensure that the file is included only once, even if the statement is encountered multiple times. This prevents errors from redeclaring functions or classes.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><strong>Example (<code class="path">header.php</code>):</strong></p>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span> <span class="php-keyword">echo</span> <span class="php-string">"&lt;header&gt;&lt;h1&gt;My Website Header&lt;/h1&gt;&lt;/header&gt;"</span>; <span class="php-tag">?&gt;</span></code></pre>
+            <p><strong>Example (<code class="path">index.php</code>):</strong></p>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span> <span class="php-keyword">include_once</span> <span class="php-string">'header.php'</span>; <span class="php-tag">?&gt;</span>
+&lt;p&gt;Main content of the page.&lt;/p&gt;
+<span class="php-tag">&lt;?php</span> <span class="php-keyword">include_once</span> <span class="php-string">'footer.php'</span>; <span class="php-comment">// Assuming footer.php exists</span> <span class="php-tag">?&gt;</span></code></pre>
+        </section>
+
+        <section id="oop-intro">
+            <h2>Introduction to Object-Oriented Programming (OOP)</h2>
+            <p>PHP has strong support for OOP, allowing you to structure your code using classes and objects.</p>
+            <h3>Classes and Objects</h3>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-keyword">class</span> Car {
+        <span class="php-comment">// Properties (member variables)</span>
+        <span class="php-keyword">public</span> <span class="php-variable">$color</span>;
+        <span class="php-keyword">public</span> <span class="php-variable">$model</span>;
+
+        <span class="php-comment">// Constructor (called when an object is created)</span>
+        <span class="php-keyword">public</span> <span class="php-keyword">function</span> <span class="php-function-call">__construct</span>(<span class="php-variable">$color</span>, <span class="php-variable">$model</span>) {
+            <span class="php-variable">$this</span><span class="php-operator">-&gt;</span>color = <span class="php-variable">$color</span>;
+            <span class="php-variable">$this</span><span class="php-operator">-&gt;</span>model = <span class="php-variable">$model</span>;
+            <span class="php-keyword">echo</span> <span class="php-string">"A "</span> <span class="php-operator">.</span> <span class="php-variable">$this</span><span class="php-operator">-&gt;</span>color <span class="php-operator">.</span> <span class="php-string">" "</span> <span class="php-operator">.</span> <span class="php-variable">$this</span><span class="php-operator">-&gt;</span>model <span class="php-operator">.</span> <span class="php-string">" car is created.&lt;br&gt;"</span>;
+        }
+        
+        <span class="php-comment">// Destructor (called when an object is destroyed or script ends)</span>
+        <span class="php-keyword">public</span> <span class="php-keyword">function</span> <span class="php-function-call">__destruct</span>() {
+            <span class="php-keyword">echo</span> <span class="php-string">"The "</span> <span class="php-operator">.</span> <span class="php-variable">$this</span><span class="php-operator">-&gt;</span>color <span class="php-operator">.</span> <span class="php-string">" "</span> <span class="php-operator">.</span> <span class="php-variable">$this</span><span class="php-operator">-&gt;</span>model <span class="php-operator">.</span> <span class="php-string">" car is destroyed.&lt;br&gt;"</span>;
+        }
+
+        <span class="php-comment">// Method (member function)</span>
+        <span class="php-keyword">public</span> <span class="php-keyword">function</span> <span class="php-function-call">startEngine</span>() {
+            <span class="php-keyword">echo</span> <span class="php-variable">$this</span><span class="php-operator">-&gt;</span>model <span class="php-operator">.</span> <span class="php-string">" engine started! Vroom!&lt;br&gt;"</span>;
+        }
+    }
+
+    <span class="php-comment">// Create objects (instances of the Car class)</span>
+    <span class="php-variable">$car1</span> = <span class="php-keyword">new</span> Car(<span class="php-string">"Red"</span>, <span class="php-string">"Ferrari"</span>);
+    <span class="php-variable">$car2</span> = <span class="php-keyword">new</span> Car(<span class="php-string">"Blue"</span>, <span class="php-string">"Toyota"</span>);
+
+    <span class="php-variable">$car1</span><span class="php-operator">-&gt;</span><span class="php-function-call">startEngine</span>();
+    <span class="php-keyword">echo</span> <span class="php-string">"Car 2 model: "</span> <span class="php-operator">.</span> <span class="php-variable">$car2</span><span class="php-operator">-&gt;</span>model <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+<span class="php-tag">?&gt;</span></code></pre>
+            <p>Key OOP concepts like encapsulation (using <code class="inline-code">public</code>, <code class="inline-code">private</code>, <code class="inline-code">protected</code> access modifiers), inheritance (<code class="inline-code">extends</code> keyword), and polymorphism (abstract classes, interfaces, method overriding) are also supported in PHP.</p>
+        </section>
+
+        <section id="error-handling-basic">
+            <h2>Basic Error Handling</h2>
+            <p>PHP has several ways to handle errors and exceptions.</p>
+            <ul>
+                <li><strong><code class="inline-code">die()</code> or <code class="inline-code">exit()</code>:</strong> Terminates script execution and can output a message.
+<pre><code class="language-php"><span class="php-keyword">if</span> (<span class="php-operator">!</span><span class="php-function-call">file_exists</span>(<span class="php-string">"important_file.txt"</span>)) {
+    <span class="php-function-call">die</span>(<span class="php-string">"Error: Important file not found. Script cannot continue."</span>);
+}</code></pre>
+                </li>
+                <li><strong>Error Reporting:</strong> The <code class="inline-code">error_reporting()</code> function sets which PHP errors are reported. In development, it's good to set it high (e.g., <code class="inline-code">error_reporting(E_ALL); ini_set('display_errors', 1);</code>). In production, errors should typically be logged to a file rather than displayed to users.</li>
+                <li><strong>Custom Error Handlers:</strong> You can define your own functions to handle errors using <code class="inline-code">set_error_handler()</code>.</li>
+                <li><strong>Exception Handling (<code class="inline-code">try-catch-finally</code>):</strong> For more structured error handling, especially in OOP.
+<pre><code class="language-php"><span class="php-keyword">function</span> <span class="php-function-call">divide</span>(<span class="php-variable">$numerator</span>, <span class="php-variable">$denominator</span>) {
+    <span class="php-keyword">if</span> (<span class="php-variable">$denominator</span> == <span class="php-number">0</span>) {
+        <span class="php-keyword">throw</span> <span class="php-keyword">new</span> Exception(<span class="php-string">"Division by zero!"</span>);
+    }
+    <span class="php-keyword">return</span> <span class="php-variable">$numerator</span> / <span class="php-variable">$denominator</span>;
+}
+
+<span class="php-keyword">try</span> {
+    <span class="php-keyword">echo</span> <span class="php-function-call">divide</span>(<span class="php-number">10</span>, <span class="php-number">0</span>);
+} <span class="php-keyword">catch</span> (Exception <span class="php-variable">$e</span>) {
+    <span class="php-keyword">echo</span> <span class="php-string">"Caught exception: "</span> <span class="php-operator">.</span> <span class="php-variable">$e</span><span class="php-operator">-&gt;</span><span class="php-function-call">getMessage</span>() <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+} <span class="php-keyword">finally</span> {
+    <span class="php-keyword">echo</span> <span class="php-string">"Finally block executed.&lt;br&gt;"</span>; <span class="php-comment">// PHP 5.5+</span>
+}</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="file-handling-intro">
+            <h2>Introduction to File Handling</h2>
+            <p>PHP provides functions to read from and write to files on the server.</p>
+            <h3>Reading a File</h3>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$filename</span> = <span class="php-string">"mytextfile.txt"</span>;
+    <span class="php-comment">// Ensure file exists and is readable</span>
+    <span class="php-keyword">if</span> (<span class="php-function-call">file_exists</span>(<span class="php-variable">$filename</span>) <span class="php-operator">&amp;&amp;</span> <span class="php-function-call">is_readable</span>(<span class="php-variable">$filename</span>)) {
+        <span class="php-variable">$file_content</span> = <span class="php-function-call">file_get_contents</span>(<span class="php-variable">$filename</span>); <span class="php-comment">// Reads entire file into a string</span>
+        <span class="php-keyword">echo</span> <span class="php-string">"&lt;pre&gt;"</span> <span class="php-operator">.</span> <span class="php-function-call">htmlspecialchars</span>(<span class="php-variable">$file_content</span>) <span class="php-operator">.</span> <span class="php-string">"&lt;/pre&gt;"</span>;
+    } <span class="php-keyword">else</span> {
+        <span class="php-keyword">echo</span> <span class="php-string">"File does not exist or is not readable.&lt;br&gt;"</span>;
+    }
+
+    <span class="php-comment">// Reading line by line (more memory efficient for large files)</span>
+    <span class="php-variable">$file_handle</span> = <span class="php-function-call">fopen</span>(<span class="php-variable">$filename</span>, <span class="php-string">"r"</span>); <span class="php-comment">// "r" for read mode</span>
+    <span class="php-keyword">if</span> (<span class="php-variable">$file_handle</span>) {
+        <span class="php-keyword">while</span> ((<span class="php-variable">$line</span> = <span class="php-function-call">fgets</span>(<span class="php-variable">$file_handle</span>)) <span class="php-operator">!==</span> <span class="php-constant">false</span>) {
+            <span class="php-keyword">echo</span> <span class="php-function-call">htmlspecialchars</span>(<span class="php-variable">$line</span>) <span class="php-operator">.</span> <span class="php-string">"&lt;br&gt;"</span>;
+        }
+        <span class="php-function-call">fclose</span>(<span class="php-variable">$file_handle</span>);
+    }
+<span class="php-tag">?&gt;</span></code></pre>
+            <h3>Writing to a File</h3>
+<pre><code class="language-php"><span class="php-tag">&lt;?php</span>
+    <span class="php-variable">$output_filename</span> = <span class="php-string">"output.txt"</span>;
+    <span class="php-variable">$data_to_write</span> = <span class="php-string">"This is a line written by PHP.\nAnother line.\n"</span>;
+
+    <span class="php-comment">// Write entire string (overwrites file or creates if not exists)</span>
+    <span class="php-keyword">if</span> (<span class="php-function-call">file_put_contents</span>(<span class="php-variable">$output_filename</span>, <span class="php-variable">$data_to_write</span>) <span class="php-operator">!==</span> <span class="php-constant">false</span>) {
+        <span class="php-keyword">echo</span> <span class="php-string">"Data written to "</span> <span class="php-operator">.</span> <span class="php-variable">$output_filename</span> <span class="php-operator">.</span> <span class="php-string">" successfully.&lt;br&gt;"</span>;
+    } <span class="php-keyword">else</span> {
+        <span class="php-keyword">echo</span> <span class="php-string">"Error writing to file.&lt;br&gt;"</span>;
+    }
+
+    <span class="php-comment">// Append to file</span>
+    <span class="php-variable">$data_to_append</span> = <span class="php-string">"Appending this line.\n"</span>;
+    <span class="php-function-call">file_put_contents</span>(<span class="php-variable">$output_filename</span>, <span class="php-variable">$data_to_append</span>, FILE_APPEND);
+<span class="php-tag">?&gt;</span></code></pre>
+            <p>Functions like <code class="inline-code">fopen()</code>, <code class="inline-code">fwrite()</code>, <span class="php-string">`fgets()`</span>, and <code class="inline-code">fclose()</code> provide more fine-grained control over file operations.</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>Congratulations on completing this beginner's guide to PHP! You've learned the core concepts needed to start building dynamic web applications.</p>
+            <p>To continue your PHP development journey:</p>
+            <ul>
+                <li><strong>Practice Regularly:</strong> Build small web applications, scripts, or experiment with the concepts you've learned.</li>
+                <li><strong>Work with Databases:</strong> Learn how to connect PHP to databases (MySQL is very common) using PDO (PHP Data Objects) or MySQLi. This is crucial for most web applications.</li>
+                <li><strong>Master Form Validation and Security:</strong> Deepen your understanding of sanitizing and validating user input to prevent common web vulnerabilities (XSS, SQL Injection).</li>
+                <li><strong>Sessions and Cookies:</strong> Learn how to manage user sessions and use cookies for tracking user state.</li>
+                <li><strong>Advanced OOP in PHP:</strong> Explore interfaces, abstract classes, traits, namespaces, and design patterns.</li>
+                <li><strong>PHP Frameworks:</strong>
+                    <ul>
+                        <li><strong>Laravel:</strong> A very popular, modern, and elegant framework with a rich feature set.</li>
+                        <li><strong>Symfony:</strong> A robust and flexible framework, often used for larger applications. Components from Symfony are used in many other projects (including Laravel).</li>
+                        <li><strong>CodeIgniter:</strong> A lightweight framework known for its speed and simplicity.</li>
+                        <li><strong>CakePHP, Laminas (formerly Zend Framework):</strong> Other established frameworks.</li>
+                    </ul>
+                </li>
+                <li><strong>Content Management Systems (CMS):</strong>
+                    <ul>
+                        <li><strong>WordPress:</strong> The most popular CMS, built with PHP. Learning to develop themes and plugins for WordPress can be a valuable skill.</li>
+                        <li><strong>Drupal, Joomla:</strong> Other powerful PHP-based CMS platforms.</li>
+                    </ul>
+                </li>
+                <li><strong>Composer:</strong> Learn to use Composer, PHP's dependency manager, for managing project libraries.</li>
+                <li><strong>REST APIs:</strong> Learn how to build and consume RESTful APIs with PHP.</li>
+                <li><strong>Security Best Practices:</strong> Continuously learn about web security principles and how to write secure PHP code.</li>
+                <li><strong>Version Control:</strong> Use Git for managing your code and collaborating.</li>
+                <li><strong>Stay Updated:</strong> PHP is an evolving language. Follow official PHP news, blogs, and communities (like PHP.net, Laracasts, PHP The Right Way).</li>
+            </ul>
+            <p class="important">The world of PHP is vast. Focus on building a strong foundation, then explore areas that interest you most.</p>
+            <p>Happy PHP coding!</p>
+        </section>
+
+    </div>
+
+    <script>
+       
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        function activateInitialLink() {
+            const hash = window.location.hash;
+            let activeLinkFound = false;
+            if (hash) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                        activeLinkFound = true;
+                    }
+                });
+            }
+            if (!activeLinkFound && navLinks.length > 0) {
+                navLinks[0].classList.add('active'); 
+            }
+        }
+        activateInitialLink();
+        window.addEventListener('hashchange', activateInitialLink); 
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

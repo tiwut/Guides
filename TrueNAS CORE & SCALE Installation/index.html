@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueNAS CORE & SCALE Installation Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333; 
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #0092D1; 
+            color: #fff;
+        }
+        #sidebar ul li.sub-header a {
+            font-weight: bold;
+            color: #fff;
+            background-color: #555; 
+            pointer-events: none; 
+        }
+        #sidebar ul li.sub-item a {
+            padding-left: 30px; 
+        }
+
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #0073AA; 
+            border-bottom: 2px solid #0073AA;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #005A8C; 
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #0092D1;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+        }
+        .note {
+            background-color: #e2e3e5;
+            border-left: 5px solid #b1b3b5;
+            padding: 10px;
+            margin-bottom: 15px;
+            color: #495057;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#introduction">Introduction to TrueNAS</a></li>
+            <li><a href="#prerequisites">Common Prerequisites</a></li>
+            <li><a href="#download-media">Common: Download & Media</a></li>
+            <li><a href="#bios-uefi">Common: BIOS/UEFI Config</a></li>
+
+            <li class="sub-header"><a href="#truenas-core-install-main">TrueNAS CORE</a></li>
+            <li class="sub-item"><a href="#core-boot-installer">CORE: Boot & Installer</a></li>
+            <li class="sub-item"><a href="#core-install-drive">CORE: Install Drive & Password</a></li>
+            <li class="sub-item"><a href="#core-installation-reboot">CORE: Installation & Reboot</a></li>
+
+            <li class="sub-header"><a href="#truenas-scale-install-main">TrueNAS SCALE</a></li>
+            <li class="sub-item"><a href="#scale-boot-installer">SCALE: Boot & Installer</a></li>
+            <li class="sub-item"><a href="#scale-install-drive">SCALE: Install Drive & Password</a></li>
+            <li class="sub-item"><a href="#scale-installation-reboot">SCALE: Installation & Reboot</a></li>
+
+            <li><a href="#first-boot-ui">Common: First Boot & Web UI</a></li>
+            <li><a href="#post-install-config">Common: Post-Install Config</a></li>
+            <li><a href="#troubleshooting">Common: Troubleshooting</a></li>
+            <li><a href="#disclaimer">Common: Disclaimer</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>TrueNAS CORE & SCALE Installation Guide</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction to TrueNAS</h2>
+            <p>TrueNAS is a powerful open-source Network Attached Storage (NAS) operating system built on robust foundations. It allows you to create centralized storage accessible over your network, with advanced features for data protection, sharing, and application hosting.</p>
+            <ul>
+                <li><strong>TrueNAS CORE:</strong> Based on FreeBSD, it's known for its extreme stability and direct lineage from FreeNAS. It primarily uses ZFS for its filesystem and offers robust traditional NAS functionalities, plugins, and jails.</li>
+                <li><strong>TrueNAS SCALE:</strong> Based on Debian Linux, it offers greater flexibility for modern applications, particularly with its robust support for Docker containers (via Kubernetes/k3s) and KVM virtual machines. It also uses OpenZFS.</li>
+            </ul>
+            <p>Both versions are managed primarily through a web-based user interface (Web UI).</p>
+            <p class="important">This guide covers the installation of the TrueNAS operating system itself. <strong>Data drives should NOT be used for the OS installation.</strong> The OS should be installed on a separate, dedicated boot device.</p>
+        </section>
+
+        <section id="prerequisites">
+            <h2>Common Prerequisites & Backup</h2>
+            <p class="warning"><strong>CRITICAL: BACKUP YOUR DATA!</strong> While the TrueNAS OS installation targets a specific boot drive, any mistakes during drive selection could lead to data loss on other drives. If you plan to use existing drives for your TrueNAS storage pools later, ensure any data on them is backed up, as they will be wiped when creating pools.</p>
+            <p>You will need:</p>
+            <ul>
+                <li><strong>Dedicated Hardware:</strong> A computer to be used as your TrueNAS server.
+                    <ul>
+                        <li><strong>CPU:</strong> 64-bit processor (Intel or AMD).</li>
+                        <li><strong>RAM:</strong> Minimum 8GB RAM. <strong>16GB+ highly recommended</strong>, especially for ZFS and if running apps/VMs. ECC RAM is strongly recommended for data integrity with ZFS.</li>
+                        <li><strong>Boot Drive:</strong> A separate, dedicated drive for the TrueNAS OS.
+                            <ul>
+                                <li><strong>Recommended:</strong> Small SSD (16GB-120GB is plenty, e.g., SATA M.2, 2.5" SSD, or SATA DOM). NVMe can also be used.</li>
+                                <li><strong>Acceptable (CORE):</strong> High-quality USB 3.0 flash drive (16GB-32GB). Be aware of potential lower reliability/lifespan compared to SSDs.</li>
+                                <li><strong>Less Recommended (SCALE):</strong> USB flash drives are generally less recommended for SCALE due to higher write activity, though they can work.</li>
+                                <li class="warning">The boot drive will be entirely dedicated to the TrueNAS OS and should not be used for data storage pools.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Storage Drives:</strong> One or more hard drives (HDDs) or SSDs for your actual data storage pools. These are separate from the boot drive.</li>
+                        <li><strong>Network Interface:</strong> At least one Gigabit Ethernet port (more for advanced configurations like link aggregation).</li>
+                    </ul>
+                </li>
+                <li><strong>TrueNAS Installation Image:</strong> Downloaded from the official TrueNAS website.</li>
+                <li><strong>USB Flash Drive for Installation Media:</strong> Minimum 8GB capacity (this is different from the OS boot drive). This drive will be erased.</li>
+                <li><strong>Monitor & Keyboard:</strong> For the initial installation process. After installation, TrueNAS is managed via the Web UI.</li>
+                <li><strong>Internet Connection:</strong> Recommended for the installer to check for updates (SCALE) and for post-installation setup.</li>
+            </ul>
+        </section>
+
+        <section id="download-media">
+            <h2>Common: Download Installation Image & Create Media</h2>
+            <ol>
+                <li><strong>Download TrueNAS Image:</strong>
+                    <ul>
+                        <li>For <strong>TrueNAS CORE:</strong> Go to the <a href="https://www.truenas.com/truenas-core/" target="_blank">TrueNAS CORE download page</a>.</li>
+                        <li>For <strong>TrueNAS SCALE:</strong> Go to the <a href="https://www.truenas.com/truenas-scale/" target="_blank">TrueNAS SCALE download page</a>.</li>
+                        <li>Download the latest stable <code>.iso</code> file.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p class="important"><strong>Verify the ISO Download (Recommended):</strong></p>
+                    <ul>
+                        <li>Find the checksum (SHA256) on the download page or in a related file.</li>
+                        <li>Use tools (as described in previous OS installation guides) to verify the checksum of your downloaded ISO. If it doesn't match, re-download.</li>
+                    </ul>
+                </li>
+                <li><strong>Create Bootable USB Installation Media:</strong>
+                    <p class="warning">The USB drive used for creating the installation media will be erased.</p>
+                    <ul>
+                        <li>Use a tool like <a href="https://www.balena.io/etcher/" target="_blank">BalenaEtcher</a> (Windows, macOS, Linux) or <a href="https://rufus.ie/" target="_blank">Rufus</a> (Windows).</li>
+                        <li><strong>Using BalenaEtcher:</strong> Select the downloaded TrueNAS ISO file, select your USB flash drive (the one for installation, not the OS boot drive target), and click "Flash!".</li>
+                        <li><strong>Using Rufus:</strong> Select your USB drive. Click "SELECT" and choose the TrueNAS ISO. Rufus should auto-configure. "Partition scheme" GPT and "Target system" UEFI are typical. Click "START". If Rufus asks about "ISO Image mode" vs "DD Image mode", "DD Image mode" is often more reliable.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="bios-uefi">
+            <h2>Common: BIOS/UEFI Configuration</h2>
+            <ol>
+                <li>Insert the bootable TrueNAS USB installation media into the target server.</li>
+                <li><strong>Access BIOS/UEFI Setup:</strong> Restart or turn on the server. Press the key for BIOS/UEFI setup (Common: <code>Del</code>, <code>F2</code>, <code>F10</code>, <code>F12</code>, <code>Esc</code>).</li>
+                <li><strong>Set Boot Order:</strong> Make the USB installation media the first boot device. It might be listed as "USB HDD," "Removable Devices," or "UEFI: [USB Drive Name]".</li>
+                <li><strong>UEFI vs. Legacy/CSM Mode:</strong>
+                    <ul>
+                        <li>Both TrueNAS CORE and SCALE support UEFI. <strong>UEFI Mode is recommended.</strong></li>
+                        <li>Disable "CSM" (Compatibility Support Module) or "Legacy Boot" if UEFI is enabled.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p class="important"><strong>Secure Boot:</strong></p>
+                    <ul>
+                        <li>You will likely need to <strong>DISABLE Secure Boot</strong> in your UEFI settings to boot the TrueNAS installer and the installed system.</li>
+                    </ul>
+                </li>
+                <li><strong>SATA Mode:</strong> Ensure SATA mode is set to <strong>AHCI</strong>. Do NOT use RAID modes provided by the motherboard controller for drives intended for TrueNAS ZFS pools (TrueNAS needs direct access to the drives).</li>
+                <li><strong>Virtualization Technology (VT-x/AMD-V):</strong> Enable this if you plan to run VMs on TrueNAS.</li>
+                <li><strong>Disable Fast Boot/Quick Boot.</strong></li>
+                <li><strong>Save and Exit.</strong></li>
+            </ol>
+        </section>
+
+        <hr>
+        <section id="truenas-core-install-main">
+            <h2>Installing TrueNAS CORE</h2>
+            <p>This section details the installation process for TrueNAS CORE.</p>
+
+            <div id="core-boot-installer">
+                <h3>CORE: Booting the Installer & Welcome</h3>
+                <ol>
+                    <li>The server will restart and should boot from the USB installation media.</li>
+                    <li>You'll see the TrueNAS CORE boot menu. It will typically auto-boot into the installer, or you can select "Install/Upgrade".</li>
+                    <li>The installer will load. You'll be presented with the "TrueNAS Setup" console menu.</li>
+                </ol>
+            </div>
+
+            <div id="core-install-drive">
+                <h3>CORE: Selecting Installation Drive & Root Password</h3>
+                <ol>
+                    <li>Select <strong>1 Install/Upgrade</strong> and press Enter.</li>
+                    <li>A list of available drives will be shown.
+                        <p class="warning"><strong>CRITICAL:</strong> Carefully select the drive where you want to install TrueNAS CORE (your dedicated OS boot drive - SSD or USB). <strong>DO NOT select your data drives.</strong> Use the Spacebar to select the desired drive(s). You can install to mirrored boot drives if you have two identical small drives for redundancy.</p>
+                    </li>
+                    <li>Once the correct boot drive(s) are selected, press Enter (OK).</li>
+                    <li>You will be warned that the selected drive(s) will be erased. Select <strong>Yes</strong> and press Enter.</li>
+                    <li><strong>Set Root Password:</strong> You will be prompted to set the password for the <code>root</code> user. This password will be used to log in to the TrueNAS CORE console and initially to the Web UI. Choose a strong password, enter it, and confirm it. Press Enter (OK).</li>
+                </ol>
+            </div>
+
+            <div id="core-installation-reboot">
+                <h3>CORE: Installation & Reboot</h3>
+                <ol>
+                    <li>Choose your boot mode: "Boot via BIOS" or "Boot via UEFI". For modern systems, select <strong>Boot via UEFI</strong>. Press Enter.
+                        <div class="note">If "Boot via UEFI" is greyed out, your system might not be in UEFI mode or the installation media wasn't booted in UEFI mode. Check BIOS/UEFI settings.</div>
+                    </li>
+                    <li>If you have a previous TrueNAS configuration on a USB stick that you want to import, you might be prompted. Usually, for a fresh install, select "No".</li>
+                    <li>The installation process will begin, copying files to the selected boot drive. This may take several minutes.</li>
+                    <li>Once complete, a message will indicate "The TrueNAS installation on [drive] was successful!". Press Enter (OK).</li>
+                    <li>You will be returned to the main "TrueNAS Setup" menu. Select <strong>4 Shutdown System</strong> (or <strong>3 Reboot System</strong>). Press Enter.</li>
+                    <li><strong>Remove the USB installation media</strong> as the system shuts down or reboots.</li>
+                </ol>
+            </div>
+        </section>
+        <hr>
+
+        <section id="truenas-scale-install-main">
+            <h2>Installing TrueNAS SCALE</h2>
+            <p>This section details the installation process for TrueNAS SCALE.</p>
+
+            <div id="scale-boot-installer">
+                <h3>SCALE: Booting the Installer & Welcome</h3>
+                <ol>
+                    <li>The server will restart and should boot from the USB installation media.</li>
+                    <li>You'll see the TrueNAS SCALE GRUB boot menu. Select "TrueNAS SCALE Installer" (or similar, usually the default) and press Enter.</li>
+                    <li>The installer will load, displaying Linux boot messages, followed by the TrueNAS SCALE console-based graphical installer.</li>
+                </ol>
+            </div>
+
+            <div id="scale-install-drive">
+                <h3>SCALE: Selecting Installation Drive & Admin Password</h3>
+                <ol>
+                    <li>The "TrueNAS SCALE Installation" menu will appear. Select <strong>Install/Upgrade</strong> and press Enter.</li>
+                    <li><strong>Select Drive(s):</strong> A list of available drives will be shown.
+                        <p class="warning"><strong>CRITICAL:</strong> Carefully select the drive where you want to install TrueNAS SCALE (your dedicated OS boot drive - preferably an SSD). <strong>DO NOT select your data drives.</strong> Use the arrow keys to navigate and Spacebar to select the desired drive(s). TrueNAS SCALE also supports mirrored boot drives. Minimum size for the boot drive is usually 16GB, but 32GB+ is better.</p>
+                    </li>
+                    <li>Navigate to <strong>OK</strong> and press Enter.</li>
+                    <li>You'll be asked about the type of installation. For a fresh install, choose <strong>Fresh Install</strong>. If upgrading an existing TrueNAS SCALE installation, you might choose "Upgrade Install". Press Enter.</li>
+                    <li>(Optional - if formatting) You might be asked if you want to format the boot drive(s) with a swap partition. Generally, "Create Swap" is fine for SSD boot drives, or "No Swap" if you have ample RAM and prefer not to use swap on the boot SSD. For most, the default is okay.</li>
+                    <li>You will be warned that the selected drive(s) will be erased. Select <strong>Yes</strong> and press Enter.</li>
+                    <li><strong>Set Admin User Password:</strong> You will be prompted to set the password for the default administrative user (usually <code>admin</code>). This password will be used to log in to the TrueNAS SCALE Web UI. Choose a strong password, enter it, and confirm it. Press Enter (OK).</li>
+                </ol>
+            </div>
+
+            <div id="scale-installation-reboot">
+                <h3>SCALE: Installation & Reboot</h3>
+                <ol>
+                    <li>The installation process will begin, copying files and configuring the system. This may take several minutes. A progress bar will be displayed.</li>
+                    <li>Once complete, a message will indicate the installation was successful, and you can reboot. Press Enter (OK).</li>
+                    <li><strong>Remove the USB installation media</strong> as the system reboots.</li>
+                </ol>
+            </div>
+        </section>
+        <hr>
+
+        <section id="first-boot-ui">
+            <h2>Common: First Boot & Accessing the Web UI</h2>
+            <ol>
+                <li>After rebooting (without the installation media), TrueNAS will boot from its newly installed OS drive.</li>
+                <li>The console will display boot messages. Once boot is complete, it will show the IP address(es) assigned to your TrueNAS server's network interface(s). This is the address you'll use to access the Web UI.
+                    <div class="note">Example console output:
+                    <pre>
+The web user interface is at:
+http://192.168.1.105 (em0)
+or
+https://192.168.1.105 (em0)</pre>
+                    </div>
+                </li>
+                <li>On another computer on the same network, open a web browser (e.g., Chrome, Firefox).</li>
+                <li>Enter the IP address shown on the TrueNAS console into the browser's address bar. You might get a certificate warning if using HTTPS; proceed if you trust the local connection.</li>
+                <li>The TrueNAS Web UI login screen will appear.
+                    <ul>
+                        <li><strong>TrueNAS CORE:</strong> Username is <code>root</code>. Password is the root password you set during installation.</li>
+                        <li><strong>TrueNAS SCALE:</strong> Username is <code>admin</code>. Password is the admin password you set during installation.</li>
+                    </ul>
+                </li>
+                <li>Log in to access the TrueNAS dashboard.</li>
+            </ol>
+        </section>
+
+        <section id="post-install-config">
+            <h2>Common: Post-Installation Configuration (via Web UI)</h2>
+            <p>The initial setup and all ongoing management of TrueNAS are done through the Web UI. Here are some key first steps:</p>
+            <ol>
+                <li><strong>Review Dashboard & System Information:</strong> Familiarize yourself with the interface.</li>
+                <li><strong>Network Configuration:</strong> (System Settings > Network) Verify or adjust IP settings, hostname, DNS, default gateway if needed.</li>
+                <li><strong>Storage - Create Pools:</strong> (Storage > Pools) This is where you'll use your data drives to create ZFS storage pools.
+                    <p class="warning">Creating a pool will wipe the selected data drives. Ensure data is backed up if reusing drives.</p>
+                    <ul>
+                        <li>Choose a layout (e.g., Stripe, Mirror, RAIDZ1, RAIDZ2, RAIDZ3) based on your needs for capacity, performance, and redundancy.</li>
+                    </ul>
+                </li>
+                <li><strong>Create Datasets/ZVOLs:</strong> Within your pools, create datasets (like folders with ZFS properties) or ZVOLs (block devices for iSCSI or VMs).</li>
+                <li><strong>User Accounts:</strong> (Accounts > Users) Create user accounts for accessing shares.</li>
+                <li><strong>Shares:</strong> (Sharing) Set up SMB/CIFS (Windows shares), NFS (Unix/Linux shares), or iSCSI shares.</li>
+                <li><strong>Services:</strong> (Services) Enable and configure services like SMB, NFS, SSH, S.M.A.R.T. (for disk health monitoring).</li>
+                <li><strong>System Settings:</strong>
+                    <ul>
+                        <li><strong>General:</strong> Timezone, language, keyboard map for console.</li>
+                        <li><strong>Email:</strong> Configure email notifications for system alerts.</li>
+                        <li><strong>Update:</strong> Check for and apply TrueNAS updates.</li>
+                    </ul>
+                </li>
+                <li><strong>(TrueNAS SCALE) Applications:</strong> (Apps) Explore and install applications (Docker containers).</li>
+                <li><strong>(TrueNAS CORE) Plugins & Jails:</strong> (Plugins/Jails) Install pre-configured applications or create isolated environments.</li>
+                <li><strong>Backup Configuration:</strong> Plan and configure regular backups of your TrueNAS configuration (System Settings > General > Save Config). Also, plan data backups from TrueNAS to another location (Replication Tasks, Cloud Sync).</li>
+            </ol>
+        </section>
+
+        <section id="troubleshooting">
+            <h2>Common: Troubleshooting Installation Issues</h2>
+            <ul>
+                <li><strong>Installer Doesn't Boot:</strong>
+                    <ul>
+                        <li>Verify BIOS/UEFI boot order is correct (USB first).</li>
+                        <li>Ensure Secure Boot is DISABLED.</li>
+                        <li>Try recreating the USB installation media, possibly with a different USB drive or tool.</li>
+                        <li>Ensure the ISO download was not corrupted (verify checksum).</li>
+                        <li>Try a different USB port on the server.</li>
+                    </ul>
+                </li>
+                <li><strong>Installation Drive Not Detected:</strong>
+                    <ul>
+                        <li>Check physical connections (SATA/power cables).</li>
+                        <li>Ensure the drive is recognized in BIOS/UEFI.</li>
+                        <li>Ensure SATA controller is in AHCI mode (not RAID).</li>
+                        <li>Some NVMe drives or controllers might need specific BIOS settings or might have compatibility issues with older TrueNAS versions. Check TrueNAS hardware compatibility lists.</li>
+                    </ul>
+                </li>
+                <li><strong>Installation Fails Mid-Process:</strong>
+                    <ul>
+                        <li>Could indicate a problem with the installation media or the target boot drive.</li>
+                        <li>RAM issues can cause instability; run a memory test (e.g., MemTest86+).</li>
+                    </ul>
+                </li>
+                <li><strong>Cannot Access Web UI After Installation:</strong>
+                    <ul>
+                        <li>Verify the IP address shown on the TrueNAS console is correct and reachable from your client machine (try pinging it).</li>
+                        <li>Check network cable connections.</li>
+                        <li>Ensure client PC is on the same network/subnet or that routing is correct.</li>
+                        <li>Try a different web browser or clear browser cache.</li>
+                    </ul>
+                </li>
+                <li><strong>Consult Official Documentation:</strong> The <a href="https://www.truenas.com/docs/" target="_blank">TrueNAS Documentation</a> is excellent and your primary resource for detailed information and troubleshooting.</li>
+            </ul>
+        </section>
+
+        <section id="disclaimer">
+            <h2>Common: Disclaimer</h2>
+            <p>This guide is provided for informational purposes only. Installing TrueNAS involves risks, including potential data loss if drive selection or partitioning is done incorrectly. Proceed at your own risk. Always back up your important data before making significant system changes.</p>
+            <p>The author of this webpage is not responsible for any damage to your hardware, data loss, or other issues that may arise from following this guide. Refer to the official TrueNAS documentation for definitive and the most up-to-date information.</p>
+        </section>
+
+    </div>
+
+    <script>
+       
+        const sections = document.querySelectorAll('#main-content section, #main-content div[id]');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            let minDistance = Infinity;
+            const viewportCenter = pageYOffset + window.innerHeight / 2;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionCenter = sectionTop + sectionHeight / 2;
+                const distance = Math.abs(viewportCenter - sectionCenter);
+
+                if (pageYOffset >= sectionTop - 70 && pageYOffset < sectionTop + sectionHeight - 70) {
+                     
+                    if (section.offsetTop < (pageYOffset + 100)) { 
+                        current = section.getAttribute('id');
+                        
+                        if (section.offsetTop >= pageYOffset && section.offsetTop < pageYOffset + 70) return;
+                    }
+                }
+               
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    if (!current) current = section.getAttribute('id');
+                }
+            });
+
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const href = link.getAttribute('href');
+                if (href && href.substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+
+             
+            if (!current && navLinks.length > 0 && sections.length > 0 && pageYOffset < sections[0].offsetTop - 70) {
+                if (!navLinks[0].parentNode.classList.contains('sub-header')) {
+                    navLinks[0].classList.add('active');
+                } else if (navLinks.length > 1) {
+                     navLinks[1].classList.add('active'); 
+                }
+            } else if (!current && navLinks.length > 0 && sections.length === 0) { 
+                 if (!navLinks[0].parentNode.classList.contains('sub-header')) {
+                    navLinks[0].classList.add('active');
+                }  else if (navLinks.length > 1) {
+                     navLinks[1].classList.add('active');
+                }
+            }
+        };
+        
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

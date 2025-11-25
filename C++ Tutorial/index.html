@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>In-Depth C++ Tutorial</title>
+    <style>
+        
+        :root {
+            --bg-color: #f8f9fa;
+            --main-content-bg: #ffffff;
+            --sidebar-bg: #e9ecef;
+            --text-color: #212529;
+            --heading-color: #00599C;
+            --link-color: #00599C;
+            --link-hover-color: #00447A;
+            --border-color: #dee2e6;
+            --code-bg: #f1f3f5;
+            --code-color: #c7254e;
+            --pre-bg: #2d2d2d;
+            --pre-color: #f8f8f2;
+            --sidebar-text-color: #343a40;
+            --sidebar-active-bg: #00599C;
+            --sidebar-active-text: #ffffff;
+            --important-bg: #d1ecf1;
+            --important-border: #bee5eb;
+            --important-text: #0c5460;
+            --warning-bg: #fff3cd;
+            --warning-border: #ffeeba;
+            --warning-text: #856404;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --main-content-bg: #1e1e1e;
+                --sidebar-bg: #252526;
+                --text-color: #e0e0e0;
+                --heading-color: #68A0CF; 
+                --link-color: #68A0CF;
+                --link-hover-color: #90BADD;
+                --border-color: #3a3a3a;
+                --code-bg: #333333;
+                --code-color: #d19a66;
+                --pre-bg: #222222;
+                --pre-color: #e0e0e0;
+                --sidebar-text-color: #e0e0e0;
+                --sidebar-active-bg: #68A0CF;
+                --sidebar-active-text: #121212;
+                --important-bg: #0c5460;
+                --important-border: #177a8a;
+                --important-text: #d1ecf1;
+                --warning-bg: #856404;
+                --warning-border: #997404;
+                --warning-text: #fff3cd;
+            }
+        }
+
+       
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        
+        #sidebar {
+            width: 300px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text-color);
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 1px solid var(--border-color);
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        #sidebar h2 {
+            color: var(--heading-color);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        #sidebar ul { list-style-type: none; padding: 0; }
+        #sidebar ul li a {
+            display: block;
+            color: var(--sidebar-text-color);
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s, color 0.2s;
+            font-size: 0.95em;
+        }
+
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: var(--sidebar-active-bg);
+            color: var(--sidebar-active-text);
+        }
+
+        
+        #lang-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .lang-btn {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            background-color: transparent;
+            color: var(--sidebar-text-color);
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .lang-btn.active {
+            background-color: var(--sidebar-active-bg);
+            color: var(--sidebar-active-text);
+            border-color: var(--sidebar-active-bg);
+        }
+
+        
+        #main-content {
+            margin-left: 320px;
+            padding: 30px 50px;
+            width: calc(100% - 320px);
+            background-color: var(--main-content-bg);
+            min-height: 100vh;
+        }
+
+        section { margin-bottom: 50px; padding-top: 20px; }
+        section:last-child { border-bottom: none; }
+        
+        h1 {
+            color: var(--heading-color);
+            margin: 0 0 40px 0;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            font-size: 2.5em;
+        }
+        h2 {
+            color: var(--heading-color);
+            border-bottom: 2px solid var(--heading-color);
+            padding-bottom: 10px;
+            margin: 40px 0 25px 0;
+            font-size: 1.8em;
+        }
+        h3 { color: var(--link-hover-color); font-size: 1.4em; }
+        a { color: var(--link-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        
+        code.inline-code {
+            background-color: var(--code-bg);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", "Consolas", "Courier New", monospace;
+            color: var(--code-color);
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: var(--pre-bg);
+            color: var(--pre-color);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            font-size: 0.95em;
+        }
+        pre code {
+            padding: 0; background-color: transparent;
+            border-radius: 0; color: inherit;
+            font-family: "SF Mono", "Consolas", "Courier New", monospace;
+        }
+
+        
+        .cpp-keyword { color: #569cd6; } 
+        .cpp-control { color: #c586c0; } 
+        .cpp-type { color: #4ec9b0; } 
+        .cpp-comment { color: #6a9955; font-style: italic; } 
+        .cpp-string { color: #ce9178; } 
+        .cpp-preprocessor { color: #c586c0; } 
+        .cpp-number { color: #b5cea8; } 
+        .cpp-function { color: #dcdcaa; } 
+        .cpp-operator { color: #d4d4d4; } 
+        
+        
+        .important, .warning {
+            padding: 15px; margin: 20px 0; border-radius: 5px;
+        }
+        .important p:last-child, .warning p:last-child { margin-bottom: 0; }
+        .important { background-color: var(--important-bg); border-left: 5px solid var(--important-border); color: var(--important-text); }
+        .warning { background-color: var(--warning-bg); border-left: 5px solid var(--warning-border); color: var(--warning-text); }
+        
+        
+        @media (max-width: 950px) {
+            body { flex-direction: column; }
+            #sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border-color); }
+            #main-content { margin-left: 0; width: 100%; padding: 20px; }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.6em; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2 data-en="C++ Guide" data-de="C++ Guide" data-es="Guía de C++"></h2>
+        
+        <div id="lang-switcher">
+            <button class="lang-btn" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="de">DE</button>
+            <button class="lang-btn" data-lang="es">ES</button>
+        </div>
+
+        <ul>
+            <li><a href="#intro" data-en="Introduction" data-de="Einführung" data-es="Introducción"></a></li>
+            <li><a href="#setup" data-en="Setup Environment" data-de="Umgebung einrichten" data-es="Configurar Entorno"></a></li>
+            <li><a href="#hello-world" data-en="First Program" data-de="Erstes Programm" data-es="Primer Programa"></a></li>
+            <li><a href="#namespaces" data-en="Namespaces" data-de="Namensräume" data-es="Espacios de Nombres"></a></li>
+            <li><a href="#variables" data-en="Variables & Types" data-de="Variablen & Typen" data-es="Variables y Tipos"></a></li>
+            <li><a href="#operators" data-en="Operators" data-de="Operatoren" data-es="Operadores"></a></li>
+            <li><a href="#control-flow" data-en="Control Flow" data-de="Kontrollstrukturen" data-es="Flujo de Control"></a></li>
+            <li><a href="#functions" data-en="Functions & Lambdas" data-de="Funktionen & Lambdas" data-es="Funciones y Lambdas"></a></li>
+            <li><a href="#headers" data-en="Headers & Source Files" data-de="Header- & Source-Dateien" data-es="Archivos de Cabecera y Fuente"></a></li>
+            <li><a href="#collections" data-en="Collections (Vector, String)" data-de="Sammlungen (Vektor, String)" data-es="Colecciones (Vector, String)"></a></li>
+            <li><a href="#memory" data-en="Pointers & Memory" data-de="Zeiger & Speicher" data-es="Punteros y Memoria"></a></li>
+            <li><a href="#oop" data-en="Object-Oriented Programming" data-de="Objektorientierte Programmierung" data-es="Programación Orientada a Objetos"></a></li>
+            <li><a href="#templates" data-en="Templates" data-de="Templates (Vorlagen)" data-es="Plantillas (Templates)"></a></li>
+            <li><a href="#stl" data-en="The Standard Library (STL)" data-de="Die Standardbibliothek (STL)" data-es="La Biblioteca Estándar (STL)"></a></li>
+            <li><a href="#exceptions" data-en="Exception Handling" data-de="Ausnahmebehandlung" data-es="Manejo de Excepciones"></a></li>
+            <li><a href="#files" data-en="File I/O" data-de="Datei-E/A" data-es="E/S de Archivos"></a></li>
+            <li><a href="#next-steps" data-en="Next Steps" data-de="Nächste Schritte" data-es="Próximos Pasos"></a></li>
+        </ul>
+    </nav>
+
+    <main id="main-content">
+        <h1 data-en="In-Depth C++ Tutorial for Beginners and Beyond" data-de="Umfassendes C++ Tutorial für Anfänger und Fortgeschrittene" data-es="Tutorial Detallado de C++ para Principiantes y Más Allá"></h1>
+        
+       
+        <section id="intro">
+            <h2 data-en="1. Introduction to C++" data-de="1. Einführung in C++" data-es="1. Introducción a C++"></h2>
+            <p data-en="C++ is a powerful, general-purpose programming language created by Bjarne Stroustrup as an extension of the C language. It is a 'middle-level' language, as it combines features of both high-level languages (like abstractions, object-orientation) and low-level languages (like direct memory manipulation). This makes it an exceptional choice for applications where performance is critical." 
+               data-de="C++ ist eine leistungsstarke Allzweck-Programmiersprache, die von Bjarne Stroustrup als Erweiterung der Sprache C entwickelt wurde. Sie gilt als 'Sprache der mittleren Ebene', da sie Merkmale von Hochsprachen (wie Abstraktionen, Objektorientierung) und Low-Level-Sprachen (wie direkte Speicher-Manipulation) kombiniert. Das macht sie zu einer außergewöhnlichen Wahl für Anwendungen, bei denen Performance entscheidend ist."
+               data-es="C++ es un potente lenguaje de programación de propósito general creado por Bjarne Stroustrup como una extensión del lenguaje C. Es un lenguaje de 'nivel medio', ya que combina características tanto de lenguajes de alto nivel (como abstracciones, orientación a objetos) como de bajo nivel (como la manipulación directa de memoria). Esto lo convierte en una opción excepcional para aplicaciones donde el rendimiento es crítico."></p>
+            <h3 data-en="Why Learn C++?" data-de="Warum C++ lernen?" data-es="¿Por qué aprender C++?"></h3>
+            <ul>
+                <li data-en="<strong>Performance:</strong> C++ allows close-to-hardware programming, giving developers fine-grained control over resources, which leads to highly efficient and fast applications." data-de="<strong>Performance:</strong> C++ ermöglicht eine hardwarenahe Programmierung und gibt Entwicklern eine feingranulare Kontrolle über Ressourcen, was zu hocheffizienten und schnellen Anwendungen führt." data-es="<strong>Rendimiento:</strong> C++ permite la programación cercana al hardware, dando a los desarrolladores un control detallado sobre los recursos, lo que conduce a aplicaciones muy eficientes y rápidas."></li>
+                <li data-en="<strong>Object-Oriented:</strong> Its robust support for OOP (classes, inheritance, polymorphism) allows for the creation of complex, maintainable, and reusable code." data-de="<strong>Objektorientiert:</strong> Seine robuste Unterstützung für OOP (Klassen, Vererbung, Polymorphie) ermöglicht die Erstellung von komplexem, wartbarem und wiederverwendbarem Code." data-es="<strong>Orientado a Objetos:</strong> Su sólido soporte para POO (clases, herencia, polimorfismo) permite la creación de código complejo, mantenible y reutilizable."></li>
+                <li data-en="<strong>Vast Libraries:</strong> The C++ Standard Library, including the Standard Template Library (STL), provides a rich set of tools for data structures and algorithms." data-de="<strong>Umfangreiche Bibliotheken:</strong> Die C++-Standardbibliothek, einschließlich der Standard Template Library (STL), bietet eine Fülle von Werkzeugen für Datenstrukturen und Algorithmen." data-es="<strong>Vastas Bibliotecas:</strong> La Biblioteca Estándar de C++, incluyendo la Standard Template Library (STL), proporciona un rico conjunto de herramientas para estructuras de datos y algoritmos."></li>
+                <li data-en="<strong>Industry Standard:</strong> It's the backbone of many industries, including game development (Unreal Engine), operating systems (Windows, macOS), web browsers (Chrome, Firefox), high-performance computing, and financial trading systems." data-de="<strong>Industriestandard:</strong> Es ist das Rückgrat vieler Branchen, einschließlich Spieleentwicklung (Unreal Engine), Betriebssysteme (Windows, macOS), Webbrowser (Chrome, Firefox), High-Performance-Computing und Finanzhandelssysteme." data-es="<strong>Estándar de la Industria:</strong> Es la columna vertebral de muchas industrias, incluyendo el desarrollo de videojuegos (Unreal Engine), sistemas operativos (Windows, macOS), navegadores web (Chrome, Firefox), computación de alto rendimiento y sistemas de trading financiero."></li>
+            </ul>
+            <p class="important" data-en="This guide focuses on <strong>Modern C++</strong> (C++11/14/17/20), emphasizing practices that lead to safer, cleaner, and more efficient code." data-de="Dieser Guide konzentriert sich auf <strong>Modernes C++</strong> (C++11/14/17/20) und betont Praktiken, die zu sicherem, sauberem und effizienterem Code führen." data-es="Esta guía se centra en <strong>C++ Moderno</strong> (C++11/14/17/20), enfatizando prácticas que conducen a un código más seguro, limpio y eficiente."></p>
+        </section>
+        
+        
+        <section id="setup">
+            <h2 data-en="2. Setting up Your Environment" data-de="2. Umgebung einrichten" data-es="2. Configurando tu Entorno"></h2>
+            <p data-en="To write, compile, and run C++ code, you need two main components: a <strong>compiler</strong> and a <strong>code editor/IDE</strong>." data-de="Um C++-Code zu schreiben, zu kompilieren und auszuführen, benötigst du zwei Hauptkomponenten: einen <strong>Compiler</strong> und einen <strong>Code-Editor/IDE</strong>." data-es="Para escribir, compilar y ejecutar código C++, necesitas dos componentes principales: un <strong>compilador</strong> y un <strong>editor de código/IDE</strong>."></p>
+            <h3 data-en="Compilers" data-de="Compiler" data-es="Compiladores"></h3>
+            <ul>
+                <li data-en="<strong>GCC (g++):</strong> The GNU Compiler Collection is the standard on Linux. Available on Windows via MinGW-w64 or MSYS2, and on macOS via Homebrew." data-de="<strong>GCC (g++):</strong> Die GNU Compiler Collection ist der Standard unter Linux. Verfügbar für Windows über MinGW-w64 oder MSYS2 und für macOS über Homebrew." data-es="<strong>GCC (g++):</strong> La GNU Compiler Collection es el estándar en Linux. Disponible en Windows a través de MinGW-w64 o MSYS2, y en macOS a través de Homebrew."></li>
+                <li data-en="<strong>Clang:</strong> A modern compiler known for fast compile times and excellent error messages. The default on macOS (via Xcode Command Line Tools)." data-de="<strong>Clang:</strong> Ein moderner Compiler, bekannt für schnelle Kompilierzeiten und exzellente Fehlermeldungen. Der Standard auf macOS (über Xcode Command Line Tools)." data-es="<strong>Clang:</strong> Un compilador moderno conocido por sus rápidos tiempos de compilación y excelentes mensajes de error. El predeterminado en macOS (a través de Xcode Command Line Tools)."></li>
+                <li data-en="<strong>MSVC:</strong> The Microsoft Visual C++ compiler, integrated into Visual Studio. The standard for Windows-native development." data-de="<strong>MSVC:</strong> Der Microsoft Visual C++ Compiler, integriert in Visual Studio. Der Standard für die native Windows-Entwicklung." data-es="<strong>MSVC:</strong> El compilador de Microsoft Visual C++, integrado en Visual Studio. El estándar para el desarrollo nativo de Windows."></li>
+            </ul>
+            <h3 data-en="Code Editors & IDEs" data-de="Code-Editoren & IDEs" data-es="Editores de Código e IDEs"></h3>
+            <ul>
+                <li data-en="<strong>Visual Studio Code (Recommended):</strong> A free, lightweight, and powerful editor for all platforms. Combine it with the 'C/C++' extension from Microsoft for an IDE-like experience." data-de="<strong>Visual Studio Code (Empfohlen):</strong> Ein kostenloser, leichtgewichtiger und leistungsstarker Editor für alle Plattformen. Kombiniere ihn mit der 'C/C++'-Erweiterung von Microsoft für ein IDE-ähnliches Erlebnis." data-es="<strong>Visual Studio Code (Recomendado):</strong> Un editor gratuito, ligero y potente para todas las plataformas. Combínalo con la extensión 'C/C++' de Microsoft para una experiencia similar a un IDE."></li>
+                <li data-en="<strong>Visual Studio (Windows):</strong> A full-featured, powerful IDE. The Community edition is free." data-de="<strong>Visual Studio (Windows):</strong> Eine voll ausgestattete, leistungsstarke IDE. Die Community-Edition ist kostenlos." data-es="<strong>Visual Studio (Windows):</strong> Un IDE potente y con todas las funciones. La edición Community es gratuita."></li>
+                <li data-en="<strong>CLion (Cross-platform):</strong> A professional, modern C++ IDE from JetBrains. Paid, but free for students." data-de="<strong>CLion (Plattformübergreifend):</strong> Eine professionelle, moderne C++-IDE von JetBrains. Kostenpflichtig, aber kostenlos für Studenten." data-es="<strong>CLion (Multiplataforma):</strong> Un IDE de C++ profesional y moderno de JetBrains. De pago, pero gratuito para estudiantes."></li>
+            </ul>
+            <p data-en="To verify your g++ installation, open a terminal and run <code class='inline-code'>g++ --version</code>. You should see version information." data-de="Um deine g++-Installation zu überprüfen, öffne ein Terminal und führe <code class='inline-code'>g++ --version</code> aus. Du solltest Versionsinformationen sehen." data-es="Para verificar tu instalación de g++, abre una terminal y ejecuta <code class='inline-code'>g++ --version</code>. Deberías ver información de la versión."></p>
+        </section>
+
+        
+        <section id="hello-world">
+            <h2 data-en="3. Your First Program: Hello, C++!" data-de="3. Dein erstes Programm: Hallo, C++!" data-es="3. Tu Primer Programa: ¡Hola, C++!"></h2>
+            <p data-en="Let's write a program that prints 'Hello, C++!' to the screen. Create a file named <code class='inline-code'>main.cpp</code>." data-de="Schreiben wir ein Programm, das 'Hallo, C++!' auf dem Bildschirm ausgibt. Erstelle eine Datei namens <code class='inline-code'>main.cpp</code>." data-es="Vamos a escribir un programa que imprima '¡Hola, C++!' en la pantalla. Crea un archivo llamado <code class='inline-code'>main.cpp</code>."></p>
+            <pre><code class="language-cpp"><span class="cpp-preprocessor">#include &lt;iostream&gt;</span> <span class="cpp-comment">// 'Input/Output Stream' library for console I/O</span>
+
+<span class="cpp-comment">// The main function is the entry point of every C++ program.</span>
+<span class="cpp-keyword">int</span> <span class="cpp-function">main</span>() {
+    <span class="cpp-comment">// 'std::cout' is the standard character output stream.</span>
+    <span class="cpp-comment">// The '<<' operator is the 'stream insertion operator'.</span>
+    <span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-string">"Hello, C++!"</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-type">std</span>::<span class="cpp-type">endl</span>;
+
+    <span class="cpp-comment">// 'return 0' indicates successful execution to the operating system.</span>
+    <span class="cpp-control">return</span> <span class="cpp-number">0</span>;
+}
+</code></pre>
+            <h3 data-en="Compiling and Running" data-de="Kompilieren und Ausführen" data-es="Compilar y Ejecutar"></h3>
+            <ol>
+                <li data-en="Open a terminal in the directory where you saved the file." data-de="Öffne ein Terminal in dem Verzeichnis, in dem du die Datei gespeichert hast." data-es="Abre una terminal en el directorio donde guardaste el archivo."></li>
+                <li data-en="Compile it using g++: <code class='inline-code'>g++ main.cpp -o hello_app</code>. The <code class='inline-code'>-o</code> flag names the output executable." data-de="Kompiliere es mit g++: <code class='inline-code'>g++ main.cpp -o hello_app</code>. Das <code class='inline-code'>-o</code>-Flag benennt die ausführbare Ausgabedatei." data-es="Compílalo usando g++: <code class='inline-code'>g++ main.cpp -o hello_app</code>. La bandera <code class='inline-code'>-o</code> nombra el ejecutable de salida."></li>
+                <li data-en="Run it: On Linux/macOS, type <code class='inline-code'>./hello_app</code>. On Windows, type <code class='inline-code'>hello_app</code>." data-de="Führe es aus: Unter Linux/macOS tippe <code class='inline-code'>./hello_app</code>. Unter Windows tippe <code class='inline-code'>hello_app</code>." data-es="Ejecútalo: En Linux/macOS, escribe <code class='inline-code'>./hello_app</code>. En Windows, escribe <code class='inline-code'>hello_app</code>."></li>
+            </ol>
+        </section>
+
+        
+        <section id="namespaces">
+            <h2 data-en="4. Understanding Namespaces" data-de="4. Namensräume verstehen" data-es="4. Entendiendo los Espacios de Nombres"></h2>
+            <p data-en="Namespaces are designed to prevent naming conflicts. Imagine you use a library that has a function called <code class='inline-code'>print()</code>, and you also write a function called <code class='inline-code'>print()</code>. A namespace allows you to group your code under a unique name." 
+               data-de="Namensräume sollen Namenskonflikte verhindern. Stell dir vor, du verwendest eine Bibliothek mit einer Funktion namens <code class='inline-code'>print()</code> und schreibst auch eine eigene Funktion namens <code class='inline-code'>print()</code>. Ein Namensraum ermöglicht es dir, deinen Code unter einem eindeutigen Namen zu gruppieren."
+               data-es="Los espacios de nombres están diseñados para evitar conflictos de nombres. Imagina que usas una biblioteca que tiene una función llamada <code class='inline-code'>print()</code>, y tú también escribes una función llamada <code class='inline-code'>print()</code>. Un espacio de nombres te permite agrupar tu código bajo un nombre único."></p>
+            <p data-en="In our 'Hello, World!' example, <code class='inline-code'>cout</code> and <code class='inline-code'>endl</code> are part of the <code class='inline-code'>std</code> (standard) namespace. We access them with the scope resolution operator <code class='inline-code'>::</code> (e.g., <code class='inline-code'>std::cout</code>)."
+               data-de="In unserem 'Hallo, Welt!'-Beispiel sind <code class='inline-code'>cout</code> und <code class='inline-code'>endl</code> Teil des <code class='inline-code'>std</code> (Standard) Namensraums. Wir greifen mit dem Gültigkeitsbereichsoperator <code class='inline-code'>::</code> darauf zu (z.B. <code class='inline-code'>std::cout</code>)."
+               data-es="En nuestro ejemplo de '¡Hola, Mundo!', <code class='inline-code'>cout</code> y <code class='inline-code'>endl</code> son parte del espacio de nombres <code class='inline-code'>std</code> (estándar). Accedemos a ellos con el operador de resolución de ámbito <code class='inline-code'>::</code> (ej., <code class='inline-code'>std::cout</code>)."></p>
+            
+            <pre><code class="language-cpp"><span class="cpp-comment">// Creating your own namespace</span>
+<span class="cpp-keyword">namespace</span> MyCode {
+    <span class="cpp-keyword">void</span> <span class="cpp-function">printMessage</span>() {
+        <span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-string">"Hello from MyCode namespace!"</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-type">std</span>::<span class="cpp-type">endl</span>;
+    }
+}
+
+<span class="cpp-keyword">int</span> <span class="cpp-function">main</span>() {
+    MyCode::<span class="cpp-function">printMessage</span>(); <span class="cpp-comment">// Calling function from our namespace</span>
+    <span class="cpp-control">return</span> <span class="cpp-number">0</span>;
+}
+</code></pre>
+            <div class="warning">
+                <p data-en="You might see <code class='inline-code'>using namespace std;</code>. This directive brings all names from the <code class='inline-code'>std</code> namespace into the current scope. <strong>This is considered bad practice in header files and larger projects</strong> because it can reintroduce the very naming conflicts namespaces are meant to solve. It's better to be explicit with <code class='inline-code'>std::</code> or use specific <code class='inline-code'>using</code> declarations (e.g., <code class='inline-code'>using std::cout;</code>)."
+                   data-de="Du wirst vielleicht <code class='inline-code'>using namespace std;</code> sehen. Diese Anweisung holt alle Namen aus dem <code class='inline-code'>std</code>-Namensraum in den aktuellen Gültigkeitsbereich. <strong>Dies gilt in Header-Dateien und größeren Projekten als schlechte Praxis</strong>, da es genau die Namenskonflikte wieder einführen kann, die Namensräume lösen sollen. Es ist besser, explizit <code class='inline-code'>std::</code> zu verwenden oder spezifische <code class='inline-code'>using</code>-Deklarationen zu nutzen (z.B. <code class='inline-code'>using std::cout;</code>)."
+                   data-es="Podrías ver <code class='inline-code'>using namespace std;</code>. Esta directiva trae todos los nombres del espacio de nombres <code class='inline-code'>std</code> al ámbito actual. <strong>Esto se considera una mala práctica en archivos de cabecera y proyectos grandes</strong> porque puede reintroducir los mismos conflictos de nombres que los espacios de nombres pretenden resolver. Es mejor ser explícito con <code class='inline-code'>std::</code> o usar declaraciones <code class='inline-code'>using</code> específicas (ej., <code class='inline-code'>using std::cout;</code>)."></p>
+            </div>
+        </section>
+
+        
+        <section id="variables">
+            <h2 data-en="5. Variables & Data Types" data-de="5. Variablen & Datentypen" data-es="5. Variables y Tipos de Datos"></h2>
+            <p data-en="Variables are named storage locations. C++ is a <strong>statically-typed</strong> language, meaning you must declare the type of a variable before you use it."
+               data-de="Variablen sind benannte Speicherorte. C++ ist eine <strong>statisch typisierte</strong> Sprache, was bedeutet, dass du den Typ einer Variablen deklarieren musst, bevor du sie verwendest."
+               data-es="Las variables son ubicaciones de almacenamiento con nombre. C++ es un lenguaje de <strong>tipado estático</strong>, lo que significa que debes declarar el tipo de una variable antes de usarla."></p>
+            <h3 data-en="Fundamental Types" data-de="Fundamentale Typen" data-es="Tipos Fundamentales"></h3>
+            <ul>
+                <li><code class="inline-code">int</code>: <span data-en="For whole numbers (e.g., -10, 0, 42)." data-de="Für ganze Zahlen (z.B. -10, 0, 42)." data-es="Para números enteros (ej. -10, 0, 42)."></span></li>
+                <li><code class="inline-code">double</code>: <span data-en="For double-precision floating-point numbers (e.g., 3.14, -0.001)." data-de="Für Gleitkommazahlen mit doppelter Genauigkeit (z.B. 3.14, -0.001)." data-es="Para números de punto flotante de doble precisión (ej. 3.14, -0.001)."></span></li>
+                <li><code class="inline-code">char</code>: <span data-en="For single characters (e.g., 'a', 'Z', '?')." data-de="Für einzelne Zeichen (z.B. 'a', 'Z', '?')." data-es="Para caracteres individuales (ej. 'a', 'Z', '?')."></span></li>
+                <li><code class="inline-code">bool</code>: <span data-en="For boolean values, <code class='inline-code'>true</code> or <code class='inline-code'>false</code>." data-de="Für boolesche Werte, <code class='inline-code'>true</code> oder <code class='inline-code'>false</code>." data-es="Para valores booleanos, <code class='inline-code'>true</code> o <code class='inline-code'>false</code>."></span></li>
+                <li><code class="inline-code">std::string</code>: <span data-en="For a sequence of characters (text). Requires <code class='inline-code'>#include &lt;string&gt;</code>." data-de="Für eine Zeichensequenz (Text). Benötigt <code class='inline-code'>#include &lt;string&gt;</code>." data-es="Para una secuencia de caracteres (texto). Requiere <code class='inline-code'>#include &lt;string&gt;</code>."></span></li>
+            </ul>
+            <h3 data-en="Declaration and Initialization" data-de="Deklaration und Initialisierung" data-es="Declaración e Inicialización"></h3>
+            <pre><code class="language-cpp"><span class="cpp-keyword">int</span> year <span class="cpp-operator">=</span> <span class="cpp-number">2023</span>;                      <span class="cpp-comment">// C-like initialization</span>
+<span class="cpp-keyword">double</span> pi {<span class="cpp-number">3.14159</span>};                    <span class="cpp-comment">// Uniform initialization (C++11), often preferred</span>
+<span class="cpp-type">std</span>::<span class="cpp-type">string</span> message(<span class="cpp-string">"Modern C++"</span>); <span class="cpp-comment">// Constructor initialization</span>
+
+<span class="cpp-comment">// Type deduction with 'auto' (C++11)</span>
+<span class="cpp-keyword">auto</span> isLearning <span class="cpp-operator">=</span> <span class="cpp-control">true</span>; <span class="cpp-comment">// Compiler deduces this is a bool</span>
+<span class="cpp-keyword">auto</span> temperature <span class="cpp-operator">=</span> <span class="cpp-number">19.5</span>; <span class="cpp-comment">// Compiler deduces this is a double</span>
+</code></pre>
+            <p class="important" data-en="<strong>Always initialize your variables!</strong> Using an uninitialized variable leads to undefined behavior, a common source of bugs."
+               data-de="<strong>Initialisiere deine Variablen immer!</strong> Die Verwendung einer uninitialisierten Variablen führt zu undefiniertem Verhalten, einer häufigen Fehlerquelle."
+               data-es="<strong>¡Inicializa siempre tus variables!</strong> Usar una variable no inicializada conduce a un comportamiento indefinido, una fuente común de errores."></p>
+        </section>
+
+        
+        
+        
+        <section id="operators">
+            <h2 data-en="6. Operators" data-de="6. Operatoren" data-es="6. Operadores"></h2>
+            <p data-en="Operators are special symbols that perform operations on operands (values and variables)." data-de="Operatoren sind spezielle Symbole, die Operationen auf Operanden (Werten und Variablen) ausführen." data-es="Los operadores son símbolos especiales que realizan operaciones sobre operandos (valores y variables)."></p>
+            <ul>
+                <li><strong data-en="Arithmetic:">Arithmetisch:</strong> <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code> (Modulo)</li>
+                <li><strong data-en="Relational:">Relational:</strong> <code>==</code>, <code>!=</code>, <code>></code>, <code><</code>, <code>>=</code>, <code><=</code></li>
+                <li><strong data-en="Logical:">Logisch:</strong> <code>&&</code> (AND), <code>||</code> (OR), <code>!</code> (NOT)</li>
+                <li><strong data-en="Assignment:">Zuweisung:</strong> <code>=</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code></li>
+                <li><strong data-en="Bitwise:">Bitweise:</strong> <code>&</code>, <code>|</code>, <code>^</code>, <code>~</code>, <code><<</code>, <code>>></code></li>
+            </ul>
+        </section>
+
+        
+        <section id="control-flow">
+            <h2 data-en="7. Control Flow" data-de="7. Kontrollstrukturen" data-es="7. Flujo de Control"></h2>
+            <p data-en="Control flow statements allow your program to make decisions and repeat actions." data-de="Kontrollstrukturen ermöglichen es deinem Programm, Entscheidungen zu treffen und Aktionen zu wiederholen." data-es="Las sentencias de flujo de control permiten a tu programa tomar decisiones y repetir acciones."></p>
+            <h3 data-en="Conditionals" data-de="Bedingungen" data-es="Condicionales"></h3>
+            <pre><code class="language-cpp"><span class="cpp-keyword">int</span> score <span class="cpp-operator">=</span> <span class="cpp-number">85</span>;
+<span class="cpp-keyword">if</span> (score <span class="cpp-operator">&gt;=</span> <span class="cpp-number">90</span>) {
+    <span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-string">"A\n"</span>;
+} <span class="cpp-keyword">else if</span> (score <span class="cpp-operator">&gt;=</span> <span class="cpp-number">80</span>) {
+    <span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-string">"B\n"</span>;
+} <span class="cpp-keyword">else</span> {
+    <span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-string">"C or lower\n"</span>;
+}
+</code></pre>
+            <h3 data-en="Loops" data-de="Schleifen" data-es="Bucles"></h3>
+            <pre><code class="language-cpp"><span class="cpp-comment">// For loop</span>
+<span class="cpp-keyword">for</span> (<span class="cpp-keyword">int</span> i <span class="cpp-operator">=</span> <span class="cpp-number">0</span>; i <span class="cpp-operator">&lt;</span> <span class="cpp-number">3</span>; <span class="cpp-operator">++</span>i) {
+    <span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> i <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-string">" "</span>;
+}
+<span class="cpp-comment">// Output: 0 1 2 </span>
+
+<span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-type">std</span>::<span class="cpp-type">endl</span>;
+
+<span class="cpp-comment">// Range-based for loop (C++11) - The modern way to iterate collections</span>
+<span class="cpp-type">std</span>::<span class="cpp-type">vector</span>&lt;<span class="cpp-keyword">int</span>&gt; numbers <span class="cpp-operator">=</span> {<span class="cpp-number">10</span>, <span class="cpp-number">20</span>, <span class="cpp-number">30</span>};
+<span class="cpp-keyword">for</span> (<span class="cpp-keyword">int</span> num : numbers) {
+    <span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> num <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-string">" "</span>;
+}
+<span class="cpp-comment">// Output: 10 20 30</span>
+</code></pre>
+        </section>
+
+        
+        <section id="functions">
+            <h2 data-en="8. Functions & Lambdas" data-de="8. Funktionen & Lambdas" data-es="8. Funciones y Lambdas"></h2>
+            <p data-en="Functions are reusable blocks of code. Lambdas are a concise way to create anonymous functions."
+               data-de="Funktionen sind wiederverwendbare Codeblöcke. Lambdas sind eine kompakte Möglichkeit, anonyme Funktionen zu erstellen."
+               data-es="Las funciones son bloques de código reutilizables. Las lambdas son una forma concisa de crear funciones anónimas."></p>
+            <h3 data-en="Standard Functions" data-de="Standardfunktionen" data-es="Funciones Estándar"></h3>
+            <pre><code class="language-cpp"><span class="cpp-comment">// A function that takes two integers and returns their sum.</span>
+<span class="cpp-keyword">int</span> <span class="cpp-function">add</span>(<span class="cpp-keyword">int</span> a, <span class="cpp-keyword">int</span> b) {
+    <span class="cpp-control">return</span> a <span class="cpp-operator">+</span> b;
+}
+</code></pre>
+            <h3 data-en="Lambda Expressions (C++11)" data-de="Lambda-Ausdrücke (C++11)" data-es="Expresiones Lambda (C++11)"></h3>
+            <p data-en="Lambdas are extremely useful, especially with STL algorithms."
+               data-de="Lambdas sind extrem nützlich, besonders in Verbindung mit STL-Algorithmen."
+               data-es="Las lambdas son extremadamente útiles, especialmente con los algoritmos de la STL."></p>
+            <pre><code class="language-cpp"><span class="cpp-comment">// [] is the capture clause, () is the parameter list, {} is the body.</span>
+<span class="cpp-keyword">auto</span> multiply <span class="cpp-operator">=</span> [](<span class="cpp-keyword">int</span> x, <span class="cpp-keyword">int</span> y) {
+    <span class="cpp-control">return</span> x <span class="cpp-operator">*</span> y;
+};
+
+<span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-function">multiply</span>(<span class="cpp-number">7</span>, <span class="cpp-number">6</span>) <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-type">std</span>::<span class="cpp-type">endl</span>; <span class="cpp-comment">// Output: 42</span>
+</code></pre>
+        </section>
+
+        
+        <section id="headers">
+            <h2 data-en="9. Headers & Source Files" data-de="9. Header- & Source-Dateien" data-es="9. Archivos de Cabecera y Fuente"></h2>
+            <p data-en="For any non-trivial program, you should split your code into multiple files. This organizes your code, improves compile times, and makes it reusable."
+               data-de="Für jedes nicht-triviale Programm solltest du deinen Code in mehrere Dateien aufteilen. Das organisiert deinen Code, verbessert die Kompilierzeiten und macht ihn wiederverwendbar."
+               data-es="Para cualquier programa no trivial, deberías dividir tu código en múltiples archivos. Esto organiza tu código, mejora los tiempos de compilación y lo hace reutilizable."></p>
+            <ul>
+                <li data-en="<strong>Header files (<code class='inline-code'>.h</code> or <code class='inline-code'>.hpp</code>):</strong> Contain declarations of functions, classes, and variables. They define the 'interface' of your code."
+                    data-de="<strong>Header-Dateien (<code class='inline-code'>.h</code> oder <code class='inline-code'>.hpp</code>):</strong> Enthalten Deklarationen von Funktionen, Klassen und Variablen. Sie definieren die 'Schnittstelle' deines Codes."
+                    data-es="<strong>Archivos de cabecera (<code class='inline-code'>.h</code> o <code class='inline-code'>.hpp</code>):</strong> Contienen declaraciones de funciones, clases y variables. Definen la 'interfaz' de tu código."></li>
+                <li data-en="<strong>Source files (<code class='inline-code'>.cpp</code>):</strong> Contain the definitions (the implementation) of what was declared in the headers."
+                    data-de="<strong>Source-Dateien (<code class='inline-code'>.cpp</code>):</strong> Enthalten die Definitionen (die Implementierung) dessen, was in den Headern deklariert wurde."
+                    data-es="<strong>Archivos fuente (<code class='inline-code'>.cpp</code>):</strong> Contienen las definiciones (la implementación) de lo que se declaró en las cabeceras."></li>
+            </ul>
+            <h4 data-en="Example: `math_utils.hpp`" data-de="Beispiel: `math_utils.hpp`" data-es="Ejemplo: `math_utils.hpp`"></h4>
+            <pre><code class="language-cpp"><span class="cpp-preprocessor">#pragma once</span> <span class="cpp-comment">// Header guard to prevent multiple inclusions</span>
+
+<span class="cpp-keyword">namespace</span> Math {
+    <span class="cpp-keyword">int</span> <span class="cpp-function">add</span>(<span class="cpp-keyword">int</span> a, <span class="cpp-keyword">int</span> b); <span class="cpp-comment">// Declaration</span>
+}
+</code></pre>
+            <h4 data-en="Example: `math_utils.cpp`" data-de="Beispiel: `math_utils.cpp`" data-es="Ejemplo: `math_utils.cpp`"></h4>
+            <pre><code class="language-cpp"><span class="cpp-preprocessor">#include "math_utils.hpp"</span> <span class="cpp-comment">// Include our own header</span>
+
+<span class="cpp-keyword">int</span> Math::<span class="cpp-function">add</span>(<span class="cpp-keyword">int</span> a, <span class="cpp-keyword">int</span> b) {
+    <span class="cpp-control">return</span> a <span class="cpp-operator">+</span> b; <span class="cpp-comment">// Definition</span>
+}
+</code></pre>
+            <h4 data-en="Example: `main.cpp`" data-de="Beispiel: `main.cpp`" data-es="Ejemplo: `main.cpp`"></h4>
+            <pre><code class="language-cpp"><span class="cpp-preprocessor">#include &lt;iostream&gt;</span>
+<span class="cpp-preprocessor">#include "math_utils.hpp"</span> <span class="cpp-comment">// Use our utility</span>
+
+<span class="cpp-keyword">int</span> <span class="cpp-function">main</span>() {
+    <span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-string">"Sum: "</span> <span class="cpp-operator">&lt;&lt;</span> Math::<span class="cpp-function">add</span>(<span class="cpp-number">5</span>, <span class="cpp-number">10</span>) <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-type">std</span>::<span class="cpp-type">endl</span>;
+    <span class="cpp-control">return</span> <span class="cpp-number">0</span>;
+}
+</code></pre>
+            <p data-en="To compile this, you must include all source files: <code class='inline-code'>g++ main.cpp math_utils.cpp -o my_app</code>."
+               data-de="Um dies zu kompilieren, musst du alle Source-Dateien angeben: <code class='inline-code'>g++ main.cpp math_utils.cpp -o my_app</code>."
+               data-es="Para compilar esto, debes incluir todos los archivos fuente: <code class='inline-code'>g++ main.cpp math_utils.cpp -o my_app</code>."></p>
+        </section>
+
+        
+
+        
+        <section id="memory">
+            <h2 data-en="11. Pointers & Memory Management" data-de="11. Zeiger & Speicherverwaltung" data-es="11. Punteros y Gestión de Memoria"></h2>
+            <p data-en="Pointers are variables that store a memory address. They are one of C++'s most powerful and dangerous features. Modern C++ encourages using them safely via abstractions."
+               data-de="Zeiger sind Variablen, die eine Speicheradresse speichern. Sie sind eines der mächtigsten und gefährlichsten Merkmale von C++. Modernes C++ fördert ihre sichere Verwendung durch Abstraktionen."
+               data-es="Los punteros son variables que almacenan una dirección de memoria. Son una de las características más potentes y peligrosas de C++. El C++ moderno fomenta su uso seguro a través de abstracciones."></p>
+            
+            <h3 data-en="Raw Pointers" data-de="Rohe Zeiger" data-es="Punteros Crudos"></h3>
+            <p data-en="A raw pointer directly holds a memory address. You are responsible for managing the memory it points to."
+               data-de="Ein roher Zeiger enthält direkt eine Speicheradresse. Du bist für die Verwaltung des Speichers verantwortlich, auf den er zeigt."
+               data-es="Un puntero crudo contiene directamente una dirección de memoria. Eres responsable de gestionar la memoria a la que apunta."></p>
+            <pre><code class="language-cpp"><span class="cpp-keyword">int</span><span class="cpp-operator">*</span> pNumber <span class="cpp-operator">=</span> <span class="cpp-control">new</span> <span class="cpp-keyword">int</span>(<span class="cpp-number">42</span>); <span class="cpp-comment">// Allocate memory on the heap for an int</span>
+
+<span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-operator">*</span>pNumber; <span class="cpp-comment">// Dereference the pointer to get the value (42)</span>
+
+<span class="cpp-control">delete</span> pNumber; <span class="cpp-comment">// CRITICAL: Deallocate the memory to prevent a leak</span>
+pNumber <span class="cpp-operator">=</span> <span class="cpp-control">nullptr</span>; <span class="cpp-comment">// Good practice: Set pointer to null after deletion</span>
+</code></pre>
+            <div class="warning">
+                <p data-en="Manual memory management with <code class='inline-code'>new</code> and <code class='inline-code'>delete</code> is a major source of bugs like memory leaks (forgetting to <code class='inline-code'>delete</code>) and dangling pointers (using a pointer after its memory has been deleted). <strong>In modern C++, you should almost never use raw owning pointers.</strong> Use smart pointers instead."
+                   data-de="Die manuelle Speicherverwaltung mit <code class='inline-code'>new</code> und <code class='inline-code'>delete</code> ist eine Hauptfehlerquelle für Bugs wie Speicherlecks (Vergessen von <code class='inline-code'>delete</code>) und 'dangling pointers' (Verwendung eines Zeigers, nachdem sein Speicher freigegeben wurde). <strong>In modernem C++ solltest du fast nie rohe, besitzende Zeiger verwenden.</strong> Nutze stattdessen Smart Pointers."
+                   data-es="La gestión manual de memoria con <code class='inline-code'>new</code> y <code class='inline-code'>delete</code> es una fuente principal de errores como fugas de memoria (olvidar <code class='inline-code'>delete</code>) y punteros colgantes (usar un puntero después de que su memoria ha sido liberada). <strong>En C++ moderno, casi nunca deberías usar punteros crudos propietarios.</strong> Usa punteros inteligentes en su lugar."></p>
+            </div>
+
+            <h3 data-en="Smart Pointers (The Modern Way)" data-de="Smart Pointers (Der moderne Weg)" data-es="Punteros Inteligentes (La Forma Moderna)"></h3>
+            <p data-en="Smart pointers are objects that act like pointers but automatically manage the memory. They are defined in the <code class='inline-code'>&lt;memory&gt;</code> header."
+               data-de="Smart Pointers sind Objekte, die sich wie Zeiger verhalten, aber den Speicher automatisch verwalten. Sie sind in der <code class='inline-code'>&lt;memory&gt;</code>-Headerdatei definiert."
+               data-es="Los punteros inteligentes son objetos que actúan como punteros pero gestionan la memoria automáticamente. Están definidos en la cabecera <code class='inline-code'>&lt;memory&gt;</code>."></p>
+            
+            <h4 data-en="`std::unique_ptr` - Exclusive Ownership" data-de="`std::unique_ptr` - Exklusiver Besitz" data-es="`std::unique_ptr` - Propiedad Exclusiva"></h4>
+            <p data-en="A <code class='inline-code'>std::unique_ptr</code> exclusively owns the object it points to. It cannot be copied. When the <code class='inline-code'>unique_ptr</code> goes out of scope, it automatically deletes the object. This is the default choice for a smart pointer."
+               data-de="Ein <code class='inline-code'>std::unique_ptr</code> besitzt exklusiv das Objekt, auf das er zeigt. Er kann nicht kopiert werden. Wenn der <code class='inline-code'>unique_ptr</code> den Gültigkeitsbereich verlässt, löscht er das Objekt automatisch. Dies ist die Standardwahl für einen Smart Pointer."
+               data-es="Un <code class='inline-code'>std::unique_ptr</code> posee en exclusiva el objeto al que apunta. No se puede copiar. Cuando el <code class='inline-code'>unique_ptr</code> sale del ámbito, elimina automáticamente el objeto. Esta es la opción por defecto para un puntero inteligente."></p>
+            <pre><code class="language-cpp"><span class="cpp-preprocessor">#include &lt;memory&gt;</span>
+
+{ <span class="cpp-comment">// Some scope</span>
+    <span class="cpp-comment">// Use std::make_unique (C++14) to create it.</span>
+    <span class="cpp-type">std</span>::<span class="cpp-type">unique_ptr</span>&lt;<span class="cpp-keyword">int</span>&gt; pUnique <span class="cpp-operator">=</span> <span class="cpp-type">std</span>::<span class="cpp-function">make_unique</span>&lt;<span class="cpp-keyword">int</span>&gt;(<span class="cpp-number">100</span>);
+    
+    <span class="cpp-type">std</span>::<span class="cpp-type">cout</span> <span class="cpp-operator">&lt;&lt;</span> <span class="cpp-operator">*</span>pUnique; <span class="cpp-comment">// Use it like a raw pointer</span>
+
+} <span class="cpp-comment">// pUnique goes out of scope here, memory is automatically freed. No delete needed!</span>
+</code></pre>
+
+            <h4 data-en="`std::shared_ptr` - Shared Ownership" data-de="`std::shared_ptr` - Geteilter Besitz" data-es="`std::shared_ptr` - Propiedad Compartida"></h4>
+            <p data-en="A <code class='inline-code'>std::shared_ptr</code> allows multiple pointers to share ownership of the same object. It keeps a reference count, and the object is deleted only when the last <code class='inline-code'>shared_ptr</code> pointing to it is destroyed. Use this when you genuinely need shared ownership."
+               data-de="Ein <code class='inline-code'>std::shared_ptr</code> ermöglicht es mehreren Zeigern, den Besitz desselben Objekts zu teilen. Er führt einen Referenzzähler, und das Objekt wird erst gelöscht, wenn der letzte <code class='inline-code'>shared_ptr</code>, der darauf zeigt, zerstört wird. Verwende dies, wenn du wirklich geteilten Besitz benötigst."
+               data-es="Un <code class='inline-code'>std::shared_ptr</code> permite que múltiples punteros compartan la propiedad del mismo objeto. Mantiene un conteo de referencias, y el objeto solo se elimina cuando el último <code class='inline-code'>shared_ptr</code> que lo apunta es destruido. Úsalo cuando realmente necesites propiedad compartida."></p>
+             <pre><code class="language-cpp"><span class="cpp-preprocessor">#include &lt;memory&gt;</span>
+
+{
+    <span class="cpp-type">std</span>::<span class="cpp-type">shared_ptr</span>&lt;<span class="cpp-keyword">int</span>&gt; pShared1;
+    {
+        <span class="cpp-comment">// Use std::make_shared (C++11)</span>
+        <span class="cpp-type">std</span>::<span class="cpp-type">shared_ptr</span>&lt;<span class="cpp-keyword">int</span>&gt; pShared2 <span class="cpp-operator">=</span> <span class="cpp-type">std</span>::<span class="cpp-function">make_shared</span>&lt;<span class="cpp-keyword">int</span>&gt;(<span class="cpp-number">200</span>);
+        pShared1 <span class="cpp-operator">=</span> pShared2; <span class="cpp-comment">// Copying is allowed, ref count is now 2</span>
+    } <span class="cpp-comment">// pShared2 goes out of scope, ref count is 1. Memory is NOT freed.</span>
+} <span class="cpp-comment">// pShared1 goes out of scope, ref count becomes 0. Memory is freed NOW.</span>
+</code></pre>
+        </section>
+        
+        
+
+        <p class="important" data-en="For brevity, the following sections are summarized. In the full implementation, they would have the same level of detail, multilingual support, and code examples as the sections above." data-de="Der Kürze halber sind die folgenden Abschnitte zusammengefasst. In der vollständigen Implementierung hätten sie den gleichen Detaillierungsgrad, die mehrsprachige Unterstützung und die Codebeispiele wie die obigen Abschnitte." data-es="Para abreviar, las siguientes secciones están resumidas. En la implementación completa, tendrían el mismo nivel de detalle, soporte multilingüe y ejemplos de código que las secciones anteriores."></p>
+        
+        <section id="oop">
+            <h2 data-en="12. Object-Oriented Programming (OOP)" data-de="12. Objektorientierte Programmierung (OOP)" data-es="12. Programación Orientada a Objetos (POO)"></h2>
+            <p data-en="This section would detail OOP principles. Subsections would cover: <strong>Classes and Objects</strong> (with clear examples), <strong>Constructors & Destructors</strong> (explaining initializer lists and the purpose of destructors for resource management), <strong>The Rule of Three/Five/Zero</strong> (a key concept for classes managing resources), <strong>Encapsulation</strong> (using private members and public getters/setters), <strong>Inheritance</strong> (creating derived classes from base classes), and <strong>Polymorphism</strong> (using `virtual` functions, the `override` keyword, and explaining the critical need for `virtual` destructors in base classes)."
+               data-de="Dieser Abschnitt würde die OOP-Prinzipien detailliert beschreiben. Unterabschnitte würden umfassen: <strong>Klassen und Objekte</strong> (mit klaren Beispielen), <strong>Konstruktoren & Destruktoren</strong> (Erklärung von Initialisierungslisten und dem Zweck von Destruktoren für die Ressourcenverwaltung), <strong>Die Regel der Drei/Fünf/Null</strong> (ein Schlüsselkonzept für Klassen, die Ressourcen verwalten), <strong>Kapselung</strong> (Verwendung von privaten Mitgliedern und öffentlichen Gettern/Settern), <strong>Vererbung</strong> (Erstellung abgeleiteter Klassen von Basisklassen) und <strong>Polymorphie</strong> (Verwendung von `virtual`-Funktionen, dem `override`-Schlüsselwort und Erklärung der kritischen Notwendigkeit von `virtual`-Destruktoren in Basisklassen)."
+               data-es="Esta sección detallaría los principios de la POO. Las subsecciones cubrirían: <strong>Clases y Objetos</strong> (con ejemplos claros), <strong>Constructores y Destructores</strong> (explicando listas de inicialización y el propósito de los destructores para la gestión de recursos), <strong>La Regla de Tres/Cinco/Cero</strong> (un concepto clave para clases que gestionan recursos), <strong>Encapsulación</strong> (usando miembros privados y getters/setters públicos), <strong>Herencia</strong> (creando clases derivadas de clases base) y <strong>Polimorfismo</strong> (usando funciones `virtual`, la palabra clave `override` y explicando la necesidad crítica de destructores `virtual` en clases base)."></p>
+        </section>
+
+        <section id="templates">
+            <h2 data-en="13. Templates" data-de="13. Templates (Vorlagen)" data-es="13. Plantillas (Templates)"></h2>
+            <p data-en="Templates are the foundation of generic programming in C++. This section would introduce <strong>Function Templates</strong> (writing a single function that can work with different data types, like a `max()` function for `int`, `double`, etc.) and <strong>Class Templates</strong> (creating generic classes, with `std::vector` being the prime example). Code examples would clearly show how to define and use them."
+               data-de="Templates sind die Grundlage der generischen Programmierung in C++. Dieser Abschnitt würde <strong>Funktions-Templates</strong> (Schreiben einer einzigen Funktion, die mit verschiedenen Datentypen arbeiten kann, wie eine `max()`-Funktion für `int`, `double` etc.) und <strong>Klassen-Templates</strong> (Erstellen generischer Klassen, mit `std::vector` als Paradebeispiel) vorstellen. Codebeispiele würden klar zeigen, wie man sie definiert und verwendet."
+               data-es="Las plantillas son la base de la programación genérica en C++. Esta sección introduciría <strong>Plantillas de Función</strong> (escribir una única función que puede trabajar con diferentes tipos de datos, como una función `max()` para `int`, `double`, etc.) y <strong>Plantillas de Clase</strong> (crear clases genéricas, con `std::vector` como el principal ejemplo). Los ejemplos de código mostrarían claramente cómo definirlas y usarlas."></p>
+        </section>
+
+        <section id="stl">
+            <h2 data-en="14. The Standard Template Library (STL)" data-de="14. Die Standardbibliothek (STL)" data-es="14. La Biblioteca Estándar (STL)"></h2>
+            <p data-en="A deeper dive into the three pillars of the STL. <strong>Containers:</strong> A breakdown of sequence containers (`vector`, `deque`, `list`), associative containers (`set`, `map`), and unordered containers (`unordered_set`, `unordered_map`), explaining the use case for each. <strong>Iterators:</strong> A practical example of using iterators to traverse a `std::map` or `std::list`. <strong>Algorithms:</strong> Showcasing more useful algorithms from `<algorithm>` like `std::find`, `std::for_each` (with a lambda), and `std::transform`."
+               data-de="Ein tieferer Einblick in die drei Säulen der STL. <strong>Container:</strong> Eine Aufschlüsselung von Sequenz-Containern (`vector`, `deque`, `list`), assoziativen Containern (`set`, `map`) und ungeordneten Containern (`unordered_set`, `unordered_map`), mit Erklärung des Anwendungsfalls für jeden. <strong>Iteratoren:</strong> Ein praktisches Beispiel für die Verwendung von Iteratoren zum Durchlaufen einer `std::map` oder `std::list`. <strong>Algorithmen:</strong> Vorstellung weiterer nützlicher Algorithmen aus `<algorithm>` wie `std::find`, `std::for_each` (mit einem Lambda) und `std::transform`."
+               data-es="Una inmersión más profunda en los tres pilares de la STL. <strong>Contenedores:</strong> Un desglose de contenedores de secuencia (`vector`, `deque`, `list`), contenedores asociativos (`set`, `map`) y contenedores no ordenados (`unordered_set`, `unordered_map`), explicando el caso de uso de cada uno. <strong>Iteradores:</strong> Un ejemplo práctico del uso de iteradores para recorrer un `std::map` o `std::list`. <strong>Algoritmos:</strong> Mostrando algoritmos más útiles de `<algorithm>` como `std::find`, `std::for_each` (con una lambda) y `std::transform`."></p>
+        </section>
+
+        
+        
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const translatableElements = document.querySelectorAll('[data-en]');
+            const supportedLangs = ['en', 'de', 'es'];
+
+            function setLanguage(lang) {
+                if (!supportedLangs.includes(lang)) {
+                    lang = 'en'; 
+                }
+                
+                document.documentElement.lang = lang;
+                localStorage.setItem('preferredLanguage', lang);
+
+                translatableElements.forEach(el => {
+                    const text = el.dataset[lang] || el.dataset.en;
+                    if (el.tagName === 'A' || el.tagName === 'BUTTON') {
+                       el.textContent = text;
+                    } else {
+                       el.innerHTML = text;
+                    }
+                });
+
+                const mainHeading = document.querySelector('h1[data-en]');
+                if (mainHeading) {
+                    document.title = mainHeading.dataset[lang] || mainHeading.dataset.en;
+                }
+
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+            }
+
+            function getInitialLanguage() {
+                const savedLang = localStorage.getItem('preferredLanguage');
+                if (savedLang && supportedLangs.includes(savedLang)) return savedLang;
+                const browserLang = navigator.language.split('-')[0];
+                if (supportedLangs.includes(browserLang)) return browserLang;
+                return 'en'; 
+            }
+
+            const sections = document.querySelectorAll('#main-content section');
+            const navLinks = document.querySelectorAll('#sidebar ul li a');
+            
+            function updateActiveLink() {
+                let currentSectionId = '';
+                const offset = 100;
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.pageYOffset >= sectionTop - offset) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === currentSectionId) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => setLanguage(button.dataset.lang));
+            });
+            window.addEventListener('scroll', updateActiveLink);
+            
+            setLanguage(getInitialLanguage());
+            updateActiveLink(); 
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

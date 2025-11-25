@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows CMD Guide</title>
+    
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --text-color: #2c3e50;
+            --card-bg: #ffffff;
+            --primary-color: #0078d4; 
+            --secondary-color: #107c10; 
+            --code-bg: #e8eaed;
+            --code-text: #2c3e50;
+            --shadow-color: rgba(44, 62, 80, 0.1);
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --border-color: #e1e5e8;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #ecf0f1;
+                --card-bg: #2c2c2c;
+                --primary-color: #0078d4;
+                --secondary-color: #107c10;
+                --code-bg: #3a3a3a;
+                --code-text: #ecf0f1;
+                --shadow-color: rgba(0, 0, 0, 0.2);
+                --nav-bg: rgba(44, 44, 44, 0.85);
+                --border-color: #3d3d3d;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 62.5%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1.6rem;
+            line-height: 1.7;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+            background-color: var(--code-bg);
+            border-radius: 20px;
+            padding: 0.5rem;
+        }
+
+        .lang-btn {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 1.4rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-toggle .icon-bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        main {
+            padding: 12rem 5% 5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        header h1 {
+            font-size: 4.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        header h1 .highlight {
+            color: var(--primary-color);
+        }
+
+        header p {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .guide-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+        }
+
+        .command-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .command-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px var(--shadow-color);
+        }
+
+        .card-sketch {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .card-sketch.secondary {
+            color: var(--secondary-color);
+        }
+
+        .command-card h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2.4rem;
+        }
+
+        .command-card p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            opacity: 0.9;
+        }
+
+        .example {
+            background-color: var(--code-bg);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            width: 100%;
+        }
+        
+        .example-label {
+            font-weight: 600;
+            display: block;
+            font-size: 1.4rem;
+            opacity: 0.7;
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            font-family: "Consolas", "Courier New", monospace;
+            color: var(--code-text);
+            font-size: 1.6rem;
+            word-break: break-all;
+        }
+
+        @media (max-width: 768px) {
+            html {
+                font-size: 58%;
+            }
+
+            main {
+                padding-top: 10rem;
+            }
+
+            .nav-toggle {
+                display: block;
+                z-index: 1001;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: 70%;
+                max-width: 300px;
+                background-color: var(--card-bg);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 4rem;
+                transform: translateX(100%);
+                transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                box-shadow: -5px 0 20px var(--shadow-color);
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+            
+            .lang-switcher {
+                flex-direction: column;
+                background: none;
+                padding: 0;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="nav-brand">Windows<span class="highlight">Guide</span></a>
+        <div class="nav-links">
+            <div class="lang-switcher">
+                <button class="lang-btn" onclick="setLanguage('de')">DE</button>
+                <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+                <button class="lang-btn" onclick="setLanguage('es')">ES</button>
+            </div>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </nav>
+
+    <main>
+        <header>
+            <h1><span data-translate="title_part1">Windows CMD</span> <span class="highlight" data-translate="title_part2">Befehle</span></h1>
+            <p data-translate="subtitle">Ein visueller Guide zu den wichtigsten Kommandos für Einsteiger. Klar, einfach und auf den Punkt gebracht.</p>
+        </header>
+
+        <div class="guide-container">
+            
+            <div class="command-card">
+                <div class="card-sketch">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 25h70M15 40h50M15 55h60M15 70h40"/>
+                        <rect x="5" y="10" width="90" height="80" rx="5" stroke-width="5"/>
+                    </svg>
+                </div>
+                <h2><code>dir</code></h2>
+                <p data-translate="dir_desc">Listet den Inhalt des aktuellen Verzeichnisses auf (Dateien und Ordner).</p>
+                <div class="example">
+                    <span class="example-label" data-translate="example_label">Beispiel</span>
+                    <code>dir /w</code>
+                </div>
+            </div>
+            
+            <div class="command-card">
+                <div class="card-sketch">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 35h-15a5 5 0 0 0 -5 5v35a5 5 0 0 0 5 5h70a5 5 0 0 0 5-5v-20"/>
+                        <path d="M40 20h40a5 5 0 0 1 5 5v15"/>
+                        <path d="M60 45L45 60l15 15"/>
+                        <path d="M45 60h40"/>
+                    </svg>
+                </div>
+                <h2><code>cd</code></h2>
+                <p data-translate="cd_desc">Wechselt das aktuelle Verzeichnis. Zeigt auch das aktuelle Verzeichnis an, wenn ohne Argumente verwendet.</p>
+                <div class="example">
+                    <span class="example-label" data-translate="example_label">Beispiel</span>
+                    <code>cd C:\Users\YourUser</code>
+                </div>
+            </div>
+            
+            <div class="command-card">
+                <div class="card-sketch secondary">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 25h70a5 5 0 0 1 5 5v50a5 5 0 0 1 -5 5h-70a5 5 0 0 1 -5-5v-50a5 5 0 0 1 5-5z"/>
+                        <path d="M50 45v30M35 60h30"/>
+                    </svg>
+                </div>
+                <h2><code>mkdir</code></h2>
+                <p data-translate="mkdir_desc">"Make Directory" (oder `md`). Erstellt ein neues Verzeichnis mit dem angegebenen Namen.</p>
+                <div class="example">
+                    <span class="example-label" data-translate="example_label">Beispiel</span>
+                    <code>mkdir NeuesProjekt</code>
+                </div>
+            </div>
+            
+            <div class="command-card">
+                <div class="card-sketch">
+                     <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 80h50v-60l-20-15h-30a5 5 0 0 0 -5 5v70z"/>
+                        <path d="M55 5v15h20"/>
+                        <path d="M40 50h20"/>
+                        <path d="M35 60h30"/>
+                        <path d="M30 70h40"/>
+                    </svg>
+                </div>
+                <h2><code>type</code></h2>
+                <p data-translate="type_desc">Zeigt den Inhalt einer Textdatei an. Kann auch zum Erstellen leerer Dateien verwendet werden.</p>
+                <div class="example">
+                    <span class="example-label" data-translate="example_label">Beispiel</span>
+                    <code>type NUL > neue_datei.txt</code>
+                </div>
+            </div>
+            
+            <div class="command-card">
+                <div class="card-sketch secondary">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 35h50v50a5 5 0 0 1-5 5h-40a5 5 0 0 1-5-5z"/>
+                        <path d="M15 35h70"/>
+                        <path d="M40 15h20a5 5 0 0 1 5 5v15h-30v-15a5 5 0 0 1 5-5z"/>
+                        <path d="M40 55v20M60 55v20"/>
+                    </svg>
+                </div>
+                <h2><code>del</code></h2>
+                <p data-translate="del_desc">"Delete". Löscht eine oder mehrere Dateien. Um Ordner zu löschen, verwendet man `rmdir`.</p>
+                <div class="example">
+                    <span class="example-label" data-translate="example_label">Beispiel</span>
+                    <code>del alte_datei.txt</code>
+                </div>
+            </div>
+            
+            <div class="command-card">
+                <div class="card-sketch">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M60 65h20a5 5 0 0 0 5-5v-40a5 5 0 0 0 -5-5h-40a5 5 0 0 0 -5 5v20"/>
+                        <rect x="15" y="35" width="50" height="50" rx="5"/>
+                    </svg>
+                </div>
+                <h2><code>copy</code></h2>
+                <p data-translate="copy_desc">Kopiert eine oder mehrere Dateien von einem Ort zu einem anderen.</p>
+                <div class="example">
+                    <span class="example-label" data-translate="example_label">Beispiel</span>
+                    <code>copy quelle.txt ziel\</code>
+                </div>
+            </div>
+            
+            <div class="command-card">
+                <div class="card-sketch secondary">
+                     <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M70 60 L90 50 L70 40"/>
+                        <path d="M25 20 H55 V50 H25 Z"/>
+                        <path d="M15 50 H55"/>
+                        <circle cx="35" cy="75" r="10" />
+                        <circle cx="65" cy="75" r="10" />
+                        <path d="M35 65 L40 50" />
+                        <path d="M65 65 L60 50" />
+                     </svg>
+                </div>
+                <h2><code>move</code></h2>
+                <p data-translate="move_desc">Verschiebt eine oder mehrere Dateien von einem Verzeichnis in ein anderes.</p>
+                <div class="example">
+                    <span class="example-label" data-translate="example_label">Beispiel</span>
+                    <code>move datei.txt ..\anderer_ordner</code>
+                </div>
+            </div>
+
+            <div class="command-card">
+                <div class="card-sketch">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 20h60v60h-60z"/>
+                        <path d="M35 35h30"/>
+                        <path d="M35 45h30"/>
+                        <path d="M20 60h60"/>
+                        <path d="M30 70h10"/>
+                        <path d="M50 70h20"/>
+                    </svg>
+                </div>
+                <h2><code>ren</code></h2>
+                <p data-translate="ren_desc">"Rename". Benennt eine Datei oder ein Verzeichnis um.</p>
+                <div class="example">
+                    <span class="example-label" data-translate="example_label">Beispiel</span>
+                    <code>ren alter_name.txt neuer_name.txt</code>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            
+            const translations = {
+                en: {
+                    pageTitle: "Windows CMD Guide",
+                    title_part1: "Windows CMD",
+                    title_part2: "Commands",
+                    subtitle: "A visual guide to the most important commands for beginners. Clear, simple, and to the point.",
+                    example_label: "Example",
+                    dir_desc: "Lists the content of the current directory (files and folders).",
+                    cd_desc: "Changes the current directory. Also displays the current directory if used without arguments.",
+                    mkdir_desc: "\"Make Directory\" (or `md`). Creates a new directory with the specified name.",
+                    type_desc: "Displays the content of a text file. Can also be used to create empty files.",
+                    del_desc: "\"Delete\". Deletes one or more files. To delete folders, use `rmdir`.",
+                    copy_desc: "Copies one or more files from one location to another.",
+                    move_desc: "Moves one or more files from one directory to another.",
+                    ren_desc: "\"Rename\". Renames a file or a directory."
+                },
+                de: {
+                    pageTitle: "Windows CMD Leitfaden",
+                    title_part1: "Windows CMD",
+                    title_part2: "Befehle",
+                    subtitle: "Ein visueller Guide zu den wichtigsten Kommandos für Einsteiger. Klar, einfach und auf den Punkt gebracht.",
+                    example_label: "Beispiel",
+                    dir_desc: "Listet den Inhalt des aktuellen Verzeichnisses auf (Dateien und Ordner).",
+                    cd_desc: "Wechselt das aktuelle Verzeichnis. Zeigt auch das aktuelle Verzeichnis an, wenn ohne Argumente verwendet.",
+                    mkdir_desc: "\"Make Directory\" (oder `md`). Erstellt ein neues Verzeichnis mit dem angegebenen Namen.",
+                    type_desc: "Zeigt den Inhalt einer Textdatei an. Kann auch zum Erstellen leerer Dateien verwendet werden.",
+                    del_desc: "\"Delete\". Löscht eine oder mehrere Dateien. Um Ordner zu löschen, verwendet man `rmdir`.",
+                    copy_desc: "Kopiert eine oder mehrere Dateien von einem Ort zu einem anderen.",
+                    move_desc: "Verschiebt eine oder mehrere Dateien von einem Verzeichnis in ein anderes.",
+                    ren_desc: "\"Rename\". Benennt eine Datei oder ein Verzeichnis um."
+                },
+                es: {
+                    pageTitle: "Guía de CMD de Windows",
+                    title_part1: "CMD de Windows",
+                    title_part2: "Comandos",
+                    subtitle: "Una guía visual de los comandos más importantes para principiantes. Claro, simple y al grano.",
+                    example_label: "Ejemplo",
+                    dir_desc: "Lista el contenido del directorio actual (archivos y carpetas).",
+                    cd_desc: "Cambia el directorio actual. También muestra el directorio actual si se usa sin argumentos.",
+                    mkdir_desc: "\"Make Directory\" (o `md`). Crea un nuevo directorio con el nombre especificado.",
+                    type_desc: "Muestra el contenido de un archivo de texto. También se puede usar para crear archivos vacíos.",
+                    del_desc: "\"Delete\". Elimina uno o más archivos. Para eliminar carpetas, se usa `rmdir`.",
+                    copy_desc: "Copia uno o más archivos de una ubicación a otra.",
+                    move_desc: "Mueve uno o más archivos de un directorio a otro.",
+                    ren_desc: "\"Rename\". Renombra un archivo o un directorio."
+                }
+            };
+
+            const supportedLangs = ['en', 'de', 'es'];
+            const defaultLang = 'de';
+
+            window.setLanguage = (lang) => {
+                const currentLang = supportedLangs.includes(lang) ? lang : defaultLang;
+                localStorage.setItem('user-lang', currentLang);
+                
+                document.documentElement.lang = currentLang;
+                document.title = translations[currentLang].pageTitle;
+                
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    if (translations[currentLang][key]) {
+                        el.innerHTML = translations[currentLang][key];
+                    }
+                });
+            };
+
+            const getInitialLanguage = () => {
+                const savedLang = localStorage.getItem('user-lang');
+                if (savedLang && supportedLangs.includes(savedLang)) {
+                    return savedLang;
+                }
+                const browserLang = navigator.language.substring(0, 2);
+                if (supportedLangs.includes(browserLang)) {
+                    return browserLang;
+                }
+                return defaultLang;
+            };
+
+            setLanguage(getInitialLanguage());
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

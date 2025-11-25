@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Engineering Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --primary-color: #007bff;
+            --card-bg: #ffffff;
+            --card-border: #e9ecef;
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --icon-stroke: #343a40;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --text-color: #e9ecef;
+                --primary-color: #4dabf7;
+                --card-bg: #1e1e1e;
+                --card-border: #343a40;
+                --nav-bg: rgba(30, 30, 30, 0.85);
+                --icon-stroke: #f8f9fa;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 100px; 
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 10px;
+            border-left: 1px solid var(--card-border);
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--text-color);
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 5px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--card-bg);
+            border-color: var(--card-border);
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        main h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            color: var(--primary-color);
+        }
+
+        main .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .guide-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .guide-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .guide-section p {
+            margin-bottom: 20px;
+        }
+
+        .sketch {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .sketch .sketch-stroke {
+            stroke: var(--icon-stroke);
+        }
+        
+        .sketch .sketch-fill {
+            fill: var(--icon-stroke);
+        }
+
+        .sketch .sketch-primary-stroke {
+            stroke: var(--primary-color);
+        }
+
+        .sketch .sketch-primary-fill {
+            fill: var(--primary-color);
+        }
+
+        .sketch .sketch-text {
+            fill: var(--text-color);
+            font-family: 'Inter', sans-serif;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                padding-top: 80px;
+            }
+
+            header {
+                padding: 15px;
+            }
+            
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: var(--bg-color);
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding: 100px 30px 30px 30px;
+                transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            }
+            
+            nav.nav-active {
+                right: 0;
+            }
+            
+            .language-switcher {
+                flex-direction: column;
+                border-left: none;
+                margin-left: 0;
+                padding-left: 0;
+                width: 100%;
+                margin-top: 30px;
+                gap: 15px;
+            }
+            
+            .lang-btn {
+                width: 100%;
+                text-align: left;
+                padding: 15px;
+                border: 1px solid var(--card-border);
+            }
+
+            .hamburger {
+                display: block;
+            }
+            
+            .hamburger.toggle .line1 {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+            .hamburger.toggle .line2 {
+                opacity: 0;
+            }
+            .hamburger.toggle .line3 {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+            
+            main h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Prompt<span class="lang-code"></span></a>
+        <div class="hamburger" id="hamburger-menu">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <nav id="nav-menu">
+            <div class="language-switcher">
+                <button class="lang-btn" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="de">Deutsch</button>
+                <button class="lang-btn" data-lang="es">Español</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main>
+            <h1 data-lang-en="Prompt Engineering" data-lang-de="Prompt Engineering" data-lang-es="Ingeniería de Prompts"></h1>
+            <p class="subtitle" data-lang-en="An introduction to crafting effective prompts for LLMs." data-lang-de="Eine Einführung in die Erstellung effektiver Prompts für LLMs." data-lang-es="Una introducción a la creación de prompts efectivos para LLMs."></p>
+
+            <section class="guide-section">
+                <h2 data-lang-en="What is Prompt Engineering?" data-lang-de="Was ist Prompt Engineering?" data-lang-es="¿Qué es la Ingeniería de Prompts?"></h2>
+                <p data-lang-en="It's the art and science of designing inputs (prompts) to get desired outputs from a Large Language Model (LLM). Think of it as communicating effectively with an AI." data-lang-de="Es ist die Kunst und Wissenschaft, Eingaben (Prompts) zu gestalten, um gewünschte Ausgaben von einem Large Language Model (LLM) zu erhalten. Betrachten Sie es als effektive Kommunikation mit einer KI." data-lang-es="Es el arte y la ciencia de diseñar entradas (prompts) para obtener los resultados deseados de un Modelo de Lenguaje Grande (LLM). Piénsalo como una comunicación efectiva con una IA."></p>
+                <svg viewBox="0 0 100 50" class="sketch" aria-hidden="true">
+                    <path class="sketch-stroke" d="M20,25 Q30,10 50,25 T80,25" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <text x="5" y="28" font-size="5" class="sketch-text" data-lang-en="Prompt" data-lang-de="Prompt" data-lang-es="Prompt"></text>
+                    <text x="83" y="28" font-size="5" class="sketch-text" data-lang-en="Output" data-lang-de="Ausgabe" data-lang-es="Salida"></text>
+                    <g class="sketch-primary-fill">
+                        <circle cx="50" cy="25" r="3"/>
+                        <path d="M49,20 L51,20 L50,16 z"/>
+                        <path d="M49,30 L51,30 L50,34 z"/>
+                        <path d="M45,24 L45,26 L41,25 z"/>
+                        <path d="M55,24 L55,26 L59,25 z"/>
+                    </g>
+                    <title data-lang-en="Sketch of a prompt leading to a specific output through a processor (AI)." data-lang-de="Skizze eines Prompts, der durch einen Prozessor (KI) zu einer spezifischen Ausgabe führt." data-lang-es="Boceto de un prompt que lleva a una salida específica a través de un procesador (IA)."></title>
+                </svg>
+            </section>
+
+            <section class="guide-section">
+                <h2 data-lang-en="Core Principle: Clarity & Context" data-lang-de="Grundprinzip: Klarheit & Kontext" data-lang-es="Principio Clave: Claridad y Contexto"></h2>
+                <p data-lang-en="Be specific. The more context and detail you provide, the better the model understands your request. Vague prompts lead to generic answers." data-lang-de="Seien Sie spezifisch. Je mehr Kontext und Details Sie bereitstellen, desto besser versteht das Modell Ihre Anfrage. Vage Prompts führen zu generischen Antworten." data-lang-es="Sé específico. Cuanto más contexto y detalle proporciones, mejor entenderá el modelo tu solicitud. Los prompts vagos llevan a respuestas genéricas."></p>
+                <svg viewBox="0 0 100 60" class="sketch" aria-hidden="true">
+                    <rect x="10" y="10" width="30" height="40" rx="2" class="sketch-stroke" stroke-width="2" fill="none"/>
+                    <text x="13" y="20" font-size="4" class="sketch-text" data-lang-en="Vague" data-lang-de="Vage" data-lang-es="Vago"></text>
+                    <text x="13" y="25" font-size="4" class="sketch-text" data-lang-en="Prompt" data-lang-de="Prompt" data-lang-es="Prompt"></text>
+                    <path d="M15,35 L25,35 M15,40 L28,40 M15,45 L20,45" class="sketch-stroke" stroke-width="1.5" stroke-dasharray="2 2"/>
+
+                    <rect x="60" y="10" width="30" height="40" rx="2" class="sketch-primary-stroke" stroke-width="2" fill="none"/>
+                    <text x="63" y="20" font-size="4" class="sketch-text" data-lang-en="Specific" data-lang-de="Spezifisch" data-lang-es="Específico"></text>
+                    <text x="63" y="25" font-size="4" class="sketch-text" data-lang-en="Prompt" data-lang-de="Prompt" data-lang-es="Prompt"></text>
+                    <path d="M65,35 L85,35 M65,40 L88,40 M65,45 L80,45" class="sketch-primary-stroke" stroke-width="1.5"/>
+
+                    <path d="M42,30 L58,30 M53,25 L58,30 L53,35" class="sketch-stroke" stroke-width="2" fill="none"/>
+                    <title data-lang-en="Sketch showing a vague prompt versus a specific, detailed prompt." data-lang-de="Skizze, die einen vagen Prompt im Vergleich zu einem spezifischen, detaillierten Prompt zeigt." data-lang-es="Boceto que muestra un prompt vago frente a uno específico y detallado."></title>
+                </svg>
+            </section>
+
+            <section class="guide-section">
+                <h2 data-lang-en="Technique: Few-Shot Prompting" data-lang-de="Technik: Few-Shot Prompting" data-lang-es="Técnica: Prompting de Pocos Ejemplos"></h2>
+                <p data-lang-en="Provide a few examples (shots) of what you want before asking the final question. This helps the model understand the format and type of response you expect." data-lang-de="Geben Sie einige Beispiele (Shots) dafür, was Sie möchten, bevor Sie die endgültige Frage stellen. Dies hilft dem Modell, das Format und die Art der erwarteten Antwort zu verstehen." data-lang-es="Proporciona algunos ejemplos (shots) de lo que quieres antes de hacer la pregunta final. Esto ayuda al modelo a entender el formato y el tipo de respuesta que esperas."></p>
+                <svg viewBox="0 0 100 80" class="sketch" aria-hidden="true">
+                    <g transform="translate(10, 10)">
+                        <text x="0" y="5" font-size="4" class="sketch-text" data-lang-en="Example 1: ..." data-lang-de="Beispiel 1: ..." data-lang-es="Ejemplo 1: ..."></text>
+                        <rect x="0" y="8" width="80" height="10" rx="1" class="sketch-stroke" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
+                    </g>
+                    <g transform="translate(10, 30)">
+                        <text x="0" y="5" font-size="4" class="sketch-text" data-lang-en="Example 2: ..." data-lang-de="Beispiel 2: ..." data-lang-es="Ejemplo 2: ..."></text>
+                        <rect x="0" y="8" width="80" height="10" rx="1" class="sketch-stroke" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
+                    </g>
+                    <g transform="translate(10, 50)">
+                        <text x="0" y="5" font-size="4" class="sketch-text sketch-primary-fill" data-lang-en="Your Question: ..." data-lang-de="Deine Frage: ..." data-lang-es="Tu Pregunta: ..."></text>
+                        <rect x="0" y="8" width="80" height="10" rx="1" class="sketch-primary-stroke" stroke-width="1.5" fill="none"/>
+                    </g>
+                    <path d="M50,23 L50,28 M50,43 L50,48" class="sketch-stroke" stroke-width="1.5" fill="none"/>
+                    <title data-lang-en="Sketch illustrating few-shot prompting with two examples and one final question." data-lang-de="Skizze, die Few-Shot-Prompting mit zwei Beispielen und einer abschließenden Frage veranschaulicht." data-lang-es="Boceto que ilustra el prompting de pocos ejemplos con dos ejemplos y una pregunta final."></title>
+                </svg>
+            </section>
+            
+            <section class="guide-section">
+                <h2 data-lang-en="Technique: Chain-of-Thought" data-lang-de="Technik: Chain-of-Thought" data-lang-es="Técnica: Cadena de Pensamiento"></h2>
+                <p data-lang-en="Ask the model to 'think step by step'. This encourages it to break down complex problems into smaller parts, leading to more accurate and reasoned answers." data-lang-de="Bitten Sie das Modell, „Schritt für Schritt zu denken“. Dies ermutigt es, komplexe Probleme in kleinere Teile zu zerlegen, was zu genaueren und begründeteren Antworten führt." data-lang-es="Pide al modelo que 'piense paso a paso'. Esto lo alienta a descomponer problemas complejos en partes más pequeñas, lo que lleva a respuestas más precisas y razonadas."></p>
+                <svg viewBox="0 0 100 50" class="sketch" aria-hidden="true">
+                    <g transform="translate(15, 25)">
+                        <circle cx="0" cy="0" r="5" class="sketch-primary-stroke" stroke-width="1.5" fill="none"/>
+                        <text x="-3" y="1" font-size="4" class="sketch-text">1</text>
+                    </g>
+                    <path d="M21,25 H34" class="sketch-stroke" stroke-width="1.5" fill="none" stroke-dasharray="2 2"/>
+                    <g transform="translate(40, 25)">
+                        <circle cx="0" cy="0" r="5" class="sketch-primary-stroke" stroke-width="1.5" fill="none"/>
+                        <text x="-3" y="1" font-size="4" class="sketch-text">2</text>
+                    </g>
+                    <path d="M46,25 H59" class="sketch-stroke" stroke-width="1.5" fill="none" stroke-dasharray="2 2"/>
+                    <g transform="translate(65, 25)">
+                        <circle cx="0" cy="0" r="5" class="sketch-primary-stroke" stroke-width="1.5" fill="none"/>
+                        <text x="-3" y="1" font-size="4" class="sketch-text">3</text>
+                    </g>
+                    <path d="M71,25 L80,25 M76,21 L80,25 L76,29" class="sketch-stroke" stroke-width="1.5" fill="none"/>
+                    <g transform="translate(85, 25)">
+                         <path d="M0,0 L5,5 M5,0 L0,5" stroke-width="2" class="sketch-primary-stroke"/>
+                    </g>
+                    <text x="83" y="35" font-size="4" class="sketch-text" data-lang-en="Result" data-lang-de="Ergebnis" data-lang-es="Resultado"></text>
+                    <title data-lang-en="Sketch showing a step-by-step thinking process leading to a result." data-lang-de="Skizze, die einen schrittweisen Denkprozess zeigt, der zu einem Ergebnis führt." data-lang-es="Boceto que muestra un proceso de pensamiento paso a paso que lleva a un resultado."></title>
+                </svg>
+            </section>
+            
+            <section class="guide-section">
+                <h2 data-lang-en="Technique: Persona Pattern" data-lang-de="Technik: Persona-Muster" data-lang-es="Técnica: Patrón de Persona"></h2>
+                <p data-lang-en="Instruct the model to adopt a specific persona, like 'You are a senior software developer' or 'Act as a travel guide.' This grounds the model in a specific context and style." data-lang-de="Weisen Sie das Modell an, eine bestimmte Persona anzunehmen, z.B. „Du bist ein erfahrener Softwareentwickler“ oder „Agieren Sie als Reiseführer.“ Dies verankert das Modell in einem bestimmten Kontext und Stil." data-lang-es="Instruye al modelo para que adopte una persona específica, como 'Eres un desarrollador de software senior' o 'Actúa como un guía de viajes'. Esto sitúa al modelo en un contexto y estilo específicos."></p>
+                 <svg viewBox="0 0 100 60" class="sketch" aria-hidden="true">
+                    <path class="sketch-stroke" d="M35,50 C35,30 65,30 65,50" stroke-width="2" fill="none"/>
+                    <circle cx="50" cy="30" r="15" class="sketch-stroke" stroke-width="2" fill="var(--card-bg)"/>
+                    <path d="M42,28 a3,2 0 0,1 6,0 a3,2 0 0,1 -6,0" class="sketch-fill"/>
+                    <path d="M52,28 a3,2 0 0,1 6,0 a3,2 0 0,1 -6,0" class="sketch-fill"/>
+                    <path d="M45,38 a5,5 0 0,0 10,0" class="sketch-stroke" stroke-width="1.5" fill="none"/>
+                    <path d="M50,15 L50,8 M40,8 H60" class="sketch-primary-stroke" stroke-width="2" fill="none"/>
+                    <text x="35" y="5" font-size="4" class="sketch-text" data-lang-en="Act as..." data-lang-de="Handle als..." data-lang-es="Actúa como..."></text>
+                    <title data-lang-en="Sketch of a figure with a hat, representing adopting a persona." data-lang-de="Skizze einer Figur mit Hut, die die Übernahme einer Persona darstellt." data-lang-es="Boceto de una figura con sombrero, que representa la adopción de una persona."></title>
+                 </svg>
+            </section>
+        </main>
+
+        <footer>
+            <p data-lang-en="Happy Prompting! Experimentation is key." data-lang-de="Viel Spaß beim Prompten! Experimentieren ist der Schlüssel." data-lang-es="¡Feliz Prompting! La experimentación es la clave."></p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const translatableElements = document.querySelectorAll('[data-lang-en]');
+            const hamburger = document.getElementById('hamburger-menu');
+            const navMenu = document.getElementById('nav-menu');
+            const logoLangCode = document.querySelector('.logo .lang-code');
+
+            const setLanguage = (lang) => {
+                translatableElements.forEach(el => {
+                    const text = el.getAttribute(`data-lang-${lang}`);
+                    if (text) {
+                        if (el.tagName === 'TITLE') {
+                            el.textContent = text;
+                        } else {
+                            el.innerHTML = text;
+                        }
+                    }
+                });
+
+                document.documentElement.lang = lang;
+                localStorage.setItem('preferredLanguage', lang);
+                
+                logoLangCode.textContent = ` [${lang.toUpperCase()}]`;
+
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+                });
+
+                if(navMenu.classList.contains('nav-active')) {
+                    hamburger.classList.remove('toggle');
+                    navMenu.classList.remove('nav-active');
+                }
+            };
+            
+            const getInitialLanguage = () => {
+                const savedLang = localStorage.getItem('preferredLanguage');
+                if (savedLang) return savedLang;
+
+                const browserLang = navigator.language.split('-')[0];
+                const supportedLangs = ['en', 'de', 'es'];
+                return supportedLangs.includes(browserLang) ? browserLang : 'en';
+            };
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const lang = button.getAttribute('data-lang');
+                    setLanguage(lang);
+                });
+            });
+
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('toggle');
+                navMenu.classList.toggle('nav-active');
+            });
+            
+            setLanguage(getInitialLanguage());
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

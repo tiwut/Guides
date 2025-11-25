@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-en="Network Setup & Security Guide" data-lang-de="Netzwerk-Guide: Einrichtung & Sicherheit" data-lang-es="Guía de Configuración y Seguridad de Red">Netzwerk-Guide: Einrichtung & Sicherheit</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --text-color: #333;
+            --card-bg-color: #ffffff;
+            --primary-color: #007aff;
+            --primary-color-light: #e6f2ff;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --svg-stroke-color: #555;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --text-color: #e0e0e0;
+                --card-bg-color: #1e1e1e;
+                --primary-color: #0a84ff;
+                --primary-color-light: #1c2b3e;
+                --border-color: #333;
+                --shadow-color: rgba(0, 0, 0, 0.2);
+                --svg-stroke-color: #bbb;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3rem;
+            background-color: var(--card-bg-color);
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .lang-switcher button {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            padding: 0.75rem 1rem;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .lang-switcher button:hover {
+            background-color: var(--primary-color-light);
+        }
+
+        .lang-switcher button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .guide-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .guide-section {
+            background-color: var(--card-bg-color);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .guide-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px var(--shadow-color);
+        }
+
+        .guide-section .illustration {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+        }
+        
+        .guide-section .illustration svg {
+            width: 100%;
+            height: auto;
+            stroke: var(--svg-stroke-color);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .guide-section .content {
+            text-align: center;
+        }
+
+        .guide-section h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .guide-section p {
+            font-size: 1rem;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+        
+        @media (min-width: 768px) {
+            .guide-section {
+                flex-direction: row;
+                text-align: left;
+            }
+            
+            .guide-section:nth-child(even) {
+                flex-direction: row-reverse;
+            }
+
+            .guide-section .content {
+                text-align: left;
+                flex: 1;
+            }
+
+            .guide-section .illustration {
+                flex-basis: 300px;
+                flex-shrink: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1 data-lang-en="Network Guide" data-lang-de="Netzwerk-Guide" data-lang-es="Guía de Red">Netzwerk-Guide</h1>
+            <p data-lang-en="Simple & Secure Setup" data-lang-de="Einfache & Sichere Einrichtung" data-lang-es="Configuración Simple y Segura">Einfache & Sichere Einrichtung</p>
+        </header>
+
+        <nav class="navigation">
+            <div class="lang-switcher">
+                <button data-lang="de">DE</button>
+                <button data-lang="en">EN</button>
+                <button data-lang="es">ES</button>
+            </div>
+        </nav>
+
+        <main class="guide-grid">
+            <section class="guide-section">
+                <div class="illustration">
+                    <svg viewBox="0 0 100 80">
+                        <path d="M40,65 L15,65 C10,65 10,60 10,60 L10,30 C10,25 15,25 15,25 L85,25 C90,25 90,30 90,30 L90,60 C90,65 85,65 85,65 L60,65" stroke-width="2"/>
+                        <circle cx="20" cy="45" r="2" fill="currentColor"/>
+                        <circle cx="30" cy="45" r="2" fill="currentColor"/>
+                        <line x1="50" y1="65" x2="50" y2="50"/>
+                        <path d="M40,50 Q50,40 60,50"/>
+                        <path d="M35,45 Q50,30 65,45"/>
+                        <path d="M30,40 Q50,20 70,40"/>
+                        <path d="M45,15 C40,5 60,5 55,15" stroke-width="2"/>
+                        <path d="M35,10 C30,0 70,0 65,10" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="content">
+                    <h2 data-lang-en="1. The Router" data-lang-de="1. Der Router" data-lang-es="1. El Router">1. Der Router</h2>
+                    <p data-lang-en="The heart of your network. It connects your devices to the internet and to each other. Place it centrally for the best Wi-Fi signal." data-lang-de="Das Herzstück deines Netzwerks. Er verbindet deine Geräte mit dem Internet und untereinander. Platziere ihn zentral für das beste WLAN-Signal." data-lang-es="El corazón de tu red. Conecta tus dispositivos a internet y entre ellos. Colócalo en un lugar céntrico para obtener la mejor señal Wi-Fi."></p>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="illustration">
+                    <svg viewBox="0 0 100 80">
+                        <rect x="20" y="20" width="60" height="40" rx="5" ry="5" stroke-width="2"/>
+                        <circle cx="50" cy="40" r="12" stroke-width="2"/>
+                        <path d="M50,34 L50,40 L54,40"/>
+                        <rect x="46" y="45" width="8" height="10" rx="2" ry="2" fill="currentColor" stroke-width="0"/>
+                        <line x1="35" y1="65" x2="65" y2="65" stroke-width="4"/>
+                    </svg>
+                </div>
+                <div class="content">
+                    <h2 data-lang-en="2. Secure Password" data-lang-de="2. Sicheres Passwort" data-lang-es="2. Contraseña Segura">2. Sicheres Passwort</h2>
+                    <p data-lang-en="Protect your Wi-Fi with a strong, unique password (WPA3/WPA2). Mix upper/lowercase letters, numbers, and symbols. Avoid personal information." data-lang-de="Schütze dein WLAN mit einem starken, einzigartigen Passwort (WPA3/WPA2). Mische Groß-/Kleinbuchstaben, Zahlen und Symbole. Vermeide persönliche Informationen." data-lang-es="Protege tu Wi-Fi con una contraseña fuerte y única (WPA3/WPA2). Mezcla mayúsculas, minúsculas, números y símbolos. Evita información personal."></p>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="illustration">
+                    <svg viewBox="0 0 100 80">
+                        <path d="M20,10 V 70 H 80 V 10 H 20 Z M 20,25 H 80 M 20,40 H 80 M 20,55 H 80 M 35,10 V 70 M 50,10 V 70 M 65,10 V 70" stroke-width="2" stroke="var(--primary-color)"/>
+                        <path d="M5,40 L15,40" stroke="green" stroke-width="3"/>
+                        <path d="M5,40 L10,35 M5,40 L10,45" stroke="green" stroke-width="3"/>
+                        <path d="M95,20 L85,20 M95,60 L85,60" stroke="red" stroke-width="3"/>
+                        <path d="M95,20 L90,15 M95,20 L90,25 M95,60 L90,55 M95,60 L90,65" stroke="red" stroke-width="3"/>
+                    </svg>
+                </div>
+                <div class="content">
+                    <h2 data-lang-en="3. The Firewall" data-lang-de="3. Die Firewall" data-lang-es="3. La Firewall">3. Die Firewall</h2>
+                    <p data-lang-en="Your router has a built-in firewall. It's like a digital gatekeeper that blocks malicious incoming traffic, protecting your devices. Keep it enabled." data-lang-de="Dein Router hat eine eingebaute Firewall. Sie ist wie ein digitaler Torwächter, der bösartigen eingehenden Verkehr blockiert und deine Geräte schützt. Lasse sie aktiviert." data-lang-es="Tu router tiene un firewall integrado. Es como un portero digital que bloquea el tráfico malicioso entrante, protegiendo tus dispositivos. Mantenlo activado."></p>
+                </div>
+            </section>
+
+            <section class="guide-section">
+                <div class="illustration">
+                    <svg viewBox="0 0 100 80">
+                        <path d="M10,40 C 20,10 80,10 90,40" stroke-dasharray="4 2" stroke-width="2"/>
+                        <path d="M10,40 C 20,70 80,70 90,40" stroke-dasharray="4 2" stroke-width="2"/>
+                        <rect x="5" y="35" width="10" height="10" rx="2"/>
+                        <rect x="85" y="35" width="10" height="10" rx="2"/>
+                        <path d="M20,40 H 80" stroke="var(--primary-color)" stroke-width="4"/>
+                        <path d="M75,40 L80,40 M75,40 L78,37 M75,40 L78,43" stroke="var(--primary-color)" stroke-width="4"/>
+                    </svg>
+                </div>
+                <div class="content">
+                    <h2 data-lang-en="4. Use a VPN" data-lang-de="4. VPN nutzen" data-lang-es="4. Usar una VPN">4. Usar una VPN</h2>
+                    <p data-lang-en="A VPN (Virtual Private Network) encrypts your internet connection. It creates a secure tunnel, protecting your data from eavesdroppers, especially on public Wi-Fi." data-lang-de="Ein VPN (Virtual Private Network) verschlüsselt deine Internetverbindung. Es erzeugt einen sicheren Tunnel und schützt deine Daten vor Lauschern, besonders in öffentlichen WLANs." data-lang-es="Una VPN (Red Privada Virtual) encripta tu conexión a internet. Crea un túnel seguro que protege tus datos de espías, especialmente en redes Wi-Fi públicas."></p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const langButtons = document.querySelectorAll('.lang-switcher button');
+            const translatableElements = document.querySelectorAll('[data-lang-en]');
+            
+            const supportedLangs = ['de', 'en', 'es'];
+            const defaultLang = 'de';
+
+            const switchLanguage = (lang) => {
+                if (!supportedLangs.includes(lang)) {
+                    lang = defaultLang;
+                }
+
+                document.documentElement.lang = lang;
+                localStorage.setItem('preferredLanguage', lang);
+
+                translatableElements.forEach(el => {
+                    const key = `lang${lang.charAt(0).toUpperCase() + lang.slice(1)}`;
+                    if (el.dataset[key]) {
+                        if (el.tagName === 'TITLE') {
+                            el.innerText = el.dataset[key];
+                        } else {
+                            el.innerHTML = el.dataset[key];
+                        }
+                    }
+                });
+
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+            };
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    switchLanguage(button.dataset.lang);
+                });
+            });
+
+            const getInitialLanguage = () => {
+                const savedLang = localStorage.getItem('preferredLanguage');
+                if (savedLang && supportedLangs.includes(savedLang)) {
+                    return savedLang;
+                }
+                
+                const browserLang = navigator.language.split('-')[0];
+                if (supportedLangs.includes(browserLang)) {
+                    return browserLang;
+                }
+                
+                return defaultLang;
+            };
+
+            switchLanguage(getInitialLanguage());
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>

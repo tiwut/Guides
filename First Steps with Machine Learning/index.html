@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="pageTitle">Erste Schritte mit Maschinellem Lernen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --card-bg-color: #ffffff;
+            --text-color: #2c3e50;
+            --heading-color: #1f2937;
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --nav-bg-color: rgba(255, 255, 255, 0.8);
+            --icon-color: #333;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #111827;
+                --card-bg-color: #1f2937;
+                --text-color: #d1d5db;
+                --heading-color: #f9fafb;
+                --primary-color: #58a6ff;
+                --secondary-color: #34d399;
+                --border-color: #374151;
+                --shadow-color: rgba(0, 0, 0, 0.2);
+                --nav-bg-color: rgba(31, 41, 55, 0.8);
+                --icon-color: #f9fafb;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 400;
+        }
+
+        .guide-steps {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .step-card {
+            background-color: var(--card-bg-color);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px var(--shadow-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px var(--shadow-color);
+        }
+
+        .step-card__icon {
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            color: var(--primary-color);
+        }
+        
+        .step-card__icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .step-card__content h2 {
+            color: var(--heading-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-card__content p {
+            font-size: 1rem;
+        }
+
+        .nav-menu-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            width: 50px;
+            height: 50px;
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .hamburger-icon {
+            width: 24px;
+            height: 18px;
+            position: relative;
+        }
+        
+        .hamburger-icon span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: var(--icon-color);
+            border-radius: 3px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .hamburger-icon span:nth-child(1) { top: 0px; }
+        .hamburger-icon span:nth-child(2) { top: 7px; }
+        .hamburger-icon span:nth-child(3) { top: 14px; }
+        
+        .nav-menu-button.open .hamburger-icon span:nth-child(1) {
+            top: 7px;
+            transform: rotate(135deg);
+        }
+        .nav-menu-button.open .hamburger-icon span:nth-child(2) {
+            opacity: 0;
+            left: -60px;
+        }
+        .nav-menu-button.open .hamburger-icon span:nth-child(3) {
+            top: 7px;
+            transform: rotate(-135deg);
+        }
+        
+        .navigation {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background-color: var(--nav-bg-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .navigation.open {
+            transform: translateX(0);
+        }
+        
+        .language-switcher {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            width: 150px;
+            text-align: center;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .lang-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .step-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .step-card__icon {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="nav-menu-button" aria-label="Toggle Navigation">
+        <div class="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </button>
+    
+    <nav class="navigation">
+        <div class="language-switcher">
+            <button class="lang-btn" data-lang="de">Deutsch</button>
+            <button class="lang-btn" data-lang="en">English</button>
+            <button class="lang-btn" data-lang="es">Español</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1 data-lang-key="title">Erste Schritte mit maschinellem Lernen</h1>
+            <p data-lang-key="subtitle">Dein erstes neuronales Netz in Python</p>
+        </header>
+
+        <main class="guide-steps">
+            
+            <div class="step-card">
+                <div class="step-card__icon">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="25" r="8" stroke="currentColor" stroke-width="3"/>
+                        <circle cx="20" cy="50" r="8" stroke="currentColor" stroke-width="3"/>
+                        <circle cx="20" cy="75" r="8" stroke="currentColor" stroke-width="3"/>
+                        <circle cx="50" cy="50" r="10" fill="currentColor"/>
+                        <circle cx="80" cy="50" r="8" stroke="currentColor" stroke-width="3"/>
+                        <path d="M28 27L40 48" stroke="currentColor" stroke-width="2"/>
+                        <path d="M28 49L40 49" stroke="currentColor" stroke-width="2"/>
+                        <path d="M28 73L40 52" stroke="currentColor" stroke-width="2"/>
+                        <path d="M60 50H72" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="step-card__content">
+                    <h2 data-lang-key="step1_title">1. Was ist ein Neuronales Netz?</h2>
+                    <p data-lang-key="step1_desc">Stellen Sie es sich als ein vom Gehirn inspiriertes System vor. Es besteht aus Schichten von "Neuronen", die Informationen verarbeiten. Eingaben gehen hinein, werden in verborgenen Schichten verarbeitet und erzeugen eine Ausgabe.</p>
+                </div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-card__icon">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="15" y="20" width="70" height="60" rx="8" stroke="currentColor" stroke-width="3"/>
+                        <path d="M30 35H70" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M30 50H70" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M30 65H50" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="step-card__content">
+                    <h2 data-lang-key="step2_title">2. Die Werkzeuge (Bibliotheken)</h2>
+                    <p data-lang-key="step2_desc">Wir verwenden Python mit leistungsstarken Bibliotheken. TensorFlow oder Keras zum Erstellen des Netzes und NumPy zur effizienten Handhabung von Daten (Zahlen) in Arrays.</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-card__icon">
+                     <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="10" y="20" width="35" height="60" rx="4" stroke="currentColor" stroke-width="2" fill="var(--bg-color)"/>
+                        <rect x="15" y="25" width="25" height="5" rx="2" fill="currentColor" opacity="0.6"/>
+                        <rect x="15" y="35" width="25" height="5" rx="2" fill="currentColor" opacity="0.6"/>
+                        <rect x="15" y="45" width="25" height="5" rx="2" fill="currentColor" opacity="0.6"/>
+                        <path d="M50 45L65 35" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M50 55L65 65" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        <rect x="70" y="25" width="20" height="20" rx="3" stroke="currentColor" stroke-width="2"/>
+                        <rect x="70" y="55" width="20" height="20" rx="3" stroke="currentColor" stroke-width="2"/>
+                        <text x="76" y="40" font-family="Poppins" font-size="12" fill="currentColor">X</text>
+                        <text x="76" y="70" font-family="Poppins" font-size="12" fill="currentColor">Y</text>
+                    </svg>
+                </div>
+                <div class="step-card__content">
+                    <h2 data-lang-key="step3_title">3. Daten vorbereiten</h2>
+                    <p data-lang-key="step3_desc">Jedes Modell braucht Daten zum Lernen. Wir teilen unsere Daten in zwei Teile: Eingabemerkmale (X) und die zugehörigen Ziel-Labels (Y), die das Modell vorhersagen soll.</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-card__icon">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="20" y="70" width="60" height="15" rx="5" stroke="currentColor" stroke-width="2" fill="var(--card-bg-color)"/>
+                        <rect x="20" y="50" width="60" height="15" rx="5" stroke="currentColor" stroke-width="2" fill="var(--secondary-color)" fill-opacity="0.3"/>
+                        <rect x="20" y="30" width="60" height="15" rx="5" stroke="currentColor" stroke-width="2" fill="var(--primary-color)" fill-opacity="0.3"/>
+                        <rect x="20" y="10" width="60" height="15" rx="5" stroke="currentColor" stroke-width="2" fill="var(--card-bg-color)"/>
+                    </svg>
+                </div>
+                <div class="step-card__content">
+                    <h2 data-lang-key="step4_title">4. Das Modell bauen</h2>
+                    <p data-lang-key="step4_desc">In Keras definieren wir unser Modell Schicht für Schicht. Wir beginnen mit einer Eingabeschicht, fügen eine oder mehrere "dichte" (vollständig verbundene) Schichten hinzu und enden mit einer Ausgabeschicht.</p>
+                </div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-card__icon">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 80 C 30 20, 60 90, 85 25" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="85" cy="25" r="5" fill="var(--secondary-color)"/>
+                        <path d="M15 15H25" stroke="currentColor" stroke-width="2"/>
+                        <path d="M15 85H85" stroke="currentColor" stroke-width="2"/>
+                        <path d="M10 80V15" stroke="currentColor" stroke-width="2"/>
+                        <text x="40" y="95" font-family="Poppins" font-size="8" fill="currentColor" data-lang-key="epochs">Epochen</text>
+                        <text x="0" y="10" font-family="Poppins" font-size="8" fill="currentColor" data-lang-key="loss" transform="rotate(-90 5 50)">Verlust</text>
+                    </svg>
+                </div>
+                <div class="step-card__content">
+                    <h2 data-lang-key="step5_title">5. Das Modell trainieren</h2>
+                    <p data-lang-key="step5_desc">Jetzt "füttern" wir unser Modell mit den Daten (X und Y). Das Modell passt seine internen Parameter über mehrere Durchläufe (Epochen) an, um den Vorhersagefehler (Verlust) zu minimieren.</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-card__icon">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 50 L 30 50" stroke="currentColor" stroke-width="2.5" />
+                        <rect x="30" y="30" width="40" height="40" rx="5" stroke="currentColor" stroke-width="3" fill="var(--secondary-color)" fill-opacity="0.2"/>
+                        <path d="M70 50 L 90 50" stroke="var(--secondary-color)" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M85 45 L 90 50 L 85 55" stroke="var(--secondary-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <text x="12" y="45" font-family="Poppins" font-size="8" fill="currentColor" data-lang-key="new_data">Neue Daten</text>
+                        <text x="35" y="55" font-family="Poppins" font-size="8" fill="currentColor" data-lang-key="trained_model">Trainiertes Modell</text>
+                        <text x="72" y="40" font-family="Poppins" font-size="8" fill="currentColor" data-lang-key="prediction">Vorhersage</text>
+                    </svg>
+                </div>
+                <div class="step-card__content">
+                    <h2 data-lang-key="step6_title">6. Vorhersagen treffen</h2>
+                    <p data-lang-key="step6_desc">Sobald das Modell trainiert ist, können wir es verwenden! Geben Sie ihm neue, ungesehene Daten, und es wird eine Vorhersage basierend auf dem Gelernten treffen. Herzlichen Glückwunsch!</p>
+                </div>
+            </div>
+
+        </main>
+
+        <footer>
+            <p data-lang-key="footer_text">Ein interaktiver Guide. Design & Code erstellt für Sie.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const translations = {
+                de: {
+                    pageTitle: "Erste Schritte mit Maschinellem Lernen",
+                    title: "Erste Schritte mit maschinellem Lernen",
+                    subtitle: "Dein erstes neuronales Netz in Python",
+                    step1_title: "1. Was ist ein Neuronales Netz?",
+                    step1_desc: "Stellen Sie es sich als ein vom Gehirn inspiriertes System vor. Es besteht aus Schichten von 'Neuronen', die Informationen verarbeiten. Eingaben gehen hinein, werden in verborgenen Schichten verarbeitet und erzeugen eine Ausgabe.",
+                    step2_title: "2. Die Werkzeuge (Bibliotheken)",
+                    step2_desc: "Wir verwenden Python mit leistungsstarken Bibliotheken. TensorFlow oder Keras zum Erstellen des Netzes und NumPy zur effizienten Handhabung von Daten (Zahlen) in Arrays.",
+                    step3_title: "3. Daten vorbereiten",
+                    step3_desc: "Jedes Modell braucht Daten zum Lernen. Wir teilen unsere Daten in zwei Teile: Eingabemerkmale (X) und die zugehörigen Ziel-Labels (Y), die das Modell vorhersagen soll.",
+                    step4_title: "4. Das Modell bauen",
+                    step4_desc: "In Keras definieren wir unser Modell Schicht für Schicht. Wir beginnen mit einer Eingabeschicht, fügen eine oder mehrere 'dichte' (vollständig verbundene) Schichten hinzu und enden mit einer Ausgabeschicht.",
+                    step5_title: "5. Das Modell trainieren",
+                    step5_desc: "Jetzt 'füttern' wir unser Modell mit den Daten (X und Y). Das Modell passt seine internen Parameter über mehrere Durchläufe (Epochen) an, um den Vorhersagefehler (Verlust) zu minimieren.",
+                    epochs: "Epochen",
+                    loss: "Verlust",
+                    step6_title: "6. Vorhersagen treffen",
+                    step6_desc: "Sobald das Modell trainiert ist, können wir es verwenden! Geben Sie ihm neue, ungesehene Daten, und es wird eine Vorhersage basierend auf dem Gelernten treffen. Herzlichen Glückwunsch!",
+                    new_data: "Neue Daten",
+                    trained_model: "Trainiertes Modell",
+                    prediction: "Vorhersage",
+                    footer_text: "Ein interaktiver Guide. Design & Code erstellt für Sie."
+                },
+                en: {
+                    pageTitle: "First Steps with Machine Learning",
+                    title: "First Steps with Machine Learning",
+                    subtitle: "Your first neural network in Python",
+                    step1_title: "1. What is a Neural Network?",
+                    step1_desc: "Think of it as a brain-inspired system. It consists of layers of 'neurons' that process information. Inputs go in, are processed in hidden layers, and produce an output.",
+                    step2_title: "2. The Tools (Libraries)",
+                    step2_desc: "We'll use Python with powerful libraries. TensorFlow or Keras for building the network, and NumPy for handling data (numbers) efficiently in arrays.",
+                    step3_title: "3. Prepare the Data",
+                    step3_desc: "Every model needs data to learn from. We split our data into two parts: input features (X) and the corresponding target labels (Y) that the model should predict.",
+                    step4_title: "4. Build the Model",
+                    step4_desc: "In Keras, we define our model layer by layer. We start with an input layer, add one or more 'dense' (fully connected) layers, and end with an output layer.",
+                    step5_title: "5. Train the Model",
+                    step5_desc: "Now we 'feed' our data (X and Y) to the model. The model adjusts its internal parameters over several passes (epochs) to minimize the prediction error (loss).",
+                    epochs: "Epochs",
+                    loss: "Loss",
+                    step6_title: "6. Make Predictions",
+                    step6_desc: "Once the model is trained, we can use it! Give it new, unseen data, and it will make a prediction based on what it has learned. Congratulations!",
+                    new_data: "New Data",
+                    trained_model: "Trained Model",
+                    prediction: "Prediction",
+                    footer_text: "An interactive guide. Design & code crafted for you."
+                },
+                es: {
+                    pageTitle: "Primeros Pasos con el Aprendizaje Automático",
+                    title: "Primeros Pasos con el Aprendizaje Automático",
+                    subtitle: "Tu primera red neuronal en Python",
+                    step1_title: "1. ¿Qué es una Red Neuronal?",
+                    step1_desc: "Piense en ello como un sistema inspirado en el cerebro. Consiste en capas de 'neuronas' que procesan información. Las entradas entran, se procesan en capas ocultas y producen una salida.",
+                    step2_title: "2. Las Herramientas (Bibliotecas)",
+                    step2_desc: "Usaremos Python con potentes bibliotecas. TensorFlow o Keras para construir la red, y NumPy para manejar datos (números) eficientemente en arreglos.",
+                    step3_title: "3. Preparar los Datos",
+                    step3_desc: "Todo modelo necesita datos para aprender. Dividimos nuestros datos en dos partes: características de entrada (X) y las etiquetas de objetivo (Y) que el modelo debe predecir.",
+                    step4_title: "4. Construir el Modelo",
+                    step4_desc: "En Keras, definimos nuestro modelo capa por capa. Empezamos con una capa de entrada, añadimos una o más capas 'densas' (totalmente conectadas) y terminamos con una capa de salida.",
+                    step5_title: "5. Entrenar el Modelo",
+                    step5_desc: "Ahora 'alimentamos' nuestro modelo con los datos (X e Y). El modelo ajusta sus parámetros internos a lo largo de varias pasadas (épocas) para minimizar el error de predicción (pérdida).",
+                    epochs: "Épocas",
+                    loss: "Pérdida",
+                    step6_title: "6. Hacer Predicciones",
+                    step6_desc: "Una vez que el modelo está entrenado, ¡podemos usarlo! Dale nuevos datos que no ha visto antes y hará una predicción basada en lo que ha aprendido. ¡Felicidades!",
+                    new_data: "Nuevos Datos",
+                    trained_model: "Modelo Entrenado",
+                    prediction: "Predicción",
+                    footer_text: "Una guía interactiva. Diseño y código creados para ti."
+                }
+            };
+
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const menuButton = document.querySelector('.nav-menu-button');
+            const navigation = document.querySelector('.navigation');
+
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                const langData = translations[lang];
+
+                document.querySelectorAll('[data-lang-key]').forEach(element => {
+                    const key = element.getAttribute('data-lang-key');
+                    if (langData[key]) {
+                        element.innerHTML = langData[key];
+                    }
+                });
+
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+
+                localStorage.setItem('preferredLanguage', lang);
+            };
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const lang = button.dataset.lang;
+                    setLanguage(lang);
+                    navigation.classList.remove('open');
+                    menuButton.classList.remove('open');
+                });
+            });
+
+            menuButton.addEventListener('click', () => {
+                navigation.classList.toggle('open');
+                menuButton.classList.toggle('open');
+            });
+            
+            const getInitialLanguage = () => {
+                const savedLang = localStorage.getItem('preferredLanguage');
+                if (savedLang && translations[savedLang]) {
+                    return savedLang;
+                }
+
+                const browserLang = navigator.language.split('-')[0];
+                if (translations[browserLang]) {
+                    return browserLang;
+                }
+                
+                return 'en';
+            };
+
+            setLanguage(getInitialLanguage());
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

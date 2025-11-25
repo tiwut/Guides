@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Installation Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        #sidebar {
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            display: block;
+            color: #ddd;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #sidebar ul li a:hover, #sidebar ul li a.active {
+            background-color: #0078D4; 
+            color: #fff;
+        }
+        #main-content {
+            margin-left: 300px; 
+            padding: 20px 40px;
+            width: calc(100% - 300px);
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #0078D4; 
+            border-bottom: 2px solid #0078D4;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #005A9E; 
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #0078D4;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        .warning, .important {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffeeba;
+            color: #856404;
+        }
+        .important {
+            background-color: #d1ecf1;
+            border-left: 5px solid #bee5eb;
+            color: #0c5460;
+        }
+        .path {
+            font-style: italic;
+            color: #555;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#prerequisites">Prerequisites & Backup</a></li>
+            <li><a href="#installation-media">1. Create Installation Media</a></li>
+            <li><a href="#bios-uefi">2. BIOS/UEFI Configuration</a></li>
+            <li><a href="#boot-media">3. Boot from Media</a></li>
+            <li><a href="#windows-setup">4. Windows Setup Process</a></li>
+            <li><a href="#oobe">5. Initial Configuration (OOBE)</a></li>
+            <li><a href="#drivers">6. Install Drivers</a></li>
+            <li><a href="#updates-activation">7. Updates & Activation</a></li>
+            <li><a href="#post-install">Post-Installation Tips</a></li>
+            <li><a href="#disclaimer">Disclaimer</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>Comprehensive Guide: Installing Windows (Clean Install)</h1>
+        </header>
+
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>This guide provides detailed step-by-step instructions for performing a clean installation of Windows (e.g., Windows 10 or Windows 11) on your computer. A clean install erases the existing operating system and data on the target drive, providing a fresh start.</p>
+            <p class="important">This process is suitable for new PCs without an OS, upgrading an older Windows version (via clean install), or resolving persistent system issues by starting fresh.</p>
+        </section>
+
+        <section id="prerequisites">
+            <h2>Prerequisites & Crucial: Backup Your Data!</h2>
+            <p class="warning"><strong>CRITICAL: BACKUP YOUR DATA!</strong> A clean installation will erase all data (documents, photos, applications, etc.) on the drive where Windows is installed. Before you begin, back up everything important to an external hard drive, USB flash drive, or cloud storage.</p>
+            <p>You will need the following:</p>
+            <ul>
+                <li><strong>Windows ISO File or Installation Media:</strong>
+                    <ul>
+                        <li>Download the official Windows ISO or Media Creation Tool from the <a href="https://www.microsoft.com/software-download/" target="_blank">Microsoft Software Download page</a>. Select the correct Windows version (e.g., Windows 10, Windows 11).</li>
+                    </ul>
+                </li>
+                <li><strong>USB Flash Drive:</strong> Minimum 8GB capacity (16GB+ recommended). This drive will be erased, so ensure it doesn't contain important data. (Alternatively, a writable DVD and DVD burner if your PC has one, though USB is preferred).</li>
+                <li><strong>Valid Windows Product Key:</strong>
+                    <ul>
+                        <li>If your PC came with Windows, the key might be embedded in the firmware (digital license) or on a sticker.</li>
+                        <li>If you purchased a retail copy of Windows, the key will be in the packaging or email.</li>
+                        <li>You can often proceed without a key initially and activate later, but having it handy is good.</li>
+                    </ul>
+                </li>
+                <li><strong>Computer Meeting System Requirements:</strong> Ensure your PC meets the minimum hardware requirements for the Windows version you're installing (check Microsoft's website).</li>
+                <li><strong>Internet Connection:</strong> Required for downloading the ISO/Media Creation Tool, and later for updates, activation, and some driver installations.</li>
+                <li><strong>(Optional) Another Working Computer:</strong> To create the USB installation media if your target PC isn't currently functional or doesn't have an OS.</li>
+            </ul>
+        </section>
+
+        <section id="installation-media">
+            <h2>1. Create Windows Installation Media</h2>
+            <p>The most common method is using a USB flash drive.</p>
+            <h3>Using Microsoft's Media Creation Tool (Recommended for Windows 10/11):</h3>
+            <ol>
+                <li>Download the Media Creation Tool from the official <a href="https://www.microsoft.com/software-download/" target="_blank">Microsoft Software Download page</a> for your desired Windows version (e.g., Windows 10 or Windows 11).</li>
+                <li>Run the downloaded Media Creation Tool on a working Windows PC. Accept the license terms.</li>
+                <li>Select "Create installation media (USB flash drive, DVD, or ISO file) for another PC" and click Next.</li>
+                <li>Choose the Language, Edition (e.g., Windows 10/11 Home/Pro - this must match your license), and Architecture (usually 64-bit for modern PCs). You can uncheck "Use the recommended options for this PC" if you need to specify differently. Click Next.</li>
+                <li>Select "USB flash drive" as the media type. Click Next.</li>
+                <li>Select your USB flash drive from the list.
+                    <p class="warning">Ensure you've selected the correct USB drive. It will be completely erased.</p>
+                </li>
+                <li>Click Next. The tool will download Windows and create the bootable USB drive. This may take some time depending on your internet speed.</li>
+                <li>Once finished, click "Finish" and safely eject the USB drive.</li>
+            </ol>
+            <h3>Alternative: Using Rufus (for existing ISO files):</h3>
+            <p>If you have already downloaded a Windows ISO file, you can use a tool like <a href="https://rufus.ie/" target="_blank">Rufus</a> to create a bootable USB drive.</p>
+            <ol>
+                <li>Download and run Rufus.</li>
+                <li>Select your USB drive under "Device".</li>
+                <li>Click "SELECT" next to "Boot selection" and choose your Windows ISO file.</li>
+                <li>For "Partition scheme", choose "GPT" for modern UEFI systems or "MBR" for older BIOS systems. (GPT is generally recommended).</li>
+                <li>For "Target system", it usually auto-selects based on the partition scheme (e.g., "UEFI (non CSM)" for GPT).</li>
+                <li>Leave other options at their defaults unless you know what you're doing (File system: NTFS).</li>
+                <li>Click "START". Confirm any warnings about data erasure.</li>
+            </ol>
+        </section>
+
+        <section id="bios-uefi">
+            <h2>2. BIOS/UEFI Configuration</h2>
+            <p>You need to tell your computer to boot from the USB installation media instead of its internal hard drive.</p>
+            <ol>
+                <li>Insert the bootable Windows USB drive into the computer where you want to install Windows.</li>
+                <li><strong>Access BIOS/UEFI Setup:</strong>
+                    <ul>
+                        <li>Turn on or restart the computer.</li>
+                        <li>Immediately press the key to enter BIOS/UEFI setup. Common keys include: <code>Delete</code>, <code>F2</code>, <code>F10</code>, <code>F12</code>, <code>Esc</code>. The key is often displayed briefly on the screen during startup (e.g., "Press DEL to enter Setup"). Consult your PC/motherboard manual if unsure.</li>
+                    </ul>
+                </li>
+                <li><strong>Set Boot Order:</strong>
+                    <ul>
+                        <li>Once in the BIOS/UEFI utility, look for a "Boot" or "Boot Order" or "Boot Priority" menu.</li>
+                        <li>Change the boot order to make the USB drive (often listed as "USB HDD," "Removable Devices," or the brand name of your USB drive) the first boot device. UEFI systems might list "UEFI: [USB Drive Name]".</li>
+                    </ul>
+                </li>
+                <li><strong>UEFI vs. Legacy/CSM Mode:</strong>
+                    <ul>
+                        <li>Most modern PCs use UEFI. It's generally recommended to install Windows in UEFI mode if your system supports it.</li>
+                        <li>If you have an option for "Boot Mode," select "UEFI".</li>
+                        <li>Disable "CSM" (Compatibility Support Module) or "Legacy Boot" if UEFI is enabled, unless you have a specific reason.</li>
+                    </ul>
+                </li>
+                <li><strong>Secure Boot:</strong>
+                    <ul>
+                        <li>Secure Boot is a UEFI feature that helps protect against malware. For Windows 10/11, it can usually be left <strong>enabled</strong>.</li>
+                        <li>If you encounter issues booting from the USB, you might try temporarily disabling Secure Boot, then re-enable it after installation.</li>
+                    </ul>
+                </li>
+                <li><strong>SATA Mode:</strong>
+                    <ul>
+                        <li>Ensure SATA mode is set to <strong>AHCI</strong> (Advanced Host Controller Interface). This is standard for modern SSDs and HDDs. Avoid "IDE" or "RAID" unless you have a specific RAID setup.</li>
+                    </ul>
+                </li>
+                <li><strong>Save and Exit:</strong>
+                    <ul>
+                        <li>Navigate to the "Exit" menu and select "Save Changes and Exit" or "Exit Saving Changes" (often <code>F10</code> key). Confirm the save.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="boot-media">
+            <h2>3. Boot from Installation Media</h2>
+            <ol>
+                <li>The computer will restart.</li>
+                <li>It should now attempt to boot from the USB drive.</li>
+                <li>You might see a message like "Press any key to boot from CD or DVD..." or "Press any key to boot from USB...". If so, press any key promptly.</li>
+                <li>If it boots directly into the Windows installer (you see a Windows logo and then a language selection screen), you're good to go.</li>
+                <li class="warning">If it boots into your old Windows or shows an error, re-check your BIOS/UEFI boot order settings. Ensure the USB drive is properly created and inserted.</li>
+            </ol>
+        </section>
+
+        <section id="windows-setup">
+            <h2>4. Windows Setup Process</h2>
+            <p>Follow the on-screen prompts:</p>
+            <ol>
+                <li><strong>Language and Preferences:</strong> Select your language, time and currency format, and keyboard or input method. Click Next.</li>
+                <li>Click <strong>"Install now"</strong>.</li>
+                <li><strong>Enter Product Key:</strong>
+                    <ul>
+                        <li>Enter your Windows product key if you have one.</li>
+                        <li>If you have a digital license tied to your hardware, or want to activate later, click "I don't have a product key". Windows will often activate automatically later if it detects a previous activation for that hardware.</li>
+                    </ul>
+                </li>
+                <li><strong>Select Operating System:</strong> Choose the edition of Windows you want to install (e.g., Windows 10 Home, Windows 11 Pro). This <strong>must</strong> match the edition your product key is for. Click Next.</li>
+                <li><strong>Accept License Terms:</strong> Check the box to accept the Microsoft Software License Terms and click Next.</li>
+                <li><strong>Installation Type:</strong>
+                    <ul>
+                        <li>Choose <strong>"Custom: Install Windows only (advanced)"</strong>. Do NOT choose "Upgrade" for a clean install.</li>
+                    </ul>
+                </li>
+                <li><strong>Where do you want to install Windows? (Partitioning):</strong>
+                    <p class="warning"><strong>THIS IS A CRITICAL STEP. INCORRECT ACTIONS CAN LEAD TO DATA LOSS ON ALL DRIVES.</strong> Be sure you are selecting the correct drive if you have multiple hard drives installed.</p>
+                    <ul>
+                        <li>You'll see a list of drives and partitions.</li>
+                        <li><strong>For a clean install on the primary drive:</strong> It's common to delete existing partitions on the target drive to start completely fresh. Select each partition on the drive where you intend to install Windows (e.g., "Drive 0 Partition 1", "Drive 0 Partition 2") and click "Delete". Confirm deletion.
+                            <p class="warning">Again, this will erase all data on those partitions. Ensure you've backed up!</p>
+                        </li>
+                        <li>After deleting, you should have "Unallocated Space" on the drive. Select this unallocated space.</li>
+                        <li>Click <strong>"Next"</strong>. Windows Setup will automatically create the necessary system partitions (e.g., System Reserved, MSR, Recovery, Primary) and format them.
+                            (Alternatively, you can click "New" to manually create partitions if you have specific needs, but for most users, letting Windows handle it on unallocated space is easiest.)
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Installing Windows:</strong> The setup will now copy Windows files, install features, install updates, and finish up. This will take some time, and your computer will restart several times. Do not turn off your PC during this process. Remove the USB drive when prompted or when the PC reboots into the OOBE (next step), to prevent it from booting from USB again.</li>
+            </ol>
+        </section>
+
+        <section id="oobe">
+            <h2>5. Initial Windows Configuration (OOBE - Out of Box Experience)</h2>
+            <p>After the main installation phase and restarts, you'll go through the OOBE to personalize your Windows setup:</p>
+            <ol>
+                <li><strong>Region:</strong> Select your country or region.</li>
+                <li><strong>Keyboard Layout:</strong> Confirm or add keyboard layouts.</li>
+                <li><strong>Network Connection:</strong> Connect to a Wi-Fi network (if available and not using Ethernet). An internet connection is highly recommended for the best experience and for Microsoft Account setup.
+                    <p class="important">Windows 11 Home edition typically requires an internet connection and a Microsoft Account during setup. Pro editions may offer an option for an offline/local account more easily.</p>
+                </li>
+                <li><strong>Name Your PC (Windows 11):</strong> Give your computer a name.</li>
+                <li><strong>Account Setup:</strong>
+                    <ul>
+                        <li><strong>Microsoft Account:</strong> Sign in with your Microsoft account (or create one). This integrates with OneDrive, Microsoft Store, and syncs settings.</li>
+                        <li><strong>Local Account:</strong> For a local account (not tied to Microsoft online services):
+                            <ul>
+                                <li>In Windows 10, you might see an "Offline account" or "Domain join instead" option.</li>
+                                <li>In Windows 11 Home, this is trickier. You might need to disconnect from the internet temporarily, or use a specific non-email format if prompted for an MSA. Sometimes, entering a known-bad email (like `no@thankyou.com` with a random password) a few times will reveal the local account option. Search online for "Windows 11 local account setup" for current workarounds if needed.</li>
+                            </ul>
+                        <li>If creating a local account, set a username and password (and security questions if prompted).</li>
+                    </ul>
+                </li>
+                <li><strong>Privacy Settings:</strong> Review and configure privacy settings (Location, Find My Device, Diagnostic data, etc.). Choose what you're comfortable sharing.</li>
+                <li><strong>Cortana (if applicable):</strong> Choose whether to enable and use Cortana, Microsoft's digital assistant.</li>
+                <li>Windows will then finalize your settings ("Getting things ready for you..."). This might take a few minutes.</li>
+            </ol>
+        </section>
+
+        <section id="drivers">
+            <h2>6. Install Drivers</h2>
+            <p>Once you reach the Windows desktop, you need to install drivers for your hardware to function correctly.</p>
+            <ol>
+                <li><strong>Windows Update:</strong>
+                    <ul>
+                        <li>Connect to the internet if you haven't already.</li>
+                        <li>Go to <code>Settings > Update & Security > Windows Update</code> (Windows 10) or <code>Settings > Windows Update</code> (Windows 11).</li>
+                        <li>Click "Check for updates". Windows Update will often find and install many necessary drivers automatically (chipset, network, audio, some graphics). Let it download and install everything. Restart if prompted.</li>
+                    </ul>
+                </li>
+                <li><strong>Motherboard/PC Manufacturer:</strong>
+                    <ul>
+                        <li>Visit the support website for your motherboard manufacturer (e.g., ASUS, Gigabyte, MSI, ASRock) or PC manufacturer (e.g., Dell, HP, Lenovo).</li>
+                        <li>Go to their "Support" or "Downloads" section and find your specific model.</li>
+                        <li>Download the latest drivers, especially for:
+                            <ul>
+                                <li>Chipset</li>
+                                <li>LAN (Ethernet)</li>
+                                <li>Audio</li>
+                                <li>USB 3.0/3.1/3.2 drivers (if separate)</li>
+                                <li>Wi-Fi and Bluetooth drivers (if applicable)</li>
+                            </ul>
+                        </li>
+                        <li>Install these drivers. It's usually best to install chipset drivers first.</li>
+                    </ul>
+                </li>
+                <li><strong>Graphics Card:</strong>
+                    <ul>
+                        <li>Go to the website of your graphics card manufacturer:
+                            <ul>
+                                <li><a href="https://www.nvidia.com/Download/index.aspx" target="_blank">NVIDIA</a></li>
+                                <li><a href="https://www.amd.com/en/support" target="_blank">AMD</a></li>
+                                <li><a href="https://www.intel.com/content/www/us/en/download-center/home.html" target="_blank">Intel (for integrated graphics)</a></li>
+                            </ul>
+                        </li>
+                        <li>Download and install the latest driver for your specific graphics card model.</li>
+                    </ul>
+                </li>
+                <li><strong>Other Peripherals:</strong> Install drivers for any other devices (printers, webcams, etc.) if they weren't automatically installed.</li>
+                <li class="important">Restart your computer after installing major drivers (like graphics or chipset).</li>
+            </ol>
+        </section>
+
+        <section id="updates-activation">
+            <h2>7. Windows Updates & Activation</h2>
+            <ol>
+                <li><strong>Run Windows Update Again:</strong> After installing drivers, go back to Windows Update (<code>Settings > Update & Security > Windows Update</code> or <code>Settings > Windows Update</code>) and check for updates again. Install any remaining updates. Repeat until no more important updates are found.</li>
+                <li><strong>Check Activation Status:</strong>
+                    <ul>
+                        <li>Go to <code>Settings > Update & Security > Activation</code> (Windows 10) or <code>Settings > System > Activation</code> (Windows 11).</li>
+                        <li>Windows should ideally show as "Windows is activated".
+                            <ul>
+                                <li>If you entered a product key during setup, it should be activated.</li>
+                                <li>If you have a digital license linked to your hardware (common for PCs that came with Windows pre-installed), it should activate automatically once connected to the internet.</li>
+                            </ul>
+                        </li>
+                        <li>If it's not activated, you might see an option to "Change product key" or "Troubleshoot". Enter your key if you haven't already.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="post-install">
+            <h2>Post-Installation Tips</h2>
+            <p>Your Windows installation is nearly complete! Consider these final steps:</p>
+            <ul>
+                <li><strong>Install Essential Software:</strong>
+                    <ul>
+                        <li>Web browser of your choice (e.g., Chrome, Firefox, Edge is already there).</li>
+                        <li>Office suite (e.g., Microsoft Office, LibreOffice).</li>
+                        <li>PDF reader.</li>
+                        <li>Media player (e.g., VLC).</li>
+                        <li>Antivirus/Anti-malware: Windows Defender (Microsoft Defender Antivirus) is built-in and provides good protection for most users. You can install a third-party solution if preferred.</li>
+                        <li>Any other specific applications you need.</li>
+                    </ul>
+                </li>
+                <li><strong>Customize Windows:</strong>
+                    <ul>
+                        <li>Right-click on the desktop > "Personalize" to change wallpaper, themes, colors.</li>
+                        <li>Right-click on the desktop > "Display settings" to adjust resolution, scaling, multiple monitor setups.</li>
+                        <li>Adjust power settings (<code>Settings > System > Power & sleep</code> or via Control Panel).</li>
+                    </ul>
+                </li>
+                <li><strong>Create a System Restore Point:</strong> Once your system is set up with drivers and essential software, it's a good idea to create a system restore point. Search for "Create a restore point" in the Start Menu.</li>
+                <li><strong>Review Installed Programs:</strong> Check <code>Settings > Apps > Apps & features</code> to see what's installed.</li>
+                <li><strong>Check Device Manager:</strong> Right-click the Start button and select "Device Manager". Look for any devices with yellow exclamation marks, indicating driver issues that still need to be resolved.</li>
+            </ul>
+            <p>Enjoy your fresh Windows installation!</p>
+        </section>
+
+        <section id="disclaimer">
+            <h2>Disclaimer</h2>
+            <p>This guide is provided for informational purposes only. Performing a clean installation of Windows involves risks, including data loss if not backed up properly. Proceed at your own risk. The author of this webpage is not responsible for any damage to your hardware, data loss, system instability, or other issues that may arise from following this guide.</p>
+            <p>Ensure you are downloading Windows and drivers from official and trusted sources. Refer to Microsoft's official documentation for definitive information.</p>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const sections = document.querySelectorAll('#main-content section');
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+
+        window.onscroll = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 70) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+             
+            if (!current && navLinks.length > 0 && sections.length > 0 && pageYOffset < sections[0].offsetTop - 70) {
+                navLinks[0].classList.add('active');
+            } else if (!current && navLinks.length > 0 && sections.length === 0) { 
+                 navLinks[0].classList.add('active');
+            }
+        };
+        
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+
+</body>
+</html>
