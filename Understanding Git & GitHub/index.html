@@ -3,567 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-translate-key="pageTitle">Git & GitHub Guide</title>
+    <title>Understanding Git & GitHub</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --text-color: #1a202c;
-            --card-bg-color: #ffffff;
-            --primary-color: #3498db;
-            --primary-color-hover: #2980b9;
-            --nav-bg-color: #ffffff;
-            --nav-text-color: #2c3e50;
-            --border-color: #e2e8f0;
-            --shadow-color: rgba(0, 0, 0, 0.05);
-            --sketch-stroke-color: #4a5568;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a202c;
-                --text-color: #e2e8f0;
-                --card-bg-color: #2d3748;
-                --primary-color: #4299e1;
-                --primary-color-hover: #63b3ed;
-                --nav-bg-color: #2d3748;
-                --nav-text-color: #e2e8f0;
-                --border-color: #4a5568;
-                --shadow-color: rgba(0, 0, 0, 0.2);
-                --sketch-stroke-color: #a0aec0;
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .menu-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1001;
-            background: var(--card-bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 10px var(--shadow-color);
-        }
-
-        .menu-toggle .bar {
-            width: 24px;
-            height: 2px;
-            background-color: var(--text-color);
-            margin: 3px 0;
-            transition: transform 0.3s, opacity 0.3s;
-        }
-        
-        body.nav-open .menu-toggle .bar1 {
-            transform: translateY(8px) rotate(45deg);
-        }
-        body.nav-open .menu-toggle .bar2 {
-            opacity: 0;
-        }
-        body.nav-open .menu-toggle .bar3 {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 280px;
-            background-color: var(--nav-bg-color);
-            z-index: 1000;
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 5px 0 15px var(--shadow-color);
-            display: flex;
-            flex-direction: column;
-            padding-top: 80px;
-        }
-        
-        body.nav-open nav {
-            transform: translateX(0);
-        }
-
-        .nav-header {
-            padding: 0 25px 20px 25px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-header h3 {
-            font-size: 1rem;
-            color: var(--text-color);
-            font-weight: 600;
-            data-translate-key: langMenuTitle;
-        }
-
-        .language-switcher {
-            display: flex;
-            justify-content: flex-start;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .lang-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 8px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .lang-btn:hover {
-            background-color: var(--primary-color-hover);
-            color: white;
-            border-color: var(--primary-color-hover);
-        }
-
-        .lang-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        main {
-            padding: 40px 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        header p {
-            font-size: 1.2rem;
-            color: var(--text-color);
-            opacity: 0.8;
-        }
-
-        .guide-section {
-            background-color: var(--card-bg-color);
+        .drawing-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
             border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 8px 25px var(--shadow-color);
-            border: 1px solid var(--border-color);
-            transition: background-color 0.3s, border-color 0.3s;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .guide-section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary-color);
-            display: inline-block;
-        }
-
-        .guide-section p {
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-        
-        .sketch {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 25px;
-            padding: 20px 0;
-        }
-
-        .sketch svg {
-            max-width: 100%;
+        .drawing-container svg {
+            width: 100%;
             height: auto;
-            stroke: var(--sketch-stroke-color);
-            fill: none;
-            stroke-width: 1.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
-        
-        .code-block {
-            background-color: var(--bg-color);
-            padding: 15px;
-            border-radius: 8px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.95rem;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            border: 1px solid var(--border-color);
-        }
-
-        @media (min-width: 768px) {
-            main {
-                padding-left: 60px; 
-            }
-            .guide-section {
-                padding: 40px;
-            }
-            .content-layout {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 40px;
-                align-items: center;
-            }
-            .content-layout .text-content {
-                grid-column: 1 / 2;
-            }
-            .content-layout .sketch {
-                grid-column: 2 / 3;
-            }
-             .content-layout.reverse .text-content {
-                grid-column: 2 / 3;
-            }
-            .content-layout.reverse .sketch {
-                grid-column: 1 / 2;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            body {
-                padding-left: 280px;
-            }
-            .menu-toggle {
-                display: none;
-            }
-            nav {
-                transform: translateX(0);
-                box-shadow: none;
-                border-right: 1px solid var(--border-color);
-            }
-        }
-
     </style>
 </head>
-<body>
+<body class="guide-page">
 
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-        <div class="bar bar1"></div>
-        <div class="bar bar2"></div>
-        <div class="bar bar3"></div>
-    </button>
-
-    <nav id="nav-menu">
-        <div class="nav-header">
-            <h3 data-translate-key="langMenuTitle">Sprache wählen</h3>
-            <div class="language-switcher" id="language-switcher">
-                <button class="lang-btn" data-lang="de">DE</button>
-                <button class="lang-btn" data-lang="en">EN</button>
-                <button class="lang-btn" data-lang="es">ES</button>
-            </div>
-        </div>
+    <nav id="sidebar">
+        <h2>Understanding Git & GitHub</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
+        </ul>
     </nav>
 
-    <main>
+    <div id="main-content">
         <header>
-            <h1 data-translate-key="mainTitle">Git & GitHub verstehen</h1>
-            <p data-translate-key="mainSubtitle">Eine Einführung für Teamprojekte</p>
+            <h1>Understanding Git & GitHub</h1>
+            <p>Welcome to the comprehensive guide on Understanding Git & GitHub. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
         </header>
 
-        <section class="guide-section" id="what-is-git">
-            <h2 data-translate-key="gitTitle">Was ist Git?</h2>
-            <div class="content-layout">
-                <div class="text-content">
-                    <p data-translate-key="gitDesc">Git ist ein verteiltes Versionskontrollsystem. Stell es dir wie ein lokales "Speicherbuch" für deinen Code vor. Jeder Entwickler hat eine vollständige Kopie des Projektverlaufs auf seinem eigenen Computer.</p>
-                </div>
-                <div class="sketch">
-                    <svg viewBox="0 0 100 80">
-                        <rect x="20" y="10" width="60" height="40" rx="5" fill="var(--card-bg-color)"></rect>
-                        <line x1="20" y1="40" x2="80" y2="40"></line>
-                        <circle cx="50" cy="25" r="3" fill="var(--primary-color)"></circle>
-                        <path d="M5,60 H95 V65 H5z" fill="var(--bg-color)" stroke="var(--sketch-stroke-color)"></path>
-                        <rect x="45" y="65" width="10" height="10" fill="var(--bg-color)" stroke="var(--sketch-stroke-color)"></rect>
-                        <text x="50" y="78" font-size="8" text-anchor="middle" fill="var(--text-color)" data-translate-key="gitSketchLabel">Lokaler Computer</text>
-                    </svg>
-                </div>
-            </div>
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Understanding Git & GitHub</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Understanding Git & GitHub powerful and useful.</p>
         </section>
 
-        <section class="guide-section" id="what-is-github">
-            <h2 data-translate-key="githubTitle">Was ist GitHub?</h2>
-             <div class="content-layout reverse">
-                <div class="text-content">
-                    <p data-translate-key="githubDesc">GitHub ist eine Web-Plattform, die Git nutzt. Es ist der zentrale Ort (ein "Remote Repository"), an dem das Team seinen Code teilt, zusammenarbeitet, Probleme diskutiert und den Projektfortschritt verfolgt.</p>
-                </div>
-                <div class="sketch">
-                    <svg viewBox="0 0 100 80">
-                        <path d="M62.3,13.3c-3.6-3.6-8.5-5.8-13.8-5.8c-10.7,0-19.5,8.7-19.5,19.5c0,8.5,5.5,15.8,13.1,18.4 C43,45.8,43.3,45.1,43.3,44.6c0-0.5,0-2.1,0-4c-5.4,1.2-6.5-2.6-6.5-2.6c-0.9-2.2-2.1-2.8-2.1-2.8c-1.7-1.2,0.1-1.1,0.1-1.1 c1.9,0.1,2.9,2,2.9,2c1.7,2.9,4.4,2,5.5,1.6c0.2-1.2,0.7-2,1.2-2.5c-4.2-0.5-8.6-2.1-8.6-9.3c0-2.1,0.7-3.7,2-5.1 c-0.2-0.5-0.8-2.4,0.2-5c0,0,1.6-0.5,5.2,2c1.5-0.4,3.1-0.6,4.7-0.6c1.6,0,3.2,0.2,4.7,0.6c3.6-2.5,5.2-2,5.2-2 c1,2.6,0.4,4.5,0.2,5c1.2,1.3,2,3,2,5.1c0,7.2-4.4,8.8-8.6,9.3c0.7,0.6,1.4,1.9,1.4,3.7c0,2.7,0,4.9,0,5.5 c0,0.5,0.3,1.1,0.8,0.9c7.6-2.6,13.1-9.8,13.1-18.4C81.8,22,72.9,13.3,62.3,13.3z" fill="var(--sketch-stroke-color)" stroke="none"></path>
-                        <text x="50" y="70" font-size="8" text-anchor="middle" fill="var(--text-color)" data-translate-key="githubSketchLabel">Zentraler Server (Cloud)</text>
-                    </svg>
-                </div>
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
             </div>
         </section>
         
-        <section class="guide-section" id="workflow">
-            <h2 data-translate-key="workflowTitle">Der Basis-Workflow</h2>
-            <p data-translate-key="workflowDesc">Der typische Arbeitsablauf verbindet deinen lokalen Computer mit dem zentralen GitHub-Repository.</p>
-            <div class="sketch">
-                <svg viewBox="0 0 150 80">
-                    <rect x="5" y="20" width="40" height="30" rx="3" fill="var(--bg-color)" stroke-width="1"></rect>
-                    <path d="M0,40 H50 V45 H0z" fill="var(--bg-color)" stroke="var(--sketch-stroke-color)" stroke-width="1"></path>
-                    <text x="25" y="15" font-size="6" text-anchor="middle" fill="var(--text-color)" data-translate-key="workflowSketchLocal">Lokal</text>
-                    
-                    <path d="M110,15 a20,15 0 0,1 0,40 a20,15 0 0,1 0,-40" stroke-width="1" fill="var(--bg-color)"></path>
-                    <path d="M110,25 a20,15 0 0,0 0,20" stroke-width="1" fill="var(--bg-color)"></path>
-                    <text x="110" y="10" font-size="6" text-anchor="middle" fill="var(--text-color)" data-translate-key="workflowSketchRemote">Remote</text>
-
-                    <path d="M52,30 L98,30" stroke-dasharray="3,3"></path>
-                    <path d="M98,30 L93,27 M98,30 L93,33"></path>
-                    <text x="75" y="25" font-size="6" text-anchor="middle" fill="var(--text-color)">push</text>
-                    
-                    <path d="M98,40 L52,40" stroke-dasharray="3,3"></path>
-                    <path d="M52,40 L57,37 M52,40 L57,43"></path>
-                    <text x="75" y="50" font-size="6" text-anchor="middle" fill="var(--text-color)">pull / clone</text>
-                </svg>
-            </div>
-            <p data-translate-key="cloneDesc"><strong>Clone:</strong> Du erstellst eine lokale Kopie des Remote-Repositorys auf deinem Computer.</p>
-            <div class="code-block">git clone [URL_des_Projekts]</div>
-            <br>
-            <p data-translate-key="addCommitDesc"><strong>Add & Commit:</strong> Du wählst geänderte Dateien aus (`add`) und speicherst diese Änderungen mit einer Beschreibung (`commit`) in deinem lokalen Verlauf.</p>
-            <div class="code-block">git add .<br>git commit -m "Meine Änderungsbeschreibung"</div>
-            <br>
-            <p data-translate-key="pushDesc"><strong>Push:</strong> Du lädst deine committeten Änderungen in das zentrale GitHub-Repository hoch, um sie mit dem Team zu teilen.</p>
-            <div class="code-block">git push origin main</div>
-            <br>
-            <p data-translate-key="pullDesc"><strong>Pull:</strong> Du lädst die neuesten Änderungen von anderen aus dem GitHub-Repository herunter, um deine lokale Version zu aktualisieren.</p>
-            <div class="code-block">git pull origin main</div>
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Understanding Git & GitHub, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
         </section>
 
-        <section class="guide-section" id="branching">
-            <h2 data-translate-key="branchTitle">Branching: Parallel arbeiten</h2>
-            <div class="content-layout">
-                <div class="text-content">
-                    <p data-translate-key="branchDesc">Ein "Branch" ist eine unabhängige Entwicklungslinie. Du erstellst einen Branch, um an einem neuen Feature zu arbeiten, ohne die stabile Hauptversion (oft "main" genannt) zu beeinträchtigen. Wenn du fertig bist, führst du deine Änderungen zurück in den Haupt-Branch ("Merge").</p>
-                </div>
-                 <div class="sketch">
-                    <svg viewBox="0 0 100 80">
-                        <path d="M10,40 H40" stroke-width="2"></path>
-                        <circle cx="10" cy="40" r="3" fill="var(--primary-color)"></circle>
-                        <circle cx="25" cy="40" r="3" fill="var(--primary-color)"></circle>
-                        <circle cx="40" cy="40" r="3" fill="var(--primary-color)"></circle>
-
-                        <path d="M40,40 C55,40 55,20 70,20 H90" stroke-dasharray="4,4" stroke-width="2"></path>
-                        <circle cx="70" cy="20" r="3" fill="var(--primary-color-hover)"></circle>
-                        <circle cx="90" cy="20" r="3" fill="var(--primary-color-hover)"></circle>
-                        <text x="75" y="12" font-size="6" fill="var(--text-color)" data-translate-key="branchSketchFeature">Feature-Branch</text>
-
-                        <path d="M40,40 C55,40 55,60 70,60 H90" stroke-width="2"></path>
-                        <circle cx="70" cy="60" r="3" fill="var(--primary-color)"></circle>
-                        <circle cx="90" cy="60" r="3" fill="var(--primary-color)"></circle>
-                        <text x="75" y="73" font-size="6" fill="var(--text-color)" data-translate-key="branchSketchMain">Main-Branch</text>
-                    </svg>
-                </div>
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
             </div>
-            <p data-translate-key="branchCommands">Wichtige Befehle:</p>
-            <div class="code-block">
-# Neuen Branch erstellen und zu ihm wechseln
-git checkout -b mein-neues-feature
-
-# Zurück zum Haupt-Branch wechseln
-git checkout main
-
-# Deinen Feature-Branch in den main-Branch mergen
-git merge mein-neues-feature
-            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
         </section>
         
-        <section class="guide-section" id="pull-requests">
-            <h2 data-translate-key="prTitle">Pull Requests (PRs)</h2>
-             <div class="content-layout reverse">
-                <div class="text-content">
-                    <p data-translate-key="prDesc">Ein Pull Request ist eine Anfrage auf GitHub, deine Änderungen (von deinem Branch) in einen anderen Branch (z.B. "main") zu mergen. Es ist der Kern der Zusammenarbeit: Das Team kann deinen Code überprüfen (Code Review), Kommentare hinterlassen und Änderungen vorschlagen, bevor alles zusammengeführt wird.</p>
-                </div>
-                <div class="sketch">
-                     <svg viewBox="0 0 100 80">
-                        <path d="M70,20 C55,20 55,40 40,40" stroke-dasharray="4,4" stroke-width="2"></path>
-                        <path d="M90,20 H70"></path>
-                        <circle cx="90" cy="20" r="3" fill="var(--primary-color-hover)"></circle>
-                        <circle cx="70" cy="20" r="3" fill="var(--primary-color-hover)"></circle>
-                        <path d="M10,40 H90" stroke-width="2"></path>
-                        <circle cx="10" cy="40" r="3" fill="var(--primary-color)"></circle>
-                        <rect x="35" y="30" width="10" height="20" rx="2" fill="var(--card-bg-color)" stroke="var(--sketch-stroke-color)"></rect>
-                        <path d="M38,36 L42,40 L38,44" stroke-width="1.5" fill="none"></path>
-                        <text x="55" y="55" font-size="6" fill="var(--text-color)" data-translate-key="prSketchLabel">Code Review & Merge</text>
-                    </svg>
-                </div>
-            </div>
-        </section>
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
+    </div>
 
-    </main>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            const menuToggle = document.getElementById('menu-toggle');
-            const navMenu = document.getElementById('nav-menu');
-            const languageSwitcher = document.getElementById('language-switcher');
-            const body = document.body;
-
-            menuToggle.addEventListener('click', () => {
-                body.classList.toggle('nav-open');
-            });
-
-            const translations = {
-                en: {
-                    pageTitle: "Git & GitHub Guide",
-                    langMenuTitle: "Select Language",
-                    mainTitle: "Understanding Git & GitHub",
-                    mainSubtitle: "An introduction for team projects",
-                    gitTitle: "What is Git?",
-                    gitDesc: "Git is a distributed version control system. Think of it as a local 'save history' for your code. Every developer has a complete copy of the project's history on their own computer.",
-                    gitSketchLabel: "Local Computer",
-                    githubTitle: "What is GitHub?",
-                    githubDesc: "GitHub is a web platform that uses Git. It's the central place (a 'remote repository') where the team shares code, collaborates, discusses issues, and tracks project progress.",
-                    githubSketchLabel: "Central Server (Cloud)",
-                    workflowTitle: "The Basic Workflow",
-                    workflowDesc: "The typical workflow connects your local machine with the central GitHub repository.",
-                    workflowSketchLocal: "Local",
-                    workflowSketchRemote: "Remote",
-                    cloneDesc: "<strong>Clone:</strong> You create a local copy of the remote repository on your computer.",
-                    addCommitDesc: "<strong>Add & Commit:</strong> You select changed files (`add`) and save these changes with a description (`commit`) in your local history.",
-                    pushDesc: "<strong>Push:</strong> You upload your committed changes to the central GitHub repository to share them with the team.",
-                    pullDesc: "<strong>Pull:</strong> You download the latest changes from others from the GitHub repository to update your local version.",
-                    branchTitle: "Branching: Working in Parallel",
-                    branchDesc: "A 'branch' is an independent line of development. You create a branch to work on a new feature without affecting the stable main version (often called 'main'). When you're done, you merge your changes back into the main branch.",
-                    branchSketchFeature: "Feature Branch",
-                    branchSketchMain: "Main Branch",
-                    branchCommands: "Important commands:",
-                    prTitle: "Pull Requests (PRs)",
-                    prDesc: "A Pull Request is a request on GitHub to merge your changes (from your branch) into another branch (e.g., 'main'). It's the core of collaboration: The team can review your code, leave comments, and suggest changes before everything is merged.",
-                    prSketchLabel: "Code Review & Merge"
-                },
-                de: {
-                    pageTitle: "Git & GitHub Guide",
-                    langMenuTitle: "Sprache wählen",
-                    mainTitle: "Git & GitHub verstehen",
-                    mainSubtitle: "Eine Einführung für Teamprojekte",
-                    gitTitle: "Was ist Git?",
-                    gitDesc: "Git ist ein verteiltes Versionskontrollsystem. Stell es dir wie ein lokales 'Speicherbuch' für deinen Code vor. Jeder Entwickler hat eine vollständige Kopie des Projektverlaufs auf seinem eigenen Computer.",
-                    gitSketchLabel: "Lokaler Computer",
-                    githubTitle: "Was ist GitHub?",
-                    githubDesc: "GitHub ist eine Web-Plattform, die Git nutzt. Es ist der zentrale Ort (ein 'Remote Repository'), an dem das Team seinen Code teilt, zusammenarbeitet, Probleme diskutiert und den Projektfortschritt verfolgt.",
-                    githubSketchLabel: "Zentraler Server (Cloud)",
-                    workflowTitle: "Der Basis-Workflow",
-                    workflowDesc: "Der typische Arbeitsablauf verbindet deinen lokalen Computer mit dem zentralen GitHub-Repository.",
-                    workflowSketchLocal: "Lokal",
-                    workflowSketchRemote: "Remote",
-                    cloneDesc: "<strong>Clone:</strong> Du erstellst eine lokale Kopie des Remote-Repositorys auf deinem Computer.",
-                    addCommitDesc: "<strong>Add & Commit:</strong> Du wählst geänderte Dateien aus (`add`) und speicherst diese Änderungen mit einer Beschreibung (`commit`) in deinem lokalen Verlauf.",
-                    pushDesc: "<strong>Push:</strong> Du lädst deine committeten Änderungen in das zentrale GitHub-Repository hoch, um sie mit dem Team zu teilen.",
-                    pullDesc: "<strong>Pull:</strong> Du lädst die neuesten Änderungen von anderen aus dem GitHub-Repository herunter, um deine lokale Version zu aktualisieren.",
-                    branchTitle: "Branching: Parallel arbeiten",
-                    branchDesc: "Ein 'Branch' ist eine unabhängige Entwicklungslinie. Du erstellst einen Branch, um an einem neuen Feature zu arbeiten, ohne die stabile Hauptversion (oft 'main' genannt) zu beeinträchtigen. Wenn du fertig bist, führst du deine Änderungen zurück in den Haupt-Branch ('Merge').",
-                    branchSketchFeature: "Feature-Branch",
-                    branchSketchMain: "Main-Branch",
-                    branchCommands: "Wichtige Befehle:",
-                    prTitle: "Pull Requests (PRs)",
-                    prDesc: "Ein Pull Request ist eine Anfrage auf GitHub, deine Änderungen (von deinem Branch) in einen anderen Branch (z.B. 'main') zu mergen. Es ist der Kern der Zusammenarbeit: Das Team kann deinen Code überprüfen (Code Review), Kommentare hinterlassen und Änderungen vorschlagen, bevor alles zusammengeführt wird.",
-                    prSketchLabel: "Code Review & Merge"
-                },
-                es: {
-                    pageTitle: "Guía de Git & GitHub",
-                    langMenuTitle: "Seleccionar Idioma",
-                    mainTitle: "Entendiendo Git & GitHub",
-                    mainSubtitle: "Una introducción para proyectos en equipo",
-                    gitTitle: "¿Qué es Git?",
-                    gitDesc: "Git es un sistema de control de versiones distribuido. Imagínalo como un 'historial de guardado' local para tu código. Cada desarrollador tiene una copia completa del historial del proyecto en su propia computadora.",
-                    gitSketchLabel: "Ordenador Local",
-                    githubTitle: "¿Qué es GitHub?",
-                    githubDesc: "GitHub es una plataforma web que utiliza Git. Es el lugar central (un 'repositorio remoto') donde el equipo comparte código, colabora, discute problemas y sigue el progreso del proyecto.",
-                    githubSketchLabel: "Servidor Central (Nube)",
-                    workflowTitle: "El Flujo de Trabajo Básico",
-                    workflowDesc: "El flujo de trabajo típico conecta tu máquina local con el repositorio central de GitHub.",
-                    workflowSketchLocal: "Local",
-                    workflowSketchRemote: "Remoto",
-                    cloneDesc: "<strong>Clone:</strong> Creas una copia local del repositorio remoto en tu computadora.",
-                    addCommitDesc: "<strong>Add & Commit:</strong> Seleccionas los archivos modificados (`add`) y guardas estos cambios con una descripción (`commit`) en tu historial local.",
-                    pushDesc: "<strong>Push:</strong> Subes tus cambios confirmados ('committed') al repositorio central de GitHub para compartirlos con el equipo.",
-                    pullDesc: "<strong>Pull:</strong> Descargas los últimos cambios de otros desde el repositorio de GitHub para actualizar tu versión local.",
-                    branchTitle: "Branches: Trabajando en Paralelo",
-                    branchDesc: "Un 'branch' (rama) es una línea de desarrollo independiente. Creas una rama para trabajar en una nueva característica sin afectar la versión principal estable (a menudo llamada 'main'). Cuando terminas, fusionas tus cambios de nuevo en la rama principal ('merge').",
-                    branchSketchFeature: "Rama de Característica",
-                    branchSketchMain: "Rama Principal",
-                    branchCommands: "Comandos importantes:",
-                    prTitle: "Pull Requests (PRs)",
-                    prDesc: "Un Pull Request es una solicitud en GitHub para fusionar tus cambios (de tu rama) en otra rama (por ejemplo, 'main'). Es el núcleo de la colaboración: el equipo puede revisar tu código (Code Review), dejar comentarios y sugerir cambios antes de que todo se fusione.",
-                    prSketchLabel: "Revisión de Código y Fusión"
-                }
-            };
-
-            const setLanguage = (lang) => {
-                if (!translations[lang]) return;
-
-                document.documentElement.lang = lang;
-                
-                document.querySelectorAll('[data-translate-key]').forEach(element => {
-                    const key = element.getAttribute('data-translate-key');
-                    if (translations[lang][key]) {
-                        element.innerHTML = translations[lang][key];
-                    }
-                });
-
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === lang);
-                });
-                
-                localStorage.setItem('userLanguage', lang);
-                body.classList.remove('nav-open');
-            };
-            
-            languageSwitcher.addEventListener('click', (event) => {
-                const langBtn = event.target.closest('.lang-btn');
-                if (langBtn) {
-                    const lang = langBtn.dataset.lang;
-                    setLanguage(lang);
-                }
-            });
-
-            const initLanguage = () => {
-                const savedLang = localStorage.getItem('userLanguage');
-                const browserLang = navigator.language.split('-')[0];
-                
-                if (savedLang && translations[savedLang]) {
-                    setLanguage(savedLang);
-                } else if (translations[browserLang]) {
-                    setLanguage(browserLang);
-                } else {
-                    setLanguage('en');
-                }
-            };
-
-            initLanguage();
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

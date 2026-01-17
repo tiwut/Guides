@@ -3,345 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-   
-    <title data-de="Apple Geräte einrichten - Ein Guide" 
-           data-en="Set Up Apple Devices - A Guide" 
-           data-es="Configurar Dispositivos Apple - Una Guía">Set Up Apple Devices - A Guide</title>
-
+    <title>Apple device setup</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-       
-        :root {
-            --bg-color: #f4f5f7;
-            --card-bg-color: #ffffff;
-            --text-color: #1d1d1f;
-            --secondary-text-color: #6e6e73;
-            --border-color: #d2d2d7;
-            --accent-color: #007aff;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #121212;
-                --card-bg-color: #1e1e1e;
-                --text-color: #f5f5f7;
-                --secondary-text-color: #86868b;
-                --border-color: #3a3a3c;
-                --accent-color: #0a84ff;
-                --shadow-color: rgba(0, 0, 0, 0.3);
-            }
-        }
-
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-       
-        nav {
-            background-color: var(--card-bg-color);
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px var(--shadow-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap; 
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-            margin: 10px 0;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--secondary-text-color);
-            font-weight: 500;
-            transition: color 0.2s ease-in-out;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--accent-color);
-        }
-
-        .controls-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .language-switcher button {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--secondary-text-color);
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .language-switcher button:hover {
-            background-color: var(--bg-color);
-        }
-
-        .language-switcher button.active {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-
-       
-        main {
-            padding-top: 30px;
-        }
-
-        .guide-section {
-            background-color: var(--card-bg-color);
+        .drawing-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
             border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            border: 1px solid var(--border-color);
-            transition: background-color 0.3s, border-color 0.3s;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .guide-section h2 {
-            font-size: 2em;
-            color: var(--text-color);
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
-        }
-
-        .guide-section p {
-            margin-bottom: 15px;
-            color: var(--secondary-text-color);
-        }
-
-        .guide-section ol {
-            padding-left: 20px;
-        }
-
-        .guide-section li {
-            margin-bottom: 10px;
-            color: var(--text-color);
-        }
-
-        
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .nav-links {
-                width: 100%;
-                flex-direction: column;
-                gap: 15px;
-                margin-top: 15px;
-                margin-bottom: 15px;
-            }
-
-            .controls-container {
-                width: 100%;
-                justify-content: flex-start;
-            }
-
-            .container {
-                padding: 10px;
-            }
-
-            .guide-section h2 {
-                font-size: 1.5em;
-            }
+        .drawing-container svg {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
+<body class="guide-page">
 
-   
-    <nav>
-        <ul class="nav-links">
-            <li><a href="#iphone" data-de="iPhone" data-en="iPhone" data-es="iPhone">iPhone</a></li>
-            <li><a href="#ipad" data-de="iPad" data-en="iPad" data-es="iPad">iPad</a></li>
-            <li><a href="#macbook" data-de="MacBook" data-en="MacBook" data-es="MacBook">MacBook</a></li>
-            <li><a href="#watch" data-de="Watch" data-en="Watch" data-es="Watch">Watch</a></li>
-            <li><a href="#home" data-de="Home" data-en="Home" data-es="Hogar">Home</a></li>
+    <nav id="sidebar">
+        <h2>Apple device setup</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
         </ul>
-        <div class="controls-container">
-            <div class="language-switcher">
-                <button data-lang="de">DE</button>
-                <button data-lang="en">EN</button>
-                <button data-lang="es">ES</button>
-            </div>
-        </div>
     </nav>
 
-    
-    <div class="container">
-        <main>
-            
-            <section id="iphone" class="guide-section">
-                <h2 data-de="iPhone einrichten" data-en="Set Up iPhone" data-es="Configurar el iPhone"></h2>
-                <p data-de="Folgen Sie diesen Schritten, um Ihr neues iPhone schnell und einfach einzurichten." data-en="Follow these steps to set up your new iPhone quickly and easily." data-es="Sigue estos pasos para configurar tu nuevo iPhone de forma rápida y sencilla."></p>
-                <ol>
-                    <li data-de="Einschalten & Begrüßung: Halten Sie die Seitentaste gedrückt, bis das Apple-Logo erscheint. Wischen Sie dann nach oben, um zu beginnen." data-en="Turn On & Welcome: Press and hold the side button until the Apple logo appears. Then swipe up to begin." data-es="Encender y Bienvenida: Mantén pulsado el botón lateral hasta que aparezca el logo de Apple. Luego, desliza hacia arriba para empezar."></li>
-                    <li data-de="Schnellstart oder Manuell: Wenn Sie ein altes iPhone haben, können Sie Schnellstart verwenden, um Daten zu übertragen. Ansonsten wählen Sie 'Manuell konfigurieren'." data-en="Quick Start or Manual: If you have an old iPhone, you can use Quick Start to transfer data. Otherwise, choose 'Set Up Manually'." data-es="Inicio Rápido o Manual: Si tienes un iPhone antiguo, puedes usar Inicio Rápido para transferir datos. Si no, selecciona 'Configurar manualmente'."></li>
-                    <li data-de="WLAN & Apple-ID: Verbinden Sie sich mit einem WLAN-Netzwerk. Melden Sie sich dann mit Ihrer Apple-ID an oder erstellen Sie eine neue." data-en="Wi-Fi & Apple ID: Connect to a Wi-Fi network. Then, sign in with your Apple ID or create a new one." data-es="Wi-Fi y Apple ID: Conéctate a una red Wi-Fi. Luego, inicia sesión con tu Apple ID o crea una nueva."></li>
-                    <li data-de="Face ID/Touch ID & Code: Richten Sie die biometrische Authentifizierung und einen Sicherheitscode ein." data-en="Face ID/Touch ID & Passcode: Set up biometric authentication and a security passcode." data-es="Face ID/Touch ID y Código: Configura la autenticación biométrica y un código de seguridad."></li>
-                    <li data-de="Daten wiederherstellen: Wählen Sie, ob Sie Daten aus einem iCloud-Backup, von einem Computer oder einem Android-Gerät wiederherstellen möchten." data-en="Restore Data: Choose whether to restore data from an iCloud backup, a computer, or an Android device." data-es="Restaurar Datos: Elige si quieres restaurar datos desde una copia de seguridad de iCloud, un ordenador o un dispositivo Android."></li>
-                </ol>
-            </section>
+    <div id="main-content">
+        <header>
+            <h1>Apple device setup</h1>
+            <p>Welcome to the comprehensive guide on Apple device setup. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+        </header>
 
-           
-            <section id="ipad" class="guide-section">
-                <h2 data-de="iPad einrichten" data-en="Set Up iPad" data-es="Configurar el iPad"></h2>
-                <p data-de="Die Einrichtung des iPad ist der des iPhones sehr ähnlich und kann ebenfalls mit Schnellstart erfolgen." data-en="Setting up an iPad is very similar to the iPhone and can also be done with Quick Start." data-es="La configuración del iPad es muy similar a la del iPhone y también se puede hacer con Inicio Rápido."></p>
-                <ol>
-                    <li data-de="Einschalten und starten: Halten Sie die obere Taste gedrückt und folgen Sie den Anweisungen auf dem Bildschirm." data-en="Power on and start: Press and hold the top button and follow the on-screen instructions." data-es="Encender e iniciar: Mantén pulsado el botón superior y sigue las instrucciones en pantalla."></li>
-                    <li data-de="Datenübertragung: Nutzen Sie Schnellstart oder wählen Sie eine manuelle Konfiguration." data-en="Data Transfer: Use Quick Start or choose a manual setup." data-es="Transferencia de Datos: Usa Inicio Rápido o elige una configuración manual."></li>
-                    <li data-de="Mit Apple-ID anmelden: Melden Sie sich an, um auf iCloud, den App Store und andere Apple-Dienste zuzugreifen." data-en="Sign in with Apple ID: Sign in to access iCloud, the App Store, and other Apple services." data-es="Iniciar sesión con Apple ID: Inicia sesión para acceder a iCloud, la App Store y otros servicios de Apple."></li>
-                    <li data-de="Zubehör verbinden: Wenn Sie einen Apple Pencil oder ein Magic Keyboard haben, können Sie diese jetzt verbinden." data-en="Connect Accessories: If you have an Apple Pencil or a Magic Keyboard, you can connect them now." data-es="Conectar Accesorios: Si tienes un Apple Pencil o un Magic Keyboard, puedes conectarlos ahora."></li>
-                </ol>
-            </section>
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Apple device setup</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Apple device setup powerful and useful.</p>
+        </section>
 
-            
-            <section id="macbook" class="guide-section">
-                <h2 data-de="MacBook einrichten" data-en="Set Up MacBook" data-es="Configurar el MacBook"></h2>
-                <p data-de="Ihr neues MacBook führt Sie mit dem Systemassistenten durch die Einrichtung." data-en="Your new MacBook will guide you through the setup with the Setup Assistant." data-es="Tu nuevo MacBook te guiará a través de la configuración con el Asistente de Configuración."></p>
-                <ol>
-                    <li data-de="Einschalten & Land wählen: Klappen Sie Ihr MacBook auf, um es einzuschalten. Wählen Sie dann Ihr Land und Ihre Sprache." data-en="Turn On & Select Country: Open your MacBook to turn it on. Then, select your country and language." es="Encender y Seleccionar País: Abre tu MacBook para encenderlo. Luego, selecciona tu país e idioma."></li>
-                    <li data-de="WLAN-Verbindung herstellen: Wählen Sie Ihr WLAN-Netzwerk aus und geben Sie das Passwort ein." data-en="Connect to Wi-Fi: Choose your Wi-Fi network and enter the password." data-es="Conectar a Wi-Fi: Elige tu red Wi-Fi e introduce la contraseña."></li>
-                    <li data-de="Migrationsassistent: Übertragen Sie Daten von einem alten Mac, einem Windows-PC oder einem Time Machine-Backup." data-en="Migration Assistant: Transfer data from an old Mac, a Windows PC, or a Time Machine backup." data-es="Asistente de Migración: Transfiere datos desde un Mac antiguo, un PC con Windows o una copia de seguridad de Time Machine."></li>
-                    <li data-de="Apple-ID und iCloud: Melden Sie sich mit Ihrer Apple-ID an, um iCloud, Handoff und andere Funktionen zu aktivieren." data-en="Apple ID and iCloud: Sign in with your Apple ID to enable iCloud, Handoff, and other features." data-es="Apple ID y iCloud: Inicia sesión con tu Apple ID para activar iCloud, Handoff y otras funciones."></li>
-                    <li data-de="Benutzeraccount erstellen: Erstellen Sie einen lokalen Benutzeraccount mit einem Passwort. Sie können auch Touch ID einrichten." data-en="Create User Account: Create a local user account with a password. You can also set up Touch ID." data-es="Crear Cuenta de Usuario: Crea una cuenta de usuario local con una contraseña. También puedes configurar Touch ID."></li>
-                </ol>
-            </section>
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+            </div>
+        </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Apple device setup, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
 
-            
-            <section id="watch" class="guide-section">
-                <h2 data-de="Apple Watch einrichten" data-en="Set Up Apple Watch" data-es="Configurar el Apple Watch"></h2>
-                <p data-de="Die Apple Watch wird über Ihr iPhone gekoppelt und konfiguriert." data-en="The Apple Watch is paired and configured via your iPhone." data-es="El Apple Watch se enlaza y configura a través de tu iPhone."></p>
-                <ol>
-                    <li data-de="Watch einschalten: Halten Sie die Seitentaste gedrückt und bringen Sie die Watch in die Nähe Ihres iPhones." data-en="Turn on Watch: Press and hold the side button and bring the Watch close to your iPhone." data-es="Encender el Watch: Mantén pulsado el botón lateral y acerca el Watch a tu iPhone."></li>
-                    <li data-de="Koppeln starten: Auf Ihrem iPhone erscheint eine Aufforderung. Tippen Sie auf 'Fortfahren'." data-en="Start Pairing: A prompt will appear on your iPhone. Tap 'Continue'." data-es="Iniciar Enlace: Aparecerá un aviso en tu iPhone. Pulsa 'Continuar'."></li>
-                    <li data-de="Watch ausrichten: Halten Sie Ihr iPhone über die Animation auf der Watch, um sie zu koppeln." data-en="Align Watch: Hold your iPhone over the animation on the Watch to pair them." data-es="Alinear el Watch: Sostén tu iPhone sobre la animación del Watch para enlazarlos."></li>
-                    <li data-de="Einstellungen vornehmen: Folgen Sie den Anweisungen auf dem iPhone, um einen Code festzulegen, Apple Pay einzurichten und Apps zu installieren." data-en="Configure Settings: Follow the instructions on the iPhone to set a passcode, set up Apple Pay, and install apps." data-es="Configurar Ajustes: Sigue las instrucciones en el iPhone para establecer un código, configurar Apple Pay e instalar apps."></li>
-                </ol>
-            </section>
-            
-            
-            <section id="home" class="guide-section">
-                <h2 data-de="Apple Home einrichten (HomePod & Zubehör)" data-en="Set Up Apple Home (HomePod & Accessories)" data-es="Configurar Casa de Apple (HomePod y Accesorios)"></h2>
-                <p data-de="Verwandeln Sie Ihr Zuhause in ein Smart Home mit HomeKit-Zubehör und einem HomePod oder Apple TV als Steuerzentrale." data-en="Turn your house into a smart home with HomeKit accessories and a HomePod or Apple TV as a hub." data-es="Convierte tu casa en un hogar inteligente con accesorios de HomeKit y un HomePod o Apple TV como central."></p>
-                <ol>
-                    <li data-de="HomePod einrichten: Schließen Sie den HomePod an den Strom an. Halten Sie Ihr entsperrtes iPhone oder iPad in die Nähe. Tippen Sie auf 'Konfigurieren', wenn es auf dem Bildschirm erscheint." data-en="Set up HomePod: Plug in the HomePod. Hold your unlocked iPhone or iPad nearby. Tap 'Set Up' when it appears on the screen." data-es="Configurar HomePod: Enchufa el HomePod. Sostén tu iPhone o iPad desbloqueado cerca. Toca 'Configurar' cuando aparezca en la pantalla."></li>
-                    <li data-de="Steuerzentrale festlegen: Ein HomePod, HomePod mini oder Apple TV wird automatisch als Steuerzentrale eingerichtet, um Ihr Zuhause von unterwegs zu steuern." data-en="Set up a Home Hub: A HomePod, HomePod mini, or Apple TV is automatically set up as a home hub to control your home remotely." data-es="Configurar una Central de Hogar: Un HomePod, HomePod mini o Apple TV se configura automáticamente como central para controlar tu hogar a distancia."></li>
-                    <li data-de="Zubehör hinzufügen: Öffnen Sie die Home-App. Tippen Sie auf das Plus-Symbol (+) und dann auf 'Gerät oder Szene hinzufügen'. Scannen Sie den HomeKit-Code des Zubehörs." data-en="Add Accessories: Open the Home app. Tap the plus icon (+) and then 'Add Accessory'. Scan the HomeKit code on the accessory." data-es="Añadir Accesorios: Abre la app Casa. Toca el icono de más (+) y luego 'Añadir accesorio'. Escanea el código de HomeKit del accesorio."></li>
-                    <li data-de="Räume und Szenen erstellen: Organisieren Sie Ihr Zubehör in Räumen (z.B. 'Wohnzimmer') und erstellen Sie Szenen (z.B. 'Guten Morgen'), um mehrere Geräte gleichzeitig zu steuern." data-en="Create Rooms and Scenes: Organize your accessories into rooms (e.g., 'Living Room') and create scenes (e.g., 'Good Morning') to control multiple devices at once." data-es="Crear Habitaciones y Ambientes: Organiza tus accesorios en habitaciones (p.ej., 'Salón') y crea ambientes (p.ej., 'Buenos Días') para controlar varios dispositivos a la vez."></li>
-                </ol>
-            </section>
-        </main>
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const languageSwitcher = document.querySelector('.language-switcher');
-        const allTextElements = document.querySelectorAll('[data-de], [data-en], [data-es]');
-        const supportedLangs = ['de', 'en', 'es'];
-
-        const changeLanguage = (lang) => {
-            if (!supportedLangs.includes(lang)) {
-                lang = 'en'; 
-            }
-
-            
-            allTextElements.forEach(el => {
-                if (el.dataset[lang]) {
-                    
-                    if (el.tagName === 'TITLE') {
-                        el.innerText = el.dataset[lang];
-                    } else {
-                        
-                        el.textContent = el.dataset[lang];
-                    }
-                }
-            });
-            
-            
-            document.documentElement.lang = lang;
-
-            
-            languageSwitcher.querySelectorAll('button').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === lang);
-            });
-
-            
-            localStorage.setItem('userLanguage', lang);
-        };
-
-        const getInitialLanguage = () => {
-            
-            const savedLang = localStorage.getItem('userLanguage');
-            if (savedLang && supportedLangs.includes(savedLang)) {
-                return savedLang;
-            }
-
-           
-            const browserLang = navigator.language.split('-')[0];
-            if (supportedLangs.includes(browserLang)) {
-                return browserLang;
-            }
-
-            
-            return 'en';
-        };
-
-        
-        languageSwitcher.addEventListener('click', (e) => {
-            if (e.target.tagName === 'BUTTON') {
-                const lang = e.target.dataset.lang;
-                if (lang) {
-                    changeLanguage(lang);
-                }
-            }
-        });
-
-        
-        const initialLang = getInitialLanguage();
-        changeLanguage(initialLang);
-    });
-    </script>
-
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

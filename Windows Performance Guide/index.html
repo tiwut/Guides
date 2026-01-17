@@ -1,307 +1,104 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows Performance Guide</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --color-bg: #f0f2f5;
-            --color-card-bg: #ffffff;
-            --color-text: #1c1e21;
-            --color-text-secondary: #606770;
-            --color-primary: #007bff;
-            --color-border: #dce1e6;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --transition-speed: 0.3s;
+        .drawing-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        html[data-theme='dark'] {
-            --color-bg: #18191a;
-            --color-card-bg: #242526;
-            --color-text: #e4e6eb;
-            --color-text-secondary: #b0b3b8;
-            --color-primary: #4dabf7;
-            --color-border: #3a3b3c;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--color-bg);
-            color: var(--color-text);
-            line-height: 1.6;
-            transition: background-color var(--transition-speed), color var(--transition-speed);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-
-        nav {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            background-color: var(--color-card-bg);
-            box-shadow: var(--shadow);
-            z-index: 100;
-        }
-        
-        .lang-switcher {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .lang-button {
-            background-color: transparent;
-            border: 2px solid var(--color-border);
-            color: var(--color-text-secondary);
-            font-weight: bold;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all var(--transition-speed);
-        }
-
-        .lang-button:hover {
-            border-color: var(--color-primary);
-            color: var(--color-primary);
-        }
-
-        .lang-button.active {
-            background-color: var(--color-primary);
-            color: white;
-            border-color: var(--color-primary);
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--color-text);
-        }
-
-        header p {
-            font-size: 1.1rem;
-            color: var(--color-text-secondary);
-        }
-        
-        .guide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background-color: var(--color-card-bg);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-            border: 1px solid var(--color-border);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        }
-        
-        .card svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1.5rem;
-            color: var(--color-primary);
-            transition: color var(--transition-speed);
-        }
-
-        .card h2 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: var(--color-text);
-        }
-
-        .card p {
-            color: var(--color-text-secondary);
-            flex-grow: 1;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            .container {
-                padding: 1rem;
-            }
-            nav {
-                padding: 1rem;
-            }
+        .drawing-container svg {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
+<body class="guide-page">
 
-    <nav>
-        <div class="lang-switcher">
-            <button class="lang-button" data-lang-switch="de">DE</button>
-            <button class="lang-button" data-lang-switch="en">EN</button>
-            <button class="lang-button" data-lang-switch="es">ES</button>
-        </div>
+    <nav id="sidebar">
+        <h2>Windows Performance Guide</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
+        </ul>
     </nav>
 
-    <main class="container">
+    <div id="main-content">
         <header>
-            <h1 data-lang="main_title"></h1>
-            <p data-lang="main_subtitle"></p>
+            <h1>Windows Performance Guide</h1>
+            <p>Welcome to the comprehensive guide on Windows Performance Guide. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
         </header>
 
-        <section class="guide-grid">
-            
-            <article class="card">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M5 12l7-7 7 7"/></svg>
-                <h2 data-lang="card1_title"></h2>
-                <p data-lang="card1_desc"></p>
-            </article>
-
-            <article class="card">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                <h2 data-lang="card2_title"></h2>
-                <p data-lang="card2_desc"></p>
-            </article>
-
-            <article class="card">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l3 18h12l3-18H3"/><path d="M12 12V2"/><path d="M16 6H8"/></svg>
-                <h2 data-lang="card3_title"></h2>
-                <p data-lang="card3_desc"></p>
-            </article>
-            
-            <article class="card">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                <h2 data-lang="card4_title"></h2>
-                <p data-lang="card4_desc"></p>
-            </article>
-
-            <article class="card">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9"/><path d="M14 17h-3"/><path d="M4 12a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                <h2 data-lang="card5_title"></h2>
-                <p data-lang="card5_desc"></p>
-            </article>
-
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Windows Performance Guide</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Windows Performance Guide powerful and useful.</p>
         </section>
-    </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+            </div>
+        </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Windows Performance Guide, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
 
-            const translations = {
-                en: {
-                    main_title: "Windows Performance Guide",
-                    main_subtitle: "Simple and effective steps to speed up your system.",
-                    card1_title: "Disable Startup Apps",
-                    card1_desc: "Too many programs starting with Windows can slow it down. Disable unnecessary ones in the Task Manager.",
-                    card2_title: "Update OS & Drivers",
-                    card2_desc: "Keep Windows and your hardware drivers updated. Updates often include performance improvements and bug fixes.",
-                    card3_title: "Disk Cleanup",
-                    card3_desc: "Remove temporary files and system clutter. Use the built-in Disk Cleanup tool to free up space and improve speed.",
-                    card4_title: "Adjust Power Plan",
-                    card4_desc: "Switch your power plan to 'High Performance'. This uses more energy but ensures maximum performance.",
-                    card5_title: "Adjust Visual Effects",
-                    card5_desc: "Turn off non-essential animations and visual effects. Go to 'System Properties' and choose 'Adjust for best performance'."
-                },
-                de: {
-                    main_title: "Windows Leistungs-Guide",
-                    main_subtitle: "Einfache und effektive Schritte, um Ihr System zu beschleunigen.",
-                    card1_title: "Autostart-Apps deaktivieren",
-                    card1_desc: "Zu viele Programme, die mit Windows starten, verlangsamen es. Deaktivieren Sie unnötige im Task-Manager.",
-                    card2_title: "OS & Treiber aktualisieren",
-                    card2_desc: "Halten Sie Windows und Ihre Hardware-Treiber aktuell. Updates enthalten oft Leistungsverbesserungen und Fehlerbehebungen.",
-                    card3_title: "Datenträgerbereinigung",
-                    card3_desc: "Entfernen Sie temporäre Dateien und Systemmüll. Nutzen Sie die Datenträgerbereinigung, um Platz zu schaffen.",
-                    card4_title: "Energieplan anpassen",
-                    card4_desc: "Wechseln Sie Ihren Energieplan auf 'Höchstleistung'. Dies verbraucht mehr Energie, sorgt aber für maximale Leistung.",
-                    card5_title: "Visuelle Effekte anpassen",
-                    card5_desc: "Schalten Sie unwesentliche Animationen aus. Gehen Sie zu 'Systemeigenschaften' und wählen Sie 'Für beste Leistung anpassen'."
-                },
-                es: {
-                    main_title: "Guía de Rendimiento de Windows",
-                    main_subtitle: "Pasos simples y efectivos para acelerar tu sistema.",
-                    card1_title: "Desactivar Apps de Inicio",
-                    card1_desc: "Muchos programas que se inician con Windows pueden ralentizarlo. Desactiva los innecesarios en el Administrador de Tareas.",
-                    card2_title: "Actualizar SO y Drivers",
-                    card2_desc: "Mantén Windows y los controladores de tu hardware actualizados. Las actualizaciones a menudo incluyen mejoras de rendimiento.",
-                    card3_title: "Limpieza de Disco",
-                    card3_desc: "Elimina archivos temporales y desorden del sistema. Usa la herramienta Liberador de espacio en disco para mejorar la velocidad.",
-                    card4_title: "Ajustar Plan de Energía",
-                    card4_desc: "Cambia tu plan de energía a 'Alto rendimiento'. Consume más energía pero garantiza el máximo rendimiento.",
-                    card5_title: "Ajustar Efectos Visuales",
-                    card5_desc: "Desactiva animaciones y efectos visuales no esenciales. Ve a 'Propiedades del Sistema' y elige 'Ajustar para obtener el mejor rendimiento'."
-                }
-            };
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
+    </div>
 
-            const setLanguage = (lang) => {
-                document.documentElement.lang = lang;
-                localStorage.setItem('language', lang);
-                
-                document.querySelectorAll('[data-lang]').forEach(element => {
-                    const key = element.dataset.lang;
-                    if (translations[lang][key]) {
-                        element.textContent = translations[lang][key];
-                    }
-                });
-                
-                document.querySelectorAll('.lang-button').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.langSwitch === lang) {
-                        btn.classList.add('active');
-                    }
-                });
-            };
-
-            const applyTheme = (theme) => {
-                document.documentElement.setAttribute('data-theme', theme);
-            };
-
-            const checkTheme = () => {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                applyTheme(prefersDark ? 'dark' : 'light');
-            };
-
-            document.querySelectorAll('[data-lang-switch]').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    setLanguage(e.target.dataset.langSwitch);
-                });
-            });
-
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', checkTheme);
-            
-            const savedLang = localStorage.getItem('language');
-            const browserLang = navigator.language.split('-')[0];
-            
-            const initialLang = savedLang || (translations[browserLang] ? browserLang : 'en');
-            
-            setLanguage(initialLang);
-            checkTheme();
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
-
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

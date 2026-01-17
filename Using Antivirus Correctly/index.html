@@ -3,452 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antivirus Guide</title>
+    <title>Using Antivirus Correctly</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --card-bg-color: #ffffff;
-            --text-color: #2c3e50;
-            --heading-color: #34495e;
-            --accent-color: #3498db;
-            --shadow-color: rgba(0, 0, 0, 0.08);
-            --nav-bg-color: rgba(255, 255, 255, 0.9);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1c1e22;
-                --card-bg-color: #282c34;
-                --text-color: #abb2bf;
-                --heading-color: #e6e6e6;
-                --accent-color: #61afef;
-                --shadow-color: rgba(0, 0, 0, 0.2);
-                --nav-bg-color: rgba(40, 44, 52, 0.9);
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--heading-color);
-            z-index: 1001;
-        }
-        
-        .menu-toggle {
-            display: block;
-            background: none;
-            border: none;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .menu-toggle .hamburger {
-            width: 30px;
-            height: 3px;
-            background-color: var(--heading-color);
-            display: block;
+        .drawing-container {
             position: relative;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .menu-toggle .hamburger::before,
-        .menu-toggle .hamburger::after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 3px;
-            background-color: var(--heading-color);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .menu-toggle .hamburger::before {
-            top: -10px;
-        }
-
-        .menu-toggle .hamburger::after {
-            top: 10px;
-        }
-        
-        .nav-open .hamburger {
-            background-color: transparent;
-        }
-        .nav-open .hamburger::before {
-            transform: rotate(45deg) translate(7px, 7px);
-        }
-        .nav-open .hamburger::after {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-
-        .nav-menu {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--nav-bg-color);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            list-style: none;
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        .nav-open .nav-menu {
-            transform: translateX(0);
-        }
-
-        .nav-menu li {
-            margin: 1.5rem 0;
-            text-align: center;
-        }
-        
-        .lang-switcher-title {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: var(--text-color);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .lang-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .lang-btn {
-            background: none;
-            border: 2px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 0.5rem 1.5rem;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-        }
-
-        .lang-btn:hover, .lang-btn.active {
-            background-color: var(--accent-color);
-            color: var(--card-bg-color);
-        }
-        
-        main {
-            padding-top: 80px;
-        }
-
-        .main-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--heading-color);
-            margin-bottom: 1rem;
-        }
-
-        .main-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: var(--text-color);
-            margin-bottom: 4rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .guide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .guide-card {
-            background-color: var(--card-bg-color);
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
             border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 15px var(--shadow-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .guide-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px var(--shadow-color);
-        }
-
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1.5rem;
-            color: var(--accent-color);
-        }
-        
-        .card-icon svg {
+        .drawing-container svg {
             width: 100%;
-            height: 100%;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            color: var(--heading-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .card-text {
-            font-size: 1rem;
-            color: var(--text-color);
-        }
-        
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2rem;
-            }
-            .container {
-                padding: 1rem;
-            }
-             header {
-                padding: 1rem;
-            }
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
+<body class="guide-page">
 
-    <header>
-        <div class="logo">SecureGuide</div>
-        <button class="menu-toggle" aria-label="Toggle menu">
-            <span class="hamburger"></span>
-        </button>
-    </header>
-    
-    <nav>
-        <ul class="nav-menu">
-            <li>
-                <div class="lang-switcher-title" data-lang="nav_lang_title">Language</div>
-                <div class="lang-buttons">
-                    <button class="lang-btn" data-lang-switch="de">DE</button>
-                    <button class="lang-btn" data-lang-switch="en">EN</button>
-                    <button class="lang-btn" data-lang-switch="es">ES</button>
-                </div>
-            </li>
+    <nav id="sidebar">
+        <h2>Using Antivirus Correctly</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
 
-    <div class="container">
-        <main>
-            <h1 class="main-title" data-lang="main_title">Antivirus Richtig Nutzen</h1>
-            <p class="main-subtitle" data-lang="main_subtitle">Ein moderner Guide zur optimalen Konfiguration und Nutzung deines Antiviren-Programms für maximale Sicherheit.</p>
+    <div id="main-content">
+        <header>
+            <h1>Using Antivirus Correctly</h1>
+            <p>Welcome to the comprehensive guide on Using Antivirus Correctly. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+        </header>
 
-            <div class="guide-grid">
-                
-                <article class="guide-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25" />
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-lang="step1_title">Installation & Quelle</h2>
-                    <p class="card-text" data-lang="step1_text">Lade Software nur von der offiziellen Herstellerseite herunter. Vermeide Drittanbieter, um gebündelte Adware zu verhindern.</p>
-                </article>
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Using Antivirus Correctly</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Using Antivirus Correctly powerful and useful.</p>
+        </section>
 
-                <article class="guide-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.667 0l3.181-3.183m-4.991-2.695v-2.193a2.25 2.25 0 00-2.25-2.25h-1.5a2.25 2.25 0 00-2.25 2.25v2.193m-4.993 5.183l3.181-3.182a8.25 8.25 0 0111.667 0l3.181 3.182" />
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-lang="step2_title">Automatische Updates</h2>
-                    <p class="card-text" data-lang="step2_text">Aktiviere automatische Updates für das Programm und die Virendefinitionen. Dies ist der wichtigste Schritt für den Schutz.</p>
-                </article>
-
-                <article class="guide-card">
-                    <div class="card-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-lang="step3_title">Echtzeitschutz</h2>
-                    <p class="card-text" data-lang="step3_text">Stelle sicher, dass der Echtzeit- oder On-Access-Scan immer aktiv ist. Er überwacht Dateien, die geöffnet oder heruntergeladen werden.</p>
-                </article>
-
-                <article class="guide-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0h18M12 12.75h.008v.008H12v-.008z" />
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-lang="step4_title">Geplante Scans</h2>
-                    <p class="card-text" data-lang="step4_text">Richte einen wöchentlichen, vollständigen Systemscan ein. Lasse ihn zu einer Zeit laufen, in der du den Computer nicht aktiv nutzt.</p>
-                </article>
-
-                <article class="guide-card">
-                    <div class="card-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                         </svg>
-                    </div>
-                    <h2 class="card-title" data-lang="step5_title">Quarantäne nutzen</h2>
-                    <p class="card-text" data-lang="step5_text">Wenn eine Bedrohung gefunden wird, verschiebe sie in Quarantäne statt sie sofort zu löschen. So können Fehlalarme rückgängig gemacht werden.</p>
-                </article>
-
-                <article class="guide-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-lang="step6_title">Ausnahmen (Fortgeschritten)</h2>
-                    <p class="card-text" data-lang="step6_text">Füge Ausnahmen nur für Dateien oder Ordner hinzu, denen du zu 100% vertraust. Falsche Ausnahmen schaffen Sicherheitslücken.</p>
-                </article>
-
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
             </div>
-        </main>
+        </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Using Antivirus Correctly, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
+
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
     </div>
 
-    <script>
-        const translations = {
-            de: {
-                nav_lang_title: "Sprache",
-                main_title: "Antivirus Richtig Nutzen",
-                main_subtitle: "Ein moderner Guide zur optimalen Konfiguration und Nutzung deines Antiviren-Programms für maximale Sicherheit.",
-                step1_title: "Installation & Quelle",
-                step1_text: "Lade Software nur von der offiziellen Herstellerseite herunter. Vermeide Drittanbieter, um gebündelte Adware zu verhindern.",
-                step2_title: "Automatische Updates",
-                step2_text: "Aktiviere automatische Updates für das Programm und die Virendefinitionen. Dies ist der wichtigste Schritt für den Schutz.",
-                step3_title: "Echtzeitschutz",
-                step3_text: "Stelle sicher, dass der Echtzeit- oder On-Access-Scan immer aktiv ist. Er überwacht Dateien, die geöffnet oder heruntergeladen werden.",
-                step4_title: "Geplante Scans",
-                step4_text: "Richte einen wöchentlichen, vollständigen Systemscan ein. Lasse ihn zu einer Zeit laufen, in der du den Computer nicht aktiv nutzt.",
-                step5_title: "Quarantäne nutzen",
-                step5_text: "Wenn eine Bedrohung gefunden wird, verschiebe sie in Quarantäne statt sie sofort zu löschen. So können Fehlalarme rückgängig gemacht werden.",
-                step6_title: "Ausnahmen (Fortgeschritten)",
-                step6_text: "Füge Ausnahmen nur für Dateien oder Ordner hinzu, denen du zu 100% vertraust. Falsche Ausnahmen schaffen Sicherheitslücken."
-            },
-            en: {
-                nav_lang_title: "Language",
-                main_title: "Using Antivirus Correctly",
-                main_subtitle: "A modern guide to optimally configure and use your antivirus software for maximum security.",
-                step1_title: "Installation & Source",
-                step1_text: "Only download software from the official manufacturer's website. Avoid third-party providers to prevent bundled adware.",
-                step2_title: "Automatic Updates",
-                step2_text: "Enable automatic updates for the program and virus definitions. This is the most crucial step for protection.",
-                step3_title: "Real-Time Protection",
-                step3_text: "Ensure that real-time or on-access scanning is always active. It monitors files as they are opened or downloaded.",
-                step4_title: "Scheduled Scans",
-                step4_text: "Set up a weekly, full system scan. Let it run at a time when you are not actively using the computer.",
-                step5_title: "Use Quarantine",
-                step5_text: "If a threat is found, move it to quarantine instead of deleting it immediately. This allows for reversing false positives.",
-                step6_title: "Exclusions (Advanced)",
-                step6_text: "Add exclusions only for files or folders that you trust 100%. Incorrect exclusions create security vulnerabilities."
-            },
-            es: {
-                nav_lang_title: "Idioma",
-                main_title: "Uso Correcto del Antivirus",
-                main_subtitle: "Una guía moderna para configurar y utilizar óptimamente tu software antivirus para una máxima seguridad.",
-                step1_title: "Instalación y Fuente",
-                step1_text: "Descarga software solo desde el sitio web oficial del fabricante. Evita proveedores de terceros para prevenir adware empaquetado.",
-                step2_title: "Actualizaciones Automáticas",
-                step2_text: "Habilita las actualizaciones automáticas para el programa y las definiciones de virus. Este es el paso más crucial para la protección.",
-                step3_title: "Protección en Tiempo Real",
-                step3_text: "Asegúrate de que el escaneo en tiempo real o al momento del acceso esté siempre activo. Monitorea los archivos al ser abiertos o descargados.",
-                step4_title: "Análisis Programados",
-                step4_text: "Configura un análisis completo del sistema semanalmente. Déjalo correr en un momento en que no estés usando activamente la computadora.",
-                step5_title: "Usar la Cuarentena",
-                step5_text: "Si se encuentra una amenaza, muévela a la cuarentena en lugar de eliminarla de inmediato. Esto permite revertir falsos positivos.",
-                step6_title: "Exclusiones (Avanzado)",
-                step6_text: "Añade exclusiones solo para archivos o carpetas en las que confíes al 100%. Las exclusiones incorrectas crean vulnerabilidades de seguridad."
-            }
-        };
-
-        const menuToggle = document.querySelector('.menu-toggle');
-        const header = document.querySelector('header');
-        const langButtons = document.querySelectorAll('[data-lang-switch]');
-        
-        menuToggle.addEventListener('click', () => {
-            header.classList.toggle('nav-open');
-        });
-
-        const setLanguage = (lang) => {
-            if (!translations[lang]) return;
-            
-            document.documentElement.lang = lang;
-            localStorage.setItem('userLanguage', lang);
-
-            document.querySelectorAll('[data-lang]').forEach(el => {
-                const key = el.dataset.lang;
-                if (translations[lang][key]) {
-                    el.textContent = translations[lang][key];
-                }
-            });
-            
-            langButtons.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.langSwitch === lang);
-            });
-        };
-
-        langButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                setLanguage(e.target.dataset.langSwitch);
-                header.classList.remove('nav-open');
-            });
-        });
-        
-        const detectInitialLanguage = () => {
-            const userLang = localStorage.getItem('userLanguage');
-            if (userLang && translations[userLang]) {
-                return userLang;
-            }
-            
-            const browserLang = navigator.language.split('-')[0];
-            if (translations[browserLang]) {
-                return browserLang;
-            }
-            
-            return 'en';
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const initialLang = detectInitialLanguage();
-            setLanguage(initialLang);
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

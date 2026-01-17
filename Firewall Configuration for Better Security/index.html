@@ -3,521 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firewall Configuration Guide</title>
+    <title>Firewall Configuration for Better Security</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --surface-color: #ffffff;
-            --text-color: #1a202c;
-            --muted-text-color: #718096;
-            --primary-color: #3b82f6;
-            --primary-hover-color: #2563eb;
-            --border-color: #e2e8f0;
-            --nav-bg-color: #ffffff;
-            --nav-width-desktop: 240px;
-            --nav-width-mobile: 80px;
-            --shadow-color: rgba(0, 0, 0, 0.05);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a202c;
-                --surface-color: #2d3748;
-                --text-color: #e2e8f0;
-                --muted-text-color: #a0aec0;
-                --primary-color: #4299e1;
-                --primary-hover-color: #63b3ed;
-                --border-color: #4a5568;
-                --nav-bg-color: #2d3748;
-                --shadow-color: rgba(0, 0, 0, 0.2);
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            display: flex;
-        }
-
-        nav {
-            width: var(--nav-width-mobile);
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: var(--nav-bg-color);
-            border-right: 1px solid var(--border-color);
-            padding-top: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: width 0.3s ease;
-            overflow: hidden;
-        }
-        
-        main {
-            margin-left: var(--nav-width-mobile);
-            width: calc(100% - var(--nav-width-mobile));
-            padding: 2rem;
-            transition: margin-left 0.3s ease, width 0.3s ease;
-        }
-
-        .nav-logo {
-            margin-bottom: 3rem;
-        }
-
-        .nav-logo svg {
-            width: 40px;
-            height: 40px;
-            fill: var(--primary-color);
-        }
-        
-        .nav-links {
-            list-style: none;
-            width: 100%;
-        }
-
-        .nav-links a {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            color: var(--muted-text-color);
-            text-decoration: none;
-            transition: background-color 0.2s, color 0.2s;
-            white-space: nowrap;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-            background-color: var(--bg-color);
-        }
-        
-        .nav-links a svg {
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
-            margin: 0 1rem 0 calc((var(--nav-width-mobile) - 24px - 2rem) / 2);
-            stroke: currentColor;
-            transition: margin 0.3s ease;
-        }
-
-        .nav-links a span {
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-        
-        .language-switcher {
-            margin-top: auto;
-            margin-bottom: 2rem;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .language-switcher button {
-            background: none;
-            border: 2px solid var(--border-color);
-            color: var(--muted-text-color);
-            font-weight: bold;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .language-switcher button:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-        
-        .language-switcher button.active {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-        }
-        
-        h1, h2 {
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        h2 {
-            font-size: 1.75rem;
-            margin-top: 3rem;
-            color: var(--primary-color);
-        }
-
-        .guide-section {
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background-color: var(--surface-color);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px var(--shadow-color);
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .sketch-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-        }
-        
-        .sketch-container svg {
-            max-width: 100%;
-            height: auto;
-            max-height: 250px;
-            stroke-width: 1.5;
-            stroke: var(--text-color);
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-        
-        .sketch-container .fill-accent {
-            fill: var(--primary-color);
-            opacity: 0.2;
-            stroke: none;
-        }
-
-        .sketch-container .stroke-accent {
-             stroke: var(--primary-color);
-             stroke-width: 2;
-        }
-        
-        .sketch-container .stroke-danger {
-            stroke: #e53e3e;
-            stroke-width: 2;
-        }
-        
-        .explanation p {
-            font-size: 1.1rem;
-            color: var(--muted-text-color);
-        }
-
-        .explanation ul {
-            list-style: none;
-            margin-top: 1rem;
-        }
-
-        .explanation li {
-            padding-left: 1.5rem;
+        .drawing-container {
             position: relative;
-            margin-bottom: 0.5rem;
-            color: var(--muted-text-color);
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .explanation li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-
-        @media (min-width: 768px) {
-            .guide-section {
-                grid-template-columns: 300px 1fr;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            nav {
-                width: var(--nav-width-desktop);
-            }
-            main {
-                margin-left: var(--nav-width-desktop);
-                width: calc(100% - var(--nav-width-desktop));
-            }
-            .nav-links a svg {
-                margin: 0 1.5rem 0 1rem;
-            }
-            .nav-links a span {
-                opacity: 1;
-            }
-            .language-switcher {
-                flex-direction: row;
-                justify-content: center;
-            }
+        .drawing-container svg {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
+<body class="guide-page">
 
-    <div class="container">
-        <nav>
-            <div class="nav-logo">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16.5v-4h2v4h-2zm0-6.5v-6h2v6h-2z"></path></svg>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#section1">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                    <span data-lang="nav_what_is">Was ist eine Firewall?</span>
-                </a></li>
-                <li><a href="#section2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                    <span data-lang="nav_rules">Regeltypen</span>
-                </a></li>
-                <li><a href="#section3">
-                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
-                    <span data-lang="nav_best_practices">Beste Praktiken</span>
-                </a></li>
+    <nav id="sidebar">
+        <h2>Firewall Configuration for Better Security</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>Firewall Configuration for Better Security</h1>
+            <p>Welcome to the comprehensive guide on Firewall Configuration for Better Security. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+        </header>
+
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Firewall Configuration for Better Security</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Firewall Configuration for Better Security powerful and useful.</p>
+        </section>
+
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
             </ul>
-            <div class="language-switcher">
-                <button id="btn-de">DE</button>
-                <button id="btn-en">EN</button>
-                <button id="btn-es">ES</button>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
             </div>
-        </nav>
+        </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Firewall Configuration for Better Security, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
 
-        <main>
-            <h1 data-lang="main_title">Firewall-Konfiguration für mehr Sicherheit</h1>
-
-            <section id="section1" class="guide-section">
-                <div class="sketch-container">
-                    <svg viewBox="0 0 100 60">
-                      <path d="M0 55 H100" />
-                      <path d="M10 55 V25" /> <path d="M30 55 V25" /> <path d="M50 55 V25" />
-                      <path d="M70 55 V25" /> <path d="M90 55 V25" />
-                      <path d="M0 25 H100" />
-                      <path d="M5 25 V0" /> <path d="M25 25 V0" /> <path d="M45 25 V0" />
-                      <path d="M65 25 V0" /> <path d="M85 25 V0" /> <path d="M0 0 H100" />
-                      
-                      <rect x="35" y="5" width="30" height="50" class="fill-accent"/>
-                      <rect x="35" y="5" width="30" height="50" class="stroke-accent"/>
-                      
-                      <path d="M-10 30 L 30 30" class="stroke-accent" stroke-dasharray="2 2" />
-                      <path d="M25 26 L 30 30 L 25 34" class="stroke-accent"/>
-                      <text x="0" y="20" font-size="5" fill="currentColor" data-lang="sketch_safe">Sicher</text>
-
-                      <path d="M-10 5 L 15 20 M-10 20 L 15 5" class="stroke-danger" />
-                      <path d="M-10 45 L 20 45" class="stroke-danger" stroke-dasharray="2 2" />
-                      <text x="0" y="50" font-size="5" fill="currentColor" data-lang="sketch_unsafe">Unsicher</text>
-                    </svg>
-                </div>
-                <div class="explanation">
-                    <h2 data-lang="section1_title">Was ist eine Firewall?</h2>
-                    <p data-lang="section1_text">Eine Firewall ist wie ein digitaler Türsteher für Ihr Netzwerk. Sie überwacht den ein- und ausgehenden Datenverkehr und entscheidet anhand festgelegter Sicherheitsregeln, ob bestimmte Datenpakete durchgelassen oder blockiert werden.</p>
-                </div>
-            </section>
-
-            <section id="section2" class="guide-section">
-                <div class="sketch-container">
-                    <svg viewBox="0 0 100 60">
-                        <rect x="30" y="10" width="40" height="40" rx="3" />
-                        <text x="50" y="33" font-size="5" text-anchor="middle" fill="currentColor" data-lang="sketch_your_pc">Ihr PC</text>
-
-                        <path d="M10 20 L 28 20" class="stroke-accent" />
-                        <path d="M23 16 L 28 20 L 23 24" class="stroke-accent" />
-                        <text x="10" y="15" font-size="4" fill="currentColor" data-lang="sketch_inbound">Eingehend</text>
-
-                        <path d="M72 40 L 90 40" class="stroke-accent" />
-                        <path d="M85 36 L 90 40 L 85 44" class="stroke-accent" />
-                        <text x="90" y="35" font-size="4" text-anchor="end" fill="currentColor" data-lang="sketch_outbound">Ausgehend</text>
-                        
-                        <path d="M10 40 L 28 40" class="stroke-danger" stroke-dasharray="2 2" />
-                        <path d="M20 35 L 28 45 M20 45 L 28 35" class="stroke-danger" stroke-width="2.5"/>
-                        <text x="10" y="50" font-size="4" fill="currentColor" data-lang="sketch_blocked">Blockiert</text>
-                    </svg>
-                </div>
-                <div class="explanation">
-                    <h2 data-lang="section2_title">Grundlegende Regeltypen</h2>
-                    <p data-lang="section2_text">Firewall-Regeln steuern den Datenfluss in beide Richtungen:</p>
-                    <ul>
-                        <li data-lang="section2_item1"><strong>Eingehende Regeln (Inbound):</strong> Kontrollieren, wer oder was von außen auf Ihr Gerät zugreifen darf. Sehr wichtig, um Angriffe zu blockieren.</li>
-                        <li data-lang="section2_item2"><strong>Ausgehende Regeln (Outbound):</strong> Kontrollieren, wohin Programme auf Ihrem Gerät Verbindungen aufbauen dürfen. Verhindert, dass Schadsoftware Daten sendet.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section id="section3" class="guide-section">
-                <div class="sketch-container">
-                     <svg viewBox="0 0 100 60">
-                        <rect x="10" y="5" width="80" height="50" rx="3" class="fill-accent" fill-opacity="0.1"/>
-                        <rect x="10" y="5" width="80" height="50" rx="3" />
-                        
-                        <text x="50" y="15" font-size="4" text-anchor="middle" fill="currentColor" data-lang="sketch_deny_all">Standard: Alles blockieren</text>
-                        
-                        <path d="M-5 40 L 30 40" class="stroke-accent" />
-                        <path d="M25 36 L 30 40 L 25 44" class="stroke-accent"/>
-                        <circle cx="35" cy="40" r="10" fill="var(--bg-color)" />
-                        <circle cx="35" cy="40" r="2" class="stroke-accent" fill="var(--primary-color)" />
-                        <text x="35" y="32" font-size="3" text-anchor="middle" fill="currentColor">HTTPS</text>
-                        <path d="M40 40 L 105 40" class="stroke-accent" />
-                         
-                        <path d="M-5 25 L 105 25" class="stroke-danger" stroke-dasharray="2 2" />
-                        <path d="M45 20 L 55 30 M45 30 L 55 20" class="stroke-danger" stroke-width="2.5" />
-                        <text x="60" y="24" font-size="3" fill="currentColor" data-lang="sketch_other_traffic">Anderer Verkehr</text>
-                    </svg>
-                </div>
-                <div class="explanation">
-                    <h2 data-lang="section3_title">Beste Praktiken</h2>
-                    <p data-lang="section3_text">Für maximale Sicherheit sollten Sie diese Prinzipien befolgen:</p>
-                     <ul>
-                        <li data-lang="section3_item1"><strong>"Default Deny"-Prinzip:</strong> Blockieren Sie standardmäßig allen Verkehr. Erlauben Sie nur explizit die Verbindungen, die absolut notwendig sind (z.B. für Web-Browsing auf Port 443).</li>
-                        <li data-lang="section3_item2"><strong>Minimalprinzip:</strong> Geben Sie nur die geringstmöglichen Berechtigungen. Wenn ein Programm nur Zugriff auf eine Adresse braucht, erlauben Sie nur diese.</li>
-                        <li data-lang="section3_item3"><strong>Regelmäßige Überprüfung:</strong> Kontrollieren Sie Ihre Firewall-Regeln regelmäßig und entfernen Sie veraltete oder nicht mehr benötigte Einträge.</li>
-                    </ul>
-                </div>
-            </section>
-        </main>
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const translations = {
-                en: {
-                    main_title: "Firewall Configuration for Better Security",
-                    nav_what_is: "What is a Firewall?",
-                    nav_rules: "Rule Types",
-                    nav_best_practices: "Best Practices",
-                    section1_title: "What is a Firewall?",
-                    section1_text: "A firewall is like a digital bouncer for your network. It monitors incoming and outgoing traffic and decides whether to allow or block specific data packets based on a defined set of security rules.",
-                    sketch_safe: "Safe",
-                    sketch_unsafe: "Unsafe",
-                    section2_title: "Basic Rule Types",
-                    section2_text: "Firewall rules control data flow in both directions:",
-                    section2_item1: "<strong>Inbound Rules:</strong> Control who or what can access your device from the outside. Very important for blocking attacks.",
-                    section2_item2: "<strong>Outbound Rules:</strong> Control where programs on your device can establish connections to. Prevents malware from sending data.",
-                    sketch_your_pc: "Your PC",
-                    sketch_inbound: "Inbound",
-                    sketch_outbound: "Outbound",
-                    sketch_blocked: "Blocked",
-                    section3_title: "Best Practices",
-                    section3_text: "For maximum security, you should follow these principles:",
-                    section3_item1: "<strong>Default Deny Principle:</strong> Block all traffic by default. Explicitly allow only the connections that are absolutely necessary (e.g., for web browsing on port 443).",
-                    section3_item2: "<strong>Principle of Least Privilege:</strong> Grant only the minimum permissions necessary. If a program only needs access to one address, only allow that one.",
-                    section3_item3: "<strong>Regular Review:</strong> Check your firewall rules regularly and remove outdated or no longer needed entries.",
-                    sketch_deny_all: "Default: Deny All",
-                    sketch_other_traffic: "Other Traffic"
-                },
-                de: {
-                    main_title: "Firewall-Konfiguration für mehr Sicherheit",
-                    nav_what_is: "Was ist eine Firewall?",
-                    nav_rules: "Regeltypen",
-                    nav_best_practices: "Beste Praktiken",
-                    section1_title: "Was ist eine Firewall?",
-                    section1_text: "Eine Firewall ist wie ein digitaler Türsteher für Ihr Netzwerk. Sie überwacht den ein- und ausgehenden Datenverkehr und entscheidet anhand festgelegter Sicherheitsregeln, ob bestimmte Datenpakete durchgelassen oder blockiert werden.",
-                    sketch_safe: "Sicher",
-                    sketch_unsafe: "Unsicher",
-                    section2_title: "Grundlegende Regeltypen",
-                    section2_text: "Firewall-Regeln steuern den Datenfluss in beide Richtungen:",
-                    section2_item1: "<strong>Eingehende Regeln (Inbound):</strong> Kontrollieren, wer oder was von außen auf Ihr Gerät zugreifen darf. Sehr wichtig, um Angriffe zu blockieren.",
-                    section2_item2: "<strong>Ausgehende Regeln (Outbound):</strong> Kontrollieren, wohin Programme auf Ihrem Gerät Verbindungen aufbauen dürfen. Verhindert, dass Schadsoftware Daten sendet.",
-                    sketch_your_pc: "Ihr PC",
-                    sketch_inbound: "Eingehend",
-                    sketch_outbound: "Ausgehend",
-                    sketch_blocked: "Blockiert",
-                    section3_title: "Beste Praktiken",
-                    section3_text: "Für maximale Sicherheit sollten Sie diese Prinzipien befolgen:",
-                    section3_item1: "<strong>\"Default Deny\"-Prinzip:</strong> Blockieren Sie standardmäßig allen Verkehr. Erlauben Sie nur explizit die Verbindungen, die absolut notwendig sind (z.B. für Web-Browsing auf Port 443).",
-                    section3_item2: "<strong>Minimalprinzip:</strong> Geben Sie nur die geringstmöglichen Berechtigungen. Wenn ein Programm nur Zugriff auf eine Adresse braucht, erlauben Sie nur diese.",
-                    section3_item3: "<strong>Regelmäßige Überprüfung:</strong> Kontrollieren Sie Ihre Firewall-Regeln regelmäßig und entfernen Sie veraltete oder nicht mehr benötigte Einträge.",
-                    sketch_deny_all: "Standard: Alles blockieren",
-                    sketch_other_traffic: "Anderer Verkehr"
-                },
-                es: {
-                    main_title: "Configuración del Firewall para una Mayor Seguridad",
-                    nav_what_is: "¿Qué es un Firewall?",
-                    nav_rules: "Tipos de Reglas",
-                    nav_best_practices: "Mejores Prácticas",
-                    section1_title: "¿Qué es un Firewall?",
-                    section1_text: "Un firewall es como un portero digital para su red. Supervisa el tráfico entrante y saliente y decide si permite o bloquea paquetes de datos específicos basándose en un conjunto definido de reglas de seguridad.",
-                    sketch_safe: "Seguro",
-                    sketch_unsafe: "Inseguro",
-                    section2_title: "Tipos de Reglas Básicas",
-                    section2_text: "Las reglas del firewall controlan el flujo de datos en ambas direcciones:",
-                    section2_item1: "<strong>Reglas de Entrada (Inbound):</strong> Controlan quién o qué puede acceder a su dispositivo desde el exterior. Muy importantes para bloquear ataques.",
-                    section2_item2: "<strong>Reglas de Salida (Outbound):</strong> Controlan a dónde pueden establecer conexiones los programas de su dispositivo. Evita que el malware envíe datos.",
-                    sketch_your_pc: "Tu PC",
-                    sketch_inbound: "Entrante",
-                    sketch_outbound: "Saliente",
-                    sketch_blocked: "Bloqueado",
-                    section3_title: "Mejores Prácticas",
-                    section3_text: "Para una máxima seguridad, debe seguir estos principios:",
-                    section3_item1: "<strong>Principio de Denegación por Defecto:</strong> Bloquee todo el tráfico por defecto. Permita explícitamente solo las conexiones que son absolutamente necesarias (p. ej., para navegar por la web en el puerto 443).",
-                    section3_item2: "<strong>Principio de Privilegio Mínimo:</strong> Otorgue solo los permisos mínimos necesarios. Si un programa solo necesita acceso a una dirección, solo permita esa.",
-                    section3_item3: "<strong>Revisión Regular:</strong> Revise las reglas de su firewall regularmente y elimine las entradas obsoletas o que ya no necesite.",
-                    sketch_deny_all: "Por defecto: Denegar todo",
-                    sketch_other_traffic: "Otro tráfico"
-                }
-            };
-
-            const langButtons = {
-                de: document.getElementById('btn-de'),
-                en: document.getElementById('btn-en'),
-                es: document.getElementById('btn-es')
-            };
-
-            const setLanguage = (lang) => {
-                if (!translations[lang]) return;
-
-                document.documentElement.lang = lang;
-                
-                const elements = document.querySelectorAll('[data-lang]');
-                elements.forEach(el => {
-                    const key = el.getAttribute('data-lang');
-                    if (translations[lang][key]) {
-                        el.innerHTML = translations[lang][key];
-                    }
-                });
-
-                localStorage.setItem('language', lang);
-
-                Object.values(langButtons).forEach(btn => btn.classList.remove('active'));
-                if (langButtons[lang]) {
-                    langButtons[lang].classList.add('active');
-                }
-            };
-
-            const initLanguage = () => {
-                const savedLang = localStorage.getItem('language');
-                if (savedLang && translations[savedLang]) {
-                    setLanguage(savedLang);
-                    return;
-                }
-
-                const browserLang = navigator.language.split('-')[0];
-                if (translations[browserLang]) {
-                    setLanguage(browserLang);
-                } else {
-                    setLanguage('en');
-                }
-            };
-
-            Object.keys(langButtons).forEach(lang => {
-                langButtons[lang].addEventListener('click', () => setLanguage(lang));
-            });
-
-            initLanguage();
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
-
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

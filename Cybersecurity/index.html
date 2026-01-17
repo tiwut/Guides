@@ -3,547 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybersecurity Guide</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Cybersecurity</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --text-color: #2c3e50;
-            --accent-color: #007bff;
-            --card-bg-color: #ffffff;
-            --nav-bg-color: #ffffff;
-            --border-color: #e1e5e8;
-            --shadow-color: rgba(0, 0, 0, 0.05);
+        .drawing-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a1a1a;
-                --text-color: #ecf0f1;
-                --accent-color: #3498db;
-                --card-bg-color: #2c2c2c;
-                --nav-bg-color: #2c2c2c;
-                --border-color: #3a3a3a;
-                --shadow-color: rgba(0, 0, 0, 0.2);
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            margin-left: 250px;
-            padding: 2rem;
-        }
-
-        .page-header {
-            display: none;
-            padding: 1rem;
-            position: fixed;
-            top: 0;
-            left: 0;
+        .drawing-container svg {
             width: 100%;
-            background-color: var(--nav-bg-color);
-            z-index: 1000;
-            box-shadow: 0 2px 10px var(--shadow-color);
-            align-items: center;
-        }
-
-        .menu-toggle {
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-            z-index: 1001;
-        }
-        
-        .page-title-mobile {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-left: 1rem;
-            color: var(--accent-color);
-        }
-
-        .main-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
-            height: 100vh;
-            background-color: var(--nav-bg-color);
-            border-right: 1px solid var(--border-color);
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease, background-color 0.3s;
-            z-index: 999;
-        }
-
-        .nav-logo {
-            font-weight: 600;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            color: var(--accent-color);
-        }
-
-        .nav-links {
-            list-style: none;
-            flex-grow: 1;
-        }
-
-        .nav-links li a {
-            display: block;
-            padding: 0.75rem 0;
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 400;
-            transition: color 0.2s, padding-left 0.2s;
-        }
-
-        .nav-links li a:hover,
-        .nav-links li a.active {
-            color: var(--accent-color);
-            padding-left: 10px;
-        }
-
-        .lang-switcher {
-            border-top: 1px solid var(--border-color);
-            padding-top: 1rem;
-        }
-
-        .lang-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 0.5rem 1rem;
-            margin-right: 0.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .lang-btn:hover,
-        .lang-btn.active {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-
-        .content-section {
-            min-height: 80vh;
-            margin-bottom: 4rem;
-            padding-top: 2rem;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            border-bottom: 3px solid var(--accent-color);
-            display: inline-block;
-            padding-bottom: 0.5rem;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background-color: var(--card-bg-color);
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px var(--shadow-color);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px var(--shadow-color);
-        }
-
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-icon svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .card-icon svg .stroke {
-            stroke: var(--accent-color);
-        }
-        .card-icon svg .fill {
-            fill: var(--accent-color);
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .card-text {
-            font-weight: 300;
-        }
-        
-        .card-text ul {
-            padding-left: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        @media (max-width: 992px) {
-            .main-nav {
-                transform: translateX(-100%);
-            }
-            .main-nav.open {
-                transform: translateX(0);
-                box-shadow: 5px 0 15px var(--shadow-color);
-            }
-            .container {
-                margin-left: 0;
-            }
-            .page-header {
-                display: flex;
-            }
-            .content-section {
-                padding-top: 5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 1rem;
-            }
-            .section-title {
-                font-size: 2rem;
-            }
-            .card-title {
-                font-size: 1.3rem;
-            }
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
+<body class="guide-page">
 
-    <header class="page-header">
-        <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-        <div class="page-title-mobile" data-key="main_title"></div>
-    </header>
-
-    <nav class="main-nav">
-        <div class="nav-logo" data-key="nav_logo">CYBERSEC</div>
-        <ul class="nav-links">
-            <li><a href="#intro" data-key="nav_intro"></a></li>
-            <li><a href="#threats" data-key="nav_threats"></a></li>
-            <li><a href="#protection" data-key="nav_protection"></a></li>
+    <nav id="sidebar">
+        <h2>Cybersecurity</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
         </ul>
-        <div class="lang-switcher">
-            <button class="lang-btn" data-lang="de">DE</button>
-            <button class="lang-btn" data-lang="en">EN</button>
-            <button class="lang-btn" data-lang="es">ES</button>
-        </div>
     </nav>
 
-    <main class="container">
-        <section id="intro" class="content-section">
-            <h1 class="section-title" data-key="intro_title"></h1>
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path class="stroke" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path class="stroke" d="M12 11.16C13.1311 11.16 14.04 10.2511 14.04 9.12C14.04 7.98886 13.1311 7.08 12 7.08C10.8689 7.08 9.96 7.98886 9.96 9.12C9.96 10.2511 10.8689 11.16 12 11.16Z" stroke-width="2" stroke-miterlimit="10"/>
-                            <path class="stroke" d="M15.96 15.24C15.96 13.04 14.18 11.28 12 11.28C9.82 11.28 8.04 13.04 8.04 15.24" stroke-width="2" stroke-miterlimit="10"/>
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-key="intro_what_is_it_title"></h2>
-                    <p class="card-text" data-key="intro_what_is_it_text"></p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path class="stroke" d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3" stroke-width="2" stroke-linecap="round"/>
-                            <path class="fill" d="M22 4.5L14.5 12L12 9.5L16 5.5L18 3.5L22 4.5Z" />
-                            <path class="stroke" d="M12 8V12L15 15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-key="intro_why_important_title"></h2>
-                    <p class="card-text" data-key="intro_why_important_text"></p>
-                </div>
-            </div>
+    <div id="main-content">
+        <header>
+            <h1>Cybersecurity</h1>
+            <p>Welcome to the comprehensive guide on Cybersecurity. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+        </header>
+
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Cybersecurity</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Cybersecurity powerful and useful.</p>
         </section>
 
-        <section id="threats" class="content-section">
-            <h1 class="section-title" data-key="threats_title"></h1>
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path class="stroke" d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8" stroke-width="2" stroke-linecap="round"/>
-                            <path class="stroke" d="M12 12V22" stroke-width="2" stroke-linecap="round"/>
-                            <path class="stroke" d="M5 12H19" stroke-width="2" stroke-linecap="round"/>
-                            <path class="stroke" d="M8 22H16" stroke-width="2" stroke-linecap="round"/>
-                            <path class="stroke" d="M2 12H5" stroke-width="2" stroke-linecap="round"/>
-                            <path class="stroke" d="M19 12H22" stroke-width="2" stroke-linecap="round"/>
-                            <path class="stroke" d="M8 17H16" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-key="threats_malware_title"></h2>
-                    <p class="card-text" data-key="threats_malware_text"></p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path class="stroke" d="M17 9.5C17 11.433 15.433 13 13.5 13C11.567 13 10 11.433 10 9.5C10 7.567 11.567 6 13.5 6C15.433 6 17 7.567 17 9.5Z" stroke-width="2"/>
-                            <path class="stroke" d="M21 16V8C21 6.89543 20.1046 6 19 6H4C2.89543 6 2 6.89543 2 8V16C2 17.1046 2.89543 18 4 18H19C20.1046 18 21 17.1046 21 16Z" stroke-width="2"/>
-                            <path class="stroke" d="M5 10L10 13L15 10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path class="stroke" d="M19.9998 19C18.4998 21.5 15.4998 22.5 13.4998 22C11.4998 21.5 10.4998 19.5 9.99976 17.5" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-key="threats_phishing_title"></h2>
-                    <p class="card-text" data-key="threats_phishing_text"></p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle class="stroke" cx="12" cy="12" r="10" stroke-width="2"/>
-                            <path class="stroke" d="M16 10H8V11H16V10Z" />
-                            <path class="stroke" d="M16 13H8V14H16V13Z" />
-                            <path class="stroke" d="M12 16H8V17H12V16Z" />
-                            <path class="stroke" d="M12 8C10.8954 8 10 7.10457 10 6C10 4.89543 10.8954 4 12 4C13.1046 4 14 4.89543 14 6C14 7.10457 13.1046 8 12 8Z" stroke-width="1.5" />
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-key="threats_passwords_title"></h2>
-                    <p class="card-text" data-key="threats_passwords_text"></p>
-                </div>
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
             </div>
         </section>
-
-        <section id="protection" class="content-section">
-            <h1 class="section-title" data-key="protection_title"></h1>
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path class="stroke" d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path class="stroke" d="M16.12 9.88L10.82 15.18L7.88 12.24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-key="protection_updates_title"></h2>
-                    <p class="card-text" data-key="protection_updates_text"></p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect class="stroke" x="7" y="2" width="10" height="20" rx="2" ry="2" stroke-width="2"/>
-                            <path class="stroke" d="M12 18H12.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path class="stroke" d="M4 6H20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path class="stroke" d="M4 10H20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path class="stroke" d="M4 14H20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-key="protection_2fa_title"></h2>
-                    <p class="card-text" data-key="protection_2fa_text"></p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path class="stroke" d="M2 8.5C2 7.11929 3.11929 6 4.5 6H19.5C20.8807 6 22 7.11929 22 8.5V17.5C22 18.8807 20.8807 20 19.5 20H4.5C3.11929 20 2 18.8807 2 17.5V8.5Z" stroke-width="2"/>
-                            <path class="stroke" d="M7 6V4.5C7 3.11929 8.11929 2 9.5 2H14.5C15.8807 2 17 3.11929 17 4.5V6" stroke-width="2"/>
-                            <path class="stroke" d="M12 15C13.1046 15 14 14.1046 14 13C14 11.8954 13.1046 11 12 11C10.8954 11 10 11.8954 10 13C10 14.1046 10.8954 15 12 15Z" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h2 class="card-title" data-key="protection_awareness_title"></h2>
-                    <p class="card-text" data-key="protection_awareness_text"></p>
-                </div>
-            </div>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Cybersecurity, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
         </section>
-    </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
+    </div>
 
-            const translations = {
-                de: {
-                    page_title: "Leitfaden zur Cybersicherheit",
-                    main_title: "Cybersicherheit",
-                    nav_logo: "CYBERSEC",
-                    nav_intro: "Einführung",
-                    nav_threats: "Bedrohungen",
-                    nav_protection: "Schutzmaßnahmen",
-                    intro_title: "Einführung",
-                    intro_what_is_it_title: "Was ist Cybersicherheit?",
-                    intro_what_is_it_text: "Cybersicherheit ist die Praxis, Computer, Server, mobile Geräte, elektronische Systeme, Netzwerke und Daten vor böswilligen Angriffen zu schützen. Sie wird auch als IT-Sicherheit oder elektronische Datensicherheit bezeichnet.",
-                    intro_why_important_title: "Warum ist sie wichtig?",
-                    intro_why_important_text: "In unserer zunehmend digitalen Welt schützt sie alles, von persönlichen Informationen über geistiges Eigentum bis hin zu staatlichen und industriellen Systemen vor Diebstahl und Beschädigung.",
-                    threats_title: "Häufige Bedrohungen",
-                    threats_malware_title: "Malware",
-                    threats_malware_text: "Bösartige Software, die entwickelt wurde, um Computersysteme zu stören oder zu beschädigen. Beispiele sind Viren, Würmer, Trojaner und Ransomware.",
-                    threats_phishing_title: "Phishing",
-                    threats_phishing_text: "Betrügerische Versuche, sensible Informationen wie Benutzernamen, Passwörter und Kreditkartendetails zu erlangen, indem man sich als vertrauenswürdige Einheit in einer elektronischen Kommunikation ausgibt.",
-                    threats_passwords_title: "Schwache Passwörter",
-                    threats_passwords_text: "Leicht zu erratende oder durch Brute-Force-Angriffe zu knackende Passwörter stellen ein erhebliches Sicherheitsrisiko dar. Die Wiederverwendung von Passwörtern über mehrere Dienste hinweg erhöht dieses Risiko.",
-                    protection_title: "Wie man sich schützt",
-                    protection_updates_title: "Software aktuell halten",
-                    protection_updates_text: "Installieren Sie regelmäßig Updates für Ihr Betriebssystem und Ihre Anwendungen. Diese Updates enthalten oft wichtige Sicherheitspatches, die bekannte Schwachstellen beheben.",
-                    protection_2fa_title: "Zwei-Faktor-Authentifizierung (2FA)",
-                    protection_2fa_text: "Fügen Sie eine zusätzliche Sicherheitsebene hinzu. Selbst wenn jemand Ihr Passwort stiehlt, benötigt er einen zweiten Faktor (wie einen Code von Ihrem Telefon), um auf Ihr Konto zuzugreifen.",
-                    protection_awareness_title: "Vorsicht und Bewusstsein",
-                    protection_awareness_text: "Seien Sie skeptisch gegenüber unerwarteten E-Mails oder Nachrichten. Klicken Sie nicht auf verdächtige Links und geben Sie persönliche Informationen nur auf vertrauenswürdigen Websites ein."
-                },
-                en: {
-                    page_title: "Cybersecurity Guide",
-                    main_title: "Cybersecurity",
-                    nav_logo: "CYBERSEC",
-                    nav_intro: "Introduction",
-                    nav_threats: "Threats",
-                    nav_protection: "Protection",
-                    intro_title: "Introduction",
-                    intro_what_is_it_title: "What is Cybersecurity?",
-                    intro_what_is_it_text: "Cybersecurity is the practice of protecting computers, servers, mobile devices, electronic systems, networks, and data from malicious attacks. It's also known as information technology security or electronic information security.",
-                    intro_why_important_title: "Why is it important?",
-                    intro_why_important_text: "In our increasingly digital world, it protects everything from personal information and intellectual property to governmental and industry systems from theft and damage.",
-                    threats_title: "Common Threats",
-                    threats_malware_title: "Malware",
-                    threats_malware_text: "Malicious software designed to disrupt or damage computer systems. Examples include viruses, worms, trojans, and ransomware.",
-                    threats_phishing_title: "Phishing",
-                    threats_phishing_text: "Fraudulent attempts to obtain sensitive information such as usernames, passwords, and credit card details by disguising as a trustworthy entity in an electronic communication.",
-                    threats_passwords_title: "Weak Passwords",
-                    threats_passwords_text: "Passwords that are easy to guess or crack through brute-force attacks pose a significant security risk. Reusing passwords across multiple services amplifies this risk.",
-                    protection_title: "How to Protect Yourself",
-                    protection_updates_title: "Keep Software Updated",
-                    protection_updates_text: "Regularly install updates for your operating system and applications. These updates often contain crucial security patches that fix known vulnerabilities.",
-                    protection_2fa_title: "Two-Factor Authentication (2FA)",
-                    protection_2fa_text: "Add an extra layer of security. Even if someone steals your password, they'll need a second factor (like a code from your phone) to access your account.",
-                    protection_awareness_title: "Be Cautious and Aware",
-                    protection_awareness_text: "Be skeptical of unexpected emails or messages. Don't click on suspicious links and only enter personal information on trusted websites."
-                },
-                es: {
-                    page_title: "Guía de Ciberseguridad",
-                    main_title: "Ciberseguridad",
-                    nav_logo: "CIBERSEG",
-                    nav_intro: "Introducción",
-                    nav_threats: "Amenazas",
-                    nav_protection: "Protección",
-                    intro_title: "Introducción",
-                    intro_what_is_it_title: "¿Qué es la Ciberseguridad?",
-                    intro_what_is_it_text: "La ciberseguridad es la práctica de proteger computadoras, servidores, dispositivos móviles, sistemas electrónicos, redes y datos de ataques maliciosos. También se conoce como seguridad de la tecnología de la información.",
-                    intro_why_important_title: "¿Por qué es importante?",
-                    intro_why_important_text: "En nuestro mundo cada vez más digital, protege todo, desde información personal y propiedad intelectual hasta sistemas gubernamentales e industriales, contra robos y daños.",
-                    threats_title: "Amenazas Comunes",
-                    threats_malware_title: "Malware",
-                    threats_malware_text: "Software malicioso diseñado para interrumpir o dañar sistemas informáticos. Ejemplos incluyen virus, gusanos, troyanos y ransomware.",
-                    threats_phishing_title: "Phishing",
-                    threats_phishing_text: "Intentos fraudulentos de obtener información sensible como nombres de usuario, contraseñas y detalles de tarjetas de crédito, haciéndose pasar por una entidad de confianza en una comunicación electrónica.",
-                    threats_passwords_title: "Contraseñas Débiles",
-                    threats_passwords_text: "Las contraseñas fáciles de adivinar o descifrar mediante ataques de fuerza bruta suponen un riesgo de seguridad significativo. Reutilizar contraseñas en múltiples servicios amplifica este riesgo.",
-                    protection_title: "Cómo Protegerse",
-                    protection_updates_title: "Mantener el Software Actualizado",
-                    protection_updates_text: "Instale regularmente las actualizaciones de su sistema operativo y aplicaciones. Estas actualizaciones a menudo contienen parches de seguridad cruciales que corrigen vulnerabilidades conocidas.",
-                    protection_2fa_title: "Autenticación de Dos Factores (2FA)",
-                    protection_2fa_text: "Añada una capa extra de seguridad. Incluso si alguien roba su contraseña, necesitará un segundo factor (como un código de su teléfono) para acceder a su cuenta.",
-                    protection_awareness_title: "Sea Cauteloso y Consciente",
-                    protection_awareness_text: "Sea escéptico ante correos electrónicos o mensajes inesperados. No haga clic en enlaces sospechosos e ingrese información personal solo en sitios web de confianza."
-                }
-            };
-
-            const langButtons = document.querySelectorAll('.lang-btn');
-            const elementsToTranslate = document.querySelectorAll('[data-key]');
-            let currentLang = 'en';
-
-            function setLanguage(lang) {
-                if (!translations[lang]) return;
-
-                currentLang = lang;
-                document.documentElement.lang = lang;
-                document.title = translations[lang].page_title;
-
-                elementsToTranslate.forEach(element => {
-                    const key = element.getAttribute('data-key');
-                    if (translations[lang][key]) {
-                        element.innerHTML = translations[lang][key];
-                    }
-                });
-
-                langButtons.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === lang);
-                });
-            }
-
-            langButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    setLanguage(button.dataset.lang);
-                });
-            });
-
-            const userLang = navigator.language.split('-')[0];
-            const initialLang = translations[userLang] ? userLang : 'en';
-            setLanguage(initialLang);
-
-            const menuToggle = document.querySelector('.menu-toggle');
-            const mainNav = document.querySelector('.main-nav');
-            menuToggle.addEventListener('click', () => {
-                mainNav.classList.toggle('open');
-            });
-
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (mainNav.classList.contains('open')) {
-                        mainNav.classList.remove('open');
-                    }
-                });
-            });
-
-            const sections = document.querySelectorAll('.content-section');
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.3
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href').substring(1) === entry.target.id) {
-                                link.classList.add('active');
-                            }
-                        });
-                    }
-                });
-            }, observerOptions);
-
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
-
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

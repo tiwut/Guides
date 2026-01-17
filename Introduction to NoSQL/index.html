@@ -3,551 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang-en="Introduction to NoSQL" data-lang-de="Einführung in NoSQL" data-lang-es="Introducción a NoSQL">Introduction to NoSQL</title>
+    <title>Introduction to NoSQL</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --text-color: #2c3e50;
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --card-bg: #ffffff;
-            --border-color: #e0e0e0;
-            --shadow-color: rgba(0, 0, 0, 0.05);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --svg-stroke: #34495e;
-            --svg-fill: rgba(52, 152, 219, 0.1);
-        }
-
-        html[data-theme='dark'] {
-            --bg-color: #1a1a2e;
-            --text-color: #e0e0e0;
-            --primary-color: #5fa8d3;
-            --secondary-color: #27ae60;
-            --card-bg: #1e1e3f;
-            --border-color: #2c3a47;
-            --shadow-color: rgba(0, 0, 0, 0.2);
-            --nav-bg: rgba(30, 30, 63, 0.85);
-            --svg-stroke: #bdc3c7;
-            --svg-fill: rgba(95, 168, 211, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        nav {
-            position: sticky;
-            top: 0;
-            width: 100%;
-            background-color: var(--nav-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 100;
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .lang-menu {
+        .drawing-container {
             position: relative;
-        }
-
-        .lang-menu-button {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .lang-menu-button svg {
-            width: 12px;
-            height: 12px;
-            fill: currentColor;
-            transition: transform 0.2s ease;
-        }
-
-        .lang-menu.active .lang-menu-button svg {
-            transform: rotate(180deg);
-        }
-
-        .lang-dropdown {
-            display: none;
-            position: absolute;
-            top: 150%;
-            right: 0;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px var(--shadow-color);
-            list-style: none;
-            overflow: hidden;
-            min-width: 120px;
-        }
-        
-        .lang-menu.active .lang-dropdown {
-            display: block;
-        }
-
-        .lang-dropdown button {
-            background: none;
-            border: none;
-            width: 100%;
-            padding: 10px 15px;
-            text-align: left;
-            color: var(--text-color);
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-
-        .lang-dropdown button:hover, .lang-dropdown button.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .hamburger {
-            display: none;
-            cursor: pointer;
-        }
-
-        .hamburger div {
-            width: 25px;
-            height: 3px;
-            background-color: var(--text-color);
-            margin: 5px 0;
-            transition: all 0.3s ease;
-        }
-
-        header {
-            text-align: center;
-            padding: 80px 0;
-        }
-
-        header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            font-weight: 800;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            color: var(--primary-color);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .guide-section {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
             border-radius: 12px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 8px 30px var(--shadow-color);
-            transition: background-color 0.3s, border-color 0.3s;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .guide-section h2 {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--secondary-color);
-        }
-
-        .comparison-container {
-            display: flex;
-            gap: 30px;
-            align-items: flex-start;
-        }
-
-        .comparison-item {
-            flex: 1;
-            text-align: center;
-        }
-
-        .comparison-item h3 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-        }
-
-        .sketch {
+        .drawing-container svg {
             width: 100%;
             height: auto;
-            margin: 20px 0;
-            stroke-width: 2;
-            stroke: var(--svg-stroke);
-            fill: var(--svg-fill);
-            transition: stroke 0.3s, fill 0.3s;
-        }
-
-        .types-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            text-align: center;
-        }
-        
-        .type-item .sketch {
-            height: 60px;
-        }
-
-        .concepts-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            align-items: flex-start;
-        }
-
-        .concept-item {
-            text-align: center;
-        }
-        .concept-item .sketch {
-            height: 80px;
-        }
-
-        .concept-item h4 {
-            font-size: 1.1rem;
-            margin: 10px 0 5px 0;
-        }
-        
-        .concept-item p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                right: 0;
-                top: 0;
-                background-color: var(--card-bg);
-                height: 100vh;
-                width: 60%;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                transform: translateX(100%);
-                transition: transform 0.3s ease-in-out;
-                box-shadow: -5px 0 15px var(--shadow-color);
-            }
-
-            .nav-links.nav-active {
-                transform: translateX(0%);
-            }
-            
-            .lang-menu-button {
-                font-size: 1.2rem;
-            }
-            
-            .lang-dropdown {
-                top: 100%;
-                right: auto;
-                left: 50%;
-                transform: translateX(-50%);
-                border: none;
-            }
-
-            .hamburger {
-                display: block;
-                z-index: 101;
-            }
-            
-            .hamburger.toggle .line1 {
-                transform: rotate(-45deg) translate(-5px, 6px);
-            }
-            .hamburger.toggle .line2 {
-                opacity: 0;
-            }
-            .hamburger.toggle .line3 {
-                transform: rotate(45deg) translate(-5px, -6px);
-            }
-
-            header h1 {
-                font-size: 2.5rem;
-            }
-
-            .comparison-container {
-                flex-direction: column;
-            }
-            
-            .guide-section {
-                padding: 25px;
-            }
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
+<body class="guide-page">
 
-    <nav>
-        <div class="nav-logo">NoSQL</div>
-        <ul class="nav-links">
-            <li class="lang-menu">
-                <button class="lang-menu-button">
-                    <span data-lang-en="Language" data-lang-de="Sprache" data-lang-es="Idioma">Language</span>
-                    <svg viewBox="0 0 320 512"><path d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l80.1 80.1 80.1-80.1c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"/></svg>
-                </button>
-                <ul class="lang-dropdown">
-                    <li><button data-lang="de">Deutsch</button></li>
-                    <li><button data-lang="en">English</button></li>
-                    <li><button data-lang="es">Español</button></li>
-                </ul>
-            </li>
+    <nav id="sidebar">
+        <h2>Introduction to NoSQL</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
         </ul>
-        <div class="hamburger">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
-        </div>
     </nav>
 
-    <div class="container">
+    <div id="main-content">
         <header>
-            <h1 data-lang-en="Introduction to NoSQL" data-lang-de="Einführung in NoSQL" data-lang-es="Introducción a NoSQL"></h1>
-            <p data-lang-en="A modern guide to understanding non-relational databases like MongoDB." data-lang-de="Ein moderner Guide zum Verständnis nicht-relationaler Datenbanken wie MongoDB." data-lang-es="Una guía moderna para entender las bases de datos no relacionales como MongoDB."></p>
+            <h1>Introduction to NoSQL</h1>
+            <p>Welcome to the comprehensive guide on Introduction to NoSQL. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
         </header>
 
-        <main>
-            <section class="guide-section">
-                <h2 data-lang-en="SQL vs. NoSQL" data-lang-de="SQL vs. NoSQL" data-lang-es="SQL vs. NoSQL"></h2>
-                <p data-lang-en="The fundamental difference lies in structure. SQL is rigid and table-based, while NoSQL is flexible and often document-based." data-lang-de="Der fundamentale Unterschied liegt in der Struktur. SQL ist starr und tabellenbasiert, während NoSQL flexibel und oft dokumentenbasiert ist." data-lang-es="La diferencia fundamental reside en la estructura. SQL es rígido y se basa en tablas, mientras que NoSQL es flexible y a menudo se basa en documentos."></p>
-                <div class="comparison-container">
-                    <div class="comparison-item">
-                        <h3 data-lang-en="SQL: Relational Tables" data-lang-de="SQL: Relationale Tabellen" data-lang-es="SQL: Tablas Relacionales"></h3>
-                        <svg class="sketch" viewBox="0 0 300 150">
-                            <rect x="10" y="30" width="120" height="90" rx="5"></rect>
-                            <text x="70" y="20" text-anchor="middle" font-size="12" fill="currentColor">Users</text>
-                            <line x1="10" y1="55" x2="130" y2="55"></line>
-                            <text x="15" y="48" font-size="10" fill="currentColor">id</text>
-                            <text x="15" y="73" font-size="10" fill="currentColor">name</text>
-                            <rect x="170" y="30" width="120" height="90" rx="5"></rect>
-                            <text x="230" y="20" text-anchor="middle" font-size="12" fill="currentColor">Posts</text>
-                            <line x1="170" y1="55" x2="290" y2="55"></line>
-                            <text x="175" y="48" font-size="10" fill="currentColor">id</text>
-                            <text x="175" y="73" font-size="10" fill="currentColor">user_id</text>
-                            <text x="175" y="98" font-size="10" fill="currentColor">content</text>
-                            <path d="M130 75 Q 150 75, 170 75" stroke-dasharray="4" fill="none"></path>
-                        </svg>
-                    </div>
-                    <div class="comparison-item">
-                        <h3 data-lang-en="NoSQL: Document" data-lang-de="NoSQL: Dokument" data-lang-es="NoSQL: Documento"></h3>
-                        <svg class="sketch" viewBox="0 0 300 150">
-                            <rect x="50" y="10" width="200" height="130" rx="5"></rect>
-                            <text x="60" y="30" font-size="10" fill="currentColor">{</text>
-                            <text x="70" y="45" font-size="10" fill="currentColor">_id: "...",</text>
-                            <text x="70" y="60" font-size="10" fill="currentColor">name: "Alex",</text>
-                            <text x="70" y="75" font-size="10" fill="currentColor">posts: [</text>
-                            <text x="85" y="90" font-size="10" fill="currentColor">{ content: "Hello..." },</text>
-                            <text x="85" y="105" font-size="10" fill="currentColor">{ content: "My post..." }</text>
-                            <text x="70" y="120" font-size="10" fill="currentColor">]</text>
-                            <text x="60" y="135" font-size="10" fill="currentColor">}</text>
-                        </svg>
-                    </div>
-                </div>
-            </section>
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Introduction to NoSQL</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Introduction to NoSQL powerful and useful.</p>
+        </section>
 
-            <section class="guide-section">
-                <h2 data-lang-en="Types of NoSQL Databases" data-lang-de="Arten von NoSQL-Datenbanken" data-lang-es="Tipos de Bases de Datos NoSQL"></h2>
-                <div class="types-container">
-                    <div class="type-item">
-                        <svg class="sketch" viewBox="0 0 100 60">
-                            <rect x="5" y="15" width="30" height="30" rx="3"></rect>
-                            <text x="20" y="35" text-anchor="middle" font-size="10" fill="currentColor">Key</text>
-                            <path d="M40 30 L 60 30" stroke-dasharray="2,2" stroke-width="1.5"></path>
-                            <path d="M55 25 L 60 30 L 55 35" fill="none" stroke-width="1.5"></path>
-                            <rect x="65" y="15" width="30" height="30" rx="3"></rect>
-                            <text x="80" y="35" text-anchor="middle" font-size="10" fill="currentColor">Val</text>
-                        </svg>
-                        <h4 data-lang-en="Key-Value" data-lang-de="Schlüssel-Wert" data-lang-es="Clave-Valor"></h4>
-                    </div>
-                    <div class="type-item">
-                        <svg class="sketch" viewBox="0 0 100 60">
-                            <path d="M20 5 L 80 5 L 80 55 L 20 55 Z"></path>
-                            <path d="M20 5 L 60 5 L 80 25 L 80 55" fill="none" stroke-width="1"></path>
-                            <path d="M60 5 L 60 25 L 80 25" fill="none" stroke-width="1"></path>
-                            <line x1="25" y1="15" x2="75" y2="15" stroke-width="1"></line>
-                            <line x1="25" y1="25" x2="75" y2="25" stroke-width="1"></line>
-                            <line x1="25" y1="35" x2="55" y2="35" stroke-width="1"></line>
-                        </svg>
-                        <h4 data-lang-en="Document" data-lang-de="Dokument" data-lang-es="Documento"></h4>
-                    </div>
-                    <div class="type-item">
-                        <svg class="sketch" viewBox="0 0 100 60">
-                           <rect x="15" y="10" width="15" height="40" rx="2"></rect>
-                           <rect x="35" y="10" width="15" height="40" rx="2"></rect>
-                           <rect x="55" y="10" width="15" height="40" rx="2"></rect>
-                           <rect x="75" y="10" width="15" height="40" rx="2"></rect>
-                        </svg>
-                        <h4 data-lang-en="Column-Family" data-lang-de="Spaltenfamilie" data-lang-es="Columnar"></h4>
-                    </div>
-                    <div class="type-item">
-                        <svg class="sketch" viewBox="0 0 100 60">
-                            <circle cx="25" cy="30" r="8"></circle>
-                            <circle cx="75" cy="15" r="8"></circle>
-                            <circle cx="75" cy="45" r="8"></circle>
-                            <line x1="33" y1="30" x2="67" y2="15"></line>
-                            <line x1="33" y1="30" x2="67" y2="45"></line>
-                        </svg>
-                        <h4 data-lang-en="Graph" data-lang-de="Graph" data-lang-es="Grafo"></h4>
-                    </div>
-                </div>
-            </section>
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+            </div>
+        </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Introduction to NoSQL, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
 
-            <section class="guide-section">
-                <h2 data-lang-en="Focus: MongoDB" data-lang-de="Fokus: MongoDB" data-lang-es="Enfoque: MongoDB"></h2>
-                <p data-lang-en="MongoDB is a popular document-based NoSQL database. It stores data in flexible, JSON-like documents called BSON." data-lang-de="MongoDB ist eine populäre, dokumentenbasierte NoSQL-Datenbank. Sie speichert Daten in flexiblen, JSON-ähnlichen Dokumenten namens BSON." data-lang-es="MongoDB es una popular base de datos NoSQL basada en documentos. Almacena datos en documentos flexibles, similares a JSON, llamados BSON."></p>
-                <div class="concepts-container">
-                    <div class="concept-item">
-                        <svg class="sketch" viewBox="0 0 100 100">
-                             <ellipse cx="50" cy="20" rx="40" ry="10"></ellipse>
-                             <path d="M10 20 V 80 C 10 90, 90 90, 90 80 V 20"></path>
-                             <ellipse cx="50" cy="80" rx="40" ry="10" fill="none"></ellipse>
-                        </svg>
-                        <h4 data-lang-en="Database" data-lang-de="Datenbank" data-lang-es="Base de Datos"></h4>
-                        <p data-lang-en="A container for collections." data-lang-de="Ein Container für Collections." data-lang-es="Un contenedor para colecciones."></p>
-                    </div>
-                    <div class="concept-item">
-                        <svg class="sketch" viewBox="0 0 100 100">
-                            <path d="M10 20 C 10 10, 20 10, 30 10 L 45 10 L 55 20 L 90 20 C 100 20, 100 30, 90 30 L 10 30 C 0 30, 0 20, 10 20 Z" stroke-width="1.5"></path>
-                            <path d="M15 30 L 15 80 C 15 90, 25 90, 25 90 L 75 90 C 85 90, 85 80, 85 80 L 85 30 Z"></path>
-                        </svg>
-                        <h4 data-lang-en="Collection" data-lang-de="Collection" data-lang-es="Colección"></h4>
-                        <p data-lang-en="A group of documents. Similar to a table in SQL." data-lang-de="Eine Gruppe von Dokumenten. Ähnlich einer Tabelle in SQL." data-lang-es="Un grupo de documentos. Similar a una tabla en SQL."></p>
-                    </div>
-                     <div class="concept-item">
-                        <svg class="sketch" viewBox="0 0 100 100">
-                            <path d="M20 10 L 80 10 L 80 90 L 20 90 Z"></path>
-                            <path d="M20 10 L 60 10 L 80 30 L 80 90" fill="none" stroke-width="1"></path>
-                            <path d="M60 10 L 60 30 L 80 30" fill="none" stroke-width="1"></path>
-                            <text x="30" y="45" font-size="10" fill="currentColor">{...}</text>
-                        </svg>
-                        <h4 data-lang-en="Document (BSON)" data-lang-de="Dokument (BSON)" data-lang-es="Documento (BSON)"></h4>
-                        <p data-lang-en="A single record, stored in a binary JSON format." data-lang-de="Ein einzelner Datensatz, gespeichert in einem binären JSON-Format." data-lang-es="Un único registro, almacenado en un formato JSON binario."></p>
-                    </div>
-                </div>
-            </section>
-        </main>
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const allLangElements = document.querySelectorAll('[data-lang-en]');
-            const langButtons = document.querySelectorAll('.lang-dropdown button');
-            const langMenu = document.querySelector('.lang-menu');
-            const langMenuButton = document.querySelector('.lang-menu-button');
-            const hamburger = document.querySelector('.hamburger');
-            const navLinks = document.querySelector('.nav-links');
-
-            const supportedLangs = ['en', 'de', 'es'];
-            let currentLang = 'en';
-
-            const setLanguage = (lang) => {
-                if (!supportedLangs.includes(lang)) {
-                    lang = 'en';
-                }
-                currentLang = lang;
-                document.documentElement.lang = lang;
-                
-                allLangElements.forEach(el => {
-                    const text = el.getAttribute(`data-lang-${lang}`);
-                    if (text) {
-                       el.innerHTML = text;
-                    }
-                });
-                
-                langButtons.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === lang);
-                });
-
-                localStorage.setItem('userLanguage', lang);
-                langMenu.classList.remove('active');
-            };
-
-            const detectLanguage = () => {
-                const savedLang = localStorage.getItem('userLanguage');
-                if (savedLang && supportedLangs.includes(savedLang)) {
-                    return savedLang;
-                }
-                const browserLang = navigator.language.split('-')[0];
-                if (supportedLangs.includes(browserLang)) {
-                    return browserLang;
-                }
-                return 'en';
-            };
-
-            const setScheme = (scheme) => {
-                document.documentElement.setAttribute('data-theme', scheme);
-            };
-
-            const detectScheme = () => {
-                const darkModeMatcher = window.matchMedia('(prefers-color-scheme: dark)');
-                if (darkModeMatcher.matches) {
-                    setScheme('dark');
-                } else {
-                    setScheme('light');
-                }
-                darkModeMatcher.addEventListener('change', (e) => {
-                    setScheme(e.matches ? 'dark' : 'light');
-                });
-            };
-            
-            langButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    setLanguage(button.dataset.lang);
-                });
-            });
-
-            langMenuButton.addEventListener('click', (e) => {
-                e.stopPropagation();
-                langMenu.classList.toggle('active');
-            });
-            
-            document.addEventListener('click', () => {
-                langMenu.classList.remove('active');
-            });
-            
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('nav-active');
-                hamburger.classList.toggle('toggle');
-            });
-
-            detectScheme();
-            setLanguage(detectLanguage());
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

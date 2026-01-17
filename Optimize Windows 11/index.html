@@ -3,371 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows 11 Productivity Guide</title>
-
+    <title>Optimize Windows 11</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --card-bg-color: #ffffff;
-            --text-color: #2c3e50;
-            --accent-color: #0078d4;
-            --subtle-text-color: #7f8c8d;
-            --shadow-color: rgba(0, 0, 0, 0.08);
-            --nav-bg-color: rgba(255, 255, 255, 0.85);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1e1e1e;
-                --card-bg-color: #2d2d2d;
-                --text-color: #e_aeaea;
-                --accent-color: #4dabf7;
-                --subtle-text-color: #9e9e9e;
-                --shadow-color: rgba(0, 0, 0, 0.25);
-                --nav-bg-color: rgba(30, 30, 30, 0.85);
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        body.menu-open {
+        .drawing-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
             overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .menu-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-        }
-
-        .menu-toggle .icon-svg {
-            width: 32px;
-            height: 32px;
-            stroke: var(--accent-color);
-            transition: transform 0.3s ease;
-        }
-
-        .nav-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 280px;
-            height: 100vh;
-            background-color: var(--nav-bg-color);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 1000;
-            transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 25px;
-        }
-
-        body.menu-open .nav-menu {
-            right: 0;
-        }
-
-        .lang-switcher button {
-            background-color: transparent;
-            color: var(--subtle-text-color);
-            border: 2px solid var(--subtle-text-color);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 0 5px;
-        }
-
-        .lang-switcher button:hover {
-            color: var(--accent-color);
-            border-color: var(--accent-color);
-        }
-
-        .lang-switcher button.active {
-            background-color: var(--accent-color);
-            color: var(--card-bg-color);
-            border-color: var(--accent-color);
-        }
-        
-        .nav-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-color);
-            margin-bottom: 20px;
-        }
-
-        main {
-            padding: 80px 20px 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-        
-        header p {
-            font-size: 1.2rem;
-            color: var(--subtle-text-color);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .guide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .guide-card {
-            background-color: var(--card-bg-color);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 8px 25px var(--shadow-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .guide-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 35px var(--shadow-color);
-        }
-        
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 25px;
-        }
-        
-        .card-icon svg {
+        .drawing-container svg {
             width: 100%;
-            height: 100%;
-            fill: none;
-            stroke: var(--accent-color);
-            stroke-width: 1.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .guide-card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--text-color);
-            font-weight: 700;
-        }
-
-        .guide-card p {
-            color: var(--subtle-text-color);
-            font-size: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.2rem;
-            }
-            header p {
-                font-size: 1rem;
-            }
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
-
-    <script defer>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            const translations = {
-                en: {
-                    nav_title: "Settings",
-                    page_title: "Optimize Windows 11",
-                    page_subtitle: "Essential tips for enhanced productivity and a smoother workflow.",
-                    tip1_title: "Master Snap Layouts",
-                    tip1_desc: "Hover over the maximize button to see layout options. Quickly arrange multiple windows on your screen to multitask like a pro.",
-                    tip2_title: "Use Virtual Desktops",
-                    tip2_desc: "Create separate desktops for work, gaming, or personal projects. Keep your workspaces clean and organized. (Win + Tab)",
-                    tip3_title: "Activate Focus Sessions",
-                    tip3_desc: "Block notifications and minimize distractions. Integrate with the Clock app for a built-in Pomodoro timer.",
-                    tip4_title: "Customize Start & Taskbar",
-                    tip4_desc: "Pin your most-used apps and files to the Start menu and taskbar for instant access. Remove clutter you don't need.",
-                },
-                de: {
-                    nav_title: "Einstellungen",
-                    page_title: "Windows 11 optimieren",
-                    page_subtitle: "Wichtige Tipps für mehr Produktivität und einen reibungslosen Arbeitsablauf.",
-                    tip1_title: "Snap-Layouts meistern",
-                    tip1_desc: "Bewegen Sie die Maus über die Maximieren-Schaltfläche, um Layout-Optionen zu sehen. Ordnen Sie mehrere Fenster schnell an, um wie ein Profi zu multitasken.",
-                    tip2_title: "Virtuelle Desktops nutzen",
-                    tip2_desc: "Erstellen Sie separate Desktops für Arbeit, Spiele oder persönliche Projekte. Halten Sie Ihre Arbeitsbereiche sauber und organisiert. (Win + Tab)",
-                    tip3_title: "Fokus-Sitzungen aktivieren",
-                    tip3_desc: "Blockieren Sie Benachrichtigungen und minimieren Sie Ablenkungen. Integration mit der Uhr-App für einen eingebauten Pomodoro-Timer.",
-                    tip4_title: "Start & Taskleiste anpassen",
-                    tip4_desc: "Pinnen Sie Ihre meistgenutzten Apps und Dateien an das Startmenü und die Taskleiste für sofortigen Zugriff. Entfernen Sie alles Unnötige.",
-                },
-                es: {
-                    nav_title: "Ajustes",
-                    page_title: "Optimizar Windows 11",
-                    page_subtitle: "Consejos esenciales para una mayor productividad y un flujo de trabajo más fluido.",
-                    tip1_title: "Dominar Snap Layouts",
-                    tip1_desc: "Pasa el cursor sobre el botón de maximizar para ver las opciones de diseño. Organiza rápidamente múltiples ventanas para multitarea profesional.",
-                    tip2_title: "Usar Escritorios Virtuales",
-                    tip2_desc: "Crea escritorios separados para trabajo, juegos o proyectos personales. Mantén tus espacios de trabajo limpios y organizados. (Win + Tab)",
-                    tip3_title: "Activar Sesiones de Concentración",
-                    tip3_desc: "Bloquea notificaciones y minimiza distracciones. Se integra con la aplicación Reloj para un temporizador Pomodoro incorporado.",
-                    tip4_title: "Personalizar Inicio y Barra de Tareas",
-                    tip4_desc: "Ancla tus aplicaciones y archivos más usados al menú de Inicio y la barra de tareas para un acceso instantáneo. Elimina lo que no necesites.",
-                }
-            };
-
-            const menuToggle = document.getElementById('menu-toggle');
-            const navMenu = document.getElementById('nav-menu');
-            const langButtons = document.querySelectorAll('.lang-switcher button');
-            
-            const iconMenu = `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>`;
-            const iconClose = `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
-
-            const setLanguage = (lang) => {
-                const dictionary = translations[lang] || translations.en;
-                document.querySelectorAll('[data-lang-key]').forEach(elem => {
-                    const key = elem.dataset.langKey;
-                    if (dictionary[key]) {
-                        elem.textContent = dictionary[key];
-                    }
-                });
-                document.documentElement.lang = lang;
-
-                langButtons.forEach(button => {
-                    button.classList.toggle('active', button.dataset.lang === lang);
-                });
-            };
-
-            const getInitialLanguage = () => {
-                const browserLang = navigator.language.slice(0, 2);
-                if (translations[browserLang]) {
-                    return browserLang;
-                }
-                return 'en';
-            };
-            
-            menuToggle.addEventListener('click', () => {
-                const isOpen = document.body.classList.toggle('menu-open');
-                menuToggle.innerHTML = isOpen ? iconClose : iconMenu;
-            });
-
-            langButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const lang = button.dataset.lang;
-                    setLanguage(lang);
-                    document.body.classList.remove('menu-open');
-                    menuToggle.innerHTML = iconMenu;
-                });
-            });
-            
-            menuToggle.innerHTML = iconMenu;
-            setLanguage(getInitialLanguage());
-        });
-    </script>
 </head>
-<body>
+<body class="guide-page">
 
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu"></button>
-
-    <nav class="nav-menu" id="nav-menu">
-        <div class="nav-title" data-lang-key="nav_title"></div>
-        <div class="lang-switcher">
-            <button data-lang="de">DE</button>
-            <button data-lang="en">EN</button>
-            <button data-lang="es">ES</button>
-        </div>
+    <nav id="sidebar">
+        <h2>Optimize Windows 11</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
+        </ul>
     </nav>
 
-    <main>
+    <div id="main-content">
         <header>
-            <h1 data-lang-key="page_title"></h1>
-            <p data-lang-key="page_subtitle"></p>
+            <h1>Optimize Windows 11</h1>
+            <p>Welcome to the comprehensive guide on Optimize Windows 11. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
         </header>
 
-        <div class="guide-grid">
-            
-            <section class="guide-card">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="12" y1="3" x2="12" y2="21"></line>
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                    </svg>
-                </div>
-                <h2 data-lang-key="tip1_title"></h2>
-                <p data-lang-key="tip1_desc"></p>
-            </section>
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Optimize Windows 11</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Optimize Windows 11 powerful and useful.</p>
+        </section>
 
-            <section class="guide-card">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24">
-                       <path d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"></path>
-                       <polyline points="21 7 12 13 3 7"></polyline>
-                       <path d="M3.27 6.97c0-2.69 2.5-4.48 5.23-4.48h8c2.73 0 5.23 1.79 5.23 4.48"></path>
-                    </svg>
-                </div>
-                <h2 data-lang-key="tip2_title"></h2>
-                <p data-lang-key="tip2_desc"></p>
-            </section>
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+            </div>
+        </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Optimize Windows 11, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
 
-            <section class="guide-card">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </div>
-                <h2 data-lang-key="tip3_title"></h2>
-                <p data-lang-key="tip3_desc"></p>
-            </section>
-            
-            <section class="guide-card">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="7" height="7"></rect>
-                        <rect x="14" y="3" width="7" height="7"></rect>
-                        <rect x="14" y="14" width="7" height="7"></rect>
-                        <rect x="3" y="14" width="7" height="7"></rect>
-                    </svg>
-                </div>
-                <h2 data-lang-key="tip4_title"></h2>
-                <p data-lang-key="tip4_desc"></p>
-            </section>
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
+    </div>
 
-        </div>
-    </main>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
-
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

@@ -4,425 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MacBook Maintenance Guide</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --card-bg-color: #ffffff;
-            --text-color: #2c3e50;
-            --accent-color: #007aff;
-            --shadow-color: rgba(0, 0, 0, 0.08);
-            --icon-color: #34495e;
-            --nav-bg-color: rgba(255, 255, 255, 0.85);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1c1c1e;
-                --card-bg-color: #2c2c2e;
-                --text-color: #f2f2f7;
-                --accent-color: #0a84ff;
-                --shadow-color: rgba(0, 0, 0, 0.4);
-                --icon-color: #e5e5ea;
-                --nav-bg-color: rgba(28, 28, 30, 0.85);
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 20px 40px;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            right: 0;
-            padding: 20px;
-            z-index: 1000;
-        }
-
-        .menu-toggle {
-            width: 30px;
-            height: 22px;
+        .drawing-container {
             position: relative;
-            cursor: pointer;
-            z-index: 1001;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .menu-toggle span {
-            display: block;
-            position: absolute;
-            height: 3px;
+        .drawing-container svg {
             width: 100%;
-            background: var(--text-color);
-            border-radius: 3px;
-            opacity: 1;
-            left: 0;
-            transform: rotate(0deg);
-            transition: .25s ease-in-out;
-        }
-        
-        .menu-toggle span:nth-child(1) { top: 0px; }
-        .menu-toggle span:nth-child(2) { top: 9px; }
-        .menu-toggle span:nth-child(3) { top: 18px; }
-
-        .menu-toggle.active span:nth-child(1) {
-            top: 9px;
-            transform: rotate(135deg);
-        }
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-            left: -30px;
-        }
-        .menu-toggle.active span:nth-child(3) {
-            top: 9px;
-            transform: rotate(-135deg);
-        }
-
-        nav {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 250px;
-            height: 100vh;
-            background-color: var(--nav-bg-color);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        nav.active {
-            transform: translateX(0);
-        }
-        
-        nav ul {
-            list-style: none;
-            padding: 0;
-            width: 100%;
-        }
-        
-        nav li {
-            text-align: center;
-            margin: 15px 0;
-        }
-
-        .lang-btn {
-            background: none;
-            border: 2px solid transparent;
-            color: var(--text-color);
-            font-size: 1.2rem;
-            font-weight: 500;
-            cursor: pointer;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-
-        .lang-btn:hover {
-            background-color: var(--shadow-color);
-        }
-
-        .lang-btn.active {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .main-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            font-weight: 700;
-        }
-
-        .guide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .tip-card {
-            background-color: var(--card-bg-color);
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 8px 25px var(--shadow-color);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .tip-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 35px var(--shadow-color);
-        }
-        
-        .tip-card svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
-            color: var(--icon-color);
-        }
-        
-        .tip-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--accent-color);
-        }
-
-        .tip-card p {
-            font-size: 0.95rem;
-            color: var(--text-color);
-            opacity: 0.8;
-        }
-
-        @media (min-width: 768px) {
-            .main-title {
-                font-size: 3.5rem;
-            }
-        }
-        
-        @media (min-width: 992px) {
-             .menu-toggle { display: none; }
-             nav {
-                position: fixed;
-                transform: translateX(0);
-                background: none;
-                backdrop-filter: none;
-                height: auto;
-                width: auto;
-                flex-direction: row;
-                top: 20px;
-                right: 20px;
-             }
-             nav ul {
-                display: flex;
-             }
-             nav li {
-                margin: 0 5px;
-             }
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
+<body class="guide-page">
 
-    <header>
-        <div class="menu-toggle" id="menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <nav id="nav-menu">
+    <nav id="sidebar">
+        <h2>MacBook Maintenance Guide</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <header>
+            <h1>MacBook Maintenance Guide</h1>
+            <p>Welcome to the comprehensive guide on MacBook Maintenance Guide. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+        </header>
+
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>MacBook Maintenance Guide</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make MacBook Maintenance Guide powerful and useful.</p>
+        </section>
+
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
             <ul>
-                <li><button class="lang-btn" data-lang="en">EN</button></li>
-                <li><button class="lang-btn" data-lang="de">DE</button></li>
-                <li><button class="lang-btn" data-lang="es">ES</button></li>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
             </ul>
-        </nav>
-    </header>
-
-    <main class="container">
-        <h1 class="main-title" data-lang-key="mainTitle">Maintenance Guide</h1>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+            </div>
+        </section>
         
-        <div class="guide-grid">
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with MacBook Maintenance Guide, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
 
-            <div class="tip-card">
-                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="10" y="20" width="80" height="50" rx="5"></rect>
-                    <path d="M20 70 L80 70"></path>
-                    <path d="M40 70 V 80 H 60 V 70"></path>
-                    <path d="M25 60 Q 50 45, 75 60"></path>
-                </svg>
-                <h3 data-lang-key="tip1_title">Clean Regularly</h3>
-                <p data-lang-key="tip1_desc">Wipe the screen and keyboard with a soft, microfiber cloth. Avoid harsh chemicals.</p>
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
             </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
+    </div>
 
-            <div class="tip-card">
-                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                     <path d="M50 20 V 50 L 75 65"></path>
-                     <circle cx="50" cy="50" r="40"></circle>
-                     <path d="M50 5 L 50 15"></path>
-                     <path d="M50 85 L 50 95"></path>
-                     <path d="M95 50 L 85 50"></path>
-                     <path d="M15 50 L 5 50"></path>
-                </svg>
-                <h3 data-lang-key="tip2_title">Software Updates</h3>
-                <p data-lang-key="tip2_desc">Always install the latest macOS updates for security and performance improvements.</p>
-            </div>
-
-            <div class="tip-card">
-                 <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 30 H 80 V 70 H 20 Z"></path>
-                    <path d="M20 40 H 80"></path>
-                    <path d="M20 50 H 80"></path>
-                    <path d="M20 60 H 80"></path>
-                    <path d="M30 30 V 20 H 70 V 30"></path>
-                    <path d="M45 70 V 80"></path>
-                    <path d="M55 70 V 80"></path>
-                </svg>
-                <h3 data-lang-key="tip3_title">Manage Storage</h3>
-                <p data-lang-key="tip3_desc">Regularly delete unnecessary files and empty the trash to free up disk space.</p>
-            </div>
-
-            <div class="tip-card">
-                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M85 50a35 35 0 0 1-70 0"></path>
-                    <path d="M80 55 C 80 80, 20 80, 20 55"></path>
-                    <path d="M40 50 L 50 60 L 60 50"></path>
-                    <path d="M50 60 V 20"></path>
-                </svg>
-                <h3 data-lang-key="tip4_title">Create Backups</h3>
-                <p data-lang-key="tip4_desc">Use Time Machine or cloud services to back up your important data regularly.</p>
-            </div>
-
-            <div class="tip-card">
-                 <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="20" y="30" width="60" height="40" rx="5"></rect>
-                    <path d="M80 45 H 85 V 55 H 80"></path>
-                    <path d="M45 45 L 55 55 M 55 45 L 45 55"></path>
-                </svg>
-                <h3 data-lang-key="tip5_title">Don't Block Vents</h3>
-                <p data-lang-key="tip5_desc">Ensure the ventilation openings are not blocked to prevent overheating.</p>
-            </div>
-
-            <div class="tip-card">
-                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M25,50 a25,25 0 1,0 50,0 a25,25 0 1,0 -50,0" />
-                    <path d="M50 25 V 10 M50 75 V 90 M25 50 H 10 M75 50 H 90" />
-                    <path d="M35 35 l 30 30 M65 35 l -30 30" />
-                </svg>
-                <h3 data-lang-key="tip6_title">Restart Occasionally</h3>
-                <p data-lang-key="tip6_desc">Restarting your Mac once in a while can clear memory and resolve minor issues.</p>
-            </div>
-            
-        </div>
-    </main>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuToggle = document.getElementById('menu-toggle');
-            const navMenu = document.getElementById('nav-menu');
-
-            menuToggle.addEventListener('click', () => {
-                menuToggle.classList.toggle('active');
-                navMenu.classList.toggle('active');
-            });
-
-            const translations = {
-                en: {
-                    mainTitle: "MacBook Maintenance Guide",
-                    tip1_title: "Clean Regularly",
-                    tip1_desc: "Wipe the screen and keyboard with a soft, microfiber cloth. Avoid harsh chemicals.",
-                    tip2_title: "Software Updates",
-                    tip2_desc: "Always install the latest macOS updates for security and performance improvements.",
-                    tip3_title: "Manage Storage",
-                    tip3_desc: "Regularly delete unnecessary files and empty the trash to free up disk space.",
-                    tip4_title: "Create Backups",
-                    tip4_desc: "Use Time Machine or cloud services to back up your important data regularly.",
-                    tip5_title: "Don't Block Vents",
-                    tip5_desc: "Ensure the ventilation openings are not blocked to prevent overheating.",
-                    tip6_title: "Restart Occasionally",
-                    tip6_desc: "Restarting your Mac once in a while can clear memory and resolve minor issues."
-                },
-                de: {
-                    mainTitle: "MacBook Wartungs-Guide",
-                    tip1_title: "Regelmäßig reinigen",
-                    tip1_desc: "Wische Bildschirm und Tastatur mit einem weichen Mikrofasertuch. Vermeide aggressive Chemikalien.",
-                    tip2_title: "Software-Updates",
-                    tip2_desc: "Installiere immer die neuesten macOS-Updates für Sicherheits- und Leistungsverbesserungen.",
-                    tip3_title: "Speicher verwalten",
-                    tip3_desc: "Lösche regelmäßig unnötige Dateien und leere den Papierkorb, um Speicherplatz freizugeben.",
-                    tip4_title: "Backups erstellen",
-                    tip4_desc: "Nutze Time Machine oder Cloud-Dienste, um deine wichtigen Daten regelmäßig zu sichern.",
-                    tip5_title: "Lüfter freihalten",
-                    tip5_desc: "Stelle sicher, dass die Lüftungsöffnungen nicht blockiert sind, um eine Überhitzung zu vermeiden.",
-                    tip6_title: "Gelegentlich neustarten",
-                    tip6_desc: "Ein gelegentlicher Neustart deines Macs kann den Arbeitsspeicher leeren und kleine Probleme beheben."
-                },
-                es: {
-                    mainTitle: "Guía de Mantenimiento para MacBook",
-                    tip1_title: "Limpiar Regularmente",
-                    tip1_desc: "Limpia la pantalla y el teclado con un paño suave de microfibra. Evita químicos agresivos.",
-                    tip2_title: "Actualizaciones de Software",
-                    tip2_desc: "Instala siempre las últimas actualizaciones de macOS para mejoras de seguridad y rendimiento.",
-                    tip3_title: "Gestionar Almacenamiento",
-                    tip3_desc: "Elimina archivos innecesarios y vacía la papelera regularmente para liberar espacio en disco.",
-                    tip4_title: "Crear Copias de Seguridad",
-                    tip4_desc: "Usa Time Machine o servicios en la nube para hacer copias de seguridad de tus datos importantes.",
-                    tip5_title: "No Bloquear Ventiladores",
-                    tip5_desc: "Asegúrate de que las aberturas de ventilación no estén bloqueadas para evitar el sobrecalentamiento.",
-                    tip6_title: "Reiniciar Ocasionalmente",
-                    tip6_desc: "Reiniciar tu Mac de vez en cuando puede liberar memoria y resolver problemas menores."
-                }
-            };
-
-            const langButtons = document.querySelectorAll('.lang-btn');
-            const translatableElements = document.querySelectorAll('[data-lang-key]');
-
-            const setLanguage = (lang) => {
-                translatableElements.forEach(el => {
-                    const key = el.getAttribute('data-lang-key');
-                    if (translations[lang] && translations[lang][key]) {
-                        el.textContent = translations[lang][key];
-                    }
-                });
-                document.documentElement.lang = lang;
-                
-                langButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.getAttribute('data-lang') === lang) {
-                        btn.classList.add('active');
-                    }
-                });
-                
-                localStorage.setItem('preferredLanguage', lang);
-            };
-
-            langButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const selectedLang = e.target.getAttribute('data-lang');
-                    setLanguage(selectedLang);
-                    
-                    if (navMenu.classList.contains('active')) {
-                        menuToggle.classList.remove('active');
-                        navMenu.classList.remove('active');
-                    }
-                });
-            });
-
-            const getInitialLanguage = () => {
-                const savedLang = localStorage.getItem('preferredLanguage');
-                if (savedLang && translations[savedLang]) {
-                    return savedLang;
-                }
-                
-                const browserLang = navigator.language.split('-')[0];
-                if (translations[browserLang]) {
-                    return browserLang;
-                }
-                
-                return 'en';
-            };
-
-            setLanguage(getInitialLanguage());
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

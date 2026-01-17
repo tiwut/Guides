@@ -3,378 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Was ist KI? | What is AI? | ¿Qué es la IA?</title>
-    
+    <title>What is AI</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --text-color: #1a1a1a;
-            --primary-color: #007bff;
-            --card-bg-color: #ffffff;
-            --card-border-color: #e1e5e8;
-            --nav-bg-color: rgba(255, 255, 255, 0.7);
-            --shadow-color: rgba(0, 0, 0, 0.05);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #121212;
-                --text-color: #e1e1e1;
-                --primary-color: #4dabf7;
-                --card-bg-color: #1e1e1e;
-                --card-border-color: #2c2c2c;
-                --nav-bg-color: rgba(20, 20, 20, 0.7);
-                --shadow-color: rgba(0, 0, 0, 0.2);
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        nav {
-            position: sticky;
-            top: 0;
-            width: 100%;
-            padding: 1rem 5%;
-            z-index: 1000;
-            background-color: var(--nav-bg-color);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--card-border-color);
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
-
-        .lang-switcher {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .lang-btn {
-            background-color: transparent;
-            border: 1px solid var(--card-border-color);
-            color: var(--text-color);
-            padding: 0.5rem 0.8rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .lang-btn:hover {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        .lang-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem 4rem 1.5rem;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .header-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1rem auto;
-            color: var(--primary-color);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--text-color);
-            opacity: 0.7;
-        }
-
-        .content-section {
-            margin-bottom: 3rem;
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 0.5rem;
-            display: inline-block;
-        }
-
-        p {
-            margin-bottom: 1rem;
-            font-size: 1.05rem;
-        }
-        
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background-color: var(--card-bg-color);
-            border: 1px solid var(--card-border-color);
+        .drawing-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
             border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px var(--shadow-color);
-            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px var(--shadow-color);
-        }
-
-        .card-icon {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            h2 {
-                font-size: 1.5rem;
-            }
-            nav {
-                padding: 1rem 1.5rem;
-            }
+        .drawing-container svg {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
+<body class="guide-page">
 
-    <nav>
-        <div class="lang-switcher">
-            <button class="lang-btn" data-lang-switch="de">DE</button>
-            <button class="lang-btn" data-lang-switch="en">EN</button>
-            <button class="lang-btn" data-lang-switch="es">ES</button>
-        </div>
+    <nav id="sidebar">
+        <h2>What is AI</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
+        </ul>
     </nav>
 
-    <main>
+    <div id="main-content">
         <header>
-            <div class="header-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M12 8a4.001 4.001 0 0 0-3.932 3.522A3.59 3.59 0 0 0 7.5 11H6a5.002 5.002 0 0 1 4.568-4.949A4.956 4.956 0 0 1 12 6a5 5 0 0 1 5 5h-1.5a3.5 3.5 0 0 0-3.5-3.5zm5.432 6.949A5.002 5.002 0 0 1 12 18a4.956 4.956 0 0 1-1.432-.222A4.001 4.001 0 0 0 12 16a3.5 3.5 0 0 0 3.5-3.5H17a3.59 3.59 0 0 0-.068-.522zM12 14a2 2 0 1 1 .001-3.999A2 2 0 0 1 12 14z"></path></svg>
-            </div>
-            <h1 data-key="mainTitle"></h1>
-            <p class="subtitle" data-key="mainSubtitle"></p>
+            <h1>What is AI</h1>
+            <p>Welcome to the comprehensive guide on What is AI. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
         </header>
 
-        <section class="content-section">
-            <h2 data-key="whatIsAiTitle"></h2>
-            <p data-key="whatIsAiText1"></p>
-            <p data-key="whatIsAiText2"></p>
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>What is AI</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make What is AI powerful and useful.</p>
         </section>
 
-        <section class="content-section">
-            <h2 data-key="typesOfAiTitle"></h2>
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.479,10.092,14,4.613V2H10V4.613L4.521,10.092A2,2,0,0,0,4,11.5v6A2.5,2.5,0,0,0,6.5,20h11A2.5,2.5,0,0,0,20,17.5v-6A2,2,0,0,0,19.479,10.092ZM18,17.5a.5.5,0,0,1-.5.5h-11a.5.5,0,0,1-.5-.5v-6a.044.044,0,0,1,0-.057l.008-.012L12,5.545l6,5.886.008.012a.044.044,0,0,1,0,.057Z"></path><path d="M12 10a4 4 0 1 0 4 4A4 4 0 0 0 12 10zm0 6a2 2 0 1 1 2-2A2 2 0 0 1 12 16z"></path></svg>
-                    </div>
-                    <h3 data-key="aniTitle"></h3>
-                    <p data-key="aniDescription"></p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2A10,10,0,0,0,2,12a9.84,9.84,0,0,0,1.46,5.24L4,16.69A8,8,0,1,1,12,20a7.92,7.92,0,0,1-4.9-1.7l-.55.55A1,1,0,0,0,6,20.21l.54-.54a1,1,0,0,0-1.41-1.41l-.55.54a1,1,0,0,0,1.41,1.41l.55-.54a7.89,7.89,0,0,1-3.21-3.21l.54.55a1,1,0,0,0,1.41-1.41l-.54-.55a1,1,0,0,0-1.41,1.41l-.54-.55a9.84,9.84,0,0,0,5.24,1.46L7.31,16A8,8,0,1,1,20,12,7.92,7.92,0,0,1,18.3,7.1l.55-.55A1,1,0,0,0,20.21,6l-.54.54a1,1,0,0,0-1.41-1.41l.55-.54a1,1,0,0,0-1.41-1.41l-.54.55A7.89,7.89,0,0,1,14,2.33l.55.54A1,1,0,0,0,16,4.28l-.55-.55A1,1,0,0,0,14.05,2.32Z"></path><circle cx="12" cy="12" r="4"></circle></svg>
-                    </div>
-                    <h3 data-key="agiTitle"></h3>
-                    <p data-key="agiDescription"></p>
-                </div>
-                <div class="card">
-                     <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2C6.486,2,2,6.486,2,12s4.486,10,10,10,10-4.486,10-10S17.514,2,12,2Zm5.22,13.159a.994.994,0,0,1-1.408,0l-2.829-2.829a.994.994,0,0,1,0-1.408l2.829-2.829a.994.994,0,1,1,1.408,1.408L14.057,12l2.163,2.163A.994.994,0,0,1,17.22,15.159ZM8.188,15.159a.994.994,0,0,1-1.408-1.408L8.943,12,6.78,9.841a.994.994,0,0,1,1.408-1.408l2.829,2.829a.994.994,0,0,1,0,1.408L8.188,15.159Z"></path></svg>
-                    </div>
-                    <h3 data-key="asiTitle"></h3>
-                    <p data-key="asiDescription"></p>
-                </div>
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
             </div>
         </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with What is AI, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
 
-        <section class="content-section">
-            <h2 data-key="howAiLearnsTitle"></h2>
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C9.243 2 7 4.243 7 7v2.585l-2.293 2.293a1 1 0 0 0-.293.708V18a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-5.414a1 1 0 0 0-.293-.707L17 9.586V7c0-2.757-2.243-5-5-5zm0 2c1.654 0 3 1.346 3 3v2H9V7c0-1.654 1.346-3 3-3zm-1 9h2v3h-2v-3z"></path></svg>
-                    </div>
-                    <h3 data-key="mlTitle"></h3>
-                    <p data-key="mlDescription"></p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M5 11h2v2H5zm4 0h2v2H9zm4 0h2v2h-2zm4-4h-2V5h2v2zm-4-2V3h2v2h-2zm-2 2h2V5h-2v2zm-2-2h-2V3h2v2zm-2 4V9h2v2H9zm-4 2H3V9h2v2zm2 2v2H5v-2h2zm2 0h2v-2H9v2zm2-2v-2h2v2h-2zm4 2v2h-2v-2h2zm2-2h-2v2h2v-2zm-2-2h2V9h-2v2zm-2-4h2V5h-2v2zM7 5v2H5V5h2zM5 3v2H3V3h2zm16 2h-2V3h2v2zm0 4h-2v2h-2v2h2v2h2v-2h2v-2h-2V9h-2V7z"></path></svg>
-                    </div>
-                    <h3 data-key="dlTitle"></h3>
-                    <p data-key="dlDescription"></p>
-                </div>
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
             </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
         </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
+    </div>
 
-        <section class="content-section">
-            <h2 data-key="examplesTitle"></h2>
-            <p data-key="examplesText"></p>
-        </section>
-
-    </main>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const translations = {
-                en: {
-                    mainTitle: "What is AI?",
-                    mainSubtitle: "An Introduction to the Basics",
-                    whatIsAiTitle: "What exactly is Artificial Intelligence?",
-                    whatIsAiText1: "Artificial Intelligence (AI) is a branch of computer science that aims to create machines capable of performing tasks that typically require human intelligence. This includes learning, reasoning, problem-solving, perception, and language understanding.",
-                    whatIsAiText2: "Instead of being explicitly programmed for a specific task, many AI systems are designed to learn from data, identify patterns, and make decisions with minimal human intervention.",
-                    typesOfAiTitle: "The Different Types of AI",
-                    aniTitle: "Artificial Narrow Intelligence (ANI)",
-                    aniDescription: "Also known as Weak AI. These systems are designed for a specific task, such as virtual assistants (Siri, Alexa), image recognition, or playing chess. All currently existing AI is ANI.",
-                    agiTitle: "Artificial General Intelligence (AGI)",
-                    agiDescription: "Also known as Strong AI. This is a hypothetical AI that would have human-like intelligence; the ability to understand, learn, and apply its knowledge to solve any problem. AGI does not yet exist.",
-                    asiTitle: "Artificial Superintelligence (ASI)",
-                    asiDescription: "A hypothetical AI that would not just mimic human intelligence but surpass it in every aspect – from creative thinking to problem-solving and social skills. It's a concept from science fiction for now.",
-                    howAiLearnsTitle: "How Does AI Learn?",
-                    mlTitle: "Machine Learning (ML)",
-                    mlDescription: "A subset of AI where algorithms are 'trained' on large amounts of data. They learn to recognize patterns in this data to make predictions or decisions. For example, a spam filter learns from thousands of emails.",
-                    dlTitle: "Deep Learning (DL)",
-                    dlDescription: "A subset of ML that uses 'neural networks' with many layers (hence 'deep'). It is particularly effective for complex patterns, such as recognizing objects in images or understanding natural language.",
-                    examplesTitle: "Practical Examples",
-                    examplesText: "You encounter AI every day: in recommendation systems on Netflix or Spotify, in navigation apps like Google Maps that predict traffic, in language translation services, and in the camera of your smartphone that optimizes photos automatically."
-                },
-                de: {
-                    mainTitle: "Was ist KI?",
-                    mainSubtitle: "Eine Einführung in die Grundlagen",
-                    whatIsAiTitle: "Was genau ist Künstliche Intelligenz?",
-                    whatIsAiText1: "Künstliche Intelligenz (KI) ist ein Teilgebiet der Informatik, das sich mit der Schaffung von Maschinen befasst, die Aufgaben ausführen können, die typischerweise menschliche Intelligenz erfordern. Dazu gehören Lernen, logisches Denken, Problemlösung, Wahrnehmung und Sprachverständnis.",
-                    whatIsAiText2: "Anstatt explizit für eine bestimmte Aufgabe programmiert zu werden, sind viele KI-Systeme darauf ausgelegt, aus Daten zu lernen, Muster zu erkennen und Entscheidungen mit minimalem menschlichen Eingriff zu treffen.",
-                    typesOfAiTitle: "Die verschiedenen Arten von KI",
-                    aniTitle: "Künstliche Schwache Intelligenz (ANI)",
-                    aniDescription: "Auch als schwache KI bekannt. Diese Systeme sind für eine bestimmte Aufgabe konzipiert, wie virtuelle Assistenten (Siri, Alexa), Bilderkennung oder Schachspielen. Alle derzeit existierende KI ist ANI.",
-                    agiTitle: "Künstliche Allgemeine Intelligenz (AGI)",
-                    agiDescription: "Auch als starke KI bekannt. Dies ist eine hypothetische KI, die eine menschenähnliche Intelligenz hätte; die Fähigkeit, Wissen zu verstehen, zu lernen und anzuwenden, um jedes Problem zu lösen. AGI existiert noch nicht.",
-                    asiTitle: "Künstliche Superintelligenz (ASI)",
-                    asiDescription: "Eine hypothetische KI, die menschliche Intelligenz nicht nur nachahmen, sondern in jeder Hinsicht übertreffen würde – von kreativem Denken bis hin zu Problemlösung und sozialen Fähigkeiten. Vorerst ist dies ein Konzept aus der Science-Fiction.",
-                    howAiLearnsTitle: "Wie lernt eine KI?",
-                    mlTitle: "Maschinelles Lernen (ML)",
-                    mlDescription: "Ein Teilbereich der KI, bei dem Algorithmen mit großen Datenmengen 'trainiert' werden. Sie lernen, Muster in diesen Daten zu erkennen, um Vorhersagen oder Entscheidungen zu treffen. Ein Spam-Filter lernt zum Beispiel aus Tausenden von E-Mails.",
-                    dlTitle: "Deep Learning (DL)",
-                    dlDescription: "Ein Teilbereich des ML, der 'neuronale Netze' mit vielen Schichten (daher 'deep') verwendet. Er ist besonders effektiv für komplexe Muster, wie das Erkennen von Objekten in Bildern oder das Verstehen natürlicher Sprache.",
-                    examplesTitle: "Praktische Beispiele",
-                    examplesText: "Sie begegnen KI jeden Tag: in Empfehlungssystemen auf Netflix oder Spotify, in Navigations-Apps wie Google Maps, die den Verkehr vorhersagen, bei Sprachübersetzungsdiensten und in der Kamera Ihres Smartphones, die Fotos automatisch optimiert."
-                },
-                es: {
-                    mainTitle: "¿Qué es la IA?",
-                    mainSubtitle: "Una Introducción a los Fundamentos",
-                    whatIsAiTitle: "¿Qué es exactamente la Inteligencia Artificial?",
-                    whatIsAiText1: "La Inteligencia Artificial (IA) es una rama de la informática que tiene como objetivo crear máquinas capaces de realizar tareas que típicamente requieren inteligencia humana. Esto incluye el aprendizaje, el razonamiento, la resolución de problemas, la percepción y la comprensión del lenguaje.",
-                    whatIsAiText2: "En lugar de ser programados explícitamente para una tarea específica, muchos sistemas de IA están diseñados para aprender de los datos, identificar patrones y tomar decisiones con una mínima intervención humana.",
-                    typesOfAiTitle: "Los diferentes tipos de IA",
-                    aniTitle: "Inteligencia Artificial Estrecha (ANI)",
-                    aniDescription: "También conocida como IA Débil. Estos sistemas están diseñados para una tarea específica, como los asistentes virtuales (Siri, Alexa), el reconocimiento de imágenes o jugar al ajedrez. Toda la IA que existe actualmente es ANI.",
-                    agiTitle: "Inteligencia Artificial General (AGI)",
-                    agiDescription: "También conocida como IA Fuerte. Es una IA hipotética que tendría una inteligencia similar a la humana; la capacidad de entender, aprender y aplicar su conocimiento para resolver cualquier problema. La AGI aún no existe.",
-                    asiTitle: "Superinteligencia Artificial (ASI)",
-                    asiDescription: "Una IA hipotética que no solo imitaría la inteligencia humana, sino que la superaría en todos los aspectos, desde el pensamiento creativo hasta la resolución de problemas y las habilidades sociales. Por ahora, es un concepto de ciencia ficción.",
-                    howAiLearnsTitle: "¿Cómo aprende la IA?",
-                    mlTitle: "Aprendizaje Automático (Machine Learning)",
-                    mlDescription: "Un subconjunto de la IA donde los algoritmos son 'entrenados' con grandes cantidades de datos. Aprenden a reconocer patrones en estos datos para hacer predicciones o tomar decisiones. Por ejemplo, un filtro de spam aprende de miles de correos electrónicos.",
-                    dlTitle: "Aprendizaje Profundo (Deep Learning)",
-                    dlDescription: "Un subconjunto del ML que utiliza 'redes neuronales' con muchas capas (de ahí 'profundo'). Es particularmente efectivo para patrones complejos, como reconocer objetos en imágenes o entender el lenguaje natural.",
-                    examplesTitle: "Ejemplos Prácticos",
-                    examplesText: "Te encuentras con la IA todos los días: en los sistemas de recomendación de Netflix o Spotify, en aplicaciones de navegación como Google Maps que predicen el tráfico, en servicios de traducción de idiomas y en la cámara de tu smartphone que optimiza las fotos automáticamente."
-                }
-            };
-
-            const langSwitcher = document.querySelector('.lang-switcher');
-            
-            const setLanguage = (lang) => {
-                if (!translations[lang]) return;
-
-                document.documentElement.lang = lang;
-                localStorage.setItem('language', lang);
-
-                document.querySelectorAll('[data-key]').forEach(element => {
-                    const key = element.getAttribute('data-key');
-                    if (translations[lang][key]) {
-                        element.innerHTML = translations[lang][key];
-                    }
-                });
-
-                langSwitcher.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.getAttribute('data-lang-switch') === lang) {
-                        btn.classList.add('active');
-                    }
-                });
-            };
-
-            langSwitcher.addEventListener('click', (event) => {
-                const lang = event.target.closest('.lang-btn')?.dataset.langSwitch;
-                if (lang) {
-                    setLanguage(lang);
-                }
-            });
-
-            const getInitialLanguage = () => {
-                const savedLang = localStorage.getItem('language');
-                if (savedLang && translations[savedLang]) {
-                    return savedLang;
-                }
-
-                const browserLang = navigator.language.split('-')[0];
-                if (translations[browserLang]) {
-                    return browserLang;
-                }
-                
-                return 'en';
-            };
-
-            setLanguage(getInitialLanguage());
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
-
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

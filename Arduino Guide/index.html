@@ -1,649 +1,104 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang="pageTitle">Arduino Guide</title>
+    <title>Arduino Guide</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --primary-color: #00979D;
-            --primary-hover: #007a7f;
-            --bg-color: #f4f7f9;
-            --card-bg-color: #ffffff;
-            --text-color: #2c3e50;
-            --subtle-text-color: #7f8c8d;
-            --border-color: #ecf0f1;
-            --code-bg-color: #2d2d2d;
-            --code-text-color: #f1f1f1;
-            --shadow-color: rgba(0, 0, 0, 0.08);
-            --nav-height: 70px;
-        }
-
-        body.dark-mode {
-            --bg-color: #1a1a1a;
-            --card-bg-color: #252525;
-            --text-color: #ecf0f1;
-            --subtle-text-color: #95a5a6;
-            --border-color: #34495e;
-            --code-bg-color: #1e1e1e;
-            --shadow-color: rgba(0, 0, 0, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--nav-height);
-            background-color: var(--card-bg-color);
-            box-shadow: 0 2px 10px var(--shadow-color);
-            z-index: 1000;
-            transition: background-color 0.3s;
-        }
-
-        .nav-wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 100%;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-        
-        
-        .nav-list {
-            display: flex;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-left: 25px;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            transition: color 0.2s;
-            font-size: 1rem;
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color);
-        }
-        
-        .language-switcher, .theme-switcher {
-            display: flex;
-            align-items: center;
-            margin-left: 25px;
-            border-left: 1px solid var(--border-color);
-            padding-left: 25px;
-        }
-
-        .lang-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            padding: 5px;
-            margin: 0 5px;
-            color: var(--subtle-text-color);
-            transition: color 0.2s;
-        }
-
-        .lang-btn.active {
-            color: var(--primary-color);
-        }
-        
-        .theme-toggle {
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            width: 24px;
-            height: 24px;
-        }
-
-        .theme-toggle .icon {
-            transition: transform 0.3s ease-out;
-        }
-
-        body:not(.dark-mode) .moon-icon { display: block; }
-        body:not(.dark-mode) .sun-icon { display: none; }
-        body.dark-mode .moon-icon { display: none; }
-        body.dark-mode .sun-icon { display: block; }
-
-        .nav-toggle {
-            display: none;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 10px;
-            z-index: 1001; 
-        }
-        
-        .hamburger {
-            width: 25px;
-            height: 2px;
-            background-color: var(--text-color);
-            display: block;
+        .drawing-container {
             position: relative;
-            transition: background-color 0.2s;
-        }
-
-        .hamburger::before, .hamburger::after {
-            content: '';
-            width: 25px;
-            height: 2px;
-            background-color: var(--text-color);
-            position: absolute;
-            left: 0;
-            transition: transform 0.3s, top 0.3s;
-        }
-        .hamburger::before { top: -8px; }
-        .hamburger::after { top: 8px; }
-
-        .nav-toggle.active .hamburger { background-color: transparent; }
-        .nav-toggle.active .hamburger::before { transform: rotate(45deg); top: 0; }
-        .nav-toggle.active .hamburger::after { transform: rotate(-45deg); top: 0; }
-        
-        main {
-            padding-top: calc(var(--nav-height) + 40px);
-            padding-bottom: 40px;
-        }
-
-        .guide-section {
-            background-color: var(--card-bg-color);
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
             border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 15px var(--shadow-color);
-            transition: background-color 0.3s, box-shadow 0.3s;
-            scroll-margin-top: calc(var(--nav-height) + 20px);
-        }
-
-        h2 {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        p {
-            margin-bottom: 20px;
-            color: var(--subtle-text-color);
-        }
-
-        .sketch-container {
-            width: 100%;
-            max-width: 450px;
-            margin: 20px auto 40px;
             padding: 20px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .guide-sketch {
+        .drawing-container svg {
             width: 100%;
             height: auto;
-            stroke-width: 2;
-        }
-        
-        .guide-sketch .board { fill: var(--primary-color); }
-        .guide-sketch .component { fill: var(--card-bg-color); stroke: var(--text-color); }
-        .guide-sketch .wire-red { stroke: #e74c3c; }
-        .guide-sketch .wire-black { stroke: var(--text-color); }
-        .guide-sketch .wire-data { stroke: #f1c40f; }
-        .guide-sketch .label { fill: var(--text-color); font-size: 10px; font-family: monospace; }
-        .guide-sketch .led-light { fill: #e74c3c; }
-
-
-        pre {
-            background-color: var(--code-bg-color);
-            color: var(--code-text-color);
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-family: "Fira Code", "Courier New", monospace;
-            font-size: 0.9rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--subtle-text-color);
-            font-size: 0.9rem;
-        }
-        
-        @media (max-width: 820px) {
-            .nav-toggle {
-                display: block;
-            }
-
-            
-            .nav-menu {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 70%;
-                max-width: 300px;
-                height: 100vh;
-                background-color: var(--card-bg-color);
-                transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-                box-shadow: -5px 0 15px var(--shadow-color);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-            
-            .nav-menu.active {
-                right: 0;
-            }
-
-            
-            .nav-list {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .nav-item {
-                margin: 20px 0;
-                margin-left: 0;
-            }
-            
-            .nav-link {
-                font-size: 1.2rem;
-            }
-
-            .language-switcher, .theme-switcher {
-                margin-left: 0;
-                padding-left: 0;
-                border-left: none;
-                margin-top: 20px;
-            }
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
+<body class="guide-page">
 
-    <header>
-        <div class="container nav-wrapper">
-            <a href="#" class="logo">Arduino Guide</a>
-            <nav class="nav-menu" id="nav-menu">
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="#intro" class="nav-link" data-lang="navIntro">Einführung</a></li>
-                    <li class="nav-item"><a href="#led" class="nav-link" data-lang="navLed">LED Blinken</a></li>
-                    <li class="nav-item"><a href="#sensor" class="nav-link" data-lang="navSensor">Sensor Auslesen</a></li>
-                    <li class="nav-item language-switcher">
-                        <button class="lang-btn" data-lang-id="de">DE</button>
-                        <button class="lang-btn" data-lang-id="en">EN</button>
-                        <button class="lang-btn" data-lang-id="es">ES</button>
-                    </li>
-                    <li class="nav-item theme-switcher">
-                       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-                           <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                           <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                       </button>
-                    </li>
-                </ul>
-            </nav>
-            <div class="nav-toggle" id="nav-toggle">
-                <span class="hamburger"></span>
-            </div>
-        </div>
-    </header>
+    <nav id="sidebar">
+        <h2>Arduino Guide</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
+        </ul>
+    </nav>
 
-    <main class="container">
+    <div id="main-content">
+        <header>
+            <h1>Arduino Guide</h1>
+            <p>Welcome to the comprehensive guide on Arduino Guide. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+        </header>
+
         <section id="intro" class="guide-section">
-            <h2 data-lang="introTitle">Was ist ein Arduino?</h2>
-            <p data-lang="introText">Ein Arduino ist eine Open-Source-Elektronikplattform, die auf einfach zu bedienender Hardware und Software basiert. Es ist das "Gehirn" deines Projekts, das Sensoren liest, Motoren steuert, Lichter anmacht und vieles mehr. Perfekt für Anfänger, die in die Welt der Elektronik und Programmierung eintauchen wollen.</p>
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Arduino Guide</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Arduino Guide powerful and useful.</p>
         </section>
 
-        <section id="led" class="guide-section">
-            <h2 data-lang="ledTitle">Dein erstes Projekt: Eine LED blinken lassen</h2>
-            <p data-lang="ledText">Das "Hallo Welt" der Elektronik. Wir verbinden eine LED mit dem Arduino und lassen sie in einem einfachen Rhythmus blinken. Dies lehrt dich die Grundlagen der digitalen Ausgänge und der `delay()`-Funktion.</p>
-            
-            <div class="sketch-container">
-                <svg viewBox="0 0 200 120" class="guide-sketch">
-                    <rect class="board" x="10" y="10" width="120" height="100" rx="5"/>
-                    <rect class="component" x="150" y="30" width="40" height="40" rx="3"/>
-                    <text class="label" x="160" y="25">Breadboard</text>
-                    <path class="wire-data" d="M 60 10 V 0 H 160 V 30" fill="none"/>
-                    <text class="label" x="55" y="5">13</text>
-                    <path d="M 160 50 l 10 0 l -5 -10 l -5 10 z" class="component"/>
-                    <path class="led-light" d="M 160 50 l -5 -10 l -5 10 z" fill-opacity="0.5"/>
-                    <rect class="component" x="168" y="48" width="14" height="4" />
-                    <path class="wire-black" d="M 182 50 H 195 V 0 H 90 V 10" fill="none"/>
-                    <text class="label" x="83" y="5">GND</text>
-                </svg>
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
             </div>
-
-            <pre><code data-lang="ledCode">// Pin 13 hat eine eingebaute LED
-int ledPin = 13; 
-
-// Die Setup-Funktion läuft einmal, wenn du den Reset-Knopf drückst
-void setup() {
-  // Initialisiert den digitalen Pin als Ausgang.
-  pinMode(ledPin, OUTPUT);
-}
-
-// Die Loop-Funktion läuft immer wieder
-void loop() {
-  digitalWrite(ledPin, HIGH);   // Schaltet die LED an
-  delay(1000);                  // Wartet eine Sekunde
-  digitalWrite(ledPin, LOW);    // Schaltet die LED aus
-  delay(1000);                  // Wartet eine Sekunde
-}</code></pre>
+        </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Arduino Guide, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
         </section>
 
-        <section id="sensor" class="guide-section">
-            <h2 data-lang="sensorTitle">Input erhalten: Einen Sensor auslesen</h2>
-            <p data-lang="sensorText">Jetzt bringen wir den Arduino dazu, die Außenwelt wahrzunehmen. Wir schließen einen einfachen analogen Sensor (wie einen Fotowiderstand oder ein Potentiometer) an und lesen seine Werte aus. Dies zeigt dir, wie man analoge Eingänge verwendet und Daten über den Seriellen Monitor anzeigt.</p>
-            
-             <div class="sketch-container">
-                <svg viewBox="0 0 200 120" class="guide-sketch">
-                    <rect class="board" x="10" y="10" width="120" height="100" rx="5"/>
-                    <rect class="component" x="150" y="30" width="40" height="60" rx="3"/>
-                    <text class="label" x="155" y="25">Sensor</text>
-                    
-                    <path class="wire-red" d="M 100 110 V 120 H 155 V 90" fill="none"/>
-                    <text class="label" x="97" y="115">5V</text>
-                    <text class="label" x="145" y="85">VCC</text>
-                    
-                    <path class="wire-black" d="M 90 110 V 120 H 165 V 90" fill="none"/>
-                    <text class="label" x="83" y="115">GND</text>
-                    <text class="label" x="165" y="85">GND</text>
-
-                    <path class="wire-data" d="M 60 110 V 120 H 175 V 90" fill="none"/>
-                    <text class="label" x="55" y="115">A0</text>
-                    <text class="label" x="175" y="85">OUT</text>
-                </svg>
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
             </div>
-
-            <pre><code data-lang="sensorCode">// Pin, an den der Sensor angeschlossen ist
-int sensorPin = A0;
-int sensorValue = 0;
-
-void setup() {
-  // Startet die serielle Kommunikation, um Werte an den Computer zu senden
-  Serial.begin(9600);
-}
-
-void loop() {
-  // Liest den Wert vom analogen Pin
-  sensorValue = analogRead(sensorPin);
-  
-  // Sendet den Wert an den Seriellen Monitor
-  Serial.println(sensorValue);
-  
-  delay(100); // Kleine Pause, um die Ausgabe nicht zu überfluten
-}</code></pre>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
         </section>
-    </main>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
+    </div>
 
-    <footer>
-        <p data-lang="footerText">Ein interaktiver Guide. Erstellt mit HTML, CSS & JavaScript.</p>
-    </footer>
-
-    <script>
-        const translations = {
-            de: {
-                pageTitle: "Arduino Guide für Anfänger",
-                navIntro: "Einführung",
-                navLed: "LED Blinken",
-                navSensor: "Sensor Auslesen",
-                introTitle: "Was ist ein Arduino?",
-                introText: "Ein Arduino ist eine Open-Source-Elektronikplattform, die auf einfach zu bedienender Hardware und Software basiert. Es ist das 'Gehirn' deines Projekts, das Sensoren liest, Motoren steuert, Lichter anmacht und vieles mehr. Perfekt für Anfänger, die in die Welt der Elektronik und Programmierung eintauchen wollen.",
-                ledTitle: "Dein erstes Projekt: Eine LED blinken lassen",
-                ledText: "Das 'Hallo Welt' der Elektronik. Wir verbinden eine LED mit dem Arduino und lassen sie in einem einfachen Rhythmus blinken. Dies lehrt dich die Grundlagen der digitalen Ausgänge und der `delay()`-Funktion.",
-                ledCode: `// Pin 13 hat auf den meisten Arduino-Boards eine eingebaute LED
-int ledPin = 13; 
-
-// Die Setup-Funktion läuft einmal, wenn du den Reset-Knopf drückst
-void setup() {
-  // Initialisiert den digitalen Pin als Ausgang.
-  pinMode(ledPin, OUTPUT);
-}
-
-// Die Loop-Funktion läuft unendlich oft hintereinander
-void loop() {
-  digitalWrite(ledPin, HIGH);   // Schaltet die LED an (HIGH ist der Spannungspegel)
-  delay(1000);                  // Wartet eine Sekunde (1000 Millisekunden)
-  digitalWrite(ledPin, LOW);    // Schaltet die LED aus
-  delay(1000);                  // Wartet noch eine Sekunde
-}`,
-                sensorTitle: "Input erhalten: Einen Sensor auslesen",
-                sensorText: "Jetzt bringen wir den Arduino dazu, die Außenwelt wahrzunehmen. Wir schließen einen einfachen analogen Sensor (wie einen Fotowiderstand oder ein Potentiometer) an und lesen seine Werte aus. Dies zeigt dir, wie man analoge Eingänge verwendet und Daten über den Seriellen Monitor anzeigt.",
-                sensorCode: `// Pin, an den der Sensor angeschlossen ist
-int sensorPin = A0;
-// Variable zum Speichern des Sensorwerts
-int sensorValue = 0;
-
-void setup() {
-  // Startet die serielle Kommunikation mit 9600 Bits pro Sekunde
-  // Öffne den Seriellen Monitor in der Arduino IDE, um die Werte zu sehen
-  Serial.begin(9600);
-}
-
-void loop() {
-  // Liest den Wert vom analogen Pin (ein Wert zwischen 0 und 1023)
-  sensorValue = analogRead(sensorPin);
-  
-  // Sendet den Wert an den Seriellen Monitor, gefolgt von einem Zeilenumbruch
-  Serial.println(sensorValue);
-  
-  delay(100); // Kleine Pause, um die Ausgabe nicht zu überfluten
-}`,
-                footerText: "Ein interaktiver Guide. Erstellt mit HTML, CSS & JavaScript."
-            },
-            en: {
-                pageTitle: "Arduino Guide for Beginners",
-                navIntro: "Introduction",
-                navLed: "Blinking an LED",
-                navSensor: "Reading a Sensor",
-                introTitle: "What is an Arduino?",
-                introText: "An Arduino is an open-source electronics platform based on easy-to-use hardware and software. It's the 'brain' of your project, reading sensors, controlling motors, turning on lights, and much more. Perfect for beginners looking to dive into the world of electronics and programming.",
-                ledTitle: "Your First Project: Blinking an LED",
-                ledText: "The 'Hello, World!' of electronics. We'll connect an LED to the Arduino and make it blink in a simple rhythm. This teaches you the basics of digital outputs and the `delay()` function.",
-                ledCode: `// Pin 13 has a built-in LED on most Arduino boards
-int ledPin = 13; 
-
-// The setup function runs once when you press reset or power the board
-void setup() {
-  // Initialize the digital pin as an output.
-  pinMode(ledPin, OUTPUT);
-}
-
-// The loop function runs over and over again forever
-void loop() {
-  digitalWrite(ledPin, HIGH);   // Turn the LED on (HIGH is the voltage level)
-  delay(1000);                  // Wait for a second (1000 milliseconds)
-  digitalWrite(ledPin, LOW);    // Turn the LED off
-  delay(1000);                  // Wait for another second
-}`,
-                sensorTitle: "Getting Input: Reading a Sensor",
-                sensorText: "Now let's make the Arduino perceive the outside world. We'll connect a simple analog sensor (like a photoresistor or potentiometer) and read its values. This shows you how to use analog inputs and display data via the Serial Monitor.",
-                sensorCode: `// Pin where the sensor is connected
-int sensorPin = A0;
-// Variable to store the sensor value
-int sensorValue = 0;
-
-void setup() {
-  // Start serial communication at 9600 bits per second
-  // Open the Serial Monitor in the Arduino IDE to see the values
-  Serial.begin(9600);
-}
-
-void loop() {
-  // Read the value from the analog pin (a value between 0 and 1023)
-  sensorValue = analogRead(sensorPin);
-  
-  // Send the value to the Serial Monitor, followed by a new line
-  Serial.println(sensorValue);
-  
-  delay(100); // A short pause to avoid flooding the output
-}`,
-                footerText: "An interactive guide. Created with HTML, CSS & JavaScript."
-            },
-            es: {
-                pageTitle: "Guía de Arduino para Principiantes",
-                navIntro: "Introducción",
-                navLed: "Parpadear un LED",
-                navSensor: "Leer un Sensor",
-                introTitle: "¿Qué es un Arduino?",
-                introText: "Arduino es una plataforma de electrónica de código abierto basada en hardware y software fáciles de usar. Es el 'cerebro' de tu proyecto, que lee sensores, controla motores, enciende luces y mucho más. Perfecto para principiantes que quieren sumergirse en el mundo de la electrónica y la programación.",
-                ledTitle: "Tu primer proyecto: Hacer parpadear un LED",
-                ledText: "El '¡Hola, Mundo!' de la electrónica. Conectaremos un LED al Arduino y lo haremos parpadear a un ritmo simple. Esto te enseña los conceptos básicos de las salidas digitales y la función `delay()`.",
-                ledCode: `// El pin 13 tiene un LED incorporado en la mayoría de las placas Arduino
-int ledPin = 13; 
-
-// La función setup se ejecuta una vez cuando presionas reset o enciendes la placa
-void setup() {
-  // Inicializa el pin digital como una salida.
-  pinMode(ledPin, OUTPUT);
-}
-
-// La función loop se ejecuta una y otra vez para siempre
-void loop() {
-  digitalWrite(ledPin, HIGH);   // Enciende el LED (HIGH es el nivel de voltaje)
-  delay(1000);                  // Espera un segundo (1000 milisegundos)
-  digitalWrite(ledPin, LOW);    // Apaga el LED
-  delay(1000);                  // Espera otro segundo
-}`,
-                sensorTitle: "Obteniendo Entradas: Leer un Sensor",
-                sensorText: "Ahora hagamos que el Arduino perciba el mundo exterior. Conectaremos un sensor analógico simple (como una fotorresistencia o un potenciómetro) y leeremos sus valores. Esto te muestra cómo usar entradas analógicas y mostrar datos a través del Monitor Serie.",
-                sensorCode: `// Pin donde está conectado el sensor
-int sensorPin = A0;
-// Variable para almacenar el valor del sensor
-int sensorValue = 0;
-
-void setup() {
-  // Inicia la comunicación serial a 9600 bits por segundo
-  // Abre el Monitor Serie en el IDE de Arduino para ver los valores
-  Serial.begin(9600);
-}
-
-void loop() {
-  // Lee el valor del pin analógico (un valor entre 0 y 1023)
-  sensorValue = analogRead(sensorPin);
-  
-  // Envía el valor al Monitor Serie, seguido de una nueva línea
-  Serial.println(sensorValue);
-  
-  delay(100); // Una pequeña pausa para no inundar la salida
-}`,
-                footerText: "Una guía interactiva. Creada con HTML, CSS y JavaScript."
-            }
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const langButtons = document.querySelectorAll('.lang-btn');
-            const themeToggle = document.getElementById('theme-toggle');
-            const navToggle = document.getElementById('nav-toggle');
-            const navMenu = document.getElementById('nav-menu');
-            const navLinks = document.querySelectorAll('.nav-link');
-
-            const setLanguage = (lang) => {
-                if (!translations[lang]) lang = 'en';
-                
-                document.documentElement.lang = lang;
-                localStorage.setItem('language', lang);
-
-                document.querySelectorAll('[data-lang]').forEach(el => {
-                    const key = el.getAttribute('data-lang');
-                    if (translations[lang][key]) {
-                        el.textContent = translations[lang][key];
-                    }
-                });
-
-                langButtons.forEach(btn => {
-                    btn.classList.toggle('active', btn.getAttribute('data-lang-id') === lang);
-                });
-            };
-            
-            const detectLanguage = () => {
-                const savedLang = localStorage.getItem('language');
-                if (savedLang && translations[savedLang]) {
-                    return savedLang;
-                }
-                const browserLang = navigator.language.split('-')[0];
-                return translations[browserLang] ? browserLang : 'en';
-            };
-
-            const applyTheme = (theme) => {
-                if (theme === 'dark') {
-                    document.body.classList.add('dark-mode');
-                } else {
-                    document.body.classList.remove('dark-mode');
-                }
-                localStorage.setItem('theme', theme);
-            };
-
-            const initTheme = () => {
-                const savedTheme = localStorage.getItem('theme');
-                if (savedTheme) {
-                    applyTheme(savedTheme);
-                } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    applyTheme('dark');
-                } else {
-                    applyTheme('light');
-                }
-            };
-            
-            themeToggle.addEventListener('click', () => {
-                const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-                applyTheme(newTheme);
-            });
-            
-            langButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    setLanguage(e.target.getAttribute('data-lang-id'));
-                });
-            });
-
-            navToggle.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
-                navToggle.classList.toggle('active');
-            });
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    navMenu.classList.remove('active');
-                    navToggle.classList.remove('active');
-                });
-            });
-
-            setLanguage(detectLanguage());
-            initTheme();
-        });
-    </script>
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

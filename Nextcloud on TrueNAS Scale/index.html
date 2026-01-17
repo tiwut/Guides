@@ -3,485 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nextcloud on TrueNAS Scale Guide</title>
+    <title>Nextcloud on TrueNAS Scale</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-        :root {
-            --bg-color: #f4f7f9;
-            --card-bg-color: #ffffff;
-            --text-color: #2c3e50;
-            --text-light-color: #7f8c8d;
-            --accent-color: #007bff;
-            --border-color: #e1e8ed;
-            --shadow-color: rgba(44, 62, 80, 0.1);
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #1c1e26;
-            --card-bg-color: #282a36;
-            --text-color: #f8f8f2;
-            --text-light-color: #bd93f9;
-            --accent-color: #50fa7b;
-            --border-color: #44475a;
-            --shadow-color: rgba(0, 0, 0, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
+        .drawing-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 12px;
             padding: 20px;
-        }
-
-        .main-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            background-color: var(--bg-color);
-            z-index: 100;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 30px;
-        }
-
-        .logo {
-            font-weight: 600;
-            font-size: 1.5rem;
-        }
-
-        .logo span {
-            color: var(--accent-color);
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            list-style: none;
-        }
-
-        .lang-switcher button {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--text-light-color);
-            padding: 8px 12px;
-            margin-left: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .lang-switcher button:hover {
-            background-color: var(--accent-color);
-            color: var(--card-bg-color);
-            border-color: var(--accent-color);
-        }
-        
-        .lang-switcher button.active {
-            background-color: var(--accent-color);
-            color: var(--card-bg-color);
-            border-color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        .mobile-menu-toggle {
-            display: none;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-
-        .mobile-menu-toggle .bar {
-            display: block;
-            width: 25px;
-            height: 3px;
-            margin: 5px auto;
-            background-color: var(--text-color);
-            transition: all 0.3s ease-in-out;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        
-        header p {
-            font-size: 1.2rem;
-            color: var(--text-light-color);
-        }
-
-        .guide-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-
-        .step-card {
-            background-color: var(--card-bg-color);
-            border-radius: 15px;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 10px 25px var(--shadow-color);
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .step-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px var(--shadow-color);
-        }
-        
-        .step-number {
-            background-color: var(--accent-color);
-            color: var(--card-bg-color);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-
-        .step-card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        
-        .step-card p {
-            color: var(--text-light-color);
-            max-width: 400px;
-        }
-
-        .sketch-container {
-            width: 100%;
-            max-width: 250px;
             margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .sketch-container svg {
+        .drawing-container svg {
             width: 100%;
             height: auto;
-            stroke: var(--text-color);
-            fill: none;
-            stroke-width: 1.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-toggle {
-                display: block;
-                z-index: 101;
-            }
-
-            .main-nav {
-                margin-bottom: 10px;
-            }
-
-            .nav-menu {
-                position: fixed;
-                left: -100%;
-                top: 0;
-                flex-direction: column;
-                justify-content: center;
-                background-color: var(--bg-color);
-                width: 100%;
-                height: 100vh;
-                text-align: center;
-                transition: 0.3s;
-                gap: 20px;
-            }
-
-            .nav-menu.active {
-                left: 0;
-            }
-            
-            .lang-switcher {
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .lang-switcher button {
-                padding: 15px 30px;
-                font-size: 1.2rem;
-            }
-
-            .mobile-menu-toggle.active .bar:nth-child(2) {
-                opacity: 0;
-            }
-            .mobile-menu-toggle.active .bar:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            .mobile-menu-toggle.active .bar:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-
-            header h1 {
-                font-size: 2.2rem;
-            }
-            header p {
-                font-size: 1rem;
-            }
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body data-theme="light">
+<body class="guide-page">
 
-    <div class="container">
-        <nav class="main-nav">
-            <div class="logo">Next<span>Cloud</span></div>
-            <ul class="nav-menu">
-                <li class="lang-switcher">
-                    <button data-lang="de">DE</button>
-                    <button data-lang="en">EN</button>
-                    <button data-lang="es">ES</button>
-                </li>
-            </ul>
-            <button class="mobile-menu-toggle">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-        </nav>
+    <nav id="sidebar">
+        <h2>Nextcloud on TrueNAS Scale</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
+        </ul>
+    </nav>
 
+    <div id="main-content">
         <header>
-            <h1 data-en="Nextcloud on TrueNAS Scale" data-de="Nextcloud auf TrueNAS Scale" data-es="Nextcloud en TrueNAS Scale"></h1>
-            <p data-en="A visual step-by-step installation guide" data-de="Eine visuelle Schritt-für-Schritt-Anleitung" data-es="Una guía de instalación visual paso a paso"></p>
+            <h1>Nextcloud on TrueNAS Scale</h1>
+            <p>Welcome to the comprehensive guide on Nextcloud on TrueNAS Scale. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
         </header>
 
-        <main class="guide-grid">
-            
-            <section class="step-card">
-                <div class="step-number">1</div>
-                <h2 data-en="Navigate to 'Apps'" data-de="Navigiere zu 'Apps'" data-es="Navega a 'Aplicaciones'"></h2>
-                <div class="sketch-container">
-                    <svg viewBox="0 0 100 60">
-                        <rect x="5" y="5" width="90" height="50" rx="3" fill="var(--card-bg-color)"/>
-                        <rect x="5" y="5" width="20" height="50" fill="var(--bg-color)" />
-                        <circle cx="15" cy="15" r="2" fill="var(--accent-color)"/>
-                        <rect x="10" y="25" width="10" height="2" />
-                        <rect x="10" y="30" width="10" height="2" />
-                        <rect x="10" y="35" width="10" height="2" />
-                        <rect x="30" y="15" width="20" height="15" rx="2" fill="var(--accent-color)" />
-                        <path d="M35,25 l5,5 l5,-5" stroke-width="2" stroke="var(--card-bg-color)"/>
-                        <text x="32" y="38" font-size="5" fill="var(--text-color)" data-en="Apps" data-de="Apps" data-es="Apps"></text>
-                        <rect x="55" y="15" width="20" height="15" rx="2" fill="var(--bg-color)" />
-                        <rect x="30" y="35" width="45" height="15" rx="2" fill="var(--bg-color)" />
-                    </svg>
-                </div>
-                <p data-en="In the TrueNAS Scale dashboard, go to the 'Apps' section." data-de="Gehe im TrueNAS Scale Dashboard zum Bereich 'Apps'." data-es="En el panel de TrueNAS Scale, ve a la sección 'Aplicaciones'."></p>
-            </section>
-            
-            <section class="step-card">
-                <div class="step-number">2</div>
-                <h2 data-en="Search for Nextcloud" data-de="Suche nach Nextcloud" data-es="Busca Nextcloud"></h2>
-                <div class="sketch-container">
-                    <svg viewBox="0 0 100 60">
-                         <rect x="15" y="10" width="70" height="10" rx="5" fill="var(--card-bg-color)"/>
-                         <circle cx="22" cy="15" r="2" />
-                         <path d="M25 15 L70 15" stroke-dasharray="2 2"/>
-                         <text x="28" y="16.5" font-size="5" fill="var(--text-color)">nextcloud</text>
-                         <rect x="15" y="28" width="25" height="25" rx="2" fill="var(--bg-color)" />
-                         <circle cx="27.5" cy="36" r="6" fill="#0082c9"/>
-                         <circle cx="27.5" cy="36" r="3" fill="var(--card-bg-color)"/>
-                         <text x="18" y="50" font-size="3" fill="var(--text-color)">Nextcloud</text>
-                    </svg>
-                </div>
-                <p data-en="In 'Available Applications', use the search bar to find 'Nextcloud'." data-de="Suche in 'Verfügbare Anwendungen' über die Suchleiste nach 'Nextcloud'." data-es="En 'Aplicaciones disponibles', usa la barra de búsqueda para encontrar 'Nextcloud'."></p>
-            </section>
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Nextcloud on TrueNAS Scale</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Nextcloud on TrueNAS Scale powerful and useful.</p>
+        </section>
 
-            <section class="step-card">
-                <div class="step-number">3</div>
-                <h2 data-en="Click 'Install'" data-de="Klicke auf 'Installieren'" data-es="Haz clic en 'Instalar'"></h2>
-                <div class="sketch-container">
-                    <svg viewBox="0 0 100 60">
-                        <rect x="20" y="10" width="60" height="40" rx="3" fill="var(--bg-color)"/>
-                        <circle cx="50" cy="22" r="6" fill="#0082c9"/>
-                        <circle cx="50" cy="22" r="3" fill="var(--card-bg-color)"/>
-                        <rect x="35" y="35" width="30" height="10" rx="3" fill="var(--accent-color)"/>
-                        <text x="43" y="42" font-size="5" fill="var(--card-bg-color)" data-en="Install" data-de="Install" data-es="Instalar"></text>
-                        <path d="M 68 40 L 75 45 L 70 50" stroke="var(--accent-color)" stroke-width="2"/>
-                    </svg>
-                </div>
-                <p data-en="Select the Nextcloud application from the list and click the 'Install' button." data-de="Wähle die Nextcloud-Anwendung aus der Liste aus und klicke auf den 'Installieren'-Button." data-es="Selecciona la aplicación Nextcloud de la lista y haz clic en el botón 'Instalar'."></p>
-            </section>
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+            </div>
+        </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Nextcloud on TrueNAS Scale, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
 
-            <section class="step-card">
-                <div class="step-number">4</div>
-                <h2 data-en="Basic Configuration" data-de="Grundkonfiguration" data-es="Configuración básica"></h2>
-                <div class="sketch-container">
-                    <svg viewBox="0 0 100 60">
-                        <path d="M 20 10 H 80 V 50 H 20 Z" fill="var(--card-bg-color)" />
-                        <text x="25" y="18" font-size="4" fill="var(--text-light-color)" data-en="Username" data-de="Benutzer" data-es="Usuario"></text>
-                        <rect x="25" y="20" width="50" height="5" rx="1" fill="var(--bg-color)" />
-                        <text x="25" y="33" font-size="4" fill="var(--text-light-color)" data-en="Password" data-de="Passwort" data-es="Contraseña"></text>
-                        <rect x="25" y="35" width="50" height="5" rx="1" fill="var(--bg-color)" />
-                        <circle cx="30" cy="37.5" r="0.5" fill="var(--text-color)"/>
-                        <circle cx="35" cy="37.5" r="0.5" fill="var(--text-color)"/>
-                        <circle cx="40" cy="37.5" r="0.5" fill="var(--text-color)"/>
-                    </svg>
-                </div>
-                <p data-en="Fill in the required fields like application name, admin username, and password." data-de="Fülle die erforderlichen Felder wie Anwendungsname, Admin-Benutzername und Passwort aus." data-es="Rellena los campos obligatorios como el nombre de la aplicación, usuario y contraseña de administrador."></p>
-            </section>
-
-            <section class="step-card">
-                <div class="step-number">5</div>
-                <h2 data-en="Configure Storage" data-de="Speicher konfigurieren" data-es="Configurar almacenamiento"></h2>
-                <div class="sketch-container">
-                   <svg viewBox="0 0 100 60">
-                        <rect x="20" y="20" width="25" height="20" rx="2" fill="var(--bg-color)"/>
-                        <text x="24" y="32" font-size="4" fill="var(--text-color)" >App</text>
-                        <path d="M 45 30 H 55" stroke-dasharray="2 2"/>
-                        <path d="M 55 30 L 52 27 M 55 30 L 52 33"/>
-                        <rect x="60" y="15" width="20" height="8" rx="1" fill="var(--card-bg-color)" />
-                        <rect x="60" y="26" width="20" height="8" rx="1" fill="var(--card-bg-color)" />
-                        <rect x="60" y="37" width="20" height="8" rx="1" fill="var(--accent-color)" />
-                        <text x="62" y="43" font-size="4" fill="var(--card-bg-color)">/data</text>
-                        <text x="50" y="15" font-size="4" fill="var(--text-light-color)" data-en="Persistent Volume" data-de="Persist. Speicher" data-es="Volumen Persistente"></text>
-                   </svg>
-                </div>
-                <p data-en="Set up a Persistent Volume for Nextcloud data. This ensures your files are safe." data-de="Richte einen Persistenten Speicher (Volume) für die Nextcloud-Daten ein. Dies sichert deine Dateien." data-es="Configura un Volumen Persistente para los datos de Nextcloud. Esto asegura que tus archivos estén a salvo."></p>
-            </section>
-            
-            <section class="step-card">
-                <div class="step-number">6</div>
-                <h2 data-en="Deploy and Wait" data-de="Bereitstellen & Warten" data-es="Desplegar y esperar"></h2>
-                <div class="sketch-container">
-                    <svg viewBox="0 0 100 60">
-                        <path d="M 50 10 L 55 20 L 60 15 L 65 25 L 50 40 Z" fill="var(--accent-color)"/>
-                        <path d="M 50 10 L 45 20 L 40 15 L 35 25 L 50 40 Z" fill-opacity="0.5" fill="var(--accent-color)"/>
-                        <path d="M 40 45 C 40 40 60 40 60 45" />
-                        <path d="M 45 50 L 42 55" />
-                        <path d="M 50 52 L 50 58" />
-                        <path d="M 55 50 L 58 55" />
-                        <text x="35" y="10" font-size="5" fill="var(--text-light-color)" data-en="Deploying..." data-de="Starte..." data-es="Desplegando..."></text>
-                    </svg>
-                </div>
-                <p data-en="Click 'Save' to deploy the application. It may take a few minutes to start." data-de="Klicke auf 'Speichern', um die Anwendung bereitzustellen. Der Start kann einige Minuten dauern." data-es="Haz clic en 'Guardar' para desplegar la aplicación. Puede tardar unos minutos en iniciarse."></p>
-            </section>
-
-            <section class="step-card">
-                <div class="step-number">7</div>
-                <h2 data-en="Open Web UI" data-de="Web-UI öffnen" data-es="Abrir interfaz web"></h2>
-                <div class="sketch-container">
-                    <svg viewBox="0 0 100 60">
-                         <rect x="15" y="10" width="70" height="40" rx="3" fill="var(--card-bg-color)" />
-                         <rect x="15" y="10" width="70" height="8" fill="var(--bg-color)" />
-                         <circle cx="20" cy="14" r="1.5" fill="#ff5f57"/>
-                         <circle cx="26" cy="14" r="1.5" fill="#febb2e"/>
-                         <circle cx="32" cy="14" r="1.5" fill="#28c840"/>
-                         <rect x="25" y="25" width="50" height="20" rx="2" fill="var(--bg-color)"/>
-                         <circle cx="50" cy="35" r="8" fill="#0082c9"/>
-                         <circle cx="50" cy="35" r="4" fill="var(--card-bg-color)"/>
-                    </svg>
-                </div>
-                <p data-en="Once active, click 'Web Portal' to open the Nextcloud login page and use your new credentials." data-de="Sobald die App aktiv ist, klicke auf 'Web Portal', um die Nextcloud-Loginseite zu öffnen und dich anzumelden." data-es="Una vez activa, haz clic en 'Portal Web' para abrir la página de inicio de sesión de Nextcloud y usa tus nuevas credenciales."></p>
-            </section>
-
-        </main>
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            const textElements = document.querySelectorAll('[data-en], [data-de], [data-es]');
-            const langButtons = document.querySelectorAll('.lang-switcher button');
-            const htmlTag = document.documentElement;
-            
-            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-            const navMenu = document.querySelector('.nav-menu');
-
-            const setLanguage = (lang) => {
-                textElements.forEach(el => {
-                    const text = el.dataset[lang];
-                    if (text) {
-                        el.textContent = text;
-                    }
-                });
-                htmlTag.setAttribute('lang', lang);
-                localStorage.setItem('preferredLanguage', lang);
-                
-                langButtons.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === lang);
-                });
-            };
-
-            const getInitialLanguage = () => {
-                const savedLang = localStorage.getItem('preferredLanguage');
-                if (savedLang) {
-                    return savedLang;
-                }
-                
-                const browserLang = navigator.language.split('-')[0];
-                if (['de', 'es'].includes(browserLang)) {
-                    return browserLang;
-                }
-                return 'en';
-            };
-
-            langButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const lang = e.target.dataset.lang;
-                    setLanguage(lang);
-                    if (navMenu.classList.contains('active')) {
-                        mobileMenuToggle.classList.remove('active');
-                        navMenu.classList.remove('active');
-                    }
-                });
-            });
-
-            const darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-            
-            const applyTheme = (isDark) => {
-                document.body.dataset.theme = isDark ? 'dark' : 'light';
-            };
-
-            applyTheme(darkMediaQuery.matches);
-
-            darkMediaQuery.addEventListener('change', (e) => {
-                applyTheme(e.matches);
-            });
-            
-            mobileMenuToggle.addEventListener('click', () => {
-                mobileMenuToggle.classList.toggle('active');
-                navMenu.classList.toggle('active');
-            });
-
-            setLanguage(getInitialLanguage());
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
-
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

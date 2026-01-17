@@ -1,531 +1,104 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-key="pageTitle">Erste Schritte mit Ubuntu/Linux Mint</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+    <title>First Steps with UbuntuLinux Mint</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --card-bg-color: #ffffff;
-            --text-color: #333333;
-            --heading-color: #1a202c;
-            --primary-color: #4a90e2;
-            --primary-color-dark: #357ABD;
-            --border-color: #e2e8f0;
-            --shadow-color: rgba(0, 0, 0, 0.05);
-            --nav-bg-color: rgba(255, 255, 255, 0.85);
-            --icon-stroke: #555;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #1a202c;
-            --card-bg-color: #2d3748;
-            --text-color: #e2e8f0;
-            --heading-color: #ffffff;
-            --primary-color: #63b3ed;
-            --primary-color-dark: #4299e1;
-            --border-color: #4a5568;
-            --shadow-color: rgba(0, 0, 0, 0.2);
-            --nav-bg-color: rgba(26, 32, 44, 0.85);
-            --icon-stroke: #cbd5e0;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.7;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 4rem;
-            padding-top: 4rem;
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--heading-color);
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            font-weight: 300;
-            color: var(--primary-color);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .guide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .guide-card {
-            background-color: var(--card-bg-color);
-            border-radius: 15px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 25px var(--shadow-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .guide-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px var(--shadow-color);
-        }
-
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 2rem;
-        }
-        
-        .card-icon svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .card-icon svg .stroke-main {
-            stroke: var(--icon-stroke);
-            transition: stroke 0.3s ease;
-        }
-
-        .card-icon svg .fill-accent {
-            fill: var(--primary-color);
-            transition: fill 0.3s ease;
-        }
-
-        .guide-card h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--heading-color);
-            margin-bottom: 1rem;
-        }
-
-        .guide-card p {
-            font-size: 1rem;
-            font-weight: 300;
-        }
-
-        .nav-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-            background: var(--card-bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 10px var(--shadow-color);
-            transition: transform 0.3s ease;
-        }
-
-        .nav-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        .hamburger {
-            width: 24px;
-            height: 18px;
+        .drawing-container {
             position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .hamburger span {
-            display: block;
-            position: absolute;
-            height: 3px;
+        .drawing-container svg {
             width: 100%;
-            background: var(--heading-color);
-            border-radius: 3px;
-            opacity: 1;
-            left: 0;
-            transform: rotate(0deg);
-            transition: .25s ease-in-out;
-        }
-
-        .hamburger span:nth-child(1) { top: 0px; }
-        .hamburger span:nth-child(2) { top: 7px; }
-        .hamburger span:nth-child(3) { top: 14px; }
-        
-        .nav-open .hamburger span:nth-child(1) { top: 7px; transform: rotate(135deg); }
-        .nav-open .hamburger span:nth-child(2) { opacity: 0; left: -60px; }
-        .nav-open .hamburger span:nth-child(3) { top: 7px; transform: rotate(-135deg); }
-
-        .nav-menu {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 100%;
-            background-color: var(--nav-bg-color);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 1000;
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .nav-open .nav-menu {
-            transform: translateX(0);
-        }
-
-        .nav-menu h3 {
-            color: var(--heading-color);
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        .lang-switcher button {
-            background: none;
-            border: 2px solid var(--border-color);
-            color: var(--text-color);
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .lang-switcher button:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .lang-switcher button.active {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-            font-size: 0.9rem;
-            color: var(--text-color);
-            border-top: 1px solid var(--border-color);
-        }
-
-        @media (max-width: 768px) {
-            header h1 { font-size: 2.2rem; }
-            header p { font-size: 1rem; }
-            .container { padding: 1.5rem; }
-            .guide-card { padding: 2rem; }
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
+<body class="guide-page">
 
-    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
-        <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </button>
-
-    <nav class="nav-menu" id="nav-menu">
-        <h3 data-key="menuTitle">Sprache wählen</h3>
-        <div class="lang-switcher">
-            <button data-lang="de">Deutsch</button>
-            <button data-lang="en">English</button>
-            <button data-lang="es">Español</button>
-        </div>
+    <nav id="sidebar">
+        <h2>First Steps with UbuntuLinux Mint</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
+        </ul>
     </nav>
 
-    <div class="container">
+    <div id="main-content">
         <header>
-            <h1 data-key="mainTitle">Erste Schritte mit Ubuntu/Linux Mint</h1>
-            <p data-key="mainSubtitle">Ein moderner Guide, der den Umstieg leicht und verständlich macht.</p>
+            <h1>First Steps with UbuntuLinux Mint</h1>
+            <p>Welcome to the comprehensive guide on First Steps with UbuntuLinux Mint. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
         </header>
 
-        <main class="guide-grid">
-            <section class="guide-card">
-                <div class="card-icon">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <path class="stroke-main" d="M25,65 L25,80 C25,82.76 27.24,85 30,85 L70,85 C72.76,85 75,82.76 75,80 L75,65" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path class="stroke-main" d="M15,40 L85,40 C87.76,40 90,42.24 90,45 L90,60 C90,62.76 87.76,65 85,65 L15,65 C12.24,65 10,62.76 10,60 L10,45 C10,42.24 12.24,40 15,40 Z" fill="none" stroke-width="5"/>
-                        <circle class="fill-accent" cx="20" cy="52.5" r="3"/>
-                        <path class="stroke-main" d="M50,40 L50,20 L65,20 M60,15 L65,20 L60,25" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <h2 data-key="step1Title">1. Installation</h2>
-                <p data-key="step1Desc">Erstellen Sie einen bootfähigen USB-Stick und installieren Sie Ubuntu oder Mint neben Windows oder als alleiniges System. Der Prozess ist einfach und geführt.</p>
-            </section>
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>First Steps with UbuntuLinux Mint</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make First Steps with UbuntuLinux Mint powerful and useful.</p>
+        </section>
 
-            <section class="guide-card">
-                <div class="card-icon">
-                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <rect class="stroke-main" x="10" y="15" width="80" height="70" rx="8" ry="8" fill="none" stroke-width="5"/>
-                        <path class="stroke-main" d="M10,75 L90,75" fill="none" stroke-width="5" stroke-linecap="round"/>
-                        <path class="fill-accent" d="M20,80 h10 v5 h-10 z" />
-                        <path class="fill-accent" d="M35,80 h10 v5 h-10 z" />
-                        <path class="fill-accent" d="M70,80 h10 v5 h-10 z" />
-                        <rect class="stroke-main" x="25" y="30" width="50" height="35" rx="4" ry="4" fill="none" stroke-width="4" />
-                        <path class="stroke-main" d="M30,38 h40" stroke-width="3" stroke-linecap="round"/>
-                        <path class="stroke-main" d="M30,48 h30" stroke-width="3" stroke-linecap="round"/>
-                     </svg>
-                </div>
-                <h2 data-key="step2Title">2. Der Desktop</h2>
-                <p data-key="step2Desc">Machen Sie sich mit der Desktop-Umgebung vertraut. Entdecken Sie die Taskleiste, das Startmenü (Anwendungen) und die Systemeinstellungen.</p>
-            </section>
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+            </div>
+        </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with First Steps with UbuntuLinux Mint, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
 
-            <section class="guide-card">
-                <div class="card-icon">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <path class="stroke-main" d="M20,85 L20,30 C20,20 28,15 35,15 L65,15 C72,15 80,20 80,30 L80,85 L20,85 Z" fill="none" stroke-width="5" stroke-linejoin="round" />
-                        <path class="stroke-main" d="M15,85 L85,85" stroke-width="5" stroke-linecap="round" />
-                        <path class="fill-accent" d="M40,25 L60,25 C62,25 62,28 60,28 L40,28 C38,28 38,25 40,25 Z" />
-                        <circle class="stroke-main" cx="50" cy="55" r="15" fill="none" stroke-width="5"/>
-                        <path class="stroke-main" d="M43,55 L50,62 L57,48" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <h2 data-key="step3Title">3. Software Center</h2>
-                <p data-key="step3Desc">Installieren Sie Tausende von kostenlosen Anwendungen wie Chrome, VS Code oder Steam mit nur einem Klick über das integrierte Software Center.</p>
-            </section>
-
-            <section class="guide-card">
-                <div class="card-icon">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <rect class="stroke-main" x="10" y="20" width="80" height="60" rx="5" ry="5" fill="none" stroke-width="5"/>
-                        <path class="stroke-main" d="M20,35 L35,35" stroke-width="4" stroke-linecap="round"/>
-                        <path class="fill-accent" d="M22,48 L35,55 L22,62 Z" />
-                        <path class="stroke-main" d="M40,55 L55,55" stroke-width="4" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <h2 data-key="step4Title">4. Das Terminal</h2>
-                <p data-key="step4Desc">Entdecken Sie die Macht der Kommandozeile. Viele Aufgaben, wie Systemupdates (`sudo apt update`), lassen sich hier schnell und effizient erledigen.</p>
-            </section>
-
-            <section class="guide-card">
-                <div class="card-icon">
-                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <path class="stroke-main" d="M78,22 L85,29 L44,70 L20,70 L20,46 Z" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path class="fill-accent" d="M70,15 L85,30 L78,37 L63,22 Z" />
-                        <path class="stroke-main" d="M15,85 L85,85" stroke-width="5" stroke-linecap="round"/>
-                        <path class="stroke-main" d="M30,30 C15,40 15,60 30,70" fill="none" stroke-width="5" stroke-linecap="round"/>
-                        <path class="stroke-main" d="M40,35 C30,45 30,55 40,65" fill="none" stroke-width="5" stroke-linecap="round"/>
-                     </svg>
-                </div>
-                <h2 data-key="step5Title">5. Anpassung</h2>
-                <p data-key="step5Desc">Ändern Sie das Aussehen Ihres Desktops. Passen Sie Themes, Icons, Schriftarten und Hintergrundbilder an, um Ihr System einzigartig zu machen.</p>
-            </section>
-            
-            <section class="guide-card">
-                <div class="card-icon">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle class="stroke-main" cx="50" cy="50" r="35" fill="none" stroke-width="5"/>
-                        <path class="fill-accent" d="M50,15 L50,50 L75,65" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path class="stroke-main" d="M50,15 L50,50 L75,65" fill="none" stroke="#00000000" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path class="stroke-main" d="M30,80 A 25 25 0 0 1 70 80" fill="none" stroke-width="5" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <h2 data-key="step6Title">6. Updates</h2>
-                <p data-key="step6Desc">Halten Sie Ihr System sicher und aktuell. Die Update-Verwaltung informiert Sie über neue Software- und Sicherheitsupdates, die einfach installiert werden können.</p>
-            </section>
-
-        </main>
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
         
         <footer>
-            <p data-key="footerText">Erstellt, um den Umstieg auf Linux zu erleichtern. Viel Erfolg!</p>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
         </footer>
     </div>
 
-    <script>
-        const translations = {
-            pageTitle: {
-                de: "Erste Schritte mit Ubuntu/Linux Mint",
-                en: "First Steps with Ubuntu/Linux Mint",
-                es: "Primeros Pasos con Ubuntu/Linux Mint"
-            },
-            mainTitle: {
-                de: "Erste Schritte mit Ubuntu/Linux Mint",
-                en: "First Steps with Ubuntu/Linux Mint",
-                es: "Primeros Pasos con Ubuntu/Linux Mint"
-            },
-            mainSubtitle: {
-                de: "Ein moderner Guide, der den Umstieg leicht und verständlich macht.",
-                en: "A modern guide to make the switch easy and understandable.",
-                es: "Una guía moderna para que el cambio sea fácil y comprensible."
-            },
-            menuTitle: {
-                de: "Sprache wählen",
-                en: "Choose Language",
-                es: "Elegir Idioma"
-            },
-            step1Title: {
-                de: "1. Installation",
-                en: "1. Installation",
-                es: "1. Instalación"
-            },
-            step1Desc: {
-                de: "Erstellen Sie einen bootfähigen USB-Stick und installieren Sie Ubuntu oder Mint neben Windows oder als alleiniges System. Der Prozess ist einfach und geführt.",
-                en: "Create a bootable USB drive and install Ubuntu or Mint alongside Windows or as a standalone system. The process is simple and guided.",
-                es: "Cree una unidad USB de arranque e instale Ubuntu o Mint junto a Windows o como sistema único. El proceso es simple y guiado."
-            },
-            step2Title: {
-                de: "2. Der Desktop",
-                en: "2. The Desktop",
-                es: "2. El Escritorio"
-            },
-            step2Desc: {
-                de: "Machen Sie sich mit der Desktop-Umgebung vertraut. Entdecken Sie die Taskleiste, das Startmenü (Anwendungen) und die Systemeinstellungen.",
-                en: "Familiarize yourself with the desktop environment. Discover the panel, the applications menu, and the system settings.",
-                es: "Familiarícese con el entorno de escritorio. Descubra la barra de tareas, el menú de aplicaciones y la configuración del sistema."
-            },
-            step3Title: {
-                de: "3. Software Center",
-                en: "3. Software Center",
-                es: "3. Centro de Software"
-            },
-            step3Desc: {
-                de: "Installieren Sie Tausende von kostenlosen Anwendungen wie Chrome, VS Code oder Steam mit nur einem Klick über das integrierte Software Center.",
-                en: "Install thousands of free applications like Chrome, VS Code, or Steam with just one click from the integrated Software Center.",
-                es: "Instale miles de aplicaciones gratuitas como Chrome, VS Code o Steam con un solo clic desde el Centro de Software integrado."
-            },
-            step4Title: {
-                de: "4. Das Terminal",
-                en: "4. The Terminal",
-                es: "4. La Terminal"
-            },
-            step4Desc: {
-                de: "Entdecken Sie die Macht der Kommandozeile. Viele Aufgaben, wie Systemupdates (`sudo apt update`), lassen sich hier schnell und effizient erledigen.",
-                en: "Discover the power of the command line. Many tasks, like system updates (`sudo apt update`), can be done quickly and efficiently here.",
-                es: "Descubra el poder de la línea de comandos. Muchas tareas, como las actualizaciones del sistema (`sudo apt update`), se pueden realizar de forma rápida y eficiente aquí."
-            },
-            step5Title: {
-                de: "5. Anpassung",
-                en: "5. Customization",
-                es: "5. Personalización"
-            },
-            step5Desc: {
-                de: "Ändern Sie das Aussehen Ihres Desktops. Passen Sie Themes, Icons, Schriftarten und Hintergrundbilder an, um Ihr System einzigartig zu machen.",
-                en: "Change the look and feel of your desktop. Customize themes, icons, fonts, and wallpapers to make your system unique.",
-                es: "Cambie la apariencia de su escritorio. Personalice temas, iconos, fuentes y fondos de pantalla para que su sistema sea único."
-            },
-            step6Title: {
-                de: "6. Updates",
-                en: "6. Updates",
-                es: "6. Actualizaciones"
-            },
-            step6Desc: {
-                de: "Halten Sie Ihr System sicher und aktuell. Die Update-Verwaltung informiert Sie über neue Software- und Sicherheitsupdates, die einfach installiert werden können.",
-                en: "Keep your system secure and up-to-date. The Update Manager notifies you of new software and security updates that can be easily installed.",
-                es: "Mantenga su sistema seguro y actualizado. El Gestor de Actualizaciones le notifica sobre nuevas actualizaciones de software y seguridad que se pueden instalar fácilmente."
-            },
-            footerText: {
-                de: "Erstellt, um den Umstieg auf Linux zu erleichtern. Viel Erfolg!",
-                en: "Created to make switching to Linux easier. Good luck!",
-                es: "Creado para facilitar el cambio a Linux. ¡Mucha suerte!"
-            }
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const navToggle = document.getElementById('nav-toggle');
-            const navMenu = document.getElementById('nav-menu');
-            const langButtons = document.querySelectorAll('.lang-switcher button');
-            const htmlTag = document.documentElement;
-
-            const setLanguage = (lang) => {
-                document.querySelectorAll('[data-key]').forEach(element => {
-                    const key = element.dataset.key;
-                    if (translations[key] && translations[key][lang]) {
-                        element.innerHTML = translations[key][lang];
-                    }
-                });
-                htmlTag.lang = lang;
-                localStorage.setItem('userLanguage', lang);
-
-                langButtons.forEach(button => {
-                    button.classList.toggle('active', button.dataset.lang === lang);
-                });
-            };
-
-            const getInitialLanguage = () => {
-                const savedLang = localStorage.getItem('userLanguage');
-                if (savedLang) return savedLang;
-
-                const browserLang = navigator.language.split('-')[0];
-                if (['de', 'en', 'es'].includes(browserLang)) {
-                    return browserLang;
-                }
-                
-                return 'en';
-            };
-            
-            navToggle.addEventListener('click', () => {
-                document.body.classList.toggle('nav-open');
-            });
-
-            langButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const lang = button.dataset.lang;
-                    setLanguage(lang);
-                    document.body.classList.remove('nav-open');
-                });
-            });
-            
-            const applyTheme = (theme) => {
-                htmlTag.setAttribute('data-theme', theme);
-            };
-
-            const checkDarkMode = () => {
-                const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-                applyTheme(darkModeMediaQuery.matches ? 'dark' : 'light');
-                
-                darkModeMediaQuery.addEventListener('change', (e) => {
-                    applyTheme(e.matches ? 'dark' : 'light');
-                });
-            };
-
-            checkDarkMode();
-            setLanguage(getInitialLanguage());
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
-
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+

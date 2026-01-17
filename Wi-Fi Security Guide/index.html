@@ -1,377 +1,104 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WLAN-Sicherheit Guide</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Wi-Fi Security Guide</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- SVG Graphics Fix Style -->
     <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --card-bg-color: #ffffff;
-            --text-color: #333333;
-            --heading-color: #1a253c;
-            --accent-color: #007bff;
-            --border-color: #eef2f5;
-            --shadow-color: rgba(0, 0, 0, 0.05);
-            --svg-stroke-color: #6c757d;
-            --svg-fill-color: #e9ecef;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #121212;
-                --card-bg-color: #1e1e1e;
-                --text-color: #e0e0e0;
-                --heading-color: #ffffff;
-                --accent-color: #4dabf7;
-                --border-color: #333333;
-                --shadow-color: rgba(0, 0, 0, 0.2);
-                --svg-stroke-color: #909090;
-                --svg-fill-color: #3a3a3a;
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .drawing-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 12px;
             padding: 20px;
-        }
-        
-        header {
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 40px;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--heading-color);
-        }
-        
-        .lang-switcher {
-            display: flex;
-            gap: 10px;
-        }
-
-        .lang-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .lang-btn:hover {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-        
-        .lang-btn.active {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-            font-weight: 600;
-        }
-        
-        #guide-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background-color: var(--card-bg-color);
-            border-radius: 15px;
+            margin: 20px 0;
             overflow: hidden;
-            box-shadow: 0 10px 20px var(--shadow-color);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px var(--shadow-color);
-        }
-        
-        .drawing {
-            background-color: var(--svg-fill-color);
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
-        }
-
-        .drawing svg {
+        .drawing-container svg {
             width: 100%;
-            height: 100%;
-            max-width: 150px;
-        }
-        
-        .drawing .stroke {
-            stroke: var(--svg-stroke-color);
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            fill: none;
-        }
-
-        .drawing .fill {
-            fill: var(--svg-stroke-color);
-            stroke: none;
-        }
-
-        .text-content {
-            padding: 30px;
-        }
-
-        .card h2 {
-            font-size: 1.5rem;
-            color: var(--heading-color);
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            #guide-content {
-                grid-template-columns: 1fr;
-            }
-            
-            nav {
-                flex-direction: column;
-                gap: 20px;
-            }
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
 </head>
-<body>
+<body class="guide-page">
 
-    <div class="container">
+    <nav id="sidebar">
+        <h2>Wi-Fi Security Guide</h2>
+        <ul>
+            <li><a href="#intro" class="active">Introduction</a></li>
+            <li><a href="#key-concepts">Key Concepts</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="../index.html">← Back to Home</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
         <header>
-            <nav>
-                <div id="logo" class="logo">WLAN Security Guide</div>
-                <div class="lang-switcher">
-                    <button class="lang-btn" data-lang="de">Deutsch</button>
-                    <button class="lang-btn" data-lang="en">English</button>
-                    <button class="lang-btn" data-lang="es">Español</button>
-                </div>
-            </nav>
+            <h1>Wi-Fi Security Guide</h1>
+            <p>Welcome to the comprehensive guide on Wi-Fi Security Guide. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
         </header>
 
-        <main id="guide-content">
-            <!-- Content will be injected here by JavaScript -->
-        </main>
+        <section id="intro" class="guide-section">
+            <h2>Introduction</h2>
+            <div class="card-icon">🚀</div>
+            <p>
+                <strong>Wi-Fi Security Guide</strong> is a critical subject in today's technology landscape. 
+                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
+                this layout provides the structure you need.
+            </p>
+            <p>In this guide, we will explore the fundamental principles that make Wi-Fi Security Guide powerful and useful.</p>
+        </section>
+
+        <section id="key-concepts" class="guide-section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
+                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
+                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+            </ul>
+            <div class="important">
+                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+            </div>
+        </section>
+        
+        <section id="getting-started" class="guide-section">
+            <h2>Getting Started</h2>
+            <p>To begin working with Wi-Fi Security Guide, ensure you have the necessary environment set up:</p>
+            <pre><code class="language-bash">
+# Example Quick Start Command
+$ init_setup --verbose
+$ run_diagnostics
+            </code></pre>
+            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
+
+        <section id="best-practices" class="guide-section">
+            <h2>Best Practices & Tips</h2>
+            <p>Follow these guidelines to ensure reliability and security:</p>
+            <div class="warning">
+                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+            </div>
+            <ul>
+                <li>Keep your systems updated to the latest stable versions.</li>
+                <li>Document your changes and configurations.</li>
+                <li>Review security protocols regularly.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+        </footer>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const translations = {
-                de: {
-                    logo: "WLAN-Sicherheit Guide",
-                    card1_title: "Router-Passwort ändern",
-                    card1_text: "Ändern Sie das Standardpasswort Ihres Routers. Standardpasswörter sind online leicht zu finden und stellen ein großes Sicherheitsrisiko dar.",
-                    card2_title: "Starkes WLAN-Passwort",
-                    card2_text: "Verwenden Sie ein langes, komplexes Passwort für Ihr WLAN. Kombinieren Sie Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen.",
-                    card3_title: "WPA3-Verschlüsselung nutzen",
-                    card3_text: "Aktivieren Sie die WPA3-Verschlüsselung in Ihren Router-Einstellungen. Sie ist der modernste und sicherste Standard.",
-                    card4_title: "SSID nicht verstecken",
-                    card4_text: "Das Verstecken des Netzwerknamens (SSID) bietet keine echte Sicherheit und kann zu Verbindungsproblemen führen. Konzentrieren Sie sich auf starke Passwörter.",
-                    card5_title: "Firmware aktuell halten",
-                    card5_text: "Installieren Sie regelmäßig Updates für die Firmware Ihres Routers. Diese Updates schließen oft kritische Sicherheitslücken.",
-                    card6_title: "Gäste-WLAN einrichten",
-                    card6_text: "Erstellen Sie ein separates Netzwerk für Ihre Gäste. So bleiben Ihre privaten Geräte und Daten von den Geräten der Gäste getrennt und sicher."
-                },
-                en: {
-                    logo: "Wi-Fi Security Guide",
-                    card1_title: "Change Router Password",
-                    card1_text: "Change your router's default password. Default passwords are easy to find online and pose a major security risk.",
-                    card2_title: "Strong Wi-Fi Password",
-                    card2_text: "Use a long, complex password for your Wi-Fi. Combine uppercase and lowercase letters, numbers, and special characters.",
-                    card3_title: "Use WPA3 Encryption",
-                    card3_text: "Enable WPA3 encryption in your router settings. It is the most modern and secure standard available today.",
-                    card4_title: "Don't Hide Your SSID",
-                    card4_text: "Hiding your network name (SSID) does not provide real security and can cause connection issues. Focus on strong passwords instead.",
-                    card5_title: "Keep Firmware Updated",
-                    card5_text: "Regularly install updates for your router's firmware. These updates often patch critical security vulnerabilities.",
-                    card6_title: "Set Up a Guest Network",
-                    card6_text: "Create a separate network for your guests. This keeps your private devices and data isolated and safe from guest devices."
-                },
-                es: {
-                    logo: "Guía de Seguridad Wi-Fi",
-                    card1_title: "Cambiar la contraseña del router",
-                    card1_text: "Cambie la contraseña predeterminada de su router. Las contraseñas predeterminadas son fáciles de encontrar en línea y suponen un gran riesgo de seguridad.",
-                    card2_title: "Contraseña Wi-Fi Fuerte",
-                    card2_text: "Utilice una contraseña larga y compleja para su Wi-Fi. Combine letras mayúsculas y minúsculas, números y caracteres especiales.",
-                    card3_title: "Usar cifrado WPA3",
-                    card3_text: "Active el cifrado WPA3 en la configuración de su router. Es el estándar más moderno y seguro disponible actualmente.",
-                    card4_title: "No ocultar el SSID",
-                    card4_text: "Ocultar el nombre de su red (SSID) no proporciona seguridad real y puede causar problemas de conexión. Concéntrese en contraseñas fuertes.",
-                    card5_title: "Mantener el firmware actualizado",
-                    card5_text: "Instale regularmente las actualizaciones del firmware de su router. Estas actualizaciones a menudo corrigen vulnerabilidades de seguridad críticas.",
-                    card6_title: "Configurar una red de invitados",
-                    card6_text: "Cree una red separada para sus invitados. Esto mantiene sus dispositivos y datos privados aislados y seguros de los dispositivos de los invitados."
-                }
-            };
-            
-            const guideStructure = [
-                {
-                    id: 1,
-                    svg: `
-                        <svg viewBox="0 0 100 60">
-                            <rect class="stroke" x="10" y="20" width="80" height="20" rx="2"/>
-                            <line class="stroke" x1="25" y1="15" x2="35" y2="5"/>
-                            <line class="stroke" x1="40" y1="15" x2="50" y2="5"/>
-                            <line class="stroke" x1="55" y1="15" x2="65" y2="5"/>
-                            <circle class="fill" cx="75" cy="30" r="2"/>
-                            <circle class="fill" cx="85" cy="30" r="2"/>
-                            <path class="stroke" d="M40 45 h20 v10 h-20 z"/>
-                            <path class="stroke" d="M45 45 v-5 a5 5 0 0 1 10 0 v5"/>
-                        </svg>`
-                },
-                {
-                    id: 2,
-                    svg: `
-                        <svg viewBox="0 0 100 60">
-                            <path class="stroke" d="M20 30 h30 v10 h-30 z"/>
-                            <path class="stroke" d="M50 35 h10 l5 -5 l5 5 h10"/>
-                            <circle class="stroke" cx="25" cy="35" r="3"/>
-                            <text x="38" y="38" font-size="10" class="fill">#?*</text>
-                        </svg>`
-                },
-                {
-                    id: 3,
-                    svg: `
-                        <svg viewBox="0 0 100 60">
-                            <text x="10" y="25" font-size="10" class="fill">ABC</text>
-                            <path class="stroke" d="M25 22 l20 0"/>
-                            <path class="stroke" d="M25 38 l20 0"/>
-                            <rect class="stroke" x="45" y="10" width="10" height="40" rx="2"/>
-                            <path class="stroke" d="M55 22 l20 0"/>
-                            <path class="stroke" d="M55 38 l20 0"/>
-                            <text x="78" y="25" font-size="10" class="fill">x#y</text>
-                            <path class="stroke" d="M48 20 l0 20 m-3 -15 l6 10 m-6 0 l6 -10"/>
-                        </svg>`
-                },
-                {
-                    id: 4,
-                    svg: `
-                        <svg viewBox="0 0 100 60">
-                             <path class="stroke" d="M30 40 q 20 -30 40 0" />
-                             <path class="stroke" d="M35 30 q 15 -20 30 0" />
-                             <path class="stroke" d="M40 20 q 10 -10 20 0" />
-                             <circle cx="50" cy="45" r="3" class="fill"/>
-                             <path class="stroke" d="M20 10 l60 40" />
-                             <path class="stroke" d="M20 50 l60 -40" />
-                        </svg>`
-                },
-                {
-                    id: 5,
-                    svg: `
-                        <svg viewBox="0 0 100 60">
-                             <rect class="stroke" x="10" y="20" width="80" height="20" rx="2"/>
-                             <circle class="fill" cx="75" cy="30" r="2"/>
-                             <circle class="fill" cx="85" cy="30" r="2"/>
-                             <path class="stroke" d="M58 30 a 8 8 0 1 1-8 -8"/>
-                             <path class="stroke" d="M50 18 l -4 4 l 4 4"/>
-                        </svg>`
-                },
-                {
-                    id: 6,
-                    svg: `
-                        <svg viewBox="0 0 100 60">
-                             <rect class="stroke" x="35" y="5" width="30" height="15" rx="2"/>
-                             <line class="stroke" x1="50" y1="20" x2="50" y2="30"/>
-                             <path class="stroke" d="M20 40 h20 v10 h-20 z"/>
-                             <path class="stroke" d="M30 40 v-10 h-15"/>
-                             <path class="stroke" d="M60 40 h20 v10 h-20 z"/>
-                             <path class="stroke" d="M70 40 v-10 h15"/>
-                             <text x="22" y="58" font-size="6" class="fill">Home</text>
-                             <text x="61" y="58" font-size="6" class="fill">Guests</text>
-                        </svg>`
-                },
-            ];
-
-            const guideContent = document.getElementById('guide-content');
-            const langButtons = document.querySelectorAll('.lang-btn');
-            const logo = document.getElementById('logo');
-            
-            function renderContent(lang) {
-                if (!translations[lang]) lang = 'en';
-
-                logo.textContent = translations[lang].logo;
-                document.documentElement.lang = lang;
-                
-                guideContent.innerHTML = '';
-
-                guideStructure.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    
-                    const titleKey = `card${item.id}_title`;
-                    const textKey = `card${item.id}_text`;
-                    
-                    card.innerHTML = `
-                        <div class="drawing">
-                            ${item.svg}
-                        </div>
-                        <div class="text-content">
-                            <h2>${translations[lang][titleKey]}</h2>
-                            <p>${translations[lang][textKey]}</p>
-                        </div>
-                    `;
-                    guideContent.appendChild(card);
-                });
-
-                langButtons.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === lang);
-                });
-            }
-
-            function getInitialLanguage() {
-                const browserLang = navigator.language.split('-')[0];
-                return translations[browserLang] ? browserLang : 'en';
-            }
-
-            langButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const selectedLang = e.target.dataset.lang;
-                    renderContent(selectedLang);
-                });
-            });
-
-            const initialLang = getInitialLanguage();
-            renderContent(initialLang);
-        });
-    </script>
-    <script src="https://tiwut.de/cookie.notice.js"></script>
+<script src="../script.js"></script>
 </body>
 </html>
+
+
+
