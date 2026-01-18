@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linux Terminal Commands</title>
+    <title>Linux Terminal Commands Master Guide</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -23,17 +22,31 @@
             max-height: 400px;
             filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .command-table th, .command-table td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .command-table th {
+            color: var(--color-accent, #00ffcc);
+        }
     </style>
 </head>
 <body class="guide-page">
 
     <nav id="sidebar">
-        <h2>Linux Terminal Commands</h2>
+        <h2>Terminal Guide</h2>
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#navigation">Navigation</a></li>
+            <li><a href="#files">File Operations</a></li>
+            <li><a href="#permissions">Permissions & Root</a></li>
+            <li><a href="#system">System & Network</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
@@ -41,54 +54,148 @@
     <div id="main-content">
         <header>
             <h1>Linux Terminal Commands</h1>
-            <p>Welcome to the comprehensive guide on Linux Terminal Commands. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>A comprehensive reference guide for mastering the Linux Command Line Interface (CLI). From basic navigation to system administration.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">💻</div>
             <p>
-                <strong>Linux Terminal Commands</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                The Linux Terminal (Shell) is a text-based interface used to control the operating system. 
+                While modern Linux distributions offer Graphical User Interfaces (GUIs), the terminal provides 
+                unmatched power, speed, and the ability to automate complex tasks.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Linux Terminal Commands powerful and useful.</p>
+            <p>Most Linux systems use <strong>Bash</strong> (Bourne Again SHell) or <strong>Zsh</strong> as their default interpreter.</p>
         </section>
 
-        <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
-            <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
-            </ul>
+        <section id="navigation" class="guide-section">
+            <h2>Navigation</h2>
+            <p>Before you can modify files, you must know how to move around the file system.</p>
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">pwd</span></td>
+                        <td>Print Working Directory. Shows exactly where you are.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">ls</span></td>
+                        <td>List directory contents.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">cd [dir]</span></td>
+                        <td>Change Directory. Move into a folder.</td>
+                    </tr>
+                </tbody>
+            </table>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Tip:</strong> Use <span class="inline-code">ls -la</span> to view hidden files (starting with a dot) and detailed permissions.
             </div>
+            <pre><code class="language-bash">
+# Go to the home directory
+$ cd ~
+
+# Go up one level
+$ cd ..
+
+# List all files with details
+$ ls -la
+            </code></pre>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Linux Terminal Commands, ensure you have the necessary environment set up:</p>
+        <section id="files" class="guide-section">
+            <h2>File Operations</h2>
+            <p>Essential commands for creating, moving, and deleting files and directories.</p>
+            <ul>
+                <li><strong>mkdir:</strong> Creates a new directory.</li>
+                <li><strong>touch:</strong> Creates an empty file or updates timestamps.</li>
+                <li><strong>cp:</strong> Copies files or directories.</li>
+                <li><strong>mv:</strong> Moves or renames files.</li>
+                <li><strong>rm:</strong> Removes files.</li>
+            </ul>
+
             <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+# Create a folder named 'projects'
+$ mkdir projects
+
+# Create a file inside that folder
+$ touch projects/script.sh
+
+# Copy a file (use -r for directories)
+$ cp source.txt destination.txt
+
+# Rename a file
+$ mv old_name.txt new_name.txt
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+            
+            <div class="warning">
+                <strong>Danger Zone:</strong> The command <span class="inline-code">rm -rf foldername</span> forces the deletion of a directory and everything inside it. Deleted files are usually unrecoverable.
+            </div>
         </section>
 
-        <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
-            <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
-            </div>
-            <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
-            </ul>
+        <section id="permissions" class="guide-section">
+            <h2>Permissions & Root</h2>
+            <p>Linux is a multi-user system designed with security in mind. Access is controlled via Read (r), Write (w), and Execute (x) permissions.</p>
+            
+            <h3>Understanding Sudo</h3>
+            <p><span class="inline-code">sudo</span> (SuperUser DO) allows you to run commands with administrative privileges.</p>
+            
+            <pre><code class="language-bash">
+# Update system packages (requires root)
+$ sudo apt update
+
+# Change file permissions to be executable
+$ chmod +x script.sh
+
+# Change file owner
+$ sudo chown user:group filename.txt
+            </code></pre>
+        </section>
+
+        <section id="system" class="guide-section">
+            <h2>System & Networking</h2>
+            <p>Tools to monitor system health and check connectivity.</p>
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">top</span> / <span class="inline-code">htop</span></td>
+                        <td>View real-time CPU and Memory usage.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">df -h</span></td>
+                        <td>Show disk space usage in human-readable format.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">grep</span></td>
+                        <td>Search for specific text within files.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">ip a</span></td>
+                        <td>Show IP addresses and network interfaces.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">ping</span></td>
+                        <td>Check connection to a server (e.g., google.com).</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Example of searching text inside a file:</p>
+            <pre><code class="language-bash">
+# Find the word "error" in a log file
+$ grep "error" /var/log/syslog
+            </code></pre>
         </section>
         
         <footer>
@@ -99,6 +206,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

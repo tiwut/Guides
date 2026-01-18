@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MacBook Maintenance Guide</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -28,12 +27,12 @@
 <body class="guide-page">
 
     <nav id="sidebar">
-        <h2>MacBook Maintenance Guide</h2>
+        <h2>Maintenance Guide</h2>
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#physical-care">Physical Care</a></li>
+            <li><a href="#battery-management">Battery Health</a></li>
+            <li><a href="#software-maintenance">Software & Storage</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
@@ -41,53 +40,52 @@
     <div id="main-content">
         <header>
             <h1>MacBook Maintenance Guide</h1>
-            <p>Welcome to the comprehensive guide on MacBook Maintenance Guide. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>Welcome to the comprehensive guide on keeping your MacBook in top condition. This resource covers physical cleaning, battery optimization, and system performance to ensure longevity.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">💻</div>
             <p>
-                <strong>MacBook Maintenance Guide</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>MacBook Maintenance</strong> is essential for preserving the value and performance of your device. 
+                Apple Silicon and Intel-based Macs are built to last, but regular care can significantly extend their lifespan.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make MacBook Maintenance Guide powerful and useful.</p>
+            <p>In this guide, we will cover safe cleaning methods, how to interpret battery health data, and essential software routines.</p>
         </section>
 
-        <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
+        <section id="physical-care" class="guide-section">
+            <h2>Physical Care & Cleaning</h2>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>Screen:</strong> Use only a soft, lint-free microfiber cloth. Dampen it slightly with water if necessary.</li>
+                <li><strong>Keyboard:</strong> Use compressed air to remove debris. Hold the MacBook at a 75-degree angle while spraying.</li>
+                <li><strong>Chassis:</strong> Wipe down the aluminum body to remove oils and prevent discoloration.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Recall:</strong> Never spray liquid directly onto the screen or keyboard. Always apply it to the cloth first. Avoid acetone or window cleaners.
             </div>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with MacBook Maintenance Guide, ensure you have the necessary environment set up:</p>
+        <section id="battery-management" class="guide-section">
+            <h2>Battery Health Management</h2>
+            <p>Lithium-ion batteries degrade over time. To monitor your battery's condition and cycle count, you can use the System Information tool or the Terminal:</p>
             <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+# Check Battery Cycle Count and Condition
+$ system_profiler SPPowerDataType | grep "Cycle Count"
+$ system_profiler SPPowerDataType | grep "Condition"
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+            <p>Enable <span class="inline-code">Optimized Battery Charging</span> in System Settings to reduce battery aging.</p>
         </section>
 
-        <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+        <section id="software-maintenance" class="guide-section">
+            <h2>Software & Storage Optimization</h2>
+            <p>Keep your system fast and secure by following these guidelines:</p>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Caution:</strong> Always ensure you have a current Time Machine backup before performing major OS updates or deleting system files.
             </div>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>Updates:</strong> Install macOS security patches promptly to protect against vulnerabilities.</li>
+                <li><strong>Storage:</strong> Keep at least 15-20% of your SSD free to ensure the swap file functions correctly.</li>
+                <li><strong>Startup Items:</strong> Review "Login Items" in settings to stop unnecessary apps from slowing down boot times.</li>
             </ul>
         </section>
         
@@ -99,6 +97,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

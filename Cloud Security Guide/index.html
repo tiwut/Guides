@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloud Security Guide</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -14,13 +13,15 @@
             border-radius: 12px;
             padding: 20px;
             margin: 20px 0;
+            display: flex;
+            justify-content: center;
             overflow: hidden;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
         .drawing-container svg {
             width: 100%;
             height: auto;
-            max-height: 400px;
+            max-height: 300px;
             filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
@@ -32,7 +33,7 @@
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
             <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#getting-started">Implementation</a></li>
             <li><a href="#best-practices">Best Practices</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
@@ -41,53 +42,76 @@
     <div id="main-content">
         <header>
             <h1>Cloud Security Guide</h1>
-            <p>Welcome to the comprehensive guide on Cloud Security Guide. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>A comprehensive framework for securing cloud infrastructure, data, and applications. This guide covers the Shared Responsibility Model, threat detection, and modern compliance standards.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">🛡️</div>
             <p>
-                <strong>Cloud Security Guide</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>Cloud Security</strong> refers to the technologies, policies, controls, and services that protect cloud data, applications, and infrastructure from threats. Unlike traditional on-premise security, cloud security relies on a partnership between the provider (AWS, Azure, Google Cloud) and the customer.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Cloud Security Guide powerful and useful.</p>
+            <p>This discipline encompasses a broad set of controls, including identity management, data encryption, and legal compliance, ensuring business continuity in a distributed environment.</p>
         </section>
 
         <section id="key-concepts" class="guide-section">
             <h2>Key Concepts</h2>
+            
+            <div class="drawing-container">
+                <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="40" width="300" height="120" rx="10" fill="none" stroke="#ff6600" stroke-width="2"/>
+                    <text x="200" y="30" fill="#fff" text-anchor="middle" font-family="sans-serif" font-size="12">Shared Responsibility Model</text>
+                    
+                    <rect x="60" y="50" width="135" height="100" rx="5" fill="#333"/>
+                    <text x="127.5" y="105" fill="#aaa" text-anchor="middle" font-family="sans-serif" font-size="14">Provider</text>
+                    <text x="127.5" y="125" fill="#666" text-anchor="middle" font-family="sans-serif" font-size="10">Hardware / Global Infra</text>
+
+                    <rect x="205" y="50" width="135" height="100" rx="5" fill="#444"/>
+                    <text x="272.5" y="105" fill="#fff" text-anchor="middle" font-family="sans-serif" font-size="14">Customer</text>
+                    <text x="272.5" y="125" fill="#ccc" text-anchor="middle" font-family="sans-serif" font-size="10">Data / IAM / Apps</text>
+                    
+                    <circle cx="200" cy="100" r="15" fill="#ff6600"/>
+                    <path d="M195 95 L200 105 L205 95" stroke="white" stroke-width="2" fill="none"/>
+                </svg>
+            </div>
+
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>IAM (Identity & Access Management):</strong> The framework of policies and technologies for ensuring that the right users have the appropriate access to technology resources.</li>
+                <li><strong>Data Encryption:</strong> Protecting data at rest (storage) and in transit (network) using protocols like TLS and AES-256.</li>
+                <li><strong>Zero Trust Architecture:</strong> A security model that requires strict identity verification for every person and device trying to access resources on a private network, regardless of whether they are sitting within or outside of the network perimeter.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Recall:</strong> Security is not a product, but a process. Misconfiguration is the leading cause of cloud security breaches.
             </div>
         </section>
         
         <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Cloud Security Guide, ensure you have the necessary environment set up:</p>
+            <h2>Implementation Steps</h2>
+            <p>To begin securing your cloud environment, you must first audit your current standing and configure basic CLI tools for monitoring:</p>
             <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+# 1. Enable CloudTrail/Logging (AWS Example)
+$ aws cloudtrail create-subscription --name SecurityAuditLogs --s3-new-bucket my-secure-logs
+
+# 2. Scan for open ports and vulnerabilities
+$ nmap -sV -p 1-65535 cloud-instance-ip
+
+# 3. Verify IAM strict policies
+$ iam-audit --check-root-mfa --report-unused-credentials
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+            <p>Use <span class="inline-code">--dry-run</span> when testing new security policies to avoid locking out legitimate users.</p>
         </section>
 
         <section id="best-practices" class="guide-section">
             <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+            <p>Adhering to industry standards is crucial for maintaining a robust security posture:</p>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Caution:</strong> Never hardcode API keys or secrets in your source code. Use Secret Managers or Environment Variables.
             </div>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>Enforce MFA:</strong> Multi-Factor Authentication should be mandatory for all user accounts, especially root/admin access.</li>
+                <li><strong>Least Privilege Principle:</strong> Grant users only the permissions they need to perform their specific tasks.</li>
+                <li><strong>Regular Patching:</strong> Automate the patching process for virtual machines and containers to mitigate CVEs.</li>
+                <li><strong>Infrastructure as Code (IaC) Scanning:</strong> Scan Terraform or CloudFormation templates for vulnerabilities before deployment.</li>
             </ul>
         </section>
         
@@ -99,6 +123,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

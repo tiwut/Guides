@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>macOS Productivity</title>
+    <title>macOS Productivity Guide</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -28,12 +27,13 @@
 <body class="guide-page">
 
     <nav id="sidebar">
-        <h2>macOS Productivity</h2>
+        <h2>macOS Mastery</h2>
         <ul>
-            <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#intro" class="active">Overview</a></li>
+            <li><a href="#shortcuts">Keyboard Shortcuts</a></li>
+            <li><a href="#window-management">Window Mgmt</a></li>
+            <li><a href="#spotlight-finder">Spotlight & Finder</a></li>
+            <li><a href="#terminal-tweaks">Terminal Tweaks</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
@@ -41,54 +41,73 @@
     <div id="main-content">
         <header>
             <h1>macOS Productivity</h1>
-            <p>Welcome to the comprehensive guide on macOS Productivity. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>Unlock the full potential of your Mac. This guide covers essential workflows, shortcuts, and system configurations to maximize your efficiency.</p>
         </header>
 
         <section id="intro" class="guide-section">
-            <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <h2>Overview</h2>
+            <div class="card-icon">⚡</div>
             <p>
-                <strong>macOS Productivity</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>Productivity on macOS</strong> relies on reducing friction between your intent and the execution. 
+                By mastering navigation, file management, and system automation, you can save hours of work every week.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make macOS Productivity powerful and useful.</p>
+            <p>This guide focuses on native features that require no third-party software, ensuring these skills work on any Mac you touch.</p>
         </section>
 
-        <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
+        <section id="shortcuts" class="guide-section">
+            <h2>Essential Keyboard Shortcuts</h2>
+            <p>The keyboard is faster than the mouse. Memorize these core combinations to navigate the system rapidly.</p>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>Cmd + Space:</strong> Open Spotlight Search (Launch apps, calculate math, find files).</li>
+                <li><strong>Cmd + Tab:</strong> Switch between open applications.</li>
+                <li><strong>Cmd + ` (Tilde):</strong> Switch between windows of the <em>same</em> application.</li>
+                <li><strong>Cmd + Shift + 4:</strong> Take a screenshot of a specific area.</li>
+                <li><strong>Cmd + Option + Esc:</strong> Force Quit unresponsive applications.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Pro Tip:</strong> Hold the <code>Option</code> key while clicking distinct menus (like the Wi-Fi icon or Apple Menu) to reveal hidden details and diagnostics.
             </div>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with macOS Productivity, ensure you have the necessary environment set up:</p>
-            <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
-            </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        <section id="window-management" class="guide-section">
+            <h2>Window Management</h2>
+            <p>Keeping your digital workspace organized is key to focus.</p>
+            <ul>
+                <li><strong>Mission Control:</strong> Swipe up with three fingers to see all open windows and create distinct Desktop Spaces.</li>
+                <li><strong>Split View:</strong> Hover over the green maximize button to snap two apps side-by-side.</li>
+                <li><strong>Hot Corners:</strong> Configure screen corners (System Settings > Desktop & Dock) to instantly lock the screen or reveal the desktop.</li>
+            </ul>
         </section>
 
-        <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+        <section id="spotlight-finder" class="guide-section">
+            <h2>Spotlight & Finder Power</h2>
+            <p>Stop digging through folders and start finding what you need instantly.</p>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Did you know?</strong> You don't need to open a file to see it. Select a file and press <strong>Spacebar</strong> to use Quick Look.
             </div>
+            <p><strong>Spotlight Tricks:</strong></p>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li>Type "100 USD to EUR" for instant currency conversion.</li>
+                <li>Type "weather" to see the forecast.</li>
+                <li>Drag a result from Spotlight directly into an email or document.</li>
             </ul>
+        </section>
+
+        <section id="terminal-tweaks" class="guide-section">
+            <h2>Terminal Tweaks</h2>
+            <p>For advanced users, the Terminal allows you to change hidden settings to speed up animations or change default behaviors.</p>
+            <p>Example: Change the default screenshot file format from PNG to JPG (smaller file size) and disable the drop-shadow on screenshots:</p>
+            <pre><code class="language-bash">
+# Change screenshot type to JPG
+defaults write com.apple.screencapture type jpg
+
+# Disable window shadow in screenshots
+defaults write com.apple.screencapture disable-shadow -bool true
+
+# Apply changes
+killall SystemUIServer
+            </code></pre>
+            <p>Always verify commands before running them in your shell.</p>
         </section>
         
         <footer>
@@ -99,6 +118,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-
