@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anatomy of an ARM Computer</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -31,9 +30,9 @@
         <h2>Anatomy of an ARM Computer</h2>
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#architecture">Internal Architecture</a></li>
+            <li><a href="#isa">The Instruction Set</a></li>
+            <li><a href="#ecosystem">Modern Ecosystem</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
@@ -41,54 +40,59 @@
     <div id="main-content">
         <header>
             <h1>Anatomy of an ARM Computer</h1>
-            <p>Welcome to the comprehensive guide on Anatomy of an ARM Computer. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>A comprehensive guide to the Reduced Instruction Set Computing (RISC) architecture that powers smartphones, IoT devices, and modern laptops.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">⚡</div>
             <p>
-                <strong>Anatomy of an ARM Computer</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>ARM (Advanced RISC Machine)</strong> is the dominant processor architecture in the world today. Unlike the x86 architecture found in traditional desktop PCs (Intel/AMD), ARM is designed primarily for <strong>energy efficiency</strong> without sacrificing performance.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Anatomy of an ARM Computer powerful and useful.</p>
+            <p>The core philosophy of ARM is <strong>RISC</strong> (Reduced Instruction Set Computing). This means the processor uses a small, highly optimized set of instructions, allowing for simpler hardware design and lower power consumption.</p>
         </section>
 
-        <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
+        <section id="architecture" class="guide-section">
+            <h2>Internal Architecture</h2>
+            <p>The "anatomy" of an ARM core consists of several critical components working in unison:</p>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>Register Bank:</strong> ARM processors rely heavily on registers (fastest memory). Standard ARM has 16 general-purpose registers (R0-R15), including the Program Counter (PC) and Stack Pointer (SP).</li>
+                <li><strong>ALU (Arithmetic Logic Unit):</strong> The digital circuit that performs integer arithmetic and bitwise logic operations.</li>
+                <li><strong>Barrel Shifter:</strong> A unique ARM feature that allows data to be shifted or rotated <em>before</em> entering the ALU, enabling complex math in a single clock cycle.</li>
+                <li><strong>CPSR (Current Program Status Register):</strong> Holds flags (Negative, Zero, Carry, Overflow) indicating the result of the previous operation.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Load/Store Architecture:</strong> Unlike x86, ARM cannot manipulate data directly in memory. Data must first be <em>Loaded</em> into a register, processed, and then <em>Stored</em> back to memory.
             </div>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Anatomy of an ARM Computer, ensure you have the necessary environment set up:</p>
-            <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+        <section id="isa" class="guide-section">
+            <h2>The Instruction Set (ISA)</h2>
+            <p>Programming an ARM chip at the lowest level involves Assembly Language. Because it is a RISC architecture, the instructions are fixed-length (usually 32-bit) and predictable.</p>
+            <p>Here is an example of how the CPU processes a simple addition:</p>
+            <pre><code class="language-asm">
+/* ARM Assembly Example */
+
+MOV R0, #10       ; Load the value 10 into Register 0
+MOV R1, #20       ; Load the value 20 into Register 1
+ADD R2, R0, R1    ; Add R0 and R1, store result (30) in R2
+STR R2, [R3]      ; Store the value of R2 into the memory address held in R3
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+            <p>Key Instruction types include <span class="inline-code">Data Processing</span> (ADD, SUB), <span class="inline-code">Memory Access</span> (LDR, STR), and <span class="inline-code">Branching</span> (B, BL).</p>
         </section>
 
-        <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+        <section id="ecosystem" class="guide-section">
+            <h2>Modern Ecosystem & Best Practices</h2>
+            <p>Modern ARM chips are rarely just CPUs; they are typically <strong>SoCs (Systems on a Chip)</strong>.</p>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>big.LITTLE Architecture:</strong> Modern chips mix "Performance" cores (fast, power-hungry) with "Efficiency" cores (slower, low power) to optimize battery life.
             </div>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>Cortex-A Series:</strong> High performance. Found in Android phones, Raspberry Pi, and Apple Silicon (M-series).</li>
+                <li><strong>Cortex-R Series:</strong> Real-time processing. Used in automotive brakes, hard drive controllers, and medical devices.</li>
+                <li><strong>Cortex-M Series:</strong> Microcontrollers. Used in IoT devices, washing machines, and sensors.</li>
             </ul>
+            <p>When developing for ARM, utilize cross-compilers (like <span class="inline-code">arm-none-eabi-gcc</span>) and be mindful of memory alignment, as ARM hardware is stricter about data alignment than x86.</p>
         </section>
         
         <footer>
@@ -99,6 +103,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-
