@@ -3,52 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQL Basics A Visual Guide</title>
+    <title>SQL Basics: A Visual Guide</title>
     <link rel="stylesheet" href="../style.css">
+    <style>
+        .sql-code {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #e0e0e0;
+            overflow-x: auto;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sql-keyword { color: #ff79c6; font-weight: bold; }
+        .sql-string { color: #f1fa8c; }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px;
+            text-align: left;
+        }
+        .data-table th { background: rgba(255,255,255,0.1); }
+    </style>
 </head>
 <body class="guide-page">
 
     <nav id="sidebar">
-        <h2>SQL Basics A Visual Guide</h2>
+        <h2>SQL Basics</h2>
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#overview">Overview</a></li>
-            <li><a href="#tutorials">Tutorials</a></li>
+            <li><a href="#structure">Data Structure</a></li>
+            <li><a href="#syntax">Basic Syntax</a></li>
+            <li><a href="#filtering">Filtering Data</a></li>
+            <li><a href="#crud">CRUD Operations</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
 
     <div id="main-content">
         <header>
-            <h1>SQL Basics A Visual Guide</h1>
-            <p>Your complete visual and practical guide to SQL Basics A Visual Guide.</p>
+            <h1>SQL Basics: A Visual Guide</h1>
+            <p>The essential cheat sheet for Structured Query Language.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">💡</div>
+            <div class="card-icon">🗄️</div>
             <p>
-                Welcome to the <strong>SQL Basics A Visual Guide</strong> guide. This resource specifically covers essential techniques
-                and knowledge required to master this domain.
+                <strong>SQL (Structured Query Language)</strong> is the standard language for storing, manipulating, and retrieving data in relational databases.
+                Think of it as the language you use to talk to the database to ask questions or give commands.
             </p>
+            <div class="important">
+                <strong>Note:</strong> SQL is technically NOT case-sensitive (<code>select</code> is the same as <code>SELECT</code>), 
+                but it is a best practice to write keywords in <strong>UPPERCASE</strong> for readability.
+            </div>
         </section>
 
-        <section id="overview" class="guide-section">
-            <h2>Overview</h2>
-            <div class="important">
-                This guide has been updated to the new Liquid Glass design standard.
-            </div>
+        <section id="structure" class="guide-section">
+            <h2>1. Anatomy of a Table</h2>
+            <p>Data in SQL is stored in <strong>Tables</strong>. A table looks like a spreadsheet.</p>
+            
+            <p><em>Example Table: <code>users</code></em></p>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>id (Column)</th>
+                        <th>username (Column)</th>
+                        <th>email (Column)</th>
+                        <th>age (Column)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>john_doe</td>
+                        <td>john@example.com</td>
+                        <td>28</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>jane_smith</td>
+                        <td>jane@test.co</td>
+                        <td>34</td>
+                    </tr>
+                </tbody>
+            </table>
             <ul>
-                <li><strong>Interactive Learning:</strong> Visual and code-heavy examples.</li>
-                <li><strong>Pro Tips:</strong> Industry standard best practices.</li>
+                <li><strong>Table:</strong> The whole grid above (e.g., "users").</li>
+                <li><strong>Column:</strong> A vertical category (e.g., "email"). Holds a specific type of data.</li>
+                <li><strong>Row:</strong> A horizontal record. Represents one single item (e.g., User #1).</li>
             </ul>
         </section>
 
-        <section id="tutorials" class="guide-section">
-            <h2>Tutorials</h2>
-            <p>Explore the sections below (coming soon) for deep dives into specific topics.</p>
+        <section id="syntax" class="guide-section">
+            <h2>2. The SELECT Statement</h2>
+            <p>The most common command. It allows you to select specific data from a table.</p>
+
+            <h3>Select Everything</h3>
+            <p>Use the asterisk (<code>*</code>) to grab all columns.</p>
+            <div class="sql-code">
+                <span class="sql-keyword">SELECT</span> * <br>
+                <span class="sql-keyword">FROM</span> users;
+            </div>
+
+            <h3>Select Specific Columns</h3>
+            <p>Better for performance. Only grab what you need.</p>
+            <div class="sql-code">
+                <span class="sql-keyword">SELECT</span> username, email <br>
+                <span class="sql-keyword">FROM</span> users;
+            </div>
+        </section>
+
+        <section id="filtering" class="guide-section">
+            <h2>3. Filtering Data (WHERE)</h2>
+            <div class="card-icon">🔍</div>
+            <p>Use the <code>WHERE</code> clause to filter results based on specific conditions.</p>
+
+            <div class="sql-code">
+                <span class="sql-keyword">SELECT</span> * <br>
+                <span class="sql-keyword">FROM</span> users <br>
+                <span class="sql-keyword">WHERE</span> age > 18;
+            </div>
+
+            <h3>Common Operators</h3>
+            <ul style="list-style: none; padding-left: 0;">
+                <li><code>=</code> : Equal to</li>
+                <li><code><></code> or <code>!=</code> : Not equal to</li>
+                <li><code>></code> / <code><</code> : Greater/Less than</li>
+                <li><code>BETWEEN</code> : Within a range</li>
+                <li><code>LIKE</code> : Pattern matching (e.g., starts with 'A')</li>
+            </ul>
+        </section>
+
+        <section id="crud" class="guide-section">
+            <h2>4. Modifying Data (CRUD)</h2>
+            <p>Beyond reading data, you need to manage it.</p>
+
+            <h3>INSERT (Create)</h3>
+            <div class="sql-code">
+                <span class="sql-keyword">INSERT INTO</span> users (username, age)<br>
+                <span class="sql-keyword">VALUES</span> (<span class="sql-string">'mike_jones'</span>, 22);
+            </div>
+
+            <h3>UPDATE (Modify)</h3>
             <div class="warning">
-                <strong>Work in Progress:</strong> This section is being actively expanded with new content.
+                <strong>Warning:</strong> Always use a <code>WHERE</code> clause with UPDATE. If you omit it, you will update <strong>every row</strong> in the table!
+            </div>
+            <div class="sql-code">
+                <span class="sql-keyword">UPDATE</span> users<br>
+                <span class="sql-keyword">SET</span> age = 23<br>
+                <span class="sql-keyword">WHERE</span> username = <span class="sql-string">'mike_jones'</span>;
+            </div>
+
+            <h3>DELETE (Remove)</h3>
+            <div class="sql-code">
+                <span class="sql-keyword">DELETE FROM</span> users<br>
+                <span class="sql-keyword">WHERE</span> id = 1;
             </div>
         </section>
 
@@ -59,6 +175,3 @@
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-
