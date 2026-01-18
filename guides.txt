@@ -61,3 +61,4 @@ Introduction to NoSQL;Introduction to NoSQL;Einführung in NoSQL;Introducción a
 SQL Basics A Visual Guide;SQL Basics A Visual Guide;SQL-Grundlagen Ein visueller Guide;Fundamentos de SQL Una Guía Visual
 Firebase Guide;Firebase Guide;Firebase Anleitung;Guía de Firebase
 Anatomy of an ARM Computer;Anatomy of an ARM Computer;Anatomie eines ARM Computers;Anatomía de un Ordenador ARM
+NEXUS_TITAN-Guide;NEXUS TITAN;NEXUS TITAN;NEXUS TITAN
