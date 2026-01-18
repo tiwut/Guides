@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Introduction to NoSQL</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
-            background: rgba(0, 0, 0, 0.2);
+            background: #2d2d2d;
             border: 1px solid var(--color-glass-border);
             border-radius: 12px;
             padding: 20px;
             margin: 20px 0;
             overflow: hidden;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            text-align: center;
         }
         .drawing-container svg {
             width: 100%;
@@ -28,11 +28,12 @@
 <body class="guide-page">
 
     <nav id="sidebar">
-        <h2>Introduction to NoSQL</h2>
+        <h2>NoSQL Guide</h2>
         <ul>
-            <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#intro" class="active">What is NoSQL?</a></li>
+            <li><a href="#types">Database Types</a></li>
+            <li><a href="#key-concepts">CAP & BASE</a></li>
+            <li><a href="#getting-started">Data Modeling</a></li>
             <li><a href="#best-practices">Best Practices</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
@@ -41,53 +42,111 @@
     <div id="main-content">
         <header>
             <h1>Introduction to NoSQL</h1>
-            <p>Welcome to the comprehensive guide on Introduction to NoSQL. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>A comprehensive guide to non-relational databases, horizontal scaling, and modern data architecture.</p>
         </header>
 
         <section id="intro" class="guide-section">
-            <h2>Introduction</h2>
+            <h2>What is NoSQL?</h2>
             <div class="card-icon">🚀</div>
             <p>
-                <strong>Introduction to NoSQL</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>NoSQL</strong> (often interpreted as "Not Only SQL") refers to a wide class of database management systems that differ from the classic Relational Database Management System (RDBMS). 
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Introduction to NoSQL powerful and useful.</p>
+            <p>
+                Unlike traditional SQL databases that use fixed schemas and tables, NoSQL databases are designed for <strong>flexibility, speed, and scale</strong>. They are particularly well-suited for unstructured data, real-time web applications, and big data analytics.
+            </p>
+            
+            <div class="drawing-container">
+                <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="50" width="200" height="100" rx="5" fill="#444" stroke="#888"/>
+                    <text x="150" y="40" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">SQL (Relational)</text>
+                    <rect x="70" y="70" width="160" height="15" fill="#666"/>
+                    <rect x="70" y="90" width="160" height="15" fill="#666"/>
+                    <rect x="70" y="110" width="160" height="15" fill="#666"/>
+                    <text x="150" y="145" fill="#aaa" text-anchor="middle" font-size="12">Fixed Table Structure</text>
+
+                    <path d="M 280 100 L 320 100" stroke="#ff6600" stroke-width="3" marker-end="url(#arrow)" />
+
+                    <circle cx="450" cy="100" r="60" fill="none" stroke="#ff6600" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="450" y="40" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">NoSQL (Flexible)</text>
+                    <text x="450" y="90" fill="#fff" text-anchor="middle" font-size="10">{ JSON }</text>
+                    <text x="450" y="110" fill="#fff" text-anchor="middle" font-size="10">Graphs</text>
+                    <text x="450" y="130" fill="#fff" text-anchor="middle" font-size="10">Key-Value</text>
+                </svg>
+            </div>
+        </section>
+
+        <section id="types" class="guide-section">
+            <h2>Types of NoSQL Databases</h2>
+            <p>NoSQL is not a single technology but a category containing four main types:</p>
+            <ul>
+                <li><strong>Document Stores (e.g., MongoDB):</strong> Stores data in JSON-like documents. Ideal for Content Management Systems (CMS) and user profiles.</li>
+                <li><strong>Key-Value Stores (e.g., Redis, DynamoDB):</strong> The simplest form. Every item is an attribute associated with a key. Optimized for high-speed caching.</li>
+                <li><strong>Column-Oriented (e.g., Cassandra):</strong> Stores data in columns rather than rows. Excellent for analytics and writing huge amounts of data.</li>
+                <li><strong>Graph Databases (e.g., Neo4j):</strong> Stores entities as nodes and relationships as edges. Perfect for social networks and recommendation engines.</li>
+            </ul>
         </section>
 
         <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
+            <h2>Key Concepts: CAP & BASE</h2>
+            <p>Understanding the theoretical foundation is crucial for choosing the right database.</p>
+            
+            <h3>The CAP Theorem</h3>
+            <p>A distributed system can only deliver two of the following three guarantees:</p>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>Consistency:</strong> Every read receives the most recent write or an error.</li>
+                <li><strong>Availability:</strong> Every request receives a (non-error) response, without the guarantee that it contains the most recent write.</li>
+                <li><strong>Partition Tolerance:</strong> The system continues to operate despite an arbitrary number of messages being dropped or delayed by the network.</li>
             </ul>
+            
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Recall:</strong> Most NoSQL databases favor <strong>AP</strong> (Availability + Partition Tolerance) or <strong>CP</strong> over the strict ACID compliance of SQL.
             </div>
+
+            <h3>BASE Philosophy</h3>
+            <p>Instead of ACID (Atomicity, Consistency, Isolation, Durability), NoSQL often follows BASE:</p>
+            <ul>
+                <li><strong>B</strong>asically <strong>A</strong>vailable</li>
+                <li><strong>S</strong>oft state</li>
+                <li><strong>E</strong>ventually consistent</li>
+            </ul>
         </section>
         
         <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Introduction to NoSQL, ensure you have the necessary environment set up:</p>
-            <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+            <h2>Getting Started: Data Modeling</h2>
+            <p>In a Document Store (like MongoDB), you don't define tables. You define <strong>Documents</strong>. Here is an example of a user profile stored as JSON:</p>
+            <pre><code class="language-json">
+{
+  "_id": "507f1f77bcf86cd799439011",
+  "username": "tech_guru",
+  "email": "guru@tiwut.de",
+  "active": true,
+  "roles": ["editor", "admin"],
+  "preferences": {
+    "theme": "dark",
+    "notifications": false
+  }
+}
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+            <p>To query this data, you might use a command like this:</p>
+            <pre><code class="language-javascript">
+// Find all active users with the 'admin' role
+db.users.find({ 
+    active: true, 
+    roles: "admin" 
+});
+            </code></pre>
         </section>
 
         <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+            <h2>Best Practices</h2>
+            <p>Moving from SQL to NoSQL requires a shift in mindset:</p>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Caution:</strong> Do not simply apply SQL normalization rules to NoSQL. This often leads to performance issues.
             </div>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>Design for Queries, not Data:</strong> Structure your data based on how your application will <em>read</em> it, not how the data relates to itself.</li>
+                <li><strong>Denormalization is Good:</strong> It is acceptable to duplicate data (e.g., storing the username inside a comment object) to avoid expensive "joins" between collections.</li>
+                <li><strong>Plan for Sharding:</strong> If you expect massive growth, choose a "Shard Key" early to distribute data across multiple servers effectively.</li>
             </ul>
         </section>
         
@@ -99,6 +158,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-
