@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Firewall Configuration for Better Security</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -28,12 +27,12 @@
 <body class="guide-page">
 
     <nav id="sidebar">
-        <h2>Firewall Configuration for Better Security</h2>
+        <h2>Firewall Security Guide</h2>
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#policies">Core Policies</a></li>
+            <li><a href="#configuration">Configuration (UFW)</a></li>
+            <li><a href="#advanced">Advanced Rules</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
@@ -41,53 +40,82 @@
     <div id="main-content">
         <header>
             <h1>Firewall Configuration for Better Security</h1>
-            <p>Welcome to the comprehensive guide on Firewall Configuration for Better Security. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>A comprehensive guide to securing your network infrastructure. Learn how to configure rules, manage traffic flow, and harden your system against unauthorized access.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">🛡️</div>
             <p>
-                <strong>Firewall Configuration for Better Security</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                A <strong>Firewall</strong> acts as the first line of defense between your trusted internal network (or server) and untrusted external networks, such as the Internet.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Firewall Configuration for Better Security powerful and useful.</p>
+            <p>
+                Proper configuration is essential. An unconfigured firewall provides a false sense of security, while an overly restrictive one can disrupt legitimate services. This guide focuses on Linux-based firewalls (specifically UFW/iptables) as a standard for server security.
+            </p>
         </section>
 
-        <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
+        <section id="policies" class="guide-section">
+            <h2>Core Policies & Concepts</h2>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>Default Deny:</strong> The golden rule of security. Block all incoming traffic by default and only allow specific exceptions.</li>
+                <li><strong>Ingress vs. Egress:</strong> Understanding the difference between incoming traffic (Ingress) and outgoing traffic (Egress).</li>
+                <li><strong>Stateful Inspection:</strong> Modern firewalls track the state of active network connections, allowing return traffic automatically.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Principle of Least Privilege:</strong> Only open ports that are absolutely necessary for your services to function. Close everything else.
             </div>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Firewall Configuration for Better Security, ensure you have the necessary environment set up:</p>
+        <section id="configuration" class="guide-section">
+            <h2>Basic Configuration (UFW)</h2>
+            <p>For most Linux systems, <strong>UFW (Uncomplicated Firewall)</strong> is the standard tool. Here is how to set up a secure baseline:</p>
+            
+            <h3>1. Set Defaults and Allow SSH</h3>
+            <p>Before enabling the firewall, you must allow SSH to prevent locking yourself out of the server.</p>
             <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+# 1. Deny all incoming connections by default
+sudo ufw default deny incoming
+
+# 2. Allow outgoing connections (updates, curl, git)
+sudo ufw default allow outgoing
+
+# 3. Allow SSH (Port 22 is standard, adjust if you use a custom port)
+sudo ufw allow ssh
+# OR specific port: sudo ufw allow 2222/tcp
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+
+            <h3>2. Enable the Firewall</h3>
+            <pre><code class="language-bash">
+# Activate the firewall settings
+sudo ufw enable
+
+# Check status and rules
+sudo ufw status verbose
+            </code></pre>
         </section>
 
-        <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+        <section id="advanced" class="guide-section">
+            <h2>Advanced Rules & Best Practices</h2>
+            <p>Once the baseline is set, optimize your configuration for better security and specific services.</p>
+            
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Caution:</strong> When modifying rules on a remote server, always ensure your current SSH session remains active until you verify the new configuration works.
             </div>
+
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>Rate Limiting:</strong> Protect SSH against brute-force attacks.
+                    <br><span class="inline-code">sudo ufw limit ssh</span>
+                </li>
+                <li><strong>Web Traffic:</strong> Allow standard HTTP and HTTPS traffic.
+                    <br><span class="inline-code">sudo ufw allow 80/tcp</span> (HTTP)
+                    <br><span class="inline-code">sudo ufw allow 443/tcp</span> (HTTPS)
+                </li>
+                <li><strong>Specific IP Whitelisting:</strong> Allow access to sensitive ports (like databases) only from specific trusted IPs (e.g., your VPN or office static IP).
+                    <br><span class="inline-code">sudo ufw allow from 192.168.1.50 to any port 3306</span>
+                </li>
+                <li><strong>Logging:</strong> Enable logging to audit blocked attempts.
+                    <br><span class="inline-code">sudo ufw logging on</span>
+                </li>
             </ul>
         </section>
         
@@ -99,6 +127,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

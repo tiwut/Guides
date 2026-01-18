@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wi-Fi Security Guide</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -31,9 +30,9 @@
         <h2>Wi-Fi Security Guide</h2>
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#protocols">Encryption Protocols</a></li>
+            <li><a href="#configuration">Configuration</a></li>
+            <li><a href="#advanced">Advanced Security</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
@@ -41,53 +40,60 @@
     <div id="main-content">
         <header>
             <h1>Wi-Fi Security Guide</h1>
-            <p>Welcome to the comprehensive guide on Wi-Fi Security Guide. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>A comprehensive resource for securing your wireless networks against unauthorized access, data interception, and modern cyber threats.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">🛡️</div>
             <p>
-                <strong>Wi-Fi Security Guide</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>Wi-Fi Security</strong> is the practice of protecting wireless networks from unauthorized access and data theft. 
+                Unlike wired networks, Wi-Fi signals broadcast beyond the physical walls of your building, making them susceptible to interception 
+                if not properly secured.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Wi-Fi Security Guide powerful and useful.</p>
+            <p>This guide covers the evolution of security standards, how to configure your router correctly, and habits to maintain a hardened network environment.</p>
         </section>
 
-        <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
+        <section id="protocols" class="guide-section">
+            <h2>Encryption Protocols</h2>
+            <p>Not all security settings are created equal. Understanding the difference between protocols is vital.</p>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>WPA3 (Wi-Fi Protected Access 3):</strong> The latest standard. It uses Simultaneous Authentication of Equals (SAE) to protect against offline dictionary attacks.</li>
+                <li><strong>WPA2-AES:</strong> The current industry standard. Secure for most users, provided a strong password is used.</li>
+                <li><strong>WPA/TKIP & WEP:</strong> <span style="color: #ff4444;">Obsolete and insecure.</span> These can be cracked in minutes and should never be used.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Recall:</strong> Always choose WPA3-Personal if your hardware supports it. If not, fallback to WPA2-AES (CCMP). Avoid "WPA2/WPA Mixed Mode" if possible.
             </div>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Wi-Fi Security Guide, ensure you have the necessary environment set up:</p>
+        <section id="configuration" class="guide-section">
+            <h2>Essential Configuration</h2>
+            <p>Securing a router requires more than just a password. Follow these immediate steps:</p>
             <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+# 1. Change Default Admin Credentials
+# Default: admin/admin -> Change to a strong passphrase.
+
+# 2. Disable WPS (Wi-Fi Protected Setup)
+# WPS is vulnerable to brute-force attacks (Pixie Dust).
+# Status: DISABLED
+
+# 3. Update Firmware
+# Ensure the router is running the latest security patches.
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+            <p>Access your router interface (usually via <code>192.168.1.1</code> or <code>192.168.0.1</code>) to apply these changes immediately.</p>
         </section>
 
-        <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+        <section id="advanced" class="guide-section">
+            <h2>Advanced Best Practices</h2>
+            <p>To maximize your network hygiene and isolation, consider these measures:</p>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Caution:</strong> Do not hide your SSID (Network Name) as a security measure. It does not stop scanners and can actually cause connectivity issues for your devices.
             </div>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>Guest Networks:</strong> Create a separate VLAN/SSID for visitors and IoT devices (Smart bulbs, Fridges) to isolate them from your main PC and storage.</li>
+                <li><strong>Reduce Transmit Power:</strong> Lower the signal strength so it covers only your home, not the entire street.</li>
+                <li><strong>Disable Remote Management:</strong> Ensure the router can only be configured from inside the LAN, not from the internet.</li>
             </ul>
         </section>
         
@@ -99,6 +105,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

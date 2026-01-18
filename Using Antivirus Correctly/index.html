@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Using Antivirus Correctly</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -32,7 +31,7 @@
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
             <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#setup-config">Setup & Configuration</a></li>
             <li><a href="#best-practices">Best Practices</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
@@ -41,53 +40,57 @@
     <div id="main-content">
         <header>
             <h1>Using Antivirus Correctly</h1>
-            <p>Welcome to the comprehensive guide on Using Antivirus Correctly. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>A comprehensive guide to securing your operating system. Learn how to configure, maintain, and utilize antivirus software effectively to prevent malware infections without sacrificing system performance.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">🛡️</div>
             <p>
-                <strong>Using Antivirus Correctly</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>Antivirus software</strong> is the foundational layer of endpoint security, but simply installing it is not enough. To be truly effective, it requires proper configuration and regular attention.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Using Antivirus Correctly powerful and useful.</p>
+            <p>In this guide, we will move beyond basic installation and cover how to ensure your security software actively detects threats like Ransomware, Trojans, and Spyware while minimizing false positives and system lag.</p>
         </section>
 
         <section id="key-concepts" class="guide-section">
             <h2>Key Concepts</h2>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>Real-Time Protection:</strong> The active shield that scans files the moment they are created, opened, or downloaded. This should always be enabled.</li>
+                <li><strong>Heuristics & Behavior Monitoring:</strong> Advanced detection that identifies suspicious behavior from unknown files, rather than relying solely on a database of known viruses.</li>
+                <li><strong>Quarantine:</strong> A secure, isolated storage area where infected files are held so they cannot damage the system while you decide whether to delete or restore them.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Remember:</strong> Antivirus is not a substitute for safe browsing habits. It is a safety net, not a guarantee of invincibility.
             </div>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Using Antivirus Correctly, ensure you have the necessary environment set up:</p>
-            <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+        <section id="setup-config" class="guide-section">
+            <h2>Setup & Configuration</h2>
+            <p>Whether you are using Windows Defender, Bitdefender, or Malwarebytes, specific configurations ensure optimal operation. Below are standard commands for managing Windows Security via PowerShell:</p>
+            <pre><code class="language-powershell">
+# Check current antivirus status
+Get-MpComputerStatus
+
+# Force a signature update manually
+Update-MpSignature
+
+# Run a quick scan via command line
+Start-MpScan -ScanType QuickScan
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+            <p>Use <span class="inline-code">Get-Help Start-MpScan</span> to see advanced scanning options.</p>
         </section>
 
         <section id="best-practices" class="guide-section">
             <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+            <p>Follow these golden rules to maintain a healthy security posture:</p>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Critical Warning:</strong> Never run two different antivirus programs with "Real-Time Protection" enabled simultaneously. This causes severe system conflicts and crashes.
             </div>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>Keep Definitions Updated:</strong> Ensure your software updates its virus database automatically every day.</li>
+                <li><strong>Schedule Full Scans:</strong> Run a full system scan once a month, preferably when the computer is not in heavy use.</li>
+                <li><strong>Handle Exclusions Carefully:</strong> Only exclude folders from scanning if you are 100% sure they are safe (e.g., for specific development environments).</li>
+                <li><strong>Layer Your Security:</strong> Use a dedicated antivirus alongside a browser ad-blocker (like uBlock Origin) to prevent malicious scripts from loading.</li>
             </ul>
         </section>
         
@@ -99,6 +102,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

@@ -12,8 +12,8 @@
         <h2>Automate your tasks with PowerShell & Bash</h2>
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#overview">Overview</a></li>
-            <li><a href="#tutorials">Tutorials</a></li>
+            <li><a href="#overview">Core Differences</a></li>
+            <li><a href="#tutorials">Practical Scripts</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
@@ -21,34 +21,80 @@
     <div id="main-content">
         <header>
             <h1>Automate your tasks with PowerShell & Bash</h1>
-            <p>Your complete visual and practical guide to Automate your tasks with PowerShell & Bash.</p>
+            <p>Your complete guide to system orchestration, batch processing, and workflow efficiency using modern shell scripting.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">💡</div>
+            <div class="card-icon">🚀</div>
             <p>
-                Welcome to the <strong>Automate your tasks with PowerShell & Bash</strong> guide. This resource specifically covers essential techniques
-                and knowledge required to master this domain.
+                Automation is the cornerstone of modern IT administration. By mastering <strong>PowerShell</strong> and <strong>Bash</strong>, you can eliminate repetitive manual tasks, ensure consistency across servers, and dramatically speed up your workflow.
+            </p>
+            <p>
+                Whether you are managing Windows Server environments or maintaining Linux infrastructure, script-based automation allows you to interact with the operating system at a deeper level than any GUI permits.
             </p>
         </section>
 
         <section id="overview" class="guide-section">
-            <h2>Overview</h2>
+            <h2>Core Differences</h2>
             <div class="important">
-                This guide has been updated to the new Liquid Glass design standard.
+                <strong>Key Concept:</strong> PowerShell passes <em>Objects</em> between commands, while Bash passes <em>Text/Strings</em>.
             </div>
             <ul>
-                <li><strong>Interactive Learning:</strong> Visual and code-heavy examples.</li>
-                <li><strong>Pro Tips:</strong> Industry standard best practices.</li>
+                <li><strong>PowerShell (Windows/Cross-Platform):</strong>
+                    <ul>
+                        <li>Uses a <code>Verb-Noun</code> syntax (e.g., <code>Get-Service</code>).</li>
+                        <li>Built on the .NET framework.</li>
+                        <li>Ideal for managing Active Directory, Azure, and Windows configurations.</li>
+                    </ul>
+                </li>
+                <li><strong>Bash (Linux/macOS):</strong>
+                    <ul>
+                        <li>Uses concise, command-based syntax (e.g., <code>ls</code>, <code>grep</code>).</li>
+                        <li>Relies heavily on piping text streams and file manipulation.</li>
+                        <li>Standard for cloud servers, CI/CD pipelines, and container management.</li>
+                    </ul>
+                </li>
             </ul>
         </section>
 
         <section id="tutorials" class="guide-section">
-            <h2>Tutorials</h2>
-            <p>Explore the sections below (coming soon) for deep dives into specific topics.</p>
-            <div class="warning">
-                <strong>Work in Progress:</strong> This section is being actively expanded with new content.
+            <h2>Practical Scripts</h2>
+            <p>Below are real-world examples of how to automate common administrative tasks in both environments.</p>
+
+            <h3>1. PowerShell: Monitoring High CPU Processes</h3>
+            <p>This script retrieves the top 5 processes consuming the most CPU and exports the data to a CSV file.</p>
+            <pre><code class="language-powershell"># Get top 5 CPU processes
+$HighCpu = Get-Process | Sort-Object CPU -Descending | Select-Object -First 5
+
+# Display to console
+$HighCpu | Format-Table -AutoSize
+
+# Export to CSV for reporting
+$HighCpu | Export-Csv -Path "C:\Logs\HighCpuUsage.csv" -NoTypeInformation
+
+Write-Host "CPU Report generated successfully." -ForegroundColor Green</code></pre>
+
+            <h3>2. Bash: Automated System Backup</h3>
+            <p>This script archives a specific directory, stamps it with the current date, and deletes backups older than 7 days.</p>
+            <pre><code class="language-bash">#!/bin/bash
+
+# Variables
+SOURCE_DIR="/var/www/html"
+BACKUP_DIR="/backups/web"
+DATE=$(date +%Y-%m-%d)
+ARCHIVE_NAME="backup-$DATE.tar.gz"
+
+# Create backup
+tar -czf $BACKUP_DIR/$ARCHIVE_NAME $SOURCE_DIR
+
+# Remove backups older than 7 days
+find $BACKUP_DIR -type f -name "*.tar.gz" -mtime +7 -exec rm {} \;
+
+echo "Backup $ARCHIVE_NAME completed and old files cleaned."</code></pre>
+
+            <div class="important">
+                <strong>Pro Tip:</strong> You can now run PowerShell on Linux (using PowerShell Core) to write cross-platform scripts that work on both Windows and Linux systems.
             </div>
         </section>
 
@@ -59,6 +105,3 @@
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

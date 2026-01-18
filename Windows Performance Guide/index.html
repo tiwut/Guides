@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows Performance Guide</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -31,8 +30,8 @@
         <h2>Windows Performance Guide</h2>
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#key-concepts">Core Optimizations</a></li>
+            <li><a href="#getting-started">CLI & Maintenance</a></li>
             <li><a href="#best-practices">Best Practices</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
@@ -41,53 +40,61 @@
     <div id="main-content">
         <header>
             <h1>Windows Performance Guide</h1>
-            <p>Welcome to the comprehensive guide on Windows Performance Guide. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>Welcome to the comprehensive guide on optimizing Windows 10 and 11. This resource is designed to help you lower latency, increase FPS, and maintain a responsive system stability.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
             <div class="card-icon">🚀</div>
             <p>
-                <strong>Windows Performance Guide</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>Windows Performance Optimization</strong> is about balancing system resources to prioritize the tasks that matter most to you, whether that is gaming, content creation, or development.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Windows Performance Guide powerful and useful.</p>
+            <p>Out of the box, Windows is configured for compatibility and power saving rather than raw performance. In this guide, we will explore safe and effective methods to reduce system overhead and improve responsiveness.</p>
         </section>
 
         <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
+            <h2>Core Optimizations</h2>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>Power Plans:</strong> Switching to "High Performance" or "Ultimate Performance" ensures the CPU runs at maximum frequency and prevents aggressive component sleeping.</li>
+                <li><strong>Visual Effects:</strong> Windows uses animations and transparency that consume GPU/CPU resources. Disabling these can significantly improve UI snappiness.</li>
+                <li><strong>Bloatware Removal:</strong> Uninstalling pre-installed, unused applications frees up storage and reduces background processes.</li>
+                <li><strong>Startup Apps:</strong> Managing the Task Manager startup tab to prevent unnecessary software from loading at boot time.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Recall:</strong> Always create a System Restore Point before making changes to the registry or system drivers.
             </div>
         </section>
         
         <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Windows Performance Guide, ensure you have the necessary environment set up:</p>
-            <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+            <h2>CLI & System Maintenance</h2>
+            <p>Before applying tweaks, ensure your system files are uncorrupted. Use the Command Prompt or PowerShell as Administrator to repair system health and clear standard caches:</p>
+            <pre><code class="language-powershell">
+# Check and repair system files
+sfc /scannow
+
+# Repair Windows Image
+dism /online /cleanup-image /restorehealth
+
+# Flush DNS Cache (Fixes connection issues)
+ipconfig /flushdns
+
+# Remove temporary files (Optional)
+del /q/f/s %TEMP%\*
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+            <p>Running these commands monthly ensures that performance degradation is not caused by file corruption.</p>
         </section>
 
         <section id="best-practices" class="guide-section">
             <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+            <p>Follow these guidelines to ensure long-term performance without sacrificing security:</p>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Caution:</strong> Avoid third-party "Snake Oil" optimizer suites. They often break Windows Updates or introduce security vulnerabilities. Stick to manual configuration or trusted open-source scripts.
             </div>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>Driver Updates:</strong> Keep GPU and Chipset drivers updated directly from the manufacturer (Nvidia/AMD/Intel), not just via Windows Update.</li>
+                <li><strong>Game Mode:</strong> Ensure Windows "Game Mode" is enabled to prioritize game processes over background tasks.</li>
+                <li><strong>Storage Sense:</strong> Enable Storage Sense in settings to automatically clear temporary files and recycle bin contents.</li>
+                <li><strong>DDU (Display Driver Uninstaller):</strong> Use this tool when upgrading graphics cards to ensure a clean driver installation.</li>
             </ul>
         </section>
         
@@ -99,6 +106,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

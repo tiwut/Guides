@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nextcloud on TrueNAS Scale</title>
+    <title>Nextcloud on TrueNAS Scale - Comprehensive Guide</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -17,12 +16,6 @@
             overflow: hidden;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-        .drawing-container svg {
-            width: 100%;
-            height: auto;
-            max-height: 400px;
-            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
-        }
     </style>
 </head>
 <body class="guide-page">
@@ -31,9 +24,10 @@
         <h2>Nextcloud on TrueNAS Scale</h2>
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#prerequisites">Prerequisites</a></li>
+            <li><a href="#installation">Installation Guide</a></li>
+            <li><a href="#optimization">Optimization</a></li>
+            <li><a href="#maintenance">Maintenance</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
@@ -41,53 +35,89 @@
     <div id="main-content">
         <header>
             <h1>Nextcloud on TrueNAS Scale</h1>
-            <p>Welcome to the comprehensive guide on Nextcloud on TrueNAS Scale. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>The ultimate guide to hosting your own private cloud using the power of ZFS and TrueNAS Scale's application ecosystem.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">☁️</div>
             <p>
-                <strong>Nextcloud on TrueNAS Scale</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>Nextcloud</strong> is the industry standard for self-hosted file synchronization, sharing, and collaboration. 
+                Running it on <strong>TrueNAS Scale</strong> leverages the underlying Linux kernel (Debian-based) and the robustness of the ZFS file system.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Nextcloud on TrueNAS Scale powerful and useful.</p>
+            <p>This setup provides enterprise-grade data integrity, snapshots, and easy expandability, making it the perfect home or business server solution.</p>
         </section>
 
-        <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
+        <section id="prerequisites" class="guide-section">
+            <h2>Prerequisites & Storage Setup</h2>
+            <p>Before installing the application, you must prepare your storage to ensure data persists across updates and reboots. Do not rely on internal container storage.</p>
+            
+            <h3>1. Create Datasets</h3>
+            <p>Navigate to <strong>Datasets</strong> in TrueNAS and create a parent dataset (e.g., <code>apps</code>) and children for Nextcloud:</p>
+            <pre><code class="language-bash">
+# Recommended Dataset Structure
+/mnt/tank/apps/nextcloud/data    # For your actual files
+/mnt/tank/apps/nextcloud/config  # For Nextcloud configuration
+/mnt/tank/apps/nextcloud/db      # For the PostgreSQL database
+            </code></pre>
+
+            <h3>2. Permissions</h3>
+            <p>Ensure the <strong>Apps</strong> user (usually UID 568 or 33 depending on the chart) has permission to write to these datasets. In TrueNAS Scale ACL editor:</p>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>Owner:</strong> apps (or www-data)</li>
+                <li><strong>Group:</strong> apps (or www-data)</li>
+                <li><strong>Mode:</strong> Read/Write/Execute</li>
             </ul>
-            <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
-            </div>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Nextcloud on TrueNAS Scale, ensure you have the necessary environment set up:</p>
-            <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
-            </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        <section id="installation" class="guide-section">
+            <h2>Installation Guide</h2>
+            <p>TrueNAS Scale offers an "Apps" tab which utilizes Kubernetes (k3s) or Docker (Dragonfish and later). Follow these steps:</p>
+            
+            <ol>
+                <li>Go to the <strong>Apps</strong> tab and click <strong>Discover Apps</strong>.</li>
+                <li>Search for <strong>Nextcloud</strong>. You will likely see the Official iXsystems chart or community charts.</li>
+                <li>Click <strong>Install</strong>.</li>
+            </ol>
+
+            <div class="important">
+                <strong>Configuration Highlights:</strong>
+                <ul>
+                    <li><strong>Admin User:</strong> Set a strong username and password.</li>
+                    <li><strong>Storage:</strong> Switch from "IX Volume" to "Host Path" and map the datasets created in the Prerequisites section.</li>
+                    <li><strong>Network:</strong> Choose a port (default 9001) or configure Ingress if you have a reverse proxy (Traefik/Nginx Proxy Manager) set up.</li>
+                </ul>
+            </div>
         </section>
 
-        <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+        <section id="optimization" class="guide-section">
+            <h2>Performance & Optimization</h2>
+            <p>Nextcloud can be resource-intensive. Apply these settings to ensure a smooth experience.</p>
+
+            <h3>Redis Caching</h3>
+            <p>Enable the Redis sub-container within the App configuration. This drastically improves web interface speed and file locking.</p>
+
+            <h3>PHP Memory Limit</h3>
+            <p>Standard PHP limits are often too low for large file uploads. If available in your App settings, increase the memory limit:</p>
+            <pre><code class="language-yaml">
+# Environment Variable Example
+PHP_MEMORY_LIMIT: 1024M
+PHP_UPLOAD_LIMIT: 10G
+            </code></pre>
+
+            <h3>Cron Jobs</h3>
+            <p>Ensure Nextcloud is set to use <strong>Cron</strong> (system cron) rather than AJAX for background tasks. This is usually the default in the official TrueNAS app, but verify in Nextcloud settings under <em>Administration > Basic Settings</em>.</p>
+        </section>
+
+        <section id="maintenance" class="guide-section">
+            <h2>Maintenance & Security</h2>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Backup Strategy:</strong> RAID is not a backup.
             </div>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>ZFS Snapshots:</strong> Set up a periodic snapshot task in TrueNAS for your Nextcloud datasets (e.g., every hour). This allows you to roll back against ransomware or accidental deletion instantly.</li>
+                <li><strong>External Access:</strong> Do not expose Nextcloud directly to the internet via port forwarding. Use a <strong>VPN</strong> (WireGuard/Tailscale) or a secure <strong>Reverse Proxy</strong> with Cloudflare Tunnel.</li>
+                <li><strong>Updates:</strong> Always backup your config and database datasets before applying an App update in TrueNAS.</li>
             </ul>
         </section>
         
@@ -99,6 +129,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

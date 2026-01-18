@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoSheets</title>
+    <title>AutoSheets Documentation</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -30,9 +29,10 @@
     <nav id="sidebar">
         <h2>AutoSheets</h2>
         <ul>
-            <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#intro" class="active">Overview</a></li>
+            <li><a href="#features">Key Features</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#usage">Basic Usage</a></li>
             <li><a href="#best-practices">Best Practices</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
@@ -41,53 +41,80 @@
     <div id="main-content">
         <header>
             <h1>AutoSheets</h1>
-            <p>Welcome to the comprehensive guide on AutoSheets. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>The ultimate automation tool for spreadsheet management, data processing, and reporting workflows.</p>
         </header>
 
         <section id="intro" class="guide-section">
-            <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <h2>Overview</h2>
+            <div class="card-icon">📊</div>
             <p>
-                <strong>AutoSheets</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>AutoSheets</strong> is a high-performance framework designed to bridge the gap between raw data sources and presentation-ready spreadsheets.
+                It allows developers and analysts to automate Excel and CSV tasks programmatically, removing the need for manual data entry and complex VBA macros.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make AutoSheets powerful and useful.</p>
+            <p>Whether you are managing financial reports, inventory logs, or user databases, AutoSheets streamlines the pipeline from ingestion to final export.</p>
         </section>
 
-        <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
+        <section id="features" class="guide-section">
+            <h2>Key Features</h2>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>Universal Format Support:</strong> Seamlessly handle .xlsx, .csv, .ods, and Google Sheets formats.</li>
+                <li><strong>Smart Formatting:</strong> Apply conditional formatting, cell styles, and formulas dynamically via code.</li>
+                <li><strong>Data Validation:</strong> Automated error checking and data type enforcement before saving.</li>
+                <li><strong>Performance:</strong> Process over 100,000 rows in seconds using the optimized C++ backend.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Note:</strong> AutoSheets requires Python 3.9 or higher to utilize the asynchronous processing modules.
             </div>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with AutoSheets, ensure you have the necessary environment set up:</p>
+        <section id="installation" class="guide-section">
+            <h2>Installation</h2>
+            <p>Install the package via pip or your preferred package manager:</p>
             <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+# Standard Installation
+$ pip install autosheets
+
+# Install with Cloud Connectors (AWS/Google Drive)
+$ pip install autosheets[cloud]
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        </section>
+
+        <section id="usage" class="guide-section">
+            <h2>Basic Usage</h2>
+            <p>Here is a simple example of how to load a dataset, clean it, and export a formatted report:</p>
+            <pre><code class="language-python">
+import autosheets as asht
+
+# Initialize the engine
+engine = asht.Engine(mode='safe')
+
+# Load and Process Data
+doc = engine.load('raw_sales_data.csv')
+sheet = doc.get_sheet(0)
+
+# Automate: Remove duplicates and calculate totals
+sheet.deduplicate(column='TransactionID')
+sheet.add_column('Total', formula='=B2*C2')
+
+# Apply styling to header row
+sheet.rows[0].style(font='bold', bg_color='#CCCCCC')
+
+# Export to Excel
+doc.save('Monthly_Report.xlsx')
+print("Automation Complete.")
+            </code></pre>
         </section>
 
         <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+            <h2>Best Practices</h2>
+            <p>To ensure data integrity and script reliability, adhere to the following guidelines:</p>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Warning:</strong> Always perform operations on a copy of your production data until your scripts are fully tested.
             </div>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>Use Relative Paths:</strong> Avoid hardcoding absolute file paths to ensure your scripts work across different environments.</li>
+                <li><strong>Error Handling:</strong> Implement try/except blocks to gracefully handle missing files or corrupt data entries.</li>
+                <li><strong>Memory Management:</strong> For files larger than 500MB, use the <code>stream_mode=True</code> flag to process data in chunks.</li>
             </ul>
         </section>
         
@@ -99,6 +126,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

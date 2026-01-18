@@ -1,104 +1,112 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What is AI</title>
-    <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
-    <style>
-        .drawing-container {
-            position: relative;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--color-glass-border);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-        }
-        .drawing-container svg {
-            width: 100%;
-            height: auto;
-            max-height: 400px;
-            filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is AI - A Comprehensive Guide</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.drawing-container {
+position: relative;
+background: rgba(0, 0, 0, 0.2);
+border: 1px solid var(--color-glass-border);
+border-radius: 12px;
+padding: 20px;
+margin: 20px 0;
+overflow: hidden;
+box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+.drawing-container svg {
+width: 100%;
+height: auto;
+max-height: 400px;
+filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
+}
+</style>
 </head>
 <body class="guide-page">
 
-    <nav id="sidebar">
-        <h2>What is AI</h2>
+code
+Code
+download
+content_copy
+expand_less
+<nav id="sidebar">
+    <h2>What is AI</h2>
+    <ul>
+        <li><a href="#intro" class="active">Introduction</a></li>
+        <li><a href="#key-concepts">Core Concepts</a></li>
+        <li><a href="#getting-started">Tools & Setup</a></li>
+        <li><a href="#best-practices">Ethics & Future</a></li>
+        <li><a href="../index.html">← Back to Home</a></li>
+    </ul>
+</nav>
+
+<div id="main-content">
+    <header>
+        <h1>What is Artificial Intelligence?</h1>
+        <p>Welcome to the comprehensive guide on Artificial Intelligence. This resource is designed to explain the definitions, underlying technologies, and the impact of AI on the modern world.</p>
+    </header>
+
+    <section id="intro" class="guide-section">
+        <h2>Introduction</h2>
+        <div class="card-icon">🧠</div>
+        <p>
+            <strong>Artificial Intelligence (AI)</strong> refers to the simulation of human intelligence in machines that are programmed to think and learn like humans. 
+            The term may also be applied to any machine that exhibits traits associated with a human mind such as learning and problem-solving.
+        </p>
+        <p>From voice assistants like Siri and Alexa to complex algorithms driving self-driving cars and generative models like ChatGPT, AI is rapidly transforming industries and daily life.</p>
+    </section>
+
+    <section id="key-concepts" class="guide-section">
+        <h2>Core Concepts</h2>
         <ul>
-            <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#best-practices">Best Practices</a></li>
-            <li><a href="../index.html">← Back to Home</a></li>
+            <li><strong>Machine Learning (ML):</strong> A subset of AI where computers learn from data without being explicitly programmed for specific tasks.</li>
+            <li><strong>Neural Networks:</strong> Algorithms inspired by the human brain, designed to recognize patterns and interpret sensory data.</li>
+            <li><strong>Deep Learning:</strong> A specialized form of ML utilizing multi-layered neural networks to solve complex problems like image recognition.</li>
+            <li><strong>NLP (Natural Language Processing):</strong> The branch focused on enabling machines to understand, interpret, and generate human language.</li>
         </ul>
-    </nav>
+        <div class="important">
+            <strong>Recall:</strong> AI is not a single technology but a constellation of different technologies working together to enable machines to act with varying levels of intelligence.
+        </div>
+    </section>
+    
+    <section id="getting-started" class="guide-section">
+        <h2>Tools & Getting Started</h2>
+        <p>To begin developing or experimenting with AI, Python is the standard programming language due to its extensive library support. You will need to set up a valid environment:</p>
+        <pre><code class="language-bash">
+Install essential AI/ML libraries via pip
 
-    <div id="main-content">
-        <header>
-            <h1>What is AI</h1>
-            <p>Welcome to the comprehensive guide on What is AI. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
-        </header>
+$ pip install numpy pandas scikit-learn
+$ pip install tensorflow torch
+</code></pre>
+<p>Use platforms like <span class="inline-code">Jupyter Notebooks</span> or <span class="inline-code">Google Colab</span> to run your first experiments interactively.</p>
+</section>
 
-        <section id="intro" class="guide-section">
-            <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
-            <p>
-                <strong>What is AI</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
-            </p>
-            <p>In this guide, we will explore the fundamental principles that make What is AI powerful and useful.</p>
-        </section>
-
-        <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
-            <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
-            </ul>
-            <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
-            </div>
-        </section>
-        
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with What is AI, ensure you have the necessary environment set up:</p>
-            <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
-            </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
-        </section>
-
-        <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
-            <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
-            </div>
-            <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
-            </ul>
-        </section>
-        
-        <footer>
-            <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
-        </footer>
-    </div>
-
+code
+Code
+download
+content_copy
+expand_less
+<section id="best-practices" class="guide-section">
+        <h2>Ethics & Best Practices</h2>
+        <p>As AI becomes more powerful, responsible development is crucial. Follow these guidelines:</p>
+        <div class="warning">
+            <strong>Caution:</strong> AI models can be biased based on the data they were trained on. Always validate outputs and ensure data diversity.
+        </div>
+        <ul>
+            <li><strong>Transparency:</strong> Ensure that the decision-making process of the AI is explainable (Explainable AI).</li>
+            <li><strong>Data Privacy:</strong> Protect user data and adhere to regulations like GDPR when training models.</li>
+            <li><strong>Human Oversight:</strong> Critical decisions made by AI should always have a human-in-the-loop to prevent catastrophic errors.</li>
+        </ul>
+    </section>
+    
+    <footer>
+        <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+    </footer>
+</div>
 <script src="../script.js"></script>
+
 </body>
 </html>
-
-
-

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows Power-Tips</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -31,9 +30,9 @@
         <h2>Windows Power-Tips</h2>
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
-            <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#shortcuts">Essential Shortcuts</a></li>
+            <li><a href="#powertoys">Microsoft PowerToys</a></li>
+            <li><a href="#terminal">Terminal & Winget</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
     </nav>
@@ -41,54 +40,62 @@
     <div id="main-content">
         <header>
             <h1>Windows Power-Tips</h1>
-            <p>Welcome to the comprehensive guide on Windows Power-Tips. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <p>Unlock the full potential of your operating system. This guide covers hidden features, workflow optimizations, and advanced tools for Windows 10 and 11.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">⚡</div>
             <p>
-                <strong>Windows Power-Tips</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>Windows Power-Tips</strong> are designed to bridge the gap between a casual user and a power user. 
+                By mastering keyboard navigation, utilizing the right system tools, and automating tasks, you can save hours of time every week.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Windows Power-Tips powerful and useful.</p>
+            <p>This guide focuses on native features and Microsoft-verified tools to ensure stability and performance.</p>
         </section>
 
-        <section id="key-concepts" class="guide-section">
-            <h2>Key Concepts</h2>
+        <section id="shortcuts" class="guide-section">
+            <h2>Essential Shortcuts</h2>
+            <p>Mouse clicks are slow. Master these keyboard combinations to navigate Windows instantly:</p>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>Win + V (Clipboard History):</strong> Enables you to copy multiple items and paste them later. You can also pin frequently used text.</li>
+                <li><strong>Win + Shift + S (Snip & Sketch):</strong> The modern way to take partial screenshots and annotate them immediately.</li>
+                <li><strong>Win + . (Emoji & Symbols):</strong> Opens the panel for Emojis, Kaomojis, and special characters (like — or ™).</li>
+                <li><strong>Win + X (Power Menu):</strong> Opens a context menu over the Start button for quick access to Device Manager, Terminal, and Settings.</li>
+                <li><strong>Win + Arrows (Snap Layouts):</strong> Quickly snap windows to the left, right, or corners of your screen.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Pro Tip:</strong> Enable "Clipboard History" in System Settings first for <code>Win + V</code> to work.
             </div>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Windows Power-Tips, ensure you have the necessary environment set up:</p>
-            <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
-            </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+        <section id="powertoys" class="guide-section">
+            <h2>Microsoft PowerToys</h2>
+            <p>PowerToys is a set of system utilities for power users to tune and streamline their Windows experience. It is open-source and developed by Microsoft.</p>
+            <ul>
+                <li><strong>FancyZones:</strong> Create complex window layouts for multitasking on large monitors.</li>
+                <li><strong>PowerToys Run:</strong> A quick launcher (Alt + Space) to search for apps, files, and perform calculations instantly.</li>
+                <li><strong>Color Picker:</strong> Pick a color from any pixel on your screen (Win + Shift + C).</li>
+                <li><strong>Text Extractor:</strong> Copy text from anywhere on the screen, even inside images or videos.</li>
+            </ul>
         </section>
 
-        <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+        <section id="terminal" class="guide-section">
+            <h2>Terminal & Winget</h2>
+            <p>The modern Windows Terminal allows you to run Command Prompt, PowerShell, and WSL in tabs. Combine this with <strong>Winget</strong> (Windows Package Manager) to install software rapidly.</p>
+            <p>Instead of downloading installers manually, use the command line:</p>
+            <pre><code class="language-bash">
+# Search for software
+winget search firefox
+
+# Install software silently
+winget install Mozilla.Firefox
+
+# Update all installed programs at once
+winget upgrade --all
+            </code></pre>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Note:</strong> Always run your Terminal as Administrator when performing system-wide installations or updates.
             </div>
-            <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
-            </ul>
         </section>
         
         <footer>
@@ -99,6 +106,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-

@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Guide</title>
+    <title>Digital Privacy Guide</title>
     <link rel="stylesheet" href="../style.css">
-    <!-- SVG Graphics Fix Style -->
     <style>
         .drawing-container {
             position: relative;
@@ -16,11 +15,12 @@
             margin: 20px 0;
             overflow: hidden;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            text-align: center;
         }
         .drawing-container svg {
             width: 100%;
             height: auto;
-            max-height: 400px;
+            max-height: 200px;
             filter: drop-shadow(0 0 5px rgba(255, 102, 0, 0.2));
         }
     </style>
@@ -32,7 +32,7 @@
         <ul>
             <li><a href="#intro" class="active">Introduction</a></li>
             <li><a href="#key-concepts">Key Concepts</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#toolkit">Essential Toolkit</a></li>
             <li><a href="#best-practices">Best Practices</a></li>
             <li><a href="../index.html">← Back to Home</a></li>
         </ul>
@@ -40,54 +40,63 @@
 
     <div id="main-content">
         <header>
-            <h1>Privacy Guide</h1>
-            <p>Welcome to the comprehensive guide on Privacy Guide. This resource is designed to provide you with essential information, best practices, and a modern understanding of the topic.</p>
+            <h1>Digital Privacy Guide</h1>
+            <p>A comprehensive resource for reclaiming your digital identity, securing your data, and understanding modern surveillance capitalism.</p>
         </header>
 
         <section id="intro" class="guide-section">
             <h2>Introduction</h2>
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">🛡️</div>
             <p>
-                <strong>Privacy Guide</strong> is a critical subject in today's technology landscape. 
-                Whether you are a beginner looking for a starting point or an advanced user refining your skills, 
-                this layout provides the structure you need.
+                <strong>Digital Privacy</strong> is the right to determine when, how, and to what extent information about you is communicated to others. 
+                In today's interconnected world, personal data has become the most valuable commodity.
             </p>
-            <p>In this guide, we will explore the fundamental principles that make Privacy Guide powerful and useful.</p>
+            
+            <div class="drawing-container">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L3 7V12C3 17.52 6.84 22.74 12 24C17.16 22.74 21 17.52 21 12V7L12 2ZM12 21.99C8.24 20.83 5 16.63 5 12.5V8.63L12 4.74L19 8.63V12.5C19 16.63 15.76 20.83 12 21.99Z" fill="#ff6600"/>
+                    <path d="M12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7ZM10.5 15L9 13.5L10.41 12.09L9 10.68L10.41 9.27L11.82 10.68L13.23 9.27L14.64 10.68L13.23 12.09L14.64 13.5L13.23 14.91L11.82 13.5L10.5 15Z" fill="white"/>
+                </svg>
+            </div>
+
+            <p>This guide aims to move beyond paranoia and towards practical, actionable steps that anyone can take to reduce their digital footprint.</p>
         </section>
 
         <section id="key-concepts" class="guide-section">
             <h2>Key Concepts</h2>
             <ul>
-                <li><strong>Core Fundamentals:</strong> Understanding the building blocks.</li>
-                <li><strong>Modern Architecture:</strong> How it fits into the current ecosystem.</li>
-                <li><strong>Efficiency:</strong> methods to optimize workflow and performance.</li>
+                <li><strong>End-to-End Encryption (E2EE):</strong> Ensuring that only the sender and the intended recipient can read the message content.</li>
+                <li><strong>Metadata:</strong> Data <i>about</i> data (e.g., who you called and when), which is often more revealing than the content itself.</li>
+                <li><strong>Threat Modeling:</strong> identifying what you are protecting, who you are protecting it from, and what the consequences of failure are.</li>
             </ul>
             <div class="important">
-                <strong>Recall:</strong> Mastery comes from practice. Use the code examples and tips provided below to enhance your learning.
+                <strong>Remember:</strong> Privacy is not about having "something to hide." It is about protecting your autonomy, security, and freedom from manipulation.
             </div>
         </section>
         
-        <section id="getting-started" class="guide-section">
-            <h2>Getting Started</h2>
-            <p>To begin working with Privacy Guide, ensure you have the necessary environment set up:</p>
+        <section id="toolkit" class="guide-section">
+            <h2>Essential Toolkit</h2>
+            <p>To begin hardening your digital presence, replace invasive software with open-source, privacy-respecting alternatives:</p>
             <pre><code class="language-bash">
-# Example Quick Start Command
-$ init_setup --verbose
-$ run_diagnostics
+# 1. Browser: Firefox (Hardened) or Tor Browser
+# 2. Search Engine: DuckDuckGo or Startpage
+# 3. Password Manager: Bitwarden or KeePassXC
+# 4. 2FA: Aegis Authenticator or Raivo OTP
             </code></pre>
-            <p>Use <span class="inline-code">--help</span> to see all available options in your terminal.</p>
+            <p>Always verify the <span class="inline-code">SHA-256</span> checksums when downloading privacy tools to ensure software integrity.</p>
         </section>
 
         <section id="best-practices" class="guide-section">
-            <h2>Best Practices & Tips</h2>
-            <p>Follow these guidelines to ensure reliability and security:</p>
+            <h2>Best Practices</h2>
+            <p>Security is a process, not a product. Adopting these habits is more effective than installing any single app:</p>
             <div class="warning">
-                <strong>Caution:</strong> Always back up your data/configuration before applying major changes.
+                <strong>Caution:</strong> The weakest link in any security system is the human element. Be wary of phishing emails and social engineering.
             </div>
             <ul>
-                <li>Keep your systems updated to the latest stable versions.</li>
-                <li>Document your changes and configurations.</li>
-                <li>Review security protocols regularly.</li>
+                <li><strong>Use Unique Passwords:</strong> Never reuse passwords across services. Use a manager.</li>
+                <li><strong>Enable Multi-Factor Authentication (MFA):</strong> Use an app or hardware key (YubiKey), avoid SMS verification if possible.</li>
+                <li><strong>Limit Permissions:</strong> Regularly audit which apps have access to your camera, microphone, and location.</li>
+                <li><strong>Compartmentalization:</strong> Use different browsers or profiles for different activities (e.g., banking vs. social media).</li>
             </ul>
         </section>
         
@@ -99,6 +108,3 @@ $ run_diagnostics
 <script src="../script.js"></script>
 </body>
 </html>
-
-
-
