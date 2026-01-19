@@ -63,3 +63,4 @@ Firebase Guide;Firebase Guide;Firebase Anleitung;Guía de Firebase
 Anatomy of an ARM Computer;Anatomy of an ARM Computer;Anatomie eines ARM Computers;Anatomía de un Ordenador ARM
 NEXUS_TITAN-Guide;NEXUS TITAN;NEXUS TITAN;NEXUS TITAN
 iPhone - iPad Jailbreaking;iPhone - iPad Jailbreaking;iPhone - iPad Jailbreaking;iPhone - iPad Jailbreaking
+iPhone and iPad - Detailed Jailbreak;iPhone and iPad - Detailed Jailbreak;iPhone and iPad - Detailed Jailbreak;iPhone and iPad - Detailed Jailbreak
