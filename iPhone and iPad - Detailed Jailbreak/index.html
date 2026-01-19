@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detailed Jailbreak Guide: Execution & Post-Setup</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.card-icon.execution-icon {
+font-size: 2.5em;
+color: #66ccff;
+text-shadow: 0 0 15px rgba(102, 204, 255, 0.5);
+}
+
+.dfu-steps li strong {
+        color: #ffcc00;
+    }
+</style>
+</head>
+<body class="guide-page">
+
+<nav id="sidebar">
+    <h2>Detailed Jailbreak Guide</h2>
+    <ul>
+        <li><a href="#selection" class="active">Tool Selection</a></li>
+        <li><a href="#method1">Method 1: Checkra1n/Palera1n (Tethered)</a></li>
+        <li><a href="#dfu">DFU Mode Instructions</a></li>
+        <li><a href="#method2">Method 2: Unc0ver/Taurine (Semi-Untethered)</a></li>
+        <li><a href="#postjb">Post-Jailbreak Essentials</a></li>
+        <li><a href="jailbreak-guide.html">← Back to Overview</a></li>
+    </ul>
+</nav>
+
+<div id="main-content">
+    <header>
+        <h1>Detailed Execution Guide: The Two Main Methods</h1>
+        <p>This is the in-depth execution guide. Follow these step-by-step instructions carefully for a successful jailbreak. Choose your method based on your device model and iOS/iPadOS version.</p>
+    </header>
+
+    <section id="selection" class="guide-section">
+        <h2>Section 6: Choosing the Right Tool</h2>
+        <div class="card-icon execution-icon">✅</div>
+        <p>Jailbreaking is highly dependent on your device's hardware and its current operating system version. You must choose one of the two main categories of exploits:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Tool Category</th>
+                    <th>Exploit Type</th>
+                    <th>Compatibility (General)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="inline-code">Checkra1n / Palera1n</span></td>
+                    <td><strong>Hardware Exploit</strong> (Checkmate)</td>
+                    <td>Older devices (A9-A11 chips) on *almost all* iOS versions.</td>
+                </tr>
+                <tr>
+                    <td><span class="inline-code">Unc0ver / Taurine</span></td>
+                    <td><strong>Software Exploit</strong> (Kernel)</td>
+                    <td>All devices, but only on *specific*, usually older, iOS versions.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="important">
+            <strong>Crucial Step:</strong> Use a dedicated community website (like The Apple Wiki or IsJailbroken) to verify which tool supports your exact device and iOS version combination before proceeding.
+        </div>
+    </section>
+
+    <section id="method1" class="guide-section">
+        <h2>Section 7: Method 1: Checkra1n/Palera1n (Tethered/Permanent)</h2>
+        <p>This method utilizes a "bootrom" exploit, meaning it targets a permanent vulnerability in the device’s hardware. It is extremely reliable for supported devices but requires a computer to complete the process, and potentially after every full shutdown.</p>
+
+        <h3>Procedure (Computer Required):</h3>
+        <ol>
+            <li><strong>Download the Utility:</strong> Download the latest version of <span class="inline-code">Checkra1n</span> (for up to A11 chips) or <span class="inline-code">Palera1n</span> (for A11/A12+ on supported versions) onto your Mac or Linux computer. Windows users often require a complex setup (like running a bootable Linux USB).</li>
+            <li><strong>Launch the App:</strong> Open the utility. It will automatically detect your device once connected.</li>
+            <li><strong>Enter Recovery Mode:</strong> The app will instruct you to put your device into </strong>Recovery Mode</strong>. This usually involves holding the Home/Volume buttons while connecting to the computer.</li>
+            <li><strong>Initiate DFU Mode:</strong> This is the most critical step. The tool will guide you through entering </strong>DFU Mode</strong> (Device Firmware Update). *See the next section for detailed DFU instructions.*</li>
+            <li><strong>Run the Exploit:</strong> Once the device is in DFU Mode, the tool will automatically execute the exploit and install the package manager onto your device. Do NOT unplug the device or interact with the computer.</li>
+            <li><strong>Reboot:</strong> Your device will boot up. The new package manager icon (<span class="inline-code">Cydia</span> or <span class="inline-code">Sileo</span>) will appear on the Home Screen.</li>
+        </ol>
+        <div class="warning">
+            <strong>Tethered Warning:</strong> If your device completely powers off (battery runs out or forced shutdown), you will need to re-run the <span class="inline-code">Checkra1n/Palera1n</span> tool via the computer to "re-boot" the jailbroken state. This is known as a </strong>Tethered</strong> jailbreak.
+        </div>
+    </section>
+    
+    <section id="dfu" class="guide-section">
+        <h2>DFU Mode Instructions (iPhone 8/X/Newer)</h2>
+        <p>These are the manual instructions for entering the required Device Firmware Update (DFU) Mode, which can be tricky but is essential for Method 1:</p>
+        <ol class="dfu-steps">
+            <li>Plug your device into the computer with the jailbreak tool running.</li>
+            <li>Press and quickly release the <strong>Volume Up</strong> button.</li>
+            <li>Press and quickly release the <strong>Volume Down</strong> button.</li>
+            <li>Press and <strong>hold the Side Button</strong> (Power button).</li>
+            <li>After 3 seconds, without releasing the Side Button, also press and <strong>hold the Volume Down</strong> button. (Total 2 buttons held).</li>
+            <li>After exactly 10 seconds, <strong>release the Side Button</strong> but <strong>continue to hold the Volume Down</strong> button.</li>
+            <li>Keep holding the Volume Down button for about 5 more seconds. The computer should notify you that a device in DFU mode has been detected. The device screen will remain <strong>black</strong>.</li>
+        </ol>
+        <div class="important">
+            <strong>Success Check:</strong> If the Apple logo appears, you held a button for too long and must restart the process. The screen must remain completely black.
+        </div>
+    </section>
+
+    <section id="method2" class="guide-section">
+        <h2>Section 8: Method 2: Unc0ver/Taurine (Semi-Untethered/App-Based)</h2>
+        <p>This method uses a software exploit within iOS, typically packaged as a standard iOS application (<span class="inline-code">IPA</span> file). It can be performed almost entirely from the device after the initial setup, but requires re-running the app after every reboot.</p>
+
+        <h3>Procedure (Sideloading Required):</h3>
+        <ol>
+            <li><strong>Sideloading Tool Setup:</strong> Install a sideloading utility (like <span class="inline-code">AltStore</span> or <span class="inline-code">Sideloadly</span>) onto your computer (Mac or Windows). This tool uses your personal Apple ID to sign apps.</li>
+            <li><strong>Install Jailbreak App:</strong> Use the sideloading utility to install the chosen jailbreak <span class="inline-code">IPA</span> file (e.g., <span class="inline-code">Unc0ver</span>, <span class="inline-code">Taurine</span>) onto your iPhone/iPad.</li>
+            <li><strong>Trust the App:</strong> On your device, go to <span class="path">Settings > General > VPN & Device Management</span> and tap to <strong>Trust</strong> the developer profile associated with your Apple ID.</li>
+            <li><strong>Run the Jailbreak:</strong> Open the newly installed jailbreak app on your Home Screen and tap the <strong>Jailbreak</strong> button.</li>
+            <li><strong>Wait for Exploit:</strong> The app will run the exploit. The device may respring (a quick restart of the operating system) or reboot multiple times. Do NOT touch the device until the process is complete.</li>
+            <li><strong>Package Manager:</strong> Once finished, the new package manager icon (<span class="inline-code">Cydia</span> or <span class="inline-code">Sileo</span>) will appear.</li>
+        </ol>
+        <div class="important">
+            <strong>Semi-Untethered:</strong> This method is <strong>Semi-Untethered</strong>. If the device reboots, the jailbreak is temporarily lost (tweaks stop working). To re-enable it, simply open the installed jailbreak app on your device and tap <strong>Jailbreak</strong> again (no computer is required for this re-activation).
+        </div>
+    </section>
+
+    <section id="postjb" class="guide-section">
+        <h2>Section 9: Post-Jailbreak Essentials</h2>
+        <div class="card-icon">✨</div>
+        <p>Congratulations, your device is now jailbroken! Here are the immediate steps you should take to ensure a stable and customized experience:</p>
+
+        <ol>
+            <li><strong>Run Initial Updates:</strong> Open your package manager (<span class="inline-code">Cydia</span>, <span class="inline-code">Sileo</span>, or <span class="inline-code">Zebra</span>). It will immediately prompt you to perform essential upgrades. <strong>Always</strong> perform these updates.</li>
+            <li><strong>Install Essential Repositories:</strong> The default installation provides basic repositories ("Sources"). To access the vast majority of tweaks, you must add popular community sources.
+                <pre><code class="language-bash">
+Common Repository Examples:
+
+apt.thebigboss.org/repofiles/cydia/
+repo.chariz.com/
+rpetri.ch/repo/
+</code></pre>
+</li>
+<li>Install a Test Tweak: Search for a simple, cosmetic tweak (e.g., <span class="inline-code">Cylinder</span>, <span class="inline-code">SnowBoard</span>) to confirm that the package manager and tweak injection are functioning correctly.</li>
+<li>Change Default Root Password: This is a crucial security step. Search for tutorials on how to change the default SSH (root) password to prevent unauthorized remote access.</li>
+</ol>
+<div class="warning">
+Install Tweak Safely: Only install tweaks from trusted sources and repositories. Installing incompatible or malicious tweaks is the number one cause of system instability and security breaches.
+</div>
+</section>
+<footer>
+        <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+    </footer>
+</div>
+<script src="../script.js"></script>
+
+</body>
+</html>
