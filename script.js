@@ -142,8 +142,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    function applyGlassEdgeEffect(element) {
+        element.style.boxShadow = 'inset 1px 1px 5px rgba(255, 255, 255, 0.1), inset -1px -1px 5px rgba(0, 0, 0, 0.3)';
+    }
+
     const mainPageButtons = document.querySelectorAll('.main-page-button, button, #languageSelector');
-    mainPageButtons.forEach(el => applyMagneticEffect(el, 0.3));
+    mainPageButtons.forEach(el => {
+        applyMagneticEffect(el, 0.3);
+        applyGlassEdgeEffect(el);
+    });
 
     const sidebarLinks = document.querySelectorAll('#sidebar ul li a');
     sidebarLinks.forEach((el, index) => {
