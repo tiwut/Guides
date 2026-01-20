@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbeitsspeicher Info Tool</title>
+    
+    <style>
+        :root {
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            --primary-color: #007bff;
+            --border-color: #ddd;
+        }
+
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.4);
+            --primary-color: #4dabf7;
+            --border-color: #444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        #searchBar, #langSwitcher, #darkModeToggle {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        #searchBar {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #searchBar::placeholder {
+            color: #999;
+        }
+
+        #darkModeToggle {
+            cursor: pointer;
+        }
+
+        #darkModeToggle:hover, #langSwitcher:hover {
+            background-color: var(--bg-color);
+        }
+
+        .ram-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .ram-card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.5em;
+        }
+
+        .ram-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .spec {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spec-label {
+            font-weight: bold;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .spec-value {
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1 data-lang-key="title">Arbeitsspeicher (RAM) Spezifikationen</h1>
+            <div class="controls">
+                <select id="langSwitcher">
+                    <option value="de">Deutsch</option>
+                    <option value="en">English</option>
+                </select>
+                <button id="darkModeToggle">Dunkelmodus</button>
+            </div>
+        </header>
+        
+        <input type="text" id="searchBar" placeholder="RAM-Modell oder Hersteller suchen...">
+
+        <div id="ramList">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchBar = document.getElementById('searchBar');
+            const ramList = document.getElementById('ramList');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const langSwitcher = document.getElementById('langSwitcher');
+
+            let allRamModules = [];
+            let specHeaders = {};
+            let currentLang = 'de';
+
+            const translations = {
+                de: {
+                    title: "Arbeitsspeicher (RAM) Spezifikationen",
+                    search_placeholder: "RAM-Modell oder Hersteller suchen...",
+                    dark_mode_toggle_dark: "Heller Modus",
+                    dark_mode_toggle_light: "Dunkelmodus",
+                    not_found: "Keine passenden RAM-Module gefunden.",
+                    Modell: "Modell",
+                    Hersteller: "Hersteller",
+                    Typ: "Typ",
+                    Generation: "Generation",
+                    Kapazität: "Kapazität",
+                    Taktfrequenz: "Taktfrequenz",
+                    Timings: "Timings",
+                    Spannung: "Spannung"
+                },
+                en: {
+                    title: "Memory (RAM) Specifications",
+                    search_placeholder: "Search RAM model or manufacturer...",
+                    dark_mode_toggle_dark: "Light Mode",
+                    dark_mode_toggle_light: "Dark Mode",
+                    not_found: "No matching RAM modules found.",
+                    Modell: "Model",
+                    Hersteller: "Manufacturer",
+                    Typ: "Type",
+                    Generation: "Generation",
+                    Kapazität: "Capacity",
+                    Taktfrequenz: "Clock Speed",
+                    Timings: "Timings",
+                    Spannung: "Voltage"
+                }
+            };
+
+            async function loadRamData() {
+                try {
+                    const response = await fetch('ram_specs.txt');
+                    const text = await response.text();
+                    
+                    const lines = text.trim().split('\n');
+                    const headers = lines.shift().split(';');
+                    specHeaders = headers;
+
+                    allRamModules = lines.map(line => {
+                        const values = line.split(';');
+                        const ramObject = {};
+                        headers.forEach((header, index) => {
+                            ramObject[header] = values[index];
+                        });
+                        return ramObject;
+                    });
+
+                    filterAndDisplay();
+                } catch (error) {
+                    console.error("Fehler beim Laden der ram_specs.txt:", error);
+                    ramList.innerHTML = `<p style="color: red;">Fehler: Die Datei 'ram_specs.txt' konnte nicht geladen werden.</p>`;
+                }
+            }
+
+            function displayRam(modules) {
+                ramList.innerHTML = '';
+                if (modules.length === 0) {
+                    ramList.innerHTML = `<p>${translations[currentLang].not_found}</p>`;
+                    return;
+                }
+                modules.forEach(ram => {
+                    const card = document.createElement('div');
+                    card.className = 'ram-card';
+                    const specsHtml = specHeaders
+                        .filter(header => header !== 'Modell' && header !== 'Hersteller')
+                        .map(header => `
+                            <div class="spec">
+                                <span class="spec-label">${translations[currentLang][header] || header}</span>
+                                <span class="spec-value">${ram[header] || '-'}</span>
+                            </div>
+                        `).join('');
+                    card.innerHTML = `<h3>${ram.Hersteller} ${ram.Modell}</h3><div class="ram-specs">${specsHtml}</div>`;
+                    ramList.appendChild(card);
+                });
+            }
+
+            function filterAndDisplay() {
+                const searchTerm = searchBar.value.toLowerCase();
+                const filteredRamModules = allRamModules.filter(ram =>
+                    ram.Modell.toLowerCase().includes(searchTerm) ||
+                    ram.Hersteller.toLowerCase().includes(searchTerm)
+                );
+                displayRam(filteredRamModules);
+            }
+
+            searchBar.addEventListener('input', filterAndDisplay);
+
+            function applyTheme(theme) {
+                document.body.classList.toggle('dark-mode', theme === 'dark');
+                updateDarkModeButtonText(theme);
+            }
+            
+            function updateDarkModeButtonText(theme) {
+                 const key = theme === 'dark' ? 'dark_mode_toggle_dark' : 'dark_mode_toggle_light';
+                 darkModeToggle.textContent = translations[currentLang][key];
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            function setLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem('language', lang);
+                langSwitcher.value = lang;
+
+                document.querySelector('[data-lang-key="title"]').textContent = translations[lang].title;
+                searchBar.placeholder = translations[lang].search_placeholder;
+                
+                const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                updateDarkModeButtonText(currentTheme);
+                
+                filterAndDisplay();
+            }
+
+            langSwitcher.addEventListener('change', (e) => {
+                setLanguage(e.target.value);
+            });
+
+            function initialize() {
+                const savedTheme = localStorage.getItem('theme');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+                if (savedTheme) {
+                    applyTheme(savedTheme);
+                } else {
+                    applyTheme(systemPrefersDark.matches ? 'dark' : 'light');
+                }
+
+                systemPrefersDark.addEventListener('change', (e) => {
+                    if (!localStorage.getItem('theme')) {
+                        applyTheme(e.matches ? 'dark' : 'light');
+                    }
+                });
+
+                const savedLang = localStorage.getItem('language');
+                const browserLang = navigator.language.split('-')[0];
+                const initialLang = savedLang || (translations[browserLang] ? browserLang : 'de');
+                setLanguage(initialLang);
+                
+                loadRamData();
+            }
+
+            initialize();
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

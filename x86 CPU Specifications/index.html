@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>x86 CPU Info Tool</title>
+    
+    <style>
+         
+        :root {
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            --primary-color: #007bff;
+            --border-color: #ddd;
+        }
+
+        
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.4);
+            --primary-color: #4dabf7;
+            --border-color: #444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        #searchBar, #langSwitcher, #darkModeToggle {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        #searchBar {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #searchBar::placeholder {
+            color: #999;
+        }
+
+        #darkModeToggle {
+            cursor: pointer;
+        }
+
+        #darkModeToggle:hover, #langSwitcher:hover {
+            background-color: var(--bg-color);
+        }
+
+        .cpu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .cpu-card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.5em;
+        }
+
+        .cpu-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .spec {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spec-label {
+            font-weight: bold;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .spec-value {
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1 data-lang-key="title">x86 CPU Spezifikationen</h1>
+            <div class="controls">
+                <select id="langSwitcher">
+                    <option value="de">Deutsch</option>
+                    <option value="en">English</option>
+                </select>
+                <button id="darkModeToggle" data-lang-key="dark_mode_toggle">Dunkelmodus</button>
+            </div>
+        </header>
+        
+        <input type="text" id="searchBar" placeholder="CPU-Modell suchen...">
+
+        <div id="cpuList">
+            
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchBar = document.getElementById('searchBar');
+            const cpuList = document.getElementById('cpuList');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const langSwitcher = document.getElementById('langSwitcher');
+
+            let allCpus = [];
+            let specHeaders = {};
+            let currentLang = 'de';
+
+            
+            const translations = {
+                de: {
+                    title: "x86 CPU Spezifikationen",
+                    search_placeholder: "CPU-Modell suchen...",
+                    dark_mode_toggle_dark: "Heller Modus",
+                    dark_mode_toggle_light: "Dunkelmodus",
+                    not_found: "Keine passenden CPUs gefunden.",
+                    
+                    Kerne: "Kerne",
+                    Threads: "Threads",
+                    Basistakt: "Basistakt",
+                    "Boost-Takt": "Boost-Takt",
+                    TDP: "TDP",
+                    Architektur: "Architektur",
+                    Sockel: "Sockel"
+                },
+                en: {
+                    title: "x86 CPU Specifications",
+                    search_placeholder: "Search CPU model...",
+                    dark_mode_toggle_dark: "Light Mode",
+                    dark_mode_toggle_light: "Dark Mode",
+                    not_found: "No matching CPUs found.",
+                    
+                    Kerne: "Cores",
+                    Threads: "Threads",
+                    Basistakt: "Base Clock",
+                    "Boost-Takt": "Boost Clock",
+                    TDP: "TDP",
+                    Architektur: "Architecture",
+                    Sockel: "Socket"
+                }
+            };
+
+            
+
+            async function loadCpuData() {
+                try {
+                    const response = await fetch('specs.txt');
+                    const text = await response.text();
+                    
+                    const lines = text.trim().split('\n');
+                    const headers = lines.shift().split(';');
+                    specHeaders = headers;
+
+                    allCpus = lines.map(line => {
+                        const values = line.split(';');
+                        const cpuObject = {};
+                        headers.forEach((header, index) => {
+                            cpuObject[header] = values[index];
+                        });
+                        return cpuObject;
+                    });
+
+                    displayCpus(allCpus);
+                } catch (error) {
+                    console.error("Fehler beim Laden der specs.txt:", error);
+                    cpuList.innerHTML = `<p style="color: red;">Fehler: Die Datei 'specs.txt' konnte nicht geladen werden.</p>`;
+                }
+            }
+
+            function displayCpus(cpus) {
+                cpuList.innerHTML = '';
+                if (cpus.length === 0) {
+                    cpuList.innerHTML = `<p>${translations[currentLang].not_found}</p>`;
+                    return;
+                }
+                cpus.forEach(cpu => {
+                    const card = document.createElement('div');
+                    card.className = 'cpu-card';
+                    const specsHtml = specHeaders
+                        .filter(header => header !== 'Modell')
+                        .map(header => `
+                            <div class="spec">
+                                <span class="spec-label">${translations[currentLang][header] || header}</span>
+                                <span class="spec-value">${cpu[header] || '-'}</span>
+                            </div>
+                        `).join('');
+                    card.innerHTML = `<h3>${cpu.Modell}</h3><div class="cpu-specs">${specsHtml}</div>`;
+                    cpuList.appendChild(card);
+                });
+            }
+
+            searchBar.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredCpus = allCpus.filter(cpu =>
+                    cpu.Modell.toLowerCase().includes(searchTerm)
+                );
+                displayCpus(filteredCpus);
+            });
+
+            
+            function applyTheme(theme) {
+                document.body.classList.toggle('dark-mode', theme === 'dark');
+                updateDarkModeButtonText(theme);
+            }
+            
+            function updateDarkModeButtonText(theme) {
+                 const key = theme === 'dark' ? 'dark_mode_toggle_dark' : 'dark_mode_toggle_light';
+                 darkModeToggle.textContent = translations[currentLang][key];
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme); 
+                applyTheme(newTheme);
+            });
+
+            
+            function setLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem('language', lang);
+                langSwitcher.value = lang;
+
+                document.querySelectorAll('[data-lang-key]').forEach(elem => {
+                    const key = elem.getAttribute('data-lang-key');
+                    if (translations[lang] && translations[lang][key]) {
+                        elem.textContent = translations[lang][key];
+                    }
+                });
+                
+                searchBar.placeholder = translations[lang].search_placeholder;
+                const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                updateDarkModeButtonText(currentTheme);
+                
+                displayCpus(allCpus.filter(cpu => cpu.Modell.toLowerCase().includes(searchBar.value.toLowerCase())));
+            }
+
+            langSwitcher.addEventListener('change', (e) => {
+                setLanguage(e.target.value);
+            });
+
+            
+            function initialize() {
+                
+                const savedTheme = localStorage.getItem('theme');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+                if (savedTheme) {
+                    applyTheme(savedTheme);
+                } else {
+                    applyTheme(systemPrefersDark.matches ? 'dark' : 'light');
+                }
+
+                
+                systemPrefersDark.addEventListener('change', (e) => {
+                    
+                    if (!localStorage.getItem('theme')) {
+                        applyTheme(e.matches ? 'dark' : 'light');
+                    }
+                });
+
+                
+                const savedLang = localStorage.getItem('language');
+                const browserLang = navigator.language.split('-')[0];
+                const initialLang = savedLang || (translations[browserLang] ? browserLang : 'de');
+                setLanguage(initialLang);
+                
+                
+                loadCpuData();
+            }
+
+            initialize();
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

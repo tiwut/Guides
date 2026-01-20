@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPU Info Tool</title>
+    
+    <style>
+        :root {
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            --primary-color: #76b900;
+            --border-color: #ddd;
+        }
+
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.4);
+            --primary-color: #8ccf2c;
+            --border-color: #444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        #searchBar, #langSwitcher, #darkModeToggle {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        #searchBar {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #searchBar::placeholder {
+            color: #999;
+        }
+
+        #darkModeToggle {
+            cursor: pointer;
+        }
+
+        #darkModeToggle:hover, #langSwitcher:hover {
+            background-color: var(--bg-color);
+        }
+
+        .gpu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .gpu-card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.5em;
+        }
+
+        .gpu-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .spec {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spec-label {
+            font-weight: bold;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .spec-value {
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1 data-lang-key="title">GPU Spezifikationen</h1>
+            <div class="controls">
+                <select id="langSwitcher">
+                    <option value="de">Deutsch</option>
+                    <option value="en">English</option>
+                </select>
+                <button id="darkModeToggle" data-lang-key="dark_mode_toggle">Dunkelmodus</button>
+            </div>
+        </header>
+        
+        <input type="text" id="searchBar" placeholder="GPU-Modell suchen...">
+
+        <div id="gpuList">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchBar = document.getElementById('searchBar');
+            const gpuList = document.getElementById('gpuList');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const langSwitcher = document.getElementById('langSwitcher');
+
+            let allGpus = [];
+            let specHeaders = [];
+            let currentLang = 'de';
+
+            const translations = {
+                de: {
+                    title: "GPU Spezifikationen",
+                    search_placeholder: "GPU-Modell suchen...",
+                    dark_mode_toggle_dark: "Heller Modus",
+                    dark_mode_toggle_light: "Dunkelmodus",
+                    not_found: "Keine passenden GPUs gefunden.",
+                    Architektur: "Architektur",
+                    VRAM: "VRAM",
+                    Speicherinterface: "Speicherinterface",
+                    "Boost-Takt": "Boost-Takt",
+                    "Shader-Einheiten": "Shader-Einheiten",
+                    TDP: "TDP",
+                    Veröffentlichung: "Veröffentlichung"
+                },
+                en: {
+                    title: "GPU Specifications",
+                    search_placeholder: "Search GPU model...",
+                    dark_mode_toggle_dark: "Light Mode",
+                    dark_mode_toggle_light: "Dark Mode",
+                    not_found: "No matching GPUs found.",
+                    Architektur: "Architecture",
+                    VRAM: "VRAM",
+                    Speicherinterface: "Memory Interface",
+                    "Boost-Takt": "Boost Clock",
+                    "Shader-Einheiten": "Shader Units",
+                    TDP: "TDP",
+                    Veröffentlichung: "Release"
+                }
+            };
+
+            async function loadGpuData() {
+                try {
+                    const response = await fetch('gpu_specs.txt');
+                    const text = await response.text();
+                    
+                    const lines = text.trim().split('\n').filter(line => line && !line.startsWith('###'));
+                    
+                    const headers = lines.shift().split(';');
+                    specHeaders = headers;
+
+                    allGpus = lines.map(line => {
+                        const values = line.split(';');
+                        if (values.length !== headers.length) return null;
+                        const gpuObject = {};
+                        headers.forEach((header, index) => {
+                            gpuObject[header] = values[index];
+                        });
+                        return gpuObject;
+                    }).filter(gpu => gpu !== null && gpu.Modell);
+
+                    displayGpus(allGpus);
+                } catch (error) {
+                    console.error("Fehler beim Laden der gpu_specs.txt:", error);
+                    gpuList.innerHTML = `<p style="color: red;">Fehler: Die Datei 'gpu_specs.txt' konnte nicht geladen werden.</p>`;
+                }
+            }
+
+            function displayGpus(gpus) {
+                gpuList.innerHTML = '';
+                if (gpus.length === 0) {
+                    gpuList.innerHTML = `<p>${translations[currentLang].not_found}</p>`;
+                    return;
+                }
+                gpus.forEach(gpu => {
+                    const card = document.createElement('div');
+                    card.className = 'gpu-card';
+                    const specsHtml = specHeaders
+                        .filter(header => header !== 'Modell')
+                        .map(header => `
+                            <div class="spec">
+                                <span class="spec-label">${translations[currentLang][header] || header}</span>
+                                <span class="spec-value">${gpu[header] || '-'}</span>
+                            </div>
+                        `).join('');
+                    card.innerHTML = `<h3>${gpu.Modell}</h3><div class="gpu-specs">${specsHtml}</div>`;
+                    gpuList.appendChild(card);
+                });
+            }
+
+            searchBar.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredGpus = allGpus.filter(gpu =>
+                    gpu.Modell.toLowerCase().includes(searchTerm)
+                );
+                displayGpus(filteredGpus);
+            });
+
+            function applyTheme(theme) {
+                document.body.classList.toggle('dark-mode', theme === 'dark');
+                updateDarkModeButtonText(theme);
+            }
+            
+            function updateDarkModeButtonText(theme) {
+                 const key = theme === 'dark' ? 'dark_mode_toggle_dark' : 'dark_mode_toggle_light';
+                 darkModeToggle.textContent = translations[currentLang][key];
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            function setLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem('language', lang);
+                langSwitcher.value = lang;
+
+                document.querySelectorAll('[data-lang-key]').forEach(elem => {
+                    const key = elem.getAttribute('data-lang-key');
+                    if (translations[lang] && translations[lang][key]) {
+                        elem.textContent = translations[lang][key];
+                    }
+                });
+                
+                searchBar.placeholder = translations[lang].search_placeholder;
+                const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                updateDarkModeButtonText(currentTheme);
+                
+                const currentSearchTerm = searchBar.value.toLowerCase();
+                const currentlyFilteredGpus = allGpus.filter(gpu => gpu.Modell.toLowerCase().includes(currentSearchTerm));
+                displayGpus(currentlyFilteredGpus);
+            }
+
+            langSwitcher.addEventListener('change', (e) => {
+                setLanguage(e.target.value);
+            });
+
+            function initialize() {
+                const savedTheme = localStorage.getItem('theme');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+                if (savedTheme) {
+                    applyTheme(savedTheme);
+                } else {
+                    applyTheme(systemPrefersDark.matches ? 'dark' : 'light');
+                }
+                systemPrefersDark.addEventListener('change', (e) => {
+                    if (!localStorage.getItem('theme')) {
+                        applyTheme(e.matches ? 'dark' : 'light');
+                    }
+                });
+
+                const savedLang = localStorage.getItem('language');
+                const browserLang = navigator.language.split('-')[0];
+                const initialLang = savedLang || (translations[browserLang] ? browserLang : 'de');
+                setLanguage(initialLang);
+                
+                loadGpuData();
+            }
+
+            initialize();
+        });
+    </script>
+    <script src="https://tiwut.de/cookie.notice.js"></script>
+</body>
+</html>

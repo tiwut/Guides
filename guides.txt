@@ -64,3 +64,7 @@ Anatomy of an ARM Computer;Anatomy of an ARM Computer;Anatomie eines ARM Compute
 NEXUS_TITAN-Guide;NEXUS TITAN;NEXUS TITAN;NEXUS TITAN
 iPhone - iPad Jailbreaking;iPhone - iPad Jailbreaking;iPhone - iPad Jailbreaking;iPhone - iPad Jailbreaking
 iPhone and iPad - Detailed Jailbreak;iPhone and iPad - Detailed Jailbreak;iPhone and iPad - Detailed Jailbreak;iPhone and iPad - Detailed Jailbreak
+Programming Resource;Programming Resource;Programming Resource;Programming Resource
+x86 CPU Specifications;x86 CPU Specifications;x86 CPU Specifications;x86 CPU Specifications
+GPU Specifications;GPU Specifications;GPU Specifications;GPU Specifications
+Memory (RAM) Specifications;Memory (RAM) Specifications;Memory (RAM) Specifications;Memory (RAM) Specifications
