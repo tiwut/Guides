@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Year's Eve Guide</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="guide-page">
+
+    <nav id="sidebar">
+        <h2>Traditions Guide</h2>
+        
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#fireworks">Fireworks & Fire</a></li>
+            <li><a href="#customs">Customs & Food</a></li>
+            <li><a href="#safety">Safety Tips</a></li>
+        </ul>
+    </nav>
+
+    <main id="main-content">
+        <h1>New Year's Eve: Germany's 'Bonfire Night'</h1> [cite: 1]
+        
+        <section id="overview">
+            <h2>1. What is Silvester?</h2>
+            <p>In Germany, the special day celebrated on December 31st is called 'Silvester'. Much like the British Guy Fawkes Day, it is a night defined by light, fire, and loud celebrations to mark the end of the old year. [cite: 1]</p>
+        </section>
+        
+        <section id="fireworks">
+            <h2>2. Fireworks and Lights</h2>
+            <p>At the stroke of midnight, thousands of fireworks are set off in gardens and streets all over the country. This tradition is very similar to the 'Fireworks Night' in Britain. The sky turns into a colorful display of light. [cite: 1]</p>
+        </section>
+
+        <section id="customs">
+            <h2>3. Food and Customs</h2>
+            <p>While children in Britain used to collect money for the 'Guy', German children often enjoy special treats like 'Berliner' (jam-filled donuts). A unique tradition is watching the British comedy sketch 'Dinner for One' on television, which is a must-see for almost every German family. [cite: 1]</p>
+        </section>
+
+        <section id="safety">
+            <h2>4. Safety and Responsibility</h2>
+            <p class="important">Just like on Bonfire Night, the fire brigade is very busy. Fireworks contain gunpowder and can be dangerous. It is important that adults supervise the celebrations and that everyone acts responsibly to prevent accidents. [cite: 1]</p>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('#main-content section');
+            const navLinks = document.querySelectorAll('#sidebar ul li a');
+            
+            function updateActiveLink() {
+                let currentSectionId = '';
+                const offset = 100;
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.pageYOffset >= sectionTop - offset) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === currentSectionId) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveLink);
+            updateActiveLink(); 
+        });
+    </script>
+</body>
+</html>

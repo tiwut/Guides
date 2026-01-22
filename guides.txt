@@ -68,3 +68,4 @@ Programming Resource;Programming Resource;Programming Resource;Programming Resou
 x86 CPU Specifications;x86 CPU Specifications;x86 CPU Specifications;x86 CPU Specifications
 GPU Specifications;GPU Specifications;GPU Specifications;GPU Specifications
 Memory (RAM) Specifications;Memory (RAM) Specifications;Memory (RAM) Specifications;Memory (RAM) Specifications
+New Year's Eve Guide;New Year's Eve Guide;New Year's Eve Guide;New Year's Eve Guide
