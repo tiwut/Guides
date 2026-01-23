@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The History of Windows Longhorn</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+    .card-icon.longhorn-icon {
+        font-size: 2.5em;
+    }
+</style>
+</head>
+<body class="guide-page">
+<nav id="sidebar">
+    <h2>Longhorn History</h2>
+    <ul>
+        <li><a href="#vision" class="active">The Vision & Pillars</a></li>
+        <li><a href="#ui">User Interface (UI)</a></li>
+        <li><a href="#collapse">The Collapse</a></li>
+        <li><a href="#reset">The Great Reset</a></li>
+        <li><a href="#legacy">Legacy & Builds</a></li>
+        <li><a href="../index.html">← Back to Guides</a></li>
+    </ul>
+</nav>
+
+<div id="main-content">
+    <header>
+        <h1>Windows Longhorn: The OS That Never Was</h1>
+        <p>Explore the ambitious, turbulent, and fascinating history of Microsoft's "Longhorn"—the operating system intended to revolutionize computing, which ultimately became Windows Vista.</p>
+    </header>
+
+    <section id="vision" class="guide-section">
+        <h2>Section 1: The Vision & The Three Pillars</h2>
+        <div class="card-icon longhorn-icon">🔮</div>
+        <p>
+            Development began in May 2001. Originally planned as a minor update between Windows XP and "Blackcomb" (Windows 7), the scope quickly expanded. Microsoft wanted to redefine the OS with three revolutionary technologies, known as the <strong>"Three Pillars of Longhorn"</strong>:
+        </p>
+        <ul>
+            <li><strong>Avalon (Presentation):</strong> A completely new graphics subsystem based on vector graphics and 3D acceleration (DirectX) rather than the old GDI. It aimed for movie-like interfaces and fluid animations. <br><em>Result: Became <span class="inline-code">WPF</span> (Windows Presentation Foundation).</em></li>
+            <li><strong>Indigo (Communication):</strong> A new system for connecting applications and web services seamlessly. <br><em>Result: Became <span class="inline-code">WCF</span> (Windows Communication Foundation).</em></li>
+            <li><strong>WinFS (Data Storage):</strong> The most ambitious pillar. Instead of a classic file system (folders/files), WinFS was a relational database based on SQL Server. It allowed users to search by metadata (e.g., "All emails from Person X in 2003") rather than file location. <br><em>Result: <span class="inline-code">Failed</span> and was cut from the final release.</em></li>
+        </ul>
+    </section>
+
+    <section id="ui" class="guide-section">
+        <h2>Section 2: The User Interface</h2>
+        <div class="card-icon">🎨</div>
+        <p>Longhorn's early builds featured design concepts that were years ahead of their time and are still celebrated by enthusiasts today.</p>
+        <ul>
+            <li><strong>Plex & Slate:</strong> The early visual themes. <em>Plex</em> was a futuristic blue design, while <em>Slate</em> offered a professional, darker aesthetic.</li>
+            <li><strong>The Sidebar:</strong> A persistent bar on the right side of the screen for "Tiles" (precursors to Gadgets), displaying clocks, slideshows, or news.</li>
+            <li><strong>Aero Glass:</strong> Later builds introduced the famous transparent window borders that defined the look of Windows Vista and 7.</li>
+            <li><strong>Rich Previews:</strong> The Windows Explorer displayed massive icons and live previews of file contents directly within the folder view.</li>
+        </ul>
+    </section>
+    
+    <section id="collapse" class="guide-section">
+        <h2>Section 3: Development Hell & Feature Creep</h2>
+        <div class="card-icon">📉</div>
+        <div class="warning">
+            <strong>THE CRITICAL FAILURE:</strong> Between 2001 and 2003, development spiraled out of control due to "Feature Creep."
+        </div>
+        <p>
+            Thousands of developers were constantly adding new features to an unstable core. Longhorn was built on top of the Windows XP codebase, which was not modular enough to handle the new pillars.
+        </p>
+        <p>
+            The system became incredibly slow, riddled with <strong>memory leaks</strong>, and was often impossible to even compile. The ambitious <strong>WinFS</strong> consumed so much performance that the OS was barely usable. As one famous quote from the era goes, Longhorn was "collapsing under its own weight."
+        </p>
+    </section>
+
+    <section id="reset" class="guide-section">
+        <h2>Section 4: The Great Reset (2004)</h2>
+        <div class="card-icon">♻️</div>
+        <p>In August 2004, Jim Allchin (then Co-President of Windows) made a historic decision to save the project.</p>
+        <ol>
+            <li><strong>Scrap Everything:</strong> Years of development code were effectively discarded.</li>
+            <li><strong>New Codebase:</strong> Development restarted from scratch (codenamed "Longhorn Omega-13") based on the highly stable <strong>Windows Server 2003 SP1</strong> codebase.</li>
+            <li><strong>Componentization:</strong> The OS was built in modular components to prevent future instability.</li>
+            <li><strong>The Sacrifices:</strong> To meet the 2006/2007 deadline, many features were cut. <strong>WinFS</strong> was completely removed. Avalon and Indigo were decoupled from the OS core and released separately as .NET Framework 3.0.</li>
+        </ol>
+        <div class="important">
+            <strong>The Result:</strong> The final product, released in January 2007, was named <strong>Windows Vista</strong>. While it contained the new Aero look and security features (UAC), it lacked the revolutionary database file system originally promised.
+        </div>
+    </section>
+    
+    <section id="legacy" class="guide-section">
+        <h2>Section 5: Famous Builds & Legacy</h2>
+        <div class="card-icon">💾</div>
+        <p>A community of enthusiasts still collects and runs leaked versions of "Old Longhorn" (Pre-Reset).</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Build</th>
+                    <th>Significance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Build 3683</strong></td>
+                    <td>One of the earliest leaks. It showcased the first implementation of the Sidebar and the "Plex" visual style.</td>
+                </tr>
+                <tr>
+                    <td><strong>Build 4074</strong></td>
+                    <td>Considered the "Holy Grail" of Longhorn. Shown at WinHEC 2004, it contains the most complete set of features (Aero + parts of WinFS) before the reset.</td>
+                </tr>
+                <tr>
+                    <td><strong>Build 3790.1232</strong></td>
+                    <td>The first build after the "Reset," based on Server 2003. It looked like XP but laid the stable foundation for Vista.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Why Longhorn Matters Today</h3>
+        <p>
+            Longhorn represents a lesson in <strong>Ambition vs. Reality</strong>. However, the "Reset" forced Microsoft to modernize its engineering practices. The modular structure introduced to save Longhorn is still the foundation of Windows 10 and 11 today. Furthermore, the design language of Longhorn (large typography, animations) heavily influenced the "Metro" design seen in later versions.
+        </p>
+    </section>
+    
+    <footer>
+        <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+    </footer>
+</div>
+<script src="../script.js"></script>
+
+</body>
+</html>
