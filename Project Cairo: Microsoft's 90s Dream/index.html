@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Cairo: Microsoft's 90s Dream</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+    .card-icon.cairo-icon {
+        font-size: 2.5em;
+    }
+</style>
+</head>
+<body class="guide-page">
+<nav id="sidebar">
+    <h2>Project Cairo History</h2>
+    <ul>
+        <li><a href="#overview" class="active">What was Cairo?</a></li>
+        <li><a href="#ofs">The Object File System</a></li>
+        <li><a href="#vaporware">The "Vaporware" Era</a></li>
+        <li><a href="#legacy">Legacy & Survival</a></li>
+        <li><a href="../index.html">← Back to Home</a></li>
+    </ul>
+</nav>
+
+<div id="main-content">
+    <header>
+        <h1>Windows "Cairo": The Vision of the 90s</h1>
+        <p>Before Longhorn, there was Cairo. Discover the story of Microsoft's ambitious 1990s project that aimed to revolutionize data storage and networking, but never hit the shelves as a standalone OS.</p>
+    </header>
+
+    <section id="overview" class="guide-section">
+        <h2>Section 1: What was Project Cairo?</h2>
+        <div class="card-icon cairo-icon">🏗️</div>
+        <p>
+            Announced at the <strong>1991 Professional Developers Conference (PDC)</strong>, "Cairo" was the codename for a project intended to be the ultimate successor to Windows NT.
+        </p>
+        <p>
+            While Windows 95 (Chicago) was designed for consumers, Cairo was envisioned as a high-end, object-oriented operating system for businesses. Bill Gates described it as the realization of "Information at your fingertips." It was designed to bridge the gap between desktop computing and the burgeoning world of networks.
+        </p>
+    </section>
+
+    <section id="ofs" class="guide-section">
+        <h2>Section 2: OFS - The Heart of Cairo</h2>
+        <div class="card-icon">🗄️</div>
+        <p>The most revolutionary feature of Cairo was the <strong>Object File System (OFS)</strong>. Does this sound familiar? It was the direct predecessor to Longhorn's WinFS.</p>
+        <ul>
+            <li><strong>Files as Objects:</strong> Instead of simple files in folders, every item (email, document, contact) was an object with rich metadata.</li>
+            <li><strong>Content Indexing:</strong> OFS was designed to allow users to query their hard drive like a database. You wouldn't look for <span class="path">C:\Docs\Report.doc</span>; you would ask the computer to "Show me all reports written by John last week."</li>
+            <li><strong>Distributed Computing:</strong> Cairo aimed to make network resources appear indistinguishable from local resources.</li>
+        </ul>
+    </section>
+    
+    <section id="vaporware" class="guide-section">
+        <h2>Section 3: The "Vaporware" Trap</h2>
+        <div class="card-icon">🌫️</div>
+        <div class="warning">
+            <strong>VAPORWARE STATUS:</strong> By the mid-90s, Cairo became the tech industry's definition of "vaporware"—software that is advertised but never actually released.
+        </div>
+        <p>
+            The project was incredibly complex. The development team struggled to make the Object File System performant enough for daily use. Deadlines shifted constantly:
+        </p>
+        <ul>
+            <li><strong>1993:</strong> Planned for release in 1995.</li>
+            <li><strong>1995:</strong> Pushed back to 1996/97.</li>
+            <li><strong>1996:</strong> Microsoft quietly stopped referring to Cairo as a single product.</li>
+        </ul>
+        <p>
+            Much like Longhorn a decade later, Cairo collapsed under its own ambition. The hardware of the 90s simply wasn't ready for a database-driven file system.
+        </p>
+    </section>
+
+    <section id="legacy" class="guide-section">
+        <h2>Section 4: How Cairo Survived (The Legacy)</h2>
+        <div class="card-icon">🧬</div>
+        <p>Although "Windows Cairo" was never sold in a box, the project was not a total waste. Microsoft took the working components and integrated them into other versions of Windows over the next 5 years.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Cairo Feature</th>
+                    <th>Where it ended up</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>The User Interface</strong></td>
+                    <td>The Cairo UI design concepts heavily influenced the <strong>Windows 95</strong> desktop and the <strong>Windows NT 4.0</strong> shell.</td>
+                </tr>
+                <tr>
+                    <td><strong>X.500 Directory Services</strong></td>
+                    <td>This evolved into <strong>Active Directory</strong>, which launched with Windows 2000 and remains the standard for business networks today.</td>
+                </tr>
+                <tr>
+                    <td><strong>Content Indexing</strong></td>
+                    <td>While OFS was killed, the indexing technology was stripped down and became <strong>Windows Search</strong> (Index Server) in later versions.</td>
+                </tr>
+                <tr>
+                    <td><strong>DCE/RPC</strong></td>
+                    <td>The communication protocols became the backbone of networking in <strong>Windows NT</strong>.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="important">
+            <strong>Historical Parallel:</strong> The failure of Cairo's OFS scared Microsoft away from database file systems for years, until they tried again with <strong>WinFS</strong> in Longhorn... and failed again.
+        </div>
+    </section>
+    
+    <footer>
+        <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+    </footer>
+</div>
+<script src="../script.js"></script>
+
+</body>
+</html>
