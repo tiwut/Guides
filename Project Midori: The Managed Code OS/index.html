@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Midori: The Managed Code OS</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+    .card-icon.midori-icon {
+        font-size: 2.5em;
+    }
+</style>
+</head>
+<body class="guide-page">
+<nav id="sidebar">
+    <h2>Project Midori</h2>
+    <ul>
+        <li><a href="#concept" class="active">What was Midori?</a></li>
+        <li><a href="#language">The Language (M#)</a></li>
+        <li><a href="#architecture">Async Architecture</a></li>
+        <li><a href="#legacy">Legacy & Impact</a></li>
+        <li><a href="../index.html">← Back to Home</a></li>
+    </ul>
+</nav>
+
+<div id="main-content">
+    <header>
+        <h1>Project Midori: The Non-Windows Dream</h1>
+        <p>While Longhorn and 10X tried to fix Windows, Project "Midori" tried to replace it entirely. Discover Microsoft's secret research operating system built from scratch using managed code.</p>
+    </header>
+
+    <section id="concept" class="guide-section">
+        <h2>Section 1: What was Project Midori?</h2>
+        <div class="card-icon midori-icon">🌿</div>
+        <div class="warning">
+            <strong>NOT WINDOWS:</strong> Unlike every other project in this archive, Midori was <strong>not</strong> based on the Windows NT kernel. It had zero code in common with Windows.
+        </div>
+        <p>
+            Incubated deeply within <strong>Microsoft Research</strong> around 2003 (and active until roughly 2015), Midori was an answer to a specific question: <em>"If we could start over today, without worrying about backward compatibility, how would we build an OS?"</em>
+        </p>
+        <p>
+            The answer was <strong>Safety</strong>. Most OS crashes and security exploits (buffer overflows) come from memory management errors in C and C++. Midori aimed to eliminate these bugs at the architectural level.
+        </p>
+    </section>
+
+    <section id="language" class="guide-section">
+        <h2>Section 2: System M# (The Language)</h2>
+        <div class="card-icon">⌨️</div>
+        <p>You cannot write a safe OS in C++. So, the Midori team created a new programming language, often referred to as <strong>M# (M-Sharp)</strong> or <strong>System C#</strong>.</p>
+        <ul>
+            <li><strong>Type Safety:</strong> The language prevented the programmer from making memory mistakes. A program literally could not access memory it didn't own.</li>
+            <li><strong>No Garbage Collection Pauses:</strong> Usually, managed languages (like Java or C#) pause the system to clean up memory. Midori used a unique ownership model (similar to how <strong>Rust</strong> works today) to ensure high performance without pauses.</li>
+            <li><strong>Singularity:</strong> Midori was the commercial evolution of an earlier academic project called "Singularity," which proved that an OS could run efficiently in managed code.</li>
+        </ul>
+    </section>
+    
+    <section id="architecture" class="guide-section">
+        <h2>Section 3: The Asynchronous Architecture</h2>
+        <div class="card-icon">⚡</div>
+        <p>Midori was designed for the cloud era, where one application might span across multiple servers.</p>
+        <p>
+            <strong>"Async Everything":</strong> In Windows, if an app waits for a file to load, it "blocks" a thread. In Midori, the entire OS was asynchronous. Nothing ever blocked. This made the system incredibly lightweight and responsive.
+        </p>
+        <p>
+            <strong>Isolation:</strong> Programs didn't share memory. They communicated by sending small messages to each other. If one part of the system crashed (e.g., the network driver), it was just a "process" that could be restarted instantly without a Blue Screen of Death.
+        </p>
+    </section>
+
+    <section id="legacy" class="guide-section">
+        <h2>Section 4: Why it Failed & The Legacy</h2>
+        <div class="card-icon">🧬</div>
+        <p>Midori was technically superior to Windows in almost every way. So why aren't we using it?</p>
+        <p>
+            <strong>The "Eco-System" Problem:</strong> Moving to Midori would have meant abandoning millions of existing Windows applications. Microsoft concluded that the cost of rewriting the world's software was too high.
+        </p>
+        <p>However, Midori was stripped for parts, and its DNA is everywhere in modern Microsoft tech:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Midori Tech</th>
+                    <th>Where it lives today</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>M# / System C#</strong></td>
+                    <td>The performance improvements for managed code were ported into <strong>.NET Core</strong> and C#. Features like <span class="inline-code">Span&lt;T&gt;</span> (high-performance memory slicing) came directly from Midori.</td>
+                </tr>
+                <tr>
+                    <td><strong>Async/Await</strong></td>
+                    <td>The asynchronous programming model in C# (and subsequently JavaScript/TypeScript) was heavily influenced by the Midori team's work.</td>
+                </tr>
+                <tr>
+                    <td><strong>Rust Influence</strong></td>
+                    <td>Many of the concepts Midori pioneered (memory safety without garbage collection) are now mainstream in the <strong>Rust</strong> programming language, which Microsoft is now adopting for parts of the Windows Kernel.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="important">
+            <strong>Conclusion:</strong> Midori was the "Formula 1 car" of operating systems. It was too specialized for the street, but the technology developed for it improved the engine of the car we all drive (Windows/.NET).
+        </div>
+    </section>
+    
+    <footer>
+        <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+    </footer>
+</div>
+<script src="../script.js"></script>
+
+</body>
+</html>
