@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Windows 10X: The Blueprint for 11</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+    .card-icon.win10x-icon {
+        font-size: 2.5em;
+    }
+</style>
+</head>
+<body class="guide-page">
+<nav id="sidebar">
+    <h2>Windows 10X</h2>
+    <ul>
+        <li><a href="#vision" class="active">The Dual-Screen Vision</a></li>
+        <li><a href="#features">The "Modern" Core</a></li>
+        <li><a href="#pivot">The Pivot & Death</a></li>
+        <li><a href="#legacy">Legacy (Windows 11)</a></li>
+        <li><a href="../index.html">← Back to Home</a></li>
+    </ul>
+</nav>
+
+<div id="main-content">
+    <header>
+        <h1>Windows 10X: The Blueprint for Windows 11</h1>
+        <p>Explore the short life of Windows 10X (codenamed "Santorini"). Originally designed for dual-screen devices, it aimed to strip Windows of its legacy code, only to be cancelled and reborn as Windows 11.</p>
+    </header>
+
+    <section id="vision" class="guide-section">
+        <h2>Section 1: The Vision (Surface Neo)</h2>
+        <div class="card-icon win10x-icon">📱</div>
+        <p>
+            Announced in October 2019 alongside the <strong>Surface Neo</strong>, Windows 10X was not just a new skin; it was built on <strong>Windows Core OS (WCOS)</strong>.
+        </p>
+        <p>
+            The goal was to create a modular, stripped-down version of Windows that shed decades of legacy code (like the Control Panel and old File Explorer). Initially, it was exclusive to dual-screen and foldable devices, featuring a UI that could span across two displays or adapt when a physical keyboard was placed on one screen (the "Wonder Bar").
+        </p>
+    </section>
+
+    <section id="features" class="guide-section">
+        <h2>Section 2: Key Features & Containerization</h2>
+        <div class="card-icon">📦</div>
+        <p>Windows 10X introduced radical changes to how the OS functioned, prioritizing security and battery life over compatibility.</p>
+        <ul>
+            <li><strong>The New Start Menu:</strong> Microsoft killed the "Live Tiles" (introduced in Windows 8). The new Start Menu was a static grid of icons, centered on the screen.</li>
+            <li><strong>The Taskbar:</strong> A floating, dock-like bar that was centered. It also separated the "System Tray" into a new Action Center.</li>
+            <li><strong>App Containers:</strong> This was the technical highlight. Unlike standard Windows, 10X ran "Win32" (classic desktop apps) inside a <strong>secure container</strong>. If an app crashed, it wouldn't take down the whole system. This also meant no "Registry rot."</li>
+            <li><strong>State Separation:</strong> The OS files were locked and read-only (like on iOS or Android), allowing updates to install in the background in less than 90 seconds.</li>
+        </ul>
+    </section>
+    
+    <section id="pivot" class="guide-section">
+        <h2>Section 3: The Pivot and Cancellation</h2>
+        <div class="card-icon">🛑</div>
+        <div class="warning">
+            <strong>THE PANDEMIC SHIFT:</strong> In May 2020, Microsoft announced a major shift. Due to the COVID-19 pandemic, the focus moved from "dual-screen devices" to standard single-screen laptops to compete with Chromebooks.
+        </div>
+        <p>
+            However, problems arose:
+        </p>
+        <ol>
+            <li><strong>Win32 Performance:</strong> Running classic apps in containers was sluggish and buggy. Microsoft eventually decided to cut Win32 support entirely, making 10X a web-app only OS (like Chrome OS).</li>
+            <li><strong>Identity Crisis:</strong> Without full app support, 10X offered little value over existing lightweight Windows versions.</li>
+            <li><strong>The End:</strong> In <strong>May 2021</strong>, Microsoft officially confirmed that Windows 10X was dead. It was never released to the public.</li>
+        </ol>
+    </section>
+
+    <section id="legacy" class="guide-section">
+        <h2>Section 4: Rebirth as Windows 11</h2>
+        <div class="card-icon">🦋</div>
+        <p>Windows 10X didn't truly die; it was repurposed. Just weeks after its cancellation, <strong>Windows 11</strong> was leaked.</p>
+        <p>
+            Windows 11 is essentially the <strong>visual shell of Windows 10X</strong> grafted onto the standard, compatible kernel of Windows 10.
+        </p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Windows 10X Feature</th>
+                    <th>Implementation in Windows 11</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Start Menu</strong></td>
+                    <td>The centered Start Menu without Live Tiles was lifted directly from 10X.</td>
+                </tr>
+                <tr>
+                    <td><strong>Taskbar</strong></td>
+                    <td>The centered icons and new animations are identical to the 10X designs.</td>
+                </tr>
+                <tr>
+                    <td><strong>Action Center</strong></td>
+                    <td>The split between notifications and quick settings (Wi-Fi/Volume) was a 10X concept.</td>
+                </tr>
+                <tr>
+                    <td><strong>Under the Hood</strong></td>
+                    <td><strong>Different.</strong> Windows 11 kept the old NT kernel to ensure 100% app compatibility, abandoning the complex "WCOS" container system of 10X.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="important">
+            <strong>Summary:</strong> Windows 10X failed as a technical revolution (Containers/WCOS) but succeeded as a design revolution, defining the look of the PC for the 2020s.
+        </div>
+    </section>
+    
+    <footer>
+        <a href="https://tiwut.de/cookie-banner-information.html">© 2026 Tiwut.de - Legal Notice</a>
+    </footer>
+</div>
+<script src="../script.js"></script>
+
+</body>
+</html>
